@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-01-26T14:38:52.444Z",
+  "lastUpdated": "2026-01-26T21:38:40.333Z",
   "events": [
     {
       "date": "2026-01-25",
@@ -8,6 +8,15 @@
       "time": "19:00–20:00",
       "type": "show",
       "url": "https://improvtheatre.co.uk/upcoming-show/the-blank-who-blanked-me/",
+      "description": ""
+    },
+    {
+      "date": "2026-01-26",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
       "description": ""
     },
     {
@@ -53,6 +62,15 @@
       "time": "19:30–22:30",
       "type": "show",
       "url": "https://improvtheatre.co.uk/upcoming-show/the-antics-joke-show-ft-luke-rollason/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-01",
+      "title": "CSI: Crime Scene Improvisation",
+      "venue": "Tobacco Factory Theatres",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://tobaccofactorytheatres.com/book?webEventId=5566&facilitated_booking=0",
       "description": ""
     },
     {
@@ -107,6 +125,15 @@
       "time": "20:00–22:00",
       "type": "show",
       "url": "https://www.henandchicken.com/event/theatre-tales-from-the-wasteland/",
+      "description": ""
+    },
+    {
+      "date": "2026-06-10",
+      "title": "Dropout Improv",
+      "venue": "Beacon Hall",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristolbeacon.org/whats-on/dropout-improv-plus-special-guests/",
       "description": ""
     }
   ]
