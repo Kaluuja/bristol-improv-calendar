@@ -805,17 +805,16 @@
             .no-select {
               flex: 1;
               display: flex;
-              flex-direction: column;
               align-items: center;
               justify-content: center;
               text-align: center;
-              padding: 1.5rem;
+              padding: 1rem;
               color: ${colors.navy}60;
               font-size: 0.85rem;
             }
             .clash { background: ${colors.sand}40; border: 2px solid ${colors.sand}; border-radius: 6px; padding: 0.5rem 0.6rem; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.6rem; }
             
-            /* MAIN FOOTER (desktop) */
+            /* MAIN FOOTER */
             .kofi-bar {
               background: linear-gradient(135deg, ${colors.sage}20, ${colors.sand}30);
               border-top: 2px solid ${colors.cream};
@@ -925,17 +924,23 @@
               /* Fixed height calendar */
               .calendar {
                 flex: none;
-                height: 48vh;
-                min-height: 280px;
+                height: 52vh;
+                min-height: 300px;
               }
               
-              /* Scrollable detail panel */
+              /* Detail panel - compact when no selection */
               .detail {
                 width: 100%;
                 flex: 1;
                 border-left: none;
                 border-top: 3px solid ${colors.cream};
                 min-height: 0;
+              }
+              
+              /* Compact no-selection message on mobile */
+              .no-select {
+                padding: 0.5rem;
+                font-size: 0.75rem;
               }
               
               /* Header adjustments */
@@ -994,15 +999,15 @@
               .chip-icon { font-size: 0.55rem; }
               .chip-count { font-size: 0.5rem; }
               
-              /* Mobile footer - always visible */
+              /* Mobile footer */
               .kofi-bar {
-                padding: 0.4rem 0.5rem;
-                gap: 0.4rem;
+                padding: 0.35rem 0.5rem;
+                gap: 0.35rem;
                 flex-wrap: wrap;
               }
-              .kofi-text { font-size: 0.65rem; }
-              .kofi-btn { font-size: 0.6rem; padding: 0.3rem 0.5rem; }
-              .footer { font-size: 0.55rem; padding: 0.35rem; }
+              .kofi-text { font-size: 0.6rem; }
+              .kofi-btn { font-size: 0.55rem; padding: 0.25rem 0.45rem; }
+              .footer { font-size: 0.5rem; padding: 0.3rem; }
             }
             
             @media (max-width: 380px) {
@@ -1131,7 +1136,7 @@
             </>
           )}
           
-          {/* Footer - always visible */}
+          {/* Footer - always visible at bottom */}
           <div className="kofi-bar">
             <span className="kofi-text">☕ Find this useful? Buy Ste a tea/pint!</span>
             <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
