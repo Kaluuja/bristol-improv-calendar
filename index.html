@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bristol Improv Calendar — Beta</title>
+  <meta name="description" content="What's on in Bristol improv. Shows, workshops, and jams across the city.">
+  
+  <!-- Open Graph for social sharing -->
+  <meta property="og:title" content="Bristol Improv Calendar — Beta">
+  <meta property="og:description" content="What's on in Bristol improv. Shows, workshops, and jams across the city.">
+  <meta property="og:type" content="website">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- React -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body, #root { 
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // ============================================
+    // CONFIGURATION
+    // ============================================
+    
+    // Using relative path since events.json is in the same repo
+    const EVENTS_JSON_URL = './events.json';
+    
+    // Set to false to fetch from the JSON file
+    const USE_SAMPLE_DATA = false;
+    
+    // Your links
+    const KOFI_URL = 'https://ko-fi.com/kaluuja';
+    const FEATURE_REQUEST_URL = 'https://forms.gle/J8AJqsfRbz6m1Gbf7';
+    
+    // Fallback sample data (used if USE_SAMPLE_DATA is true or if fetch fails)
+    const SAMPLE_EVENTS = [
+      { date: '2026-02-05', title: 'Live in da Hive: The Improv Gauntlet', venue: 'PRSC', time: '19:00–22:30', type: 'show', url: 'https://prsc.org.uk/event/live-in-da-hive-the-improv-gauntlet/', description: 'Competitive improv tournament' },
+      { date: '2026-02-06', title: 'The Bish Bosh Bash: The Improvised Game Show', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: 'https://improvtheatre.co.uk/series/the-bish-bosh-bash-the-improvised-game-show/' },
+      { date: '2026-02-07', title: 'Instant Wit Improvised Comedy Show', venue: 'Alma Tavern & Theatre', time: '20:00–22:00', type: 'show', url: 'https://www.instantwit.co.uk/upcoming-shows/alma-tavern-theatre' },
+      { date: '2026-02-09', title: 'Closer Each Day: The Improvised Soap Opera', venue: 'Wardrobe Theatre', time: '19:30', type: 'show', url: 'https://thewardrobetheatre.com/shows/closer-each-day/' },
+      { date: '2026-02-11', title: 'Wednesday Night Improv: February Triple Bill', venue: 'Hen & Chicken', time: '19:30–21:30', type: 'show', url: 'https://www.henandchicken.com/event/wednesday-night-improv-triple-bill-3/' },
+      { date: '2026-02-12', title: 'The Drag Dungeoneers', venue: 'Bristol Improv Theatre', time: '19:30–22:00', type: 'show', url: 'https://improvtheatre.co.uk/' },
+      { date: '2026-02-14', title: 'From HELL YEAH! with love', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: 'https://improvtheatre.co.uk/upcoming-show/hell-yeah-valentines-day/', description: 'Queer improv night / visiting act' },
+      { date: '2026-02-23', title: 'Closer Each Day: The Improvised Soap Opera', venue: 'Wardrobe Theatre', time: '19:30', type: 'show', url: 'https://thewardrobetheatre.com/shows/closer-each-day/' },
+      { date: '2026-02-25', title: 'Tales From The Wasteland', venue: 'Hen & Chicken', time: '19:30–22:00', type: 'show', url: 'https://www.henandchicken.com/event/theatre-tales-from-the-wasteland-post-apocalyptic-improv/', description: 'Post-apocalyptic improv adventure comedy' },
+      { date: '2026-02-26', title: 'Bristol Longform Takeover', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: 'https://improvtheatre.co.uk/upcoming-show/bristol-longform-takeover-feb-2026/' },
+      { date: '2026-02-27', title: 'This Is Your Musical', venue: 'Bristol Improv Theatre', time: '20:00', type: 'show', url: 'https://improvtheatre.co.uk/upcoming-show/this-is-your-musical-2/' },
+      { date: '2026-02-28', title: 'The Antics Joke Show #100', venue: 'Bristol Improv Theatre', time: '19:30', type: 'show', url: 'https://improvtheatre.co.uk/upcoming-show/the-antics-joke-show-100-ft-mayor-and-daughter/', description: 'Feat. Up The Antics improv + sketch/stand-up guests' },
+      { date: '2026-02-28', title: 'The Improv Spotlight', venue: 'PRSC', time: '19:00–21:30', type: 'show', url: 'https://www.headfirstbristol.co.uk/whats-on/prsc/fri-28-feb-the-improv-spotlight-118188' },
+    ];
+    // ============================================
+
+    // Roadmap Modal Component
+    const RoadmapModal = ({ isOpen, onClose, colors }) => {
+      if (!isOpen) return null;
+      
+      const RoadmapItem = ({ done, children }) => (
+        <li style={{ 
+          marginBottom: '0.5rem',
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: '0.5rem'
+        }}>
+          <span style={{ 
+            flexShrink: 0,
+            width: '20px',
+            height: '20px',
+            borderRadius: '4px',
+            background: done ? colors.sage : 'transparent',
+            border: done ? 'none' : `2px solid ${colors.navy}30`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '0.75rem',
+            color: 'white',
+            marginTop: '2px'
+          }}>
+            {done && '✓'}
+          </span>
+          <span style={{ 
+            textDecoration: done ? 'line-through' : 'none',
+            color: done ? `${colors.navy}60` : colors.navy
+          }}>
+            {children}
+          </span>
+        </li>
+      );
+      
+      return (
+        <div className="modal-overlay" onClick={onClose}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>🗺️ Roadmap</h2>
+              <button className="modal-close" onClick={onClose}>✕</button>
+            </div>
+            
+            <div className="modal-body">
+              <p className="roadmap-intro">
+                This calendar is a work in progress! Here's what's done and what's coming next.
+              </p>
+              
+              <div className="roadmap-section">
+                <h3>⚡ Functionality</h3>
+                <ul>
+                  <RoadmapItem done={true}>Current month view</RoadmapItem>
+                  <RoadmapItem done={false}>Add workshops, drop-ins, jams</RoadmapItem>
+                  <RoadmapItem done={false}>Add future months</RoadmapItem>
+                  <RoadmapItem done={false}>Store past months</RoadmapItem>
+                  <RoadmapItem done={false}>Search and filter (by show, venue, improv type — shortform, longform, narrative, musical...)</RoadmapItem>
+                  <RoadmapItem done={false}>Downloadable calendar feed (ICS/iCal)</RoadmapItem>
+                </ul>
+              </div>
+              
+              <div className="roadmap-section">
+                <h3>🎨 Design</h3>
+                <ul>
+                  <RoadmapItem done={false}>Light and dark mode</RoadmapItem>
+                  <RoadmapItem done={false}>Full mobile and desktop support</RoadmapItem>
+                </ul>
+              </div>
+              
+              <div className="roadmap-section">
+                <h3>📍 Venues</h3>
+                <ul>
+                  <RoadmapItem done={true}>Bristol Improv Theatre</RoadmapItem>
+                  <RoadmapItem done={true}>Hen & Chicken</RoadmapItem>
+                  <RoadmapItem done={true}>PRSC</RoadmapItem>
+                  <RoadmapItem done={true}>Wardrobe Theatre</RoadmapItem>
+                  <RoadmapItem done={true}>Tobacco Factory</RoadmapItem>
+                  <RoadmapItem done={true}>Bristol Beacon</RoadmapItem>
+                  <RoadmapItem done={false}>Alma Tavern & Theatre</RoadmapItem>
+                  <RoadmapItem done={false}>Bristol Old Vic</RoadmapItem>
+                  <RoadmapItem done={false}>Redgrave Theatre</RoadmapItem>
+                  <RoadmapItem done={false}>St George's Bristol</RoadmapItem>
+                </ul>
+              </div>
+              
+              <div className="roadmap-cta">
+                <p>Got an idea that would help make the calendar awesome?</p>
+                <a href={FEATURE_REQUEST_URL} target="_blank" rel="noopener noreferrer" className="cta-button">
+                  💡 Submit your idea
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const BristolImprovCalendar = () => {
+      const [selectedDate, setSelectedDate] = useState(null);
+      const [activeFilter, setActiveFilter] = useState('all');
+      const [events, setEvents] = useState([]);
+      const [loading, setLoading] = useState(true);
+      const [error, setError] = useState(null);
+      const [showRoadmap, setShowRoadmap] = useState(false);
+      const [lastUpdated, setLastUpdated] = useState(null);
+      
+      // Colour palette
+      const colors = {
+        cream: '#F4F1DE',
+        terracotta: '#E07A5F',
+        navy: '#3D405B',
+        sage: '#81B29A',
+        sand: '#F2CC8F',
+      };
+      
+      // Venue colour mapping
+      const venues = {
+        'Bristol Improv Theatre': { color: colors.terracotta, bg: `${colors.terracotta}18`, icon: '🎪' },
+        'Hen & Chicken': { color: colors.sand, bg: `${colors.sand}25`, icon: '🐔' },
+        'Hen & Chicken (Chicken Shed)': { color: colors.sand, bg: `${colors.sand}25`, icon: '🐔' },
+        'Hen & Chicken (Studio)': { color: colors.sand, bg: `${colors.sand}25`, icon: '🐔' },
+        'PRSC': { color: colors.sage, bg: `${colors.sage}20`, icon: '✊' },
+        'SPACE at PRSC': { color: colors.sage, bg: `${colors.sage}20`, icon: '✊' },
+        'Wardrobe Theatre': { color: '#7B68A6', bg: '#7B68A618', icon: '🚪' },
+        'Alma Tavern & Theatre': { color: '#5B8FA8', bg: '#5B8FA818', icon: '🍺' },
+        'Tobacco Factory': { color: '#8B6F47', bg: '#8B6F4715', icon: '🏭' },
+        'Bristol Beacon': { color: '#C4A35A', bg: '#C4A35A15', icon: '🎵' },
+      };
+      
+      // Fetch events from static JSON
+      useEffect(() => {
+        const fetchEvents = async () => {
+          if (USE_SAMPLE_DATA) {
+            setTimeout(() => {
+              setEvents(SAMPLE_EVENTS);
+              setLoading(false);
+            }, 300);
+            return;
+          }
+          
+          try {
+            setLoading(true);
+            
+            // Add cache-busting query param to avoid stale data
+            const cacheBuster = `?t=${Date.now()}`;
+            const response = await fetch(EVENTS_JSON_URL + cacheBuster);
+            
+            if (!response.ok) {
+              throw new Error(`Failed to fetch events: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            // Handle different JSON structures
+            // JSONBin wraps data in { record: [...] }
+            // GitHub/direct serves [...] directly
+            // Our format may include metadata: { events: [...], lastUpdated: "..." }
+            let eventsData = data;
+            let updatedAt = null;
+            
+            if (data.record) {
+              // JSONBin format
+              eventsData = data.record.events || data.record;
+              updatedAt = data.record.lastUpdated;
+            } else if (data.events) {
+              // Our metadata format
+              eventsData = data.events;
+              updatedAt = data.lastUpdated;
+            }
+            
+            setEvents(Array.isArray(eventsData) ? eventsData : []);
+            setLastUpdated(updatedAt);
+            setError(null);
+          } catch (err) {
+            console.error('Error fetching events:', err);
+            // Fall back to sample data if fetch fails
+            setEvents(SAMPLE_EVENTS);
+            setError(`Using cached data (${err.message})`);
+          } finally {
+            setLoading(false);
+          }
+        };
+        
+        fetchEvents();
+      }, []);
+      
+      // Get current month info dynamically from events
+      const getMonthInfo = () => {
+        if (events.length === 0) {
+          const now = new Date();
+          return { year: now.getFullYear(), month: now.getMonth() };
+        }
+        const firstEventDate = new Date(events[0].date);
+        return { year: firstEventDate.getFullYear(), month: firstEventDate.getMonth() };
+      };
+      
+      const { year, month } = getMonthInfo();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const firstDayOfMonth = new Date(year, month, 1).getDay();
+      const startDay = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
+      
+      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                          'July', 'August', 'September', 'October', 'November', 'December'];
+      const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      
+      const getShortTitle = (title) => {
+        const shortened = title
+          .replace(/^The\s+/i, '')
+          .replace(/:\s+.*$/, '')
+          .replace(/\s*\(.*\)$/, '')
+          .replace(/\s*\|.*$/, '');
+        return shortened.length > 18 ? shortened.substring(0, 16) + '…' : shortened;
+      };
+      
+      const getDayOfWeek = (date) => {
+        const jsDay = new Date(year, month, date).getDay();
+        return jsDay === 0 ? 6 : jsDay - 1;
+      };
+      
+      const getDayName = (date) => {
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        return days[new Date(year, month, date).getDay()];
+      };
+      
+      const getEventDay = (event) => {
+        const eventDate = new Date(event.date);
+        if (eventDate.getMonth() === month && eventDate.getFullYear() === year) {
+          return eventDate.getDate();
+        }
+        return null;
+      };
+      
+      const getEventsForDate = (date) => {
+        return events.filter(e => {
+          const eventDay = getEventDay(e);
+          const matchesDate = eventDay === date;
+          const matchesFilter = activeFilter === 'all' || 
+                               e.type === activeFilter || 
+                               e.venue === activeFilter;
+          return matchesDate && matchesFilter;
+        });
+      };
+      
+      const getVenueInfo = (venueName) => {
+        if (venues[venueName]) return venues[venueName];
+        for (const [key, value] of Object.entries(venues)) {
+          if (venueName.includes(key.split(' ')[0]) || key.includes(venueName.split(' ')[0])) {
+            return value;
+          }
+        }
+        return { color: colors.navy, bg: `${colors.navy}15`, icon: '📍' };
+      };
+      
+      const totalDays = startDay + daysInMonth;
+      const weeksNeeded = Math.ceil(totalDays / 7);
+      
+      const renderCalendarDays = () => {
+        const days = [];
+        
+        for (let i = 0; i < startDay; i++) {
+          days.push(<div key={`empty-${i}`} className="calendar-day empty"></div>);
+        }
+        
+        for (let date = 1; date <= daysInMonth; date++) {
+          const dateEvents = getEventsForDate(date);
+          const hasEvents = dateEvents.length > 0;
+          const isSelected = selectedDate === date;
+          const dayOfWeek = getDayOfWeek(date);
+          const isWeekend = dayOfWeek >= 5;
+          
+          days.push(
+            <div
+              key={date}
+              className={`calendar-day ${hasEvents ? 'has-events' : ''} ${isSelected ? 'selected' : ''} ${isWeekend ? 'weekend' : ''}`}
+              onClick={() => hasEvents && setSelectedDate(isSelected ? null : date)}
+            >
+              <span className="date-number">{date}</span>
+              
+              {hasEvents && (
+                <div className="event-previews">
+                  {dateEvents.slice(0, 3).map((event, i) => {
+                    const venueInfo = getVenueInfo(event.venue);
+                    return (
+                      <div
+                        key={i}
+                        className="event-preview"
+                        style={{ 
+                          borderLeftColor: venueInfo.color,
+                          backgroundColor: venueInfo.bg
+                        }}
+                      >
+                        <span className="preview-icon">{venueInfo.icon}</span>
+                        <span className="preview-title">{getShortTitle(event.title)}</span>
+                      </div>
+                    );
+                  })}
+                  {dateEvents.length > 3 && (
+                    <div className="more-events">+{dateEvents.length - 3} more</div>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        }
+        
+        return days;
+      };
+      
+      const selectedEvents = selectedDate ? getEventsForDate(selectedDate) : [];
+      
+      const activeVenues = [...new Set(events.map(e => e.venue))];
+      const legendVenues = Object.entries(venues).filter(([name]) => 
+        activeVenues.some(v => v === name || v.includes(name.split(' ')[0]))
+      );
+      
+      // Format last updated time
+      const formatLastUpdated = (dateStr) => {
+        if (!dateStr) return null;
+        const date = new Date(dateStr);
+        const now = new Date();
+        const diffMs = now - date;
+        const diffMins = Math.floor(diffMs / 60000);
+        const diffHours = Math.floor(diffMs / 3600000);
+        
+        if (diffMins < 60) return `Updated ${diffMins}m ago`;
+        if (diffHours < 24) return `Updated ${diffHours}h ago`;
+        return `Updated ${date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}`;
+      };
+      
+      return (
+        <div className="app-container">
+          <style>{`
+            * { box-sizing: border-box; }
+            
+            .app-container {
+              display: flex;
+              flex-direction: column;
+              height: 100vh;
+              background: ${colors.cream};
+              font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+              color: ${colors.navy};
+              overflow: hidden;
+            }
+            
+            .header {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              padding: 1rem 1.5rem;
+              background: ${colors.navy};
+              flex-shrink: 0;
+            }
+            
+            .header-left {
+              display: flex;
+              align-items: center;
+              gap: 0.75rem;
+            }
+            
+            .header h1 {
+              font-size: 1.5rem;
+              font-weight: 800;
+              margin: 0;
+              letter-spacing: 0.02em;
+              color: ${colors.cream};
+            }
+            
+            .beta-badge {
+              background: ${colors.terracotta};
+              color: white;
+              font-size: 0.65rem;
+              font-weight: 700;
+              padding: 0.2rem 0.5rem;
+              border-radius: 4px;
+              text-transform: uppercase;
+              letter-spacing: 0.05em;
+            }
+            
+            .header-center {
+              text-align: center;
+            }
+            
+            .header .subtitle {
+              font-size: 0.85rem;
+              font-weight: 600;
+              color: ${colors.sage};
+              text-transform: uppercase;
+              letter-spacing: 0.15em;
+            }
+            
+            .header .last-updated {
+              font-size: 0.65rem;
+              color: ${colors.cream}70;
+              margin-top: 0.15rem;
+            }
+            
+            .header-right {
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+            }
+            
+            .header-button {
+              font-family: 'Nunito', sans-serif;
+              font-size: 0.75rem;
+              font-weight: 600;
+              padding: 0.4rem 0.75rem;
+              border: 2px solid ${colors.cream}40;
+              background: transparent;
+              color: ${colors.cream};
+              border-radius: 6px;
+              cursor: pointer;
+              transition: all 0.2s ease;
+              display: flex;
+              align-items: center;
+              gap: 0.4rem;
+            }
+            
+            .header-button:hover {
+              background: ${colors.cream}15;
+              border-color: ${colors.cream};
+            }
+            
+            .controls {
+              display: flex;
+              flex-wrap: wrap;
+              gap: 0.5rem;
+              justify-content: center;
+              align-items: center;
+              padding: 0.75rem;
+              background: #fff;
+              border-bottom: 2px solid ${colors.cream};
+              flex-shrink: 0;
+            }
+            
+            .type-filters {
+              display: flex;
+              gap: 0.35rem;
+            }
+            
+            .type-filter {
+              font-family: 'Nunito', sans-serif;
+              font-size: 0.8rem;
+              font-weight: 600;
+              padding: 0.4rem 0.85rem;
+              border: 2px solid ${colors.navy}30;
+              background: transparent;
+              color: ${colors.navy};
+              border-radius: 20px;
+              cursor: pointer;
+              transition: all 0.2s ease;
+            }
+            
+            .type-filter:hover {
+              border-color: ${colors.terracotta};
+              color: ${colors.terracotta};
+            }
+            
+            .type-filter.active {
+              background: ${colors.terracotta};
+              border-color: ${colors.terracotta};
+              color: white;
+            }
+            
+            .type-filter.coming-soon {
+              opacity: 0.4;
+              cursor: not-allowed;
+            }
+            
+            .legend {
+              display: flex;
+              flex-wrap: wrap;
+              gap: 0.5rem;
+              justify-content: center;
+            }
+            
+            .legend-item {
+              display: flex;
+              align-items: center;
+              gap: 0.4rem;
+              font-size: 0.75rem;
+              font-weight: 600;
+              cursor: pointer;
+              padding: 0.3rem 0.6rem;
+              border-radius: 6px;
+              transition: all 0.2s ease;
+              border: 2px solid transparent;
+            }
+            
+            .legend-item:hover {
+              background: ${colors.cream};
+            }
+            
+            .legend-item.active {
+              border-color: currentColor;
+              background: ${colors.cream};
+            }
+            
+            .legend-icon {
+              font-size: 0.9rem;
+            }
+            
+            .legend-dot {
+              width: 10px;
+              height: 10px;
+              border-radius: 50%;
+            }
+            
+            .main-content {
+              display: flex;
+              flex: 1;
+              overflow: hidden;
+              min-height: 0;
+            }
+            
+            .calendar-section {
+              flex: 1;
+              display: flex;
+              flex-direction: column;
+              overflow: hidden;
+              min-width: 0;
+            }
+            
+            .calendar-grid {
+              display: grid;
+              grid-template-columns: repeat(7, 1fr);
+              grid-template-rows: auto repeat(${weeksNeeded}, 1fr);
+              gap: 4px;
+              background: ${colors.cream};
+              padding: 0.75rem;
+              flex: 1;
+              min-height: 0;
+            }
+            
+            .day-header {
+              font-size: 0.75rem;
+              font-weight: 700;
+              text-align: center;
+              padding: 0.5rem 0;
+              color: ${colors.navy}90;
+              text-transform: uppercase;
+              letter-spacing: 0.08em;
+            }
+            
+            .calendar-day {
+              display: flex;
+              flex-direction: column;
+              background: #fff;
+              border-radius: 8px;
+              cursor: default;
+              transition: all 0.15s ease;
+              position: relative;
+              padding: 0.4rem;
+              overflow: hidden;
+              min-height: 0;
+              border: 2px solid transparent;
+            }
+            
+            .calendar-day.empty {
+              background: transparent;
+              border: none;
+            }
+            
+            .calendar-day.weekend {
+              background: #fffdf8;
+            }
+            
+            .calendar-day.has-events {
+              cursor: pointer;
+              background: #fff;
+              border-color: ${colors.cream};
+            }
+            
+            .calendar-day.has-events:hover {
+              transform: scale(1.02);
+              z-index: 1;
+              box-shadow: 0 4px 12px rgba(61, 64, 91, 0.12);
+              border-color: ${colors.sage};
+            }
+            
+            .calendar-day.selected {
+              border-color: ${colors.terracotta};
+              box-shadow: 0 4px 12px rgba(224, 122, 95, 0.2);
+              z-index: 2;
+            }
+            
+            .date-number {
+              font-size: 0.85rem;
+              font-weight: 700;
+              color: ${colors.navy}50;
+              margin-bottom: 0.25rem;
+              flex-shrink: 0;
+            }
+            
+            .has-events .date-number {
+              color: ${colors.navy};
+            }
+            
+            .event-previews {
+              display: flex;
+              flex-direction: column;
+              gap: 2px;
+              flex: 1;
+              overflow: hidden;
+              min-height: 0;
+            }
+            
+            .event-preview {
+              display: flex;
+              align-items: center;
+              gap: 4px;
+              padding: 3px 6px;
+              border-radius: 4px;
+              border-left: 3px solid;
+              overflow: hidden;
+              flex-shrink: 0;
+            }
+            
+            .preview-icon {
+              font-size: 0.7rem;
+              flex-shrink: 0;
+            }
+            
+            .preview-title {
+              font-size: 0.6rem;
+              font-weight: 600;
+              color: ${colors.navy};
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              line-height: 1.2;
+            }
+            
+            .more-events {
+              font-size: 0.55rem;
+              font-weight: 600;
+              color: ${colors.navy}70;
+              text-align: center;
+              padding-top: 2px;
+            }
+            
+            .detail-panel {
+              width: 320px;
+              background: #fff;
+              border-left: 3px solid ${colors.cream};
+              overflow-y: auto;
+              flex-shrink: 0;
+            }
+            
+            .detail-content {
+              padding: 1.25rem;
+            }
+            
+            .detail-header {
+              margin-bottom: 1rem;
+              padding-bottom: 0.75rem;
+              border-bottom: 2px solid ${colors.cream};
+            }
+            
+            .detail-header h3 {
+              margin: 0;
+              font-size: 1.1rem;
+              font-weight: 700;
+              color: ${colors.terracotta};
+            }
+            
+            .event-card {
+              display: block;
+              background: ${colors.cream};
+              border-radius: 10px;
+              padding: 1rem;
+              margin-bottom: 0.75rem;
+              text-decoration: none;
+              color: inherit;
+              border-left: 4px solid;
+              transition: all 0.2s ease;
+            }
+            
+            .event-card:last-child {
+              margin-bottom: 0;
+            }
+            
+            .event-card:hover {
+              transform: translateX(4px);
+              box-shadow: 0 4px 12px rgba(61, 64, 91, 0.1);
+            }
+            
+            .event-header {
+              display: flex;
+              align-items: flex-start;
+              gap: 0.75rem;
+            }
+            
+            .event-icon {
+              font-size: 1.5rem;
+              line-height: 1;
+            }
+            
+            .event-info {
+              flex: 1;
+              min-width: 0;
+            }
+            
+            .event-title {
+              font-size: 0.95rem;
+              font-weight: 700;
+              margin-bottom: 0.4rem;
+              color: ${colors.navy};
+            }
+            
+            .event-meta {
+              font-size: 0.8rem;
+              font-weight: 500;
+              color: ${colors.navy}80;
+              display: flex;
+              flex-direction: column;
+              gap: 0.2rem;
+            }
+            
+            .event-meta span {
+              display: flex;
+              align-items: center;
+              gap: 0.3rem;
+            }
+            
+            .event-description {
+              font-size: 0.8rem;
+              color: ${colors.navy}90;
+              margin-top: 0.5rem;
+              font-style: italic;
+            }
+            
+            .event-cta {
+              font-size: 0.75rem;
+              font-weight: 700;
+              color: ${colors.terracotta};
+              margin-top: 0.6rem;
+              display: flex;
+              align-items: center;
+              gap: 0.3rem;
+            }
+            
+            .no-selection {
+              text-align: center;
+              padding: 2rem 1rem;
+              color: ${colors.navy}60;
+              font-size: 0.9rem;
+            }
+            
+            .clash-warning {
+              background: ${colors.sand}40;
+              border: 2px solid ${colors.sand};
+              border-radius: 8px;
+              padding: 0.6rem 0.75rem;
+              margin-bottom: 0.75rem;
+              font-size: 0.8rem;
+              font-weight: 600;
+              color: ${colors.navy};
+              display: flex;
+              align-items: center;
+              gap: 0.4rem;
+            }
+            
+            /* Stale data warning */
+            .stale-warning {
+              background: ${colors.sand}30;
+              color: ${colors.navy}90;
+              font-size: 0.7rem;
+              padding: 0.4rem 0.75rem;
+              text-align: center;
+              border-bottom: 1px solid ${colors.sand};
+            }
+            
+            /* Ko-fi Banner */
+            .kofi-banner {
+              background: linear-gradient(135deg, ${colors.sage}20 0%, ${colors.sand}30 100%);
+              border-top: 2px solid ${colors.cream};
+              padding: 0.75rem 1rem;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 0.75rem;
+              flex-shrink: 0;
+            }
+            
+            .kofi-text {
+              font-size: 0.8rem;
+              font-weight: 600;
+              color: ${colors.navy};
+            }
+            
+            .kofi-button {
+              display: inline-flex;
+              align-items: center;
+              gap: 0.4rem;
+              background: #FF5E5B;
+              color: white;
+              padding: 0.4rem 0.85rem;
+              border-radius: 6px;
+              font-size: 0.75rem;
+              font-weight: 700;
+              text-decoration: none;
+              transition: all 0.2s ease;
+            }
+            
+            .kofi-button:hover {
+              transform: scale(1.05);
+              box-shadow: 0 4px 12px rgba(255, 94, 91, 0.3);
+            }
+            
+            .footer {
+              text-align: center;
+              padding: 0.6rem;
+              background: #fff;
+              border-top: 2px solid ${colors.cream};
+              font-size: 0.7rem;
+              font-weight: 500;
+              color: ${colors.navy}70;
+              flex-shrink: 0;
+            }
+            
+            .footer a {
+              color: ${colors.terracotta};
+              text-decoration: none;
+              font-weight: 700;
+            }
+            
+            .footer a:hover {
+              text-decoration: underline;
+            }
+            
+            /* Loading state */
+            .loading-container {
+              flex: 1;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              gap: 1rem;
+              color: ${colors.navy}80;
+            }
+            
+            .loading-spinner {
+              width: 40px;
+              height: 40px;
+              border: 4px solid ${colors.cream};
+              border-top-color: ${colors.terracotta};
+              border-radius: 50%;
+              animation: spin 1s linear infinite;
+            }
+            
+            @keyframes spin {
+              to { transform: rotate(360deg); }
+            }
+            
+            /* Error state */
+            .error-container {
+              flex: 1;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              gap: 1rem;
+              padding: 2rem;
+              text-align: center;
+            }
+            
+            .error-icon { font-size: 3rem; }
+            .error-message { color: ${colors.terracotta}; font-weight: 600; }
+            .error-details { color: ${colors.navy}70; font-size: 0.85rem; max-width: 400px; }
+            
+            .retry-button {
+              font-family: 'Nunito', sans-serif;
+              padding: 0.6rem 1.5rem;
+              background: ${colors.terracotta};
+              color: white;
+              border: none;
+              border-radius: 20px;
+              font-weight: 700;
+              cursor: pointer;
+              transition: all 0.2s ease;
+            }
+            
+            .retry-button:hover {
+              transform: scale(1.05);
+              box-shadow: 0 4px 12px rgba(224, 122, 95, 0.3);
+            }
+            
+            /* Modal Styles */
+            .modal-overlay {
+              position: fixed;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background: rgba(61, 64, 91, 0.7);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              z-index: 1000;
+              padding: 1rem;
+              backdrop-filter: blur(4px);
+            }
+            
+            .modal-content {
+              background: white;
+              border-radius: 16px;
+              max-width: 500px;
+              width: 100%;
+              max-height: 85vh;
+              overflow: hidden;
+              display: flex;
+              flex-direction: column;
+              box-shadow: 0 20px 60px rgba(61, 64, 91, 0.3);
+            }
+            
+            .modal-header {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              padding: 1.25rem 1.5rem;
+              background: ${colors.navy};
+              color: ${colors.cream};
+            }
+            
+            .modal-header h2 {
+              font-size: 1.25rem;
+              font-weight: 800;
+              margin: 0;
+            }
+            
+            .modal-close {
+              background: transparent;
+              border: none;
+              color: ${colors.cream};
+              font-size: 1.25rem;
+              cursor: pointer;
+              padding: 0.25rem;
+              line-height: 1;
+              opacity: 0.7;
+              transition: opacity 0.2s;
+            }
+            
+            .modal-close:hover {
+              opacity: 1;
+            }
+            
+            .modal-body {
+              padding: 1.5rem;
+              overflow-y: auto;
+              flex: 1;
+            }
+            
+            .roadmap-intro {
+              font-size: 0.9rem;
+              color: ${colors.navy}90;
+              margin-bottom: 1.5rem;
+              line-height: 1.5;
+            }
+            
+            .roadmap-section {
+              margin-bottom: 1.5rem;
+            }
+            
+            .roadmap-section h3 {
+              font-size: 1rem;
+              font-weight: 700;
+              color: ${colors.navy};
+              margin-bottom: 0.75rem;
+              padding-bottom: 0.5rem;
+              border-bottom: 2px solid ${colors.cream};
+            }
+            
+            .roadmap-section ul {
+              list-style: none;
+              padding: 0;
+              margin: 0;
+            }
+            
+            .roadmap-cta {
+              background: ${colors.cream};
+              border-radius: 10px;
+              padding: 1.25rem;
+              text-align: center;
+              margin-top: 1rem;
+            }
+            
+            .roadmap-cta p {
+              font-size: 0.9rem;
+              font-weight: 600;
+              color: ${colors.navy};
+              margin-bottom: 0.75rem;
+            }
+            
+            .cta-button {
+              display: inline-flex;
+              align-items: center;
+              gap: 0.4rem;
+              background: ${colors.terracotta};
+              color: white;
+              padding: 0.6rem 1.25rem;
+              border-radius: 8px;
+              font-size: 0.85rem;
+              font-weight: 700;
+              text-decoration: none;
+              transition: all 0.2s ease;
+            }
+            
+            .cta-button:hover {
+              transform: scale(1.05);
+              box-shadow: 0 4px 12px rgba(224, 122, 95, 0.3);
+            }
+            
+            /* Mobile styles */
+            @media (max-width: 768px) {
+              .main-content {
+                flex-direction: column;
+              }
+              
+              .calendar-section {
+                flex: 1;
+              }
+              
+              .detail-panel {
+                width: 100%;
+                border-left: none;
+                border-top: 3px solid ${colors.cream};
+                max-height: 45vh;
+                flex-shrink: 0;
+              }
+              
+              .header {
+                padding: 0.75rem 1rem;
+              }
+              
+              .header h1 {
+                font-size: 1.1rem;
+              }
+              
+              .header .subtitle {
+                font-size: 0.65rem;
+              }
+              
+              .header-button span:not(:first-child) {
+                display: none;
+              }
+              
+              .controls {
+                padding: 0.5rem;
+              }
+              
+              .type-filter {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.6rem;
+              }
+              
+              .legend-item {
+                font-size: 0.65rem;
+                padding: 0.2rem 0.4rem;
+              }
+              
+              .date-number {
+                font-size: 0.75rem;
+              }
+              
+              .preview-title {
+                font-size: 0.55rem;
+              }
+              
+              .preview-icon {
+                font-size: 0.6rem;
+              }
+              
+              .kofi-banner {
+                flex-direction: column;
+                gap: 0.5rem;
+                padding: 0.6rem;
+              }
+              
+              .kofi-text {
+                font-size: 0.75rem;
+              }
+            }
+            
+            @media (max-width: 480px) {
+              .legend {
+                display: none;
+              }
+              
+              .preview-title {
+                display: none;
+              }
+              
+              .event-preview {
+                justify-content: center;
+                border-left: none;
+                border-bottom: 2px solid;
+              }
+              
+              .calendar-grid {
+                padding: 0.4rem;
+                gap: 2px;
+              }
+              
+              .calendar-day {
+                padding: 0.3rem;
+                border-radius: 6px;
+              }
+            }
+          `}</style>
+          
+          <header className="header">
+            <div className="header-left">
+              <h1>Bristol Improv Calendar</h1>
+              <span className="beta-badge">Beta</span>
+            </div>
+            <div className="header-center">
+              <div className="subtitle">{monthNames[month]} {year}</div>
+              {lastUpdated && (
+                <div className="last-updated">{formatLastUpdated(lastUpdated)}</div>
+              )}
+            </div>
+            <div className="header-right">
+              <button className="header-button" onClick={() => setShowRoadmap(true)}>
+                🗺️ <span>Roadmap</span>
+              </button>
+            </div>
+          </header>
+          
+          {error && (
+            <div className="stale-warning">
+              ⚠️ {error}
+            </div>
+          )}
+          
+          {loading ? (
+            <div className="loading-container">
+              <div className="loading-spinner"></div>
+              <div>Loading events...</div>
+            </div>
+          ) : events.length === 0 ? (
+            <div className="error-container">
+              <div className="error-icon">🎭</div>
+              <div className="error-message">No events found</div>
+              <div className="error-details">Check back soon for upcoming shows!</div>
+            </div>
+          ) : (
+            <>
+              <div className="controls">
+                <div className="type-filters">
+                  <button 
+                    className={`type-filter ${activeFilter === 'all' ? 'active' : ''}`}
+                    onClick={() => setActiveFilter('all')}
+                  >
+                    All
+                  </button>
+                  <button 
+                    className={`type-filter ${activeFilter === 'show' ? 'active' : ''}`}
+                    onClick={() => setActiveFilter('show')}
+                  >
+                    🎭 Shows
+                  </button>
+                  <button className="type-filter coming-soon" title="Coming soon">
+                    📚 Workshops
+                  </button>
+                  <button className="type-filter coming-soon" title="Coming soon">
+                    🎲 Jams
+                  </button>
+                </div>
+                
+                <div className="legend">
+                  {legendVenues.map(([name, { color, icon }]) => (
+                    <div
+                      key={name}
+                      className={`legend-item ${activeFilter === name ? 'active' : ''}`}
+                      style={{ color }}
+                      onClick={() => setActiveFilter(activeFilter === name ? 'all' : name)}
+                    >
+                      <span className="legend-icon">{icon}</span>
+                      <span className="legend-dot" style={{ backgroundColor: color }} />
+                      {name}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="main-content">
+                <div className="calendar-section">
+                  <div className="calendar-grid">
+                    {dayNames.map(day => (
+                      <div key={day} className="day-header">{day}</div>
+                    ))}
+                    {renderCalendarDays()}
+                  </div>
+                </div>
+                
+                <div className="detail-panel">
+                  {selectedDate ? (
+                    <div className="detail-content">
+                      <div className="detail-header">
+                        <h3>{getDayName(selectedDate)} {selectedDate} {monthNames[month]}</h3>
+                      </div>
+                      
+                      {selectedEvents.length > 1 && (
+                        <div className="clash-warning">
+                          ⚠️ Multiple events — pick your poison!
+                        </div>
+                      )}
+                      
+                      {selectedEvents.map((event, i) => {
+                        const venueInfo = getVenueInfo(event.venue);
+                        return (
+                          <a
+                            key={i}
+                            href={event.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="event-card"
+                            style={{ borderColor: venueInfo.color }}
+                          >
+                            <div className="event-header">
+                              <span className="event-icon">{venueInfo.icon}</span>
+                              <div className="event-info">
+                                <div className="event-title">{event.title}</div>
+                                <div className="event-meta">
+                                  <span>📍 {event.venue}</span>
+                                  <span>🕖 {event.time}</span>
+                                </div>
+                                {event.description && (
+                                  <div className="event-description">{event.description}</div>
+                                )}
+                                <div className="event-cta">
+                                  View details / Book tickets →
+                                </div>
+                              </div>
+                            </div>
+                          </a>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="no-selection">
+                      <p>👈 Click a date to see event details</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+          
+          <div className="kofi-banner">
+            <span className="kofi-text">☕ Find this useful? Help keep it running!</span>
+            <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-button">
+              ❤️ Support on Ko-fi
+            </a>
+          </div>
+          
+          <footer className="footer">
+            Missing a show? Got corrections? <a href="https://forms.gle/bkk5pHUHbEWMaeZR7">Let us know</a>
+          </footer>
+          
+          <RoadmapModal 
+            isOpen={showRoadmap} 
+            onClose={() => setShowRoadmap(false)} 
+            colors={colors}
+          />
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<BristolImprovCalendar />);
+  </script>
+</body>
+</html>
