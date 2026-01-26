@@ -64,31 +64,32 @@
       
       const RoadmapItem = ({ done, children }) => (
         <li style={{ 
-          marginBottom: '0.5rem',
+          marginBottom: '0.6rem',
           display: 'flex',
           alignItems: 'flex-start',
-          gap: '0.5rem'
+          gap: '0.6rem'
         }}>
           <span style={{ 
             flexShrink: 0,
-            width: '18px',
-            height: '18px',
-            borderRadius: '4px',
+            width: '22px',
+            height: '22px',
+            borderRadius: '5px',
             background: done ? colors.sage : 'transparent',
             border: done ? 'none' : `2px solid ${colors.navy}30`,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '0.7rem',
+            fontSize: '0.75rem',
             color: 'white',
-            marginTop: '2px'
+            marginTop: '1px'
           }}>
             {done && '✓'}
           </span>
           <span style={{ 
             textDecoration: done ? 'line-through' : 'none',
             color: done ? `${colors.navy}60` : colors.navy,
-            fontSize: '0.85rem'
+            fontSize: '0.9rem',
+            lineHeight: 1.4
           }}>
             {children}
           </span>
@@ -104,32 +105,82 @@
             </div>
             <div className="modal-body">
               <p className="roadmap-intro">
-                This calendar is a work in progress! Here's what's done and what's coming.
+                This calendar is a work in progress! Here's what's been done and what's coming next. 
+                Got an idea? Submit it at the bottom — I'd love to hear from you!
               </p>
+              
               <div className="roadmap-section">
-                <h3>⚡ Functionality</h3>
+                <h3>⚡ Core Functionality</h3>
                 <ul>
+                  <RoadmapItem done={true}>Monthly calendar view</RoadmapItem>
                   <RoadmapItem done={true}>Navigate between months</RoadmapItem>
-                  <RoadmapItem done={true}>Filter by venue & event type</RoadmapItem>
-                  <RoadmapItem done={true}>Search events</RoadmapItem>
-                  <RoadmapItem done={false}>Add workshops, drop-ins, jams</RoadmapItem>
+                  <RoadmapItem done={true}>Filter by venue</RoadmapItem>
+                  <RoadmapItem done={true}>Filter by event type</RoadmapItem>
+                  <RoadmapItem done={true}>Search events by name</RoadmapItem>
+                  <RoadmapItem done={true}>Mobile-friendly responsive design</RoadmapItem>
+                  <RoadmapItem done={true}>Auto-updates from Airtable database</RoadmapItem>
                   <RoadmapItem done={false}>Downloadable calendar feed (ICS/iCal)</RoadmapItem>
+                  <RoadmapItem done={false}>Email newsletter for weekly updates</RoadmapItem>
+                  <RoadmapItem done={false}>Google Calendar integration</RoadmapItem>
                 </ul>
               </div>
+              
+              <div className="roadmap-section">
+                <h3>🎭 Event Types</h3>
+                <ul>
+                  <RoadmapItem done={true}>Shows</RoadmapItem>
+                  <RoadmapItem done={false}>Workshops & classes</RoadmapItem>
+                  <RoadmapItem done={false}>Drop-in jams</RoadmapItem>
+                  <RoadmapItem done={false}>Courses & programmes</RoadmapItem>
+                  <RoadmapItem done={false}>Improv type tags (shortform, longform, narrative, musical, etc.)</RoadmapItem>
+                </ul>
+              </div>
+              
               <div className="roadmap-section">
                 <h3>📍 Venues</h3>
                 <ul>
                   <RoadmapItem done={true}>Bristol Improv Theatre</RoadmapItem>
-                  <RoadmapItem done={true}>Hen & Chicken</RoadmapItem>
-                  <RoadmapItem done={true}>PRSC</RoadmapItem>
-                  <RoadmapItem done={false}>More venues coming...</RoadmapItem>
+                  <RoadmapItem done={true}>Hen & Chicken (all spaces)</RoadmapItem>
+                  <RoadmapItem done={true}>PRSC / SPACE at PRSC</RoadmapItem>
+                  <RoadmapItem done={false}>Wardrobe Theatre</RoadmapItem>
+                  <RoadmapItem done={false}>Tobacco Factory</RoadmapItem>
+                  <RoadmapItem done={false}>Bristol Beacon</RoadmapItem>
+                  <RoadmapItem done={false}>Alma Tavern & Theatre</RoadmapItem>
+                  <RoadmapItem done={false}>Bristol Old Vic</RoadmapItem>
+                  <RoadmapItem done={false}>Redgrave Theatre</RoadmapItem>
+                  <RoadmapItem done={false}>St George's Bristol</RoadmapItem>
+                  <RoadmapItem done={false}>The Lanes</RoadmapItem>
                 </ul>
               </div>
+              
+              <div className="roadmap-section">
+                <h3>🎨 Design & Experience</h3>
+                <ul>
+                  <RoadmapItem done={true}>Venue colour-coding</RoadmapItem>
+                  <RoadmapItem done={true}>Event grouping by venue</RoadmapItem>
+                  <RoadmapItem done={false}>Dark mode</RoadmapItem>
+                  <RoadmapItem done={false}>List view option</RoadmapItem>
+                  <RoadmapItem done={false}>Save favourite events</RoadmapItem>
+                </ul>
+              </div>
+              
+              <div className="roadmap-section">
+                <h3>🔮 Future Ideas</h3>
+                <ul>
+                  <RoadmapItem done={false}>Performer & group profiles</RoadmapItem>
+                  <RoadmapItem done={false}>User accounts & personalisation</RoadmapItem>
+                  <RoadmapItem done={false}>Event reminders</RoadmapItem>
+                  <RoadmapItem done={false}>Community reviews & ratings</RoadmapItem>
+                  <RoadmapItem done={false}>Ticket price comparison</RoadmapItem>
+                </ul>
+              </div>
+              
               <div className="roadmap-cta">
-                <p>Got an idea?</p>
+                <p>Got an idea that would make this calendar awesome?</p>
                 <a href={FEATURE_REQUEST_URL} target="_blank" rel="noopener noreferrer" className="cta-button">
                   💡 Submit your idea
                 </a>
+                <p className="cta-note">All suggestions welcome — big or small!</p>
               </div>
             </div>
           </div>
@@ -294,8 +345,9 @@
         const groups = {};
         dateEvents.forEach(e => {
           const g = getVenueGroup(e.venue);
-          if (!groups[g]) groups[g] = { count: 0, info: getVenueInfo(e.venue) };
+          if (!groups[g]) groups[g] = { count: 0, info: getVenueInfo(e.venue), events: [] };
           groups[g].count++;
+          groups[g].events.push(e);
         });
         return Object.entries(groups);
       };
@@ -308,7 +360,7 @@
           e.title.toLowerCase().includes(q) || 
           e.venue.toLowerCase().includes(q) ||
           (e.description?.toLowerCase().includes(q))
-        ).slice(0, 6);
+        ).slice(0, 8);
       }, [searchQuery, events]);
       
       const handleSearchSelect = (event) => {
@@ -350,6 +402,11 @@
       
       const getDayName = (date) => ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(viewYear, viewMonth, date).getDay()];
       
+      const getShortTitle = (title, maxLen = 16) => {
+        const short = title.replace(/^The\s+/i, '').replace(/[:|].*$/, '').trim();
+        return short.length > maxLen ? short.substring(0, maxLen - 1) + '…' : short;
+      };
+      
       const weeksNeeded = Math.ceil((startDay + daysInMonth) / 7);
       
       const renderDays = () => {
@@ -359,6 +416,7 @@
         }
         for (let date = 1; date <= daysInMonth; date++) {
           const venues = getVenueGroupsForDate(date);
+          const allEvents = venues.flatMap(([_, { events }]) => events);
           const hasEvents = venues.length > 0;
           const isSelected = selectedDate === date;
           const dayIdx = (startDay + date - 1) % 7;
@@ -373,14 +431,30 @@
             >
               <span className={`date-num ${isToday ? 'today-num' : ''}`}>{date}</span>
               {hasEvents && (
-                <div className="venue-icons">
-                  {venues.slice(0, 3).map(([g, { count, info }]) => (
-                    <div key={g} className="venue-chip" style={{ background: info.bg, borderColor: info.color }}>
-                      <span className="chip-icon">{info.icon}</span>
-                      {count > 1 && <span className="chip-count">{count}</span>}
-                    </div>
-                  ))}
-                  {venues.length > 3 && <span className="more">+{venues.length - 3}</span>}
+                <div className="event-previews">
+                  {/* Desktop: show event titles */}
+                  <div className="desktop-events">
+                    {allEvents.slice(0, 3).map((e, i) => {
+                      const info = getVenueInfo(e.venue);
+                      return (
+                        <div key={i} className="event-chip" style={{ background: info.bg, borderColor: info.color }}>
+                          <span className="chip-icon">{info.icon}</span>
+                          <span className="chip-title">{getShortTitle(e.title)}</span>
+                        </div>
+                      );
+                    })}
+                    {allEvents.length > 3 && <span className="more">+{allEvents.length - 3} more</span>}
+                  </div>
+                  {/* Mobile: show venue icons only */}
+                  <div className="mobile-events">
+                    {venues.slice(0, 3).map(([g, { count, info }]) => (
+                      <div key={g} className="venue-chip" style={{ background: info.bg, borderColor: info.color }}>
+                        <span className="chip-icon">{info.icon}</span>
+                        {count > 1 && <span className="chip-count">{count}</span>}
+                      </div>
+                    ))}
+                    {venues.length > 3 && <span className="more">+{venues.length - 3}</span>}
+                  </div>
                 </div>
               )}
             </div>
@@ -407,69 +481,72 @@
             /* HEADER */
             .header {
               background: ${colors.navy};
-              padding: 0.5rem 0.75rem;
+              padding: 0.6rem 1rem;
               display: flex;
               align-items: center;
               justify-content: space-between;
-              gap: 0.5rem;
+              gap: 0.75rem;
               flex-shrink: 0;
             }
             .header-left {
               display: flex;
               align-items: center;
-              gap: 0.4rem;
+              gap: 0.5rem;
               min-width: 0;
             }
             .header h1 {
-              font-size: 1.1rem;
+              font-size: 1.3rem;
               font-weight: 800;
               color: ${colors.cream};
               white-space: nowrap;
+              line-height: 1.1;
             }
             .beta {
               background: ${colors.terracotta};
               color: white;
-              font-size: 0.5rem;
+              font-size: 0.55rem;
               font-weight: 700;
-              padding: 0.15rem 0.35rem;
+              padding: 0.15rem 0.4rem;
               border-radius: 3px;
               text-transform: uppercase;
+              flex-shrink: 0;
             }
             .header-center {
               display: flex;
               align-items: center;
-              gap: 0.4rem;
+              gap: 0.5rem;
             }
             .nav-btn {
               background: transparent;
               border: 2px solid ${colors.cream}40;
               color: ${colors.cream};
-              width: 26px;
-              height: 26px;
+              width: 28px;
+              height: 28px;
               border-radius: 5px;
               cursor: pointer;
               display: flex;
               align-items: center;
               justify-content: center;
-              font-size: 0.85rem;
+              font-size: 0.9rem;
+              transition: all 0.15s;
             }
             .nav-btn:hover:not(:disabled) { background: ${colors.cream}15; border-color: ${colors.cream}; }
             .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
             .month-label {
-              font-size: 0.75rem;
+              font-size: 0.8rem;
               font-weight: 600;
               color: ${colors.sage};
               text-transform: uppercase;
               letter-spacing: 0.08em;
-              min-width: 80px;
+              min-width: 100px;
               text-align: center;
             }
             .month-full { display: inline; }
             .month-short { display: none; }
             .today-btn {
-              font-size: 0.55rem;
+              font-size: 0.6rem;
               font-weight: 700;
-              padding: 0.25rem 0.4rem;
+              padding: 0.3rem 0.5rem;
               background: ${colors.sage};
               color: white;
               border: none;
@@ -479,9 +556,9 @@
             }
             .today-btn:disabled { opacity: 0.4; cursor: not-allowed; }
             .roadmap-btn {
-              font-size: 0.65rem;
+              font-size: 0.7rem;
               font-weight: 600;
-              padding: 0.3rem 0.5rem;
+              padding: 0.35rem 0.6rem;
               background: transparent;
               border: 2px solid ${colors.cream}40;
               color: ${colors.cream};
@@ -489,35 +566,34 @@
               cursor: pointer;
               display: flex;
               align-items: center;
-              gap: 0.25rem;
+              gap: 0.3rem;
+              white-space: nowrap;
             }
             .roadmap-btn:hover { background: ${colors.cream}15; border-color: ${colors.cream}; }
-            .roadmap-btn span { display: inline; }
             
             /* CONTROLS */
             .controls {
               background: white;
               border-bottom: 2px solid ${colors.cream};
-              padding: 0.5rem;
+              padding: 0.5rem 0.75rem;
               display: flex;
               flex-wrap: wrap;
-              gap: 0.4rem;
+              gap: 0.5rem;
               align-items: center;
               justify-content: center;
               flex-shrink: 0;
             }
             .search-box {
               position: relative;
-              flex: 1;
-              min-width: 120px;
-              max-width: 200px;
+              width: 180px;
+              flex-shrink: 0;
             }
             .search-input {
               width: 100%;
-              padding: 0.35rem 0.5rem 0.35rem 1.8rem;
+              padding: 0.4rem 0.5rem 0.4rem 1.8rem;
               border: 2px solid ${colors.navy}20;
               border-radius: 16px;
-              font-size: 0.7rem;
+              font-size: 0.75rem;
               font-family: inherit;
               color: ${colors.navy};
             }
@@ -536,30 +612,30 @@
               right: 0;
               background: white;
               border-radius: 8px;
-              box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+              box-shadow: 0 4px 20px rgba(0,0,0,0.15);
               margin-top: 4px;
               z-index: 100;
-              max-height: 220px;
+              max-height: 280px;
               overflow-y: auto;
             }
             .search-item {
-              padding: 0.5rem 0.6rem;
+              padding: 0.6rem 0.75rem;
               cursor: pointer;
               border-bottom: 1px solid ${colors.cream};
             }
             .search-item:hover { background: ${colors.cream}; }
             .search-item:last-child { border-bottom: none; }
-            .search-title { font-size: 0.75rem; font-weight: 600; color: ${colors.navy}; }
-            .search-meta { font-size: 0.65rem; color: ${colors.navy}80; }
+            .search-title { font-size: 0.8rem; font-weight: 600; color: ${colors.navy}; }
+            .search-meta { font-size: 0.7rem; color: ${colors.navy}80; }
             
             .filter-select {
               font-family: inherit;
-              font-size: 0.7rem;
+              font-size: 0.75rem;
               font-weight: 600;
-              padding: 0.35rem 1.5rem 0.35rem 0.5rem;
+              padding: 0.4rem 1.6rem 0.4rem 0.6rem;
               border: 2px solid ${colors.navy}20;
               border-radius: 6px;
-              background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%233D405B' d='M2 4l3 3 3-3H2z'/%3E%3C/svg%3E") no-repeat right 0.4rem center;
+              background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%233D405B' d='M2 4l3 3 3-3H2z'/%3E%3C/svg%3E") no-repeat right 0.5rem center;
               color: ${colors.navy};
               cursor: pointer;
               appearance: none;
@@ -567,13 +643,15 @@
             .filter-select:focus { outline: none; border-color: ${colors.terracotta}; }
             .filter-select.active { border-color: ${colors.terracotta}; background-color: ${colors.terracotta}10; }
             
-            /* MAIN */
+            /* MAIN LAYOUT */
             .main {
               display: flex;
               flex: 1;
               overflow: hidden;
               min-height: 0;
             }
+            
+            /* CALENDAR */
             .calendar {
               flex: 1;
               display: flex;
@@ -584,23 +662,23 @@
               display: grid;
               grid-template-columns: repeat(7, 1fr);
               grid-template-rows: auto repeat(${weeksNeeded}, 1fr);
-              gap: 3px;
-              padding: 0.4rem;
+              gap: 4px;
+              padding: 0.5rem;
               flex: 1;
               min-height: 0;
             }
             .day-hdr {
-              font-size: 0.65rem;
+              font-size: 0.7rem;
               font-weight: 700;
               text-align: center;
-              padding: 0.3rem 0;
+              padding: 0.4rem 0;
               color: ${colors.navy}90;
               text-transform: uppercase;
             }
             .cal-day {
               background: white;
-              border-radius: 5px;
-              padding: 0.25rem;
+              border-radius: 6px;
+              padding: 0.3rem;
               display: flex;
               flex-direction: column;
               border: 2px solid transparent;
@@ -614,103 +692,165 @@
             .cal-day.has-events:hover { border-color: ${colors.sage}; transform: scale(1.02); z-index: 1; }
             .cal-day.selected { border-color: ${colors.terracotta}; box-shadow: 0 2px 8px ${colors.terracotta}30; z-index: 2; }
             .date-num {
-              font-size: 0.7rem;
+              font-size: 0.8rem;
               font-weight: 700;
               color: ${colors.navy}50;
-              margin-bottom: 0.15rem;
+              margin-bottom: 0.2rem;
+              flex-shrink: 0;
             }
             .has-events .date-num { color: ${colors.navy}; }
             .date-num.today-num { color: ${colors.terracotta}; }
-            .venue-icons {
+            
+            .event-previews {
+              flex: 1;
+              overflow: hidden;
               display: flex;
+              flex-direction: column;
+              gap: 2px;
+            }
+            
+            /* Desktop events - show titles */
+            .desktop-events {
+              display: flex;
+              flex-direction: column;
+              gap: 2px;
+            }
+            .event-chip {
+              display: flex;
+              align-items: center;
+              gap: 3px;
+              padding: 2px 4px;
+              border-radius: 3px;
+              border-left: 2px solid;
+              overflow: hidden;
+            }
+            .chip-icon { font-size: 0.65rem; flex-shrink: 0; }
+            .chip-title {
+              font-size: 0.6rem;
+              font-weight: 600;
+              color: ${colors.navy};
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+            
+            /* Mobile events - icons only */
+            .mobile-events {
+              display: none;
               flex-wrap: wrap;
               gap: 2px;
-              overflow: hidden;
             }
             .venue-chip {
               display: flex;
               align-items: center;
               gap: 1px;
-              padding: 1px 3px;
+              padding: 2px 4px;
               border-radius: 3px;
               border-left: 2px solid;
-              font-size: 0.55rem;
             }
-            .chip-icon { font-size: 0.6rem; }
-            .chip-count { font-weight: 700; color: ${colors.navy}70; }
-            .more { font-size: 0.5rem; color: ${colors.navy}60; padding: 2px; }
+            .chip-count { font-size: 0.55rem; font-weight: 700; color: ${colors.navy}70; }
+            .more { font-size: 0.55rem; color: ${colors.navy}60; padding: 2px; }
             
             /* DETAIL PANEL */
             .detail {
-              width: 280px;
+              width: 320px;
               background: white;
               border-left: 3px solid ${colors.cream};
               overflow-y: auto;
               flex-shrink: 0;
+              display: flex;
+              flex-direction: column;
             }
-            .detail-inner { padding: 0.75rem; }
+            .detail-inner { padding: 1rem; flex: 1; overflow-y: auto; }
             .detail-hdr {
-              font-size: 0.95rem;
+              font-size: 1.05rem;
               font-weight: 700;
               color: ${colors.terracotta};
-              margin-bottom: 0.6rem;
-              padding-bottom: 0.4rem;
+              margin-bottom: 0.75rem;
+              padding-bottom: 0.5rem;
               border-bottom: 2px solid ${colors.cream};
             }
             .event-card {
               display: block;
               background: ${colors.cream};
               border-radius: 8px;
-              padding: 0.7rem;
-              margin-bottom: 0.5rem;
+              padding: 0.85rem;
+              margin-bottom: 0.6rem;
               text-decoration: none;
               color: inherit;
               border-left: 4px solid;
               transition: transform 0.15s;
             }
             .event-card:hover { transform: translateX(3px); }
-            .event-row { display: flex; gap: 0.5rem; }
-            .event-icon { font-size: 1.2rem; }
+            .event-row { display: flex; gap: 0.6rem; }
+            .event-icon { font-size: 1.3rem; }
             .event-info { flex: 1; min-width: 0; }
-            .event-title { font-size: 0.8rem; font-weight: 700; margin-bottom: 0.2rem; }
-            .event-meta { font-size: 0.7rem; color: ${colors.navy}80; }
+            .event-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.25rem; }
+            .event-meta { font-size: 0.75rem; color: ${colors.navy}80; }
             .event-meta span { display: block; }
-            .event-cta { font-size: 0.65rem; font-weight: 700; color: ${colors.terracotta}; margin-top: 0.4rem; }
-            .no-select { text-align: center; padding: 1.5rem 0.75rem; color: ${colors.navy}60; font-size: 0.8rem; }
-            .clash { background: ${colors.sand}40; border: 2px solid ${colors.sand}; border-radius: 6px; padding: 0.4rem 0.5rem; font-size: 0.7rem; font-weight: 600; margin-bottom: 0.5rem; }
+            .event-cta { font-size: 0.7rem; font-weight: 700; color: ${colors.terracotta}; margin-top: 0.5rem; }
+            .no-select {
+              flex: 1;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              text-align: center;
+              padding: 1.5rem;
+              color: ${colors.navy}60;
+              font-size: 0.85rem;
+            }
+            .clash { background: ${colors.sand}40; border: 2px solid ${colors.sand}; border-radius: 6px; padding: 0.5rem 0.6rem; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.6rem; }
             
-            /* FOOTER */
-            .kofi {
+            /* FOOTER IN DETAIL PANEL (when no selection) */
+            .inline-footer {
+              padding: 1rem;
+              border-top: 2px solid ${colors.cream};
+              background: linear-gradient(135deg, ${colors.sage}15, ${colors.sand}20);
+            }
+            .inline-kofi {
+              text-align: center;
+              margin-bottom: 0.75rem;
+            }
+            .inline-kofi-text { font-size: 0.75rem; font-weight: 600; color: ${colors.navy}; margin-bottom: 0.4rem; }
+            .kofi-btn {
+              display: inline-flex;
+              align-items: center;
+              gap: 0.3rem;
+              background: #FF5E5B;
+              color: white;
+              padding: 0.35rem 0.7rem;
+              border-radius: 5px;
+              font-size: 0.7rem;
+              font-weight: 700;
+              text-decoration: none;
+            }
+            .kofi-btn:hover { transform: scale(1.05); }
+            .inline-links {
+              text-align: center;
+              font-size: 0.65rem;
+            }
+            .inline-links a { color: ${colors.terracotta}; font-weight: 700; text-decoration: none; }
+            .inline-updated { color: ${colors.navy}60; display: block; margin-top: 0.3rem; }
+            
+            /* MAIN FOOTER (desktop) */
+            .kofi-bar {
               background: linear-gradient(135deg, ${colors.sage}20, ${colors.sand}30);
               border-top: 2px solid ${colors.cream};
-              padding: 0.5rem;
+              padding: 0.5rem 1rem;
               display: flex;
               align-items: center;
               justify-content: center;
-              gap: 0.5rem;
+              gap: 0.6rem;
               flex-shrink: 0;
-              flex-wrap: wrap;
             }
-            .kofi-text { font-size: 0.7rem; font-weight: 600; color: ${colors.navy}; }
-            .kofi-btn {
-              background: #FF5E5B;
-              color: white;
-              padding: 0.3rem 0.6rem;
-              border-radius: 5px;
-              font-size: 0.65rem;
-              font-weight: 700;
-              text-decoration: none;
-              display: flex;
-              align-items: center;
-              gap: 0.25rem;
-            }
-            .kofi-btn:hover { transform: scale(1.05); }
+            .kofi-text { font-size: 0.75rem; font-weight: 600; color: ${colors.navy}; }
             .footer {
               background: white;
               border-top: 2px solid ${colors.cream};
-              padding: 0.4rem;
+              padding: 0.5rem;
               text-align: center;
-              font-size: 0.6rem;
+              font-size: 0.65rem;
               flex-shrink: 0;
             }
             .footer-text { color: ${colors.navy}; }
@@ -728,8 +868,8 @@
               color: ${colors.navy}80;
             }
             .spinner {
-              width: 32px;
-              height: 32px;
+              width: 36px;
+              height: 36px;
               border: 4px solid ${colors.cream};
               border-top-color: ${colors.terracotta};
               border-radius: 50%;
@@ -741,83 +881,137 @@
             .modal-overlay {
               position: fixed;
               inset: 0;
-              background: rgba(61,64,91,0.7);
+              background: rgba(61,64,91,0.75);
               display: flex;
               align-items: center;
               justify-content: center;
               z-index: 1000;
-              padding: 0.75rem;
+              padding: 1rem;
             }
             .modal-content {
               background: white;
-              border-radius: 12px;
-              max-width: 420px;
+              border-radius: 14px;
+              max-width: 540px;
               width: 100%;
-              max-height: 80vh;
+              max-height: 90vh;
               overflow: hidden;
               display: flex;
               flex-direction: column;
+              box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             }
             .modal-header {
               background: ${colors.navy};
               color: ${colors.cream};
-              padding: 0.75rem 1rem;
+              padding: 1rem 1.25rem;
               display: flex;
               justify-content: space-between;
               align-items: center;
             }
-            .modal-header h2 { font-size: 1rem; margin: 0; }
-            .modal-close { background: none; border: none; color: ${colors.cream}; font-size: 1rem; cursor: pointer; opacity: 0.7; }
+            .modal-header h2 { font-size: 1.2rem; margin: 0; }
+            .modal-close { background: none; border: none; color: ${colors.cream}; font-size: 1.2rem; cursor: pointer; opacity: 0.7; }
             .modal-close:hover { opacity: 1; }
-            .modal-body { padding: 1rem; overflow-y: auto; }
-            .roadmap-intro { font-size: 0.8rem; color: ${colors.navy}90; margin-bottom: 1rem; }
-            .roadmap-section { margin-bottom: 1rem; }
-            .roadmap-section h3 { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; padding-bottom: 0.3rem; border-bottom: 2px solid ${colors.cream}; }
+            .modal-body { padding: 1.25rem; overflow-y: auto; flex: 1; }
+            .roadmap-intro { font-size: 0.9rem; color: ${colors.navy}90; margin-bottom: 1.25rem; line-height: 1.5; }
+            .roadmap-section { margin-bottom: 1.5rem; }
+            .roadmap-section h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; padding-bottom: 0.4rem; border-bottom: 2px solid ${colors.cream}; }
             .roadmap-section ul { list-style: none; }
-            .roadmap-cta { background: ${colors.cream}; border-radius: 8px; padding: 0.75rem; text-align: center; }
-            .roadmap-cta p { font-size: 0.8rem; font-weight: 600; margin-bottom: 0.5rem; }
-            .cta-button { display: inline-block; background: ${colors.terracotta}; color: white; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-decoration: none; }
+            .roadmap-cta { background: ${colors.cream}; border-radius: 10px; padding: 1rem; text-align: center; margin-top: 0.5rem; }
+            .roadmap-cta p { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.6rem; }
+            .roadmap-cta .cta-note { font-size: 0.75rem; color: ${colors.navy}70; margin-top: 0.5rem; margin-bottom: 0; }
+            .cta-button { display: inline-block; background: ${colors.terracotta}; color: white; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.85rem; font-weight: 700; text-decoration: none; }
+            .cta-button:hover { transform: scale(1.03); }
             
-            /* MOBILE */
+            /* ============================================
+               MOBILE STYLES
+               ============================================ */
             @media (max-width: 768px) {
               .main { flex-direction: column; }
+              
+              /* Fixed height calendar */
+              .calendar {
+                flex: none;
+                height: 52vh;
+                min-height: 320px;
+              }
+              
+              /* Scrollable detail panel */
               .detail {
                 width: 100%;
+                flex: 1;
                 border-left: none;
                 border-top: 3px solid ${colors.cream};
-                max-height: 38vh;
+                min-height: 0;
               }
+              
+              /* Header adjustments */
+              .header {
+                padding: 0.5rem 0.6rem;
+                gap: 0.4rem;
+              }
+              .header h1 {
+                font-size: 0.9rem;
+                white-space: normal;
+                line-height: 1.15;
+              }
+              .header-left { gap: 0.35rem; }
+              .beta { font-size: 0.45rem; padding: 0.12rem 0.3rem; }
               .month-full { display: none; }
               .month-short { display: inline; }
-              .roadmap-btn span { display: none; }
-            }
-            @media (max-width: 480px) {
-              .header h1 { font-size: 0.95rem; }
-              .beta { font-size: 0.45rem; }
-              .month-label { font-size: 0.65rem; min-width: 60px; }
-              .nav-btn { width: 22px; height: 22px; font-size: 0.75rem; }
-              .today-btn { font-size: 0.5rem; padding: 0.2rem 0.35rem; }
+              .month-label { min-width: 70px; font-size: 0.7rem; }
+              .nav-btn { width: 24px; height: 24px; font-size: 0.8rem; }
+              .today-btn { font-size: 0.5rem; padding: 0.25rem 0.4rem; }
               .roadmap-btn { padding: 0.25rem 0.4rem; font-size: 0.6rem; }
-              .controls { padding: 0.35rem; gap: 0.3rem; }
-              .search-box { max-width: 100%; min-width: 100%; order: -1; }
-              .filter-select { font-size: 0.65rem; padding: 0.3rem 1.3rem 0.3rem 0.4rem; }
-              .cal-grid { padding: 0.25rem; gap: 2px; }
-              .day-hdr { font-size: 0.55rem; padding: 0.25rem 0; }
+              .roadmap-btn span { display: none; }
+              
+              /* Controls - all on one line */
+              .controls {
+                padding: 0.4rem 0.5rem;
+                gap: 0.35rem;
+                flex-wrap: nowrap;
+                justify-content: space-between;
+              }
+              .search-box { 
+                width: auto;
+                flex: 1;
+                min-width: 80px;
+                max-width: 140px;
+              }
+              .search-input {
+                padding: 0.3rem 0.4rem 0.3rem 1.5rem;
+                font-size: 0.65rem;
+              }
+              .search-icon { font-size: 0.6rem; left: 0.5rem; }
+              .filter-select { 
+                font-size: 0.65rem; 
+                padding: 0.3rem 1.3rem 0.3rem 0.4rem;
+              }
+              
+              /* Calendar grid */
+              .cal-grid { padding: 0.3rem; gap: 2px; }
+              .day-hdr { font-size: 0.6rem; padding: 0.25rem 0; }
               .cal-day { padding: 0.2rem; border-radius: 4px; }
-              .date-num { font-size: 0.6rem; }
-              .venue-chip { padding: 1px 2px; }
-              .chip-icon { font-size: 0.5rem; }
-              .chip-count { font-size: 0.45rem; }
-              .kofi { padding: 0.4rem; gap: 0.35rem; }
-              .kofi-text { font-size: 0.6rem; }
-              .kofi-btn { font-size: 0.55rem; padding: 0.25rem 0.5rem; }
-              .footer { font-size: 0.55rem; padding: 0.3rem; }
+              .date-num { font-size: 0.65rem; margin-bottom: 0.1rem; }
+              
+              /* Show mobile events, hide desktop */
+              .desktop-events { display: none; }
+              .mobile-events { display: flex; }
+              .chip-icon { font-size: 0.55rem; }
+              .chip-count { font-size: 0.5rem; }
+              
+              /* Hide main footer on mobile (shown in detail panel) */
+              .kofi-bar, .footer { display: none; }
+            }
+            
+            @media (max-width: 380px) {
+              .header h1 { font-size: 0.8rem; }
+              .search-box { max-width: 100px; }
+              .filter-select { font-size: 0.6rem; padding: 0.25rem 1.2rem 0.25rem 0.35rem; }
             }
           `}</style>
           
           <header className="header">
             <div className="header-left">
-              <h1>Bristol Improv</h1>
+              <h1>Bristol Improv Calendar</h1>
               <span className="beta">Beta</span>
             </div>
             <div className="header-center">
@@ -849,7 +1043,7 @@
                   <input
                     type="text"
                     className="search-input"
-                    placeholder="Search events..."
+                    placeholder="Search..."
                     value={searchQuery}
                     onChange={e => { setSearchQuery(e.target.value); setShowSearchResults(true); }}
                     onFocus={() => setShowSearchResults(true)}
@@ -882,7 +1076,7 @@
                 >
                   <option value="all">All Venues</option>
                   {Object.entries(venueStyles)
-                    .filter(([k, v]) => v.group === k) // Only main groups
+                    .filter(([k, v]) => v.group === k)
                     .map(([k, v]) => (
                       <option key={k} value={k} disabled={!activeVenueGroups.has(k)}>{v.icon} {k}</option>
                     ))}
@@ -924,18 +1118,32 @@
                       })}
                     </div>
                   ) : (
-                    <div className="no-select">👈 Click a date to see event details</div>
+                    <>
+                      <div className="no-select">
+                        <p>👈 Click a date to see event details</p>
+                      </div>
+                      <div className="inline-footer">
+                        <div className="inline-kofi">
+                          <div className="inline-kofi-text">☕ Find this useful? Buy Ste a tea/pint!</div>
+                          <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
+                        </div>
+                        <div className="inline-links">
+                          <span style={{ color: colors.navy }}>Missing a show? Got corrections?</span> <a href="mailto:ste@youremail.com">Let us know</a>
+                          {lastUpdated && <span className="inline-updated">Updated {formatLastUpdated(lastUpdated)}</span>}
+                        </div>
+                      </div>
+                    </>
                   )}
                 </div>
               </div>
             </>
           )}
           
-          <div className="kofi">
+          {/* Desktop footer */}
+          <div className="kofi-bar">
             <span className="kofi-text">☕ Find this useful? Buy Ste a tea/pint!</span>
             <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
           </div>
-          
           <footer className="footer">
             <span className="footer-text">Missing a show? Got corrections?</span> <a href="mailto:ste@youremail.com">Let us know</a>
             {lastUpdated && <span className="footer-updated">• Updated {formatLastUpdated(lastUpdated)}</span>}
