@@ -149,7 +149,7 @@
                   <RoadmapItem done={false}>Bristol Old Vic</RoadmapItem>
                   <RoadmapItem done={false}>Redgrave Theatre</RoadmapItem>
                   <RoadmapItem done={false}>St George's Bristol</RoadmapItem>
-                  <RoadmapItem done={false}>The Lanes</RoadmapItem>
+                  <RoadmapItem done={false}>The Stag & Hounds</RoadmapItem>
                 </ul>
               </div>
               
@@ -206,7 +206,7 @@
       const [viewYear, setViewYear] = useState(new Date().getFullYear());
       const [viewMonth, setViewMonth] = useState(new Date().getMonth());
       
-      const searchRef = useRef(null);
+      const controlsRef = useRef(null);
       
       const colors = {
         cream: '#F4F1DE',
@@ -263,7 +263,7 @@
       // Close search on outside click
       useEffect(() => {
         const handleClick = (e) => {
-          if (searchRef.current && !searchRef.current.contains(e.target)) {
+          if (controlsRef.current && !controlsRef.current.contains(e.target)) {
             setShowSearchResults(false);
           }
         };
@@ -582,9 +582,19 @@
               align-items: center;
               justify-content: center;
               flex-shrink: 0;
+              position: relative;
+            }
+            .controls-inner {
+              display: flex;
+              gap: 0.5rem;
+              align-items: center;
+              justify-content: center;
+              position: relative;
+              width: 100%;
+              max-width: 600px;
             }
             .search-box {
-              position: relative;
+              position: static;
               width: 180px;
               flex-shrink: 0;
             }
@@ -604,6 +614,7 @@
               top: 50%;
               transform: translateY(-50%);
               font-size: 0.7rem;
+              pointer-events: none;
             }
             .search-results {
               position: absolute;
@@ -615,18 +626,18 @@
               box-shadow: 0 4px 20px rgba(0,0,0,0.15);
               margin-top: 4px;
               z-index: 100;
-              max-height: 280px;
+              max-height: 320px;
               overflow-y: auto;
             }
             .search-item {
-              padding: 0.6rem 0.75rem;
+              padding: 0.7rem 0.85rem;
               cursor: pointer;
               border-bottom: 1px solid ${colors.cream};
             }
             .search-item:hover { background: ${colors.cream}; }
             .search-item:last-child { border-bottom: none; }
-            .search-title { font-size: 0.8rem; font-weight: 600; color: ${colors.navy}; }
-            .search-meta { font-size: 0.7rem; color: ${colors.navy}80; }
+            .search-title { font-size: 0.85rem; font-weight: 600; color: ${colors.navy}; }
+            .search-meta { font-size: 0.75rem; color: ${colors.navy}80; margin-top: 0.15rem; }
             
             .filter-select {
               font-family: inherit;
@@ -639,6 +650,8 @@
               color: ${colors.navy};
               cursor: pointer;
               appearance: none;
+              flex: 1;
+              min-width: 0;
             }
             .filter-select:focus { outline: none; border-color: ${colors.terracotta}; }
             .filter-select.active { border-color: ${colors.terracotta}; background-color: ${colors.terracotta}10; }
@@ -802,17 +815,18 @@
             }
             .clash { background: ${colors.sand}40; border: 2px solid ${colors.sand}; border-radius: 6px; padding: 0.5rem 0.6rem; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.6rem; }
             
-            /* FOOTER IN DETAIL PANEL (when no selection) */
-            .inline-footer {
-              padding: 1rem;
+            /* MAIN FOOTER (desktop) */
+            .kofi-bar {
+              background: linear-gradient(135deg, ${colors.sage}20, ${colors.sand}30);
               border-top: 2px solid ${colors.cream};
-              background: linear-gradient(135deg, ${colors.sage}15, ${colors.sand}20);
+              padding: 0.5rem 1rem;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 0.6rem;
+              flex-shrink: 0;
             }
-            .inline-kofi {
-              text-align: center;
-              margin-bottom: 0.75rem;
-            }
-            .inline-kofi-text { font-size: 0.75rem; font-weight: 600; color: ${colors.navy}; margin-bottom: 0.4rem; }
+            .kofi-text { font-size: 0.75rem; font-weight: 600; color: ${colors.navy}; }
             .kofi-btn {
               display: inline-flex;
               align-items: center;
@@ -826,25 +840,6 @@
               text-decoration: none;
             }
             .kofi-btn:hover { transform: scale(1.05); }
-            .inline-links {
-              text-align: center;
-              font-size: 0.65rem;
-            }
-            .inline-links a { color: ${colors.terracotta}; font-weight: 700; text-decoration: none; }
-            .inline-updated { color: ${colors.navy}60; display: block; margin-top: 0.3rem; }
-            
-            /* MAIN FOOTER (desktop) */
-            .kofi-bar {
-              background: linear-gradient(135deg, ${colors.sage}20, ${colors.sand}30);
-              border-top: 2px solid ${colors.cream};
-              padding: 0.5rem 1rem;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              gap: 0.6rem;
-              flex-shrink: 0;
-            }
-            .kofi-text { font-size: 0.75rem; font-weight: 600; color: ${colors.navy}; }
             .footer {
               background: white;
               border-top: 2px solid ${colors.cream};
@@ -930,8 +925,8 @@
               /* Fixed height calendar */
               .calendar {
                 flex: none;
-                height: 52vh;
-                min-height: 320px;
+                height: 48vh;
+                min-height: 280px;
               }
               
               /* Scrollable detail panel */
@@ -966,15 +961,15 @@
               /* Controls - all on one line */
               .controls {
                 padding: 0.4rem 0.5rem;
+              }
+              .controls-inner {
                 gap: 0.35rem;
                 flex-wrap: nowrap;
-                justify-content: space-between;
               }
               .search-box { 
                 width: auto;
                 flex: 1;
-                min-width: 80px;
-                max-width: 140px;
+                min-width: 70px;
               }
               .search-input {
                 padding: 0.3rem 0.4rem 0.3rem 1.5rem;
@@ -984,6 +979,7 @@
               .filter-select { 
                 font-size: 0.65rem; 
                 padding: 0.3rem 1.3rem 0.3rem 0.4rem;
+                flex: 1;
               }
               
               /* Calendar grid */
@@ -998,13 +994,19 @@
               .chip-icon { font-size: 0.55rem; }
               .chip-count { font-size: 0.5rem; }
               
-              /* Hide main footer on mobile (shown in detail panel) */
-              .kofi-bar, .footer { display: none; }
+              /* Mobile footer - always visible */
+              .kofi-bar {
+                padding: 0.4rem 0.5rem;
+                gap: 0.4rem;
+                flex-wrap: wrap;
+              }
+              .kofi-text { font-size: 0.65rem; }
+              .kofi-btn { font-size: 0.6rem; padding: 0.3rem 0.5rem; }
+              .footer { font-size: 0.55rem; padding: 0.35rem; }
             }
             
             @media (max-width: 380px) {
               .header h1 { font-size: 0.8rem; }
-              .search-box { max-width: 100px; }
               .filter-select { font-size: 0.6rem; padding: 0.25rem 1.2rem 0.25rem 0.35rem; }
             }
           `}</style>
@@ -1037,17 +1039,41 @@
             </div>
           ) : (
             <>
-              <div className="controls">
-                <div className="search-box" ref={searchRef}>
-                  <span className="search-icon">🔍</span>
-                  <input
-                    type="text"
-                    className="search-input"
-                    placeholder="Search..."
-                    value={searchQuery}
-                    onChange={e => { setSearchQuery(e.target.value); setShowSearchResults(true); }}
-                    onFocus={() => setShowSearchResults(true)}
-                  />
+              <div className="controls" ref={controlsRef}>
+                <div className="controls-inner">
+                  <div className="search-box">
+                    <span className="search-icon">🔍</span>
+                    <input
+                      type="text"
+                      className="search-input"
+                      placeholder="Search..."
+                      value={searchQuery}
+                      onChange={e => { setSearchQuery(e.target.value); setShowSearchResults(true); }}
+                      onFocus={() => setShowSearchResults(true)}
+                    />
+                  </div>
+                  <select 
+                    className={`filter-select ${typeFilter !== 'all' ? 'active' : ''}`}
+                    value={typeFilter}
+                    onChange={e => setTypeFilter(e.target.value)}
+                  >
+                    <option value="all">All Events</option>
+                    {Object.entries(eventTypes).map(([k, v]) => (
+                      <option key={k} value={k} disabled={!activeTypes.has(k)}>{v.icon} {v.label}</option>
+                    ))}
+                  </select>
+                  <select 
+                    className={`filter-select ${venueFilter !== 'all' ? 'active' : ''}`}
+                    value={venueFilter}
+                    onChange={e => setVenueFilter(e.target.value)}
+                  >
+                    <option value="all">All Venues</option>
+                    {Object.entries(venueStyles)
+                      .filter(([k, v]) => v.group === k)
+                      .map(([k, v]) => (
+                        <option key={k} value={k} disabled={!activeVenueGroups.has(k)}>{v.icon} {k}</option>
+                      ))}
+                  </select>
                   {showSearchResults && searchResults.length > 0 && (
                     <div className="search-results">
                       {searchResults.map((e, i) => (
@@ -1059,28 +1085,6 @@
                     </div>
                   )}
                 </div>
-                <select 
-                  className={`filter-select ${typeFilter !== 'all' ? 'active' : ''}`}
-                  value={typeFilter}
-                  onChange={e => setTypeFilter(e.target.value)}
-                >
-                  <option value="all">All Events</option>
-                  {Object.entries(eventTypes).map(([k, v]) => (
-                    <option key={k} value={k} disabled={!activeTypes.has(k)}>{v.icon} {v.label}</option>
-                  ))}
-                </select>
-                <select 
-                  className={`filter-select ${venueFilter !== 'all' ? 'active' : ''}`}
-                  value={venueFilter}
-                  onChange={e => setVenueFilter(e.target.value)}
-                >
-                  <option value="all">All Venues</option>
-                  {Object.entries(venueStyles)
-                    .filter(([k, v]) => v.group === k)
-                    .map(([k, v]) => (
-                      <option key={k} value={k} disabled={!activeVenueGroups.has(k)}>{v.icon} {k}</option>
-                    ))}
-                </select>
               </div>
               
               <div className="main">
@@ -1118,28 +1122,16 @@
                       })}
                     </div>
                   ) : (
-                    <>
-                      <div className="no-select">
-                        <p>👈 Click a date to see event details</p>
-                      </div>
-                      <div className="inline-footer">
-                        <div className="inline-kofi">
-                          <div className="inline-kofi-text">☕ Find this useful? Buy Ste a tea/pint!</div>
-                          <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
-                        </div>
-                        <div className="inline-links">
-                          <span style={{ color: colors.navy }}>Missing a show? Got corrections?</span> <a href="mailto:ste@youremail.com">Let us know</a>
-                          {lastUpdated && <span className="inline-updated">Updated {formatLastUpdated(lastUpdated)}</span>}
-                        </div>
-                      </div>
-                    </>
+                    <div className="no-select">
+                      <p>👈 Click a date to see event details</p>
+                    </div>
                   )}
                 </div>
               </div>
             </>
           )}
           
-          {/* Desktop footer */}
+          {/* Footer - always visible */}
           <div className="kofi-bar">
             <span className="kofi-text">☕ Find this useful? Buy Ste a tea/pint!</span>
             <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
