@@ -32,7 +32,7 @@
   <div id="root"></div>
   
   <script type="text/babel">
-    const { useState, useEffect } = React;
+    const { useState, useEffect, useMemo } = React;
 
     // ============================================
     // CONFIGURATION
@@ -44,25 +44,27 @@
     // Set to false to fetch from the JSON file
     const USE_SAMPLE_DATA = false;
     
+    // Minimum date boundary (can't go before this)
+    const MIN_YEAR = 2026;
+    const MIN_MONTH = 0; // January (0-indexed)
+    
     // Your links
     const KOFI_URL = 'https://ko-fi.com/kaluuja';
     const FEATURE_REQUEST_URL = 'https://forms.gle/J8AJqsfRbz6m1Gbf7';
     
     // Fallback sample data (used if USE_SAMPLE_DATA is true or if fetch fails)
     const SAMPLE_EVENTS = [
-      { date: '2026-02-05', title: 'Live in da Hive: The Improv Gauntlet', venue: 'PRSC', time: '19:00–22:30', type: 'show', url: 'https://prsc.org.uk/event/live-in-da-hive-the-improv-gauntlet/', description: 'Competitive improv tournament' },
-      { date: '2026-02-06', title: 'The Bish Bosh Bash: The Improvised Game Show', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: 'https://improvtheatre.co.uk/series/the-bish-bosh-bash-the-improvised-game-show/' },
-      { date: '2026-02-07', title: 'Instant Wit Improvised Comedy Show', venue: 'Alma Tavern & Theatre', time: '20:00–22:00', type: 'show', url: 'https://www.instantwit.co.uk/upcoming-shows/alma-tavern-theatre' },
-      { date: '2026-02-09', title: 'Closer Each Day: The Improvised Soap Opera', venue: 'Wardrobe Theatre', time: '19:30', type: 'show', url: 'https://thewardrobetheatre.com/shows/closer-each-day/' },
-      { date: '2026-02-11', title: 'Wednesday Night Improv: February Triple Bill', venue: 'Hen & Chicken', time: '19:30–21:30', type: 'show', url: 'https://www.henandchicken.com/event/wednesday-night-improv-triple-bill-3/' },
-      { date: '2026-02-12', title: 'The Drag Dungeoneers', venue: 'Bristol Improv Theatre', time: '19:30–22:00', type: 'show', url: 'https://improvtheatre.co.uk/' },
-      { date: '2026-02-14', title: 'From HELL YEAH! with love', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: 'https://improvtheatre.co.uk/upcoming-show/hell-yeah-valentines-day/', description: 'Queer improv night / visiting act' },
-      { date: '2026-02-23', title: 'Closer Each Day: The Improvised Soap Opera', venue: 'Wardrobe Theatre', time: '19:30', type: 'show', url: 'https://thewardrobetheatre.com/shows/closer-each-day/' },
-      { date: '2026-02-25', title: 'Tales From The Wasteland', venue: 'Hen & Chicken', time: '19:30–22:00', type: 'show', url: 'https://www.henandchicken.com/event/theatre-tales-from-the-wasteland-post-apocalyptic-improv/', description: 'Post-apocalyptic improv adventure comedy' },
-      { date: '2026-02-26', title: 'Bristol Longform Takeover', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: 'https://improvtheatre.co.uk/upcoming-show/bristol-longform-takeover-feb-2026/' },
-      { date: '2026-02-27', title: 'This Is Your Musical', venue: 'Bristol Improv Theatre', time: '20:00', type: 'show', url: 'https://improvtheatre.co.uk/upcoming-show/this-is-your-musical-2/' },
-      { date: '2026-02-28', title: 'The Antics Joke Show #100', venue: 'Bristol Improv Theatre', time: '19:30', type: 'show', url: 'https://improvtheatre.co.uk/upcoming-show/the-antics-joke-show-100-ft-mayor-and-daughter/', description: 'Feat. Up The Antics improv + sketch/stand-up guests' },
-      { date: '2026-02-28', title: 'The Improv Spotlight', venue: 'PRSC', time: '19:00–21:30', type: 'show', url: 'https://www.headfirstbristol.co.uk/whats-on/prsc/fri-28-feb-the-improv-spotlight-118188' },
+      { date: '2026-01-25', title: 'The BLANK who BLANKED me', venue: 'Bristol Improv Theatre', time: '19:00–20:00', type: 'show', url: '#' },
+      { date: '2026-01-28', title: 'Lily Maryon', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
+      { date: '2026-01-28', title: 'Biscuit Barrel', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
+      { date: '2026-01-28', title: 'Luke McQueen', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
+      { date: '2026-01-30', title: 'Belltower', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
+      { date: '2026-01-31', title: 'Antics Joke Show', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
+      { date: '2026-02-05', title: 'Live in da Hive: The Improv Gauntlet', venue: 'PRSC', time: '19:00–22:30', type: 'show', url: '#', description: 'Competitive improv tournament' },
+      { date: '2026-02-06', title: 'The Bish Bosh Bash', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
+      { date: '2026-02-11', title: 'Wednesday Night Improv', venue: 'Hen & Chicken', time: '19:30–21:30', type: 'show', url: '#' },
+      { date: '2026-02-14', title: 'From HELL YEAH! with love', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
+      { date: '2026-02-25', title: 'Tales From The Wasteland', venue: 'Hen & Chicken', time: '19:30–22:00', type: 'show', url: '#' },
     ];
     // ============================================
 
@@ -119,8 +121,8 @@
                 <h3>⚡ Functionality</h3>
                 <ul>
                   <RoadmapItem done={true}>Current month view</RoadmapItem>
+                  <RoadmapItem done={true}>Navigate between months</RoadmapItem>
                   <RoadmapItem done={false}>Add workshops, drop-ins, jams</RoadmapItem>
-                  <RoadmapItem done={false}>Add future months</RoadmapItem>
                   <RoadmapItem done={false}>Store past months</RoadmapItem>
                   <RoadmapItem done={false}>Search and filter (by show, venue, improv type — shortform, longform, narrative, musical...)</RoadmapItem>
                   <RoadmapItem done={false}>Downloadable calendar feed (ICS/iCal)</RoadmapItem>
@@ -141,9 +143,9 @@
                   <RoadmapItem done={true}>Bristol Improv Theatre</RoadmapItem>
                   <RoadmapItem done={true}>Hen & Chicken</RoadmapItem>
                   <RoadmapItem done={true}>PRSC</RoadmapItem>
-                  <RoadmapItem done={true}>Wardrobe Theatre</RoadmapItem>
-                  <RoadmapItem done={true}>Tobacco Factory</RoadmapItem>
-                  <RoadmapItem done={true}>Bristol Beacon</RoadmapItem>
+                  <RoadmapItem done={false}>Wardrobe Theatre</RoadmapItem>
+                  <RoadmapItem done={false}>Tobacco Factory</RoadmapItem>
+                  <RoadmapItem done={false}>Bristol Beacon</RoadmapItem>
                   <RoadmapItem done={false}>Alma Tavern & Theatre</RoadmapItem>
                   <RoadmapItem done={false}>Bristol Old Vic</RoadmapItem>
                   <RoadmapItem done={false}>Redgrave Theatre</RoadmapItem>
@@ -172,6 +174,10 @@
       const [showRoadmap, setShowRoadmap] = useState(false);
       const [lastUpdated, setLastUpdated] = useState(null);
       
+      // Current viewing month/year (separate from events)
+      const [viewYear, setViewYear] = useState(new Date().getFullYear());
+      const [viewMonth, setViewMonth] = useState(new Date().getMonth());
+      
       // Colour palette
       const colors = {
         cream: '#F4F1DE',
@@ -181,18 +187,29 @@
         sand: '#F2CC8F',
       };
       
-      // Venue colour mapping
-      const venues = {
-        'Bristol Improv Theatre': { color: colors.terracotta, bg: `${colors.terracotta}18`, icon: '🎪' },
-        'Hen & Chicken': { color: colors.sand, bg: `${colors.sand}25`, icon: '🐔' },
-        'Hen & Chicken (Chicken Shed)': { color: colors.sand, bg: `${colors.sand}25`, icon: '🐔' },
-        'Hen & Chicken (Studio)': { color: colors.sand, bg: `${colors.sand}25`, icon: '🐔' },
-        'PRSC': { color: colors.sage, bg: `${colors.sage}20`, icon: '✊' },
-        'SPACE at PRSC': { color: colors.sage, bg: `${colors.sage}20`, icon: '✊' },
-        'Wardrobe Theatre': { color: '#7B68A6', bg: '#7B68A618', icon: '🚪' },
-        'Alma Tavern & Theatre': { color: '#5B8FA8', bg: '#5B8FA818', icon: '🍺' },
-        'Tobacco Factory': { color: '#8B6F47', bg: '#8B6F4715', icon: '🏭' },
-        'Bristol Beacon': { color: '#C4A35A', bg: '#C4A35A15', icon: '🎵' },
+      // Venue colour mapping (internal - includes all variations)
+      const venueStyles = {
+        'Bristol Improv Theatre': { color: colors.terracotta, bg: `${colors.terracotta}18`, icon: '🎪', group: 'Bristol Improv Theatre' },
+        'Hen & Chicken': { color: colors.sand, bg: `${colors.sand}25`, icon: '🐔', group: 'Hen & Chicken' },
+        'Hen & Chicken (Chicken Shed)': { color: colors.sand, bg: `${colors.sand}25`, icon: '🐔', group: 'Hen & Chicken' },
+        'Hen & Chicken (Studio)': { color: colors.sand, bg: `${colors.sand}25`, icon: '🐔', group: 'Hen & Chicken' },
+        'PRSC': { color: colors.sage, bg: `${colors.sage}20`, icon: '✊', group: 'PRSC' },
+        'SPACE at PRSC': { color: colors.sage, bg: `${colors.sage}20`, icon: '✊', group: 'PRSC' },
+        'Wardrobe Theatre': { color: '#7B68A6', bg: '#7B68A618', icon: '🚪', group: 'Wardrobe Theatre' },
+        'Alma Tavern & Theatre': { color: '#5B8FA8', bg: '#5B8FA818', icon: '🍺', group: 'Alma Tavern & Theatre' },
+        'Tobacco Factory': { color: '#8B6F47', bg: '#8B6F4715', icon: '🏭', group: 'Tobacco Factory' },
+        'Bristol Beacon': { color: '#C4A35A', bg: '#C4A35A15', icon: '🎵', group: 'Bristol Beacon' },
+      };
+      
+      // Consolidated venue filters (for display)
+      const venueFilters = {
+        'Bristol Improv Theatre': { color: colors.terracotta, icon: '🎪' },
+        'Hen & Chicken': { color: colors.sand, icon: '🐔' },
+        'PRSC': { color: colors.sage, icon: '✊' },
+        'Wardrobe Theatre': { color: '#7B68A6', icon: '🚪' },
+        'Alma Tavern & Theatre': { color: '#5B8FA8', icon: '🍺' },
+        'Tobacco Factory': { color: '#8B6F47', icon: '🏭' },
+        'Bristol Beacon': { color: '#C4A35A', icon: '🎵' },
       };
       
       // Fetch events from static JSON
@@ -220,18 +237,13 @@
             const data = await response.json();
             
             // Handle different JSON structures
-            // JSONBin wraps data in { record: [...] }
-            // GitHub/direct serves [...] directly
-            // Our format may include metadata: { events: [...], lastUpdated: "..." }
             let eventsData = data;
             let updatedAt = null;
             
             if (data.record) {
-              // JSONBin format
               eventsData = data.record.events || data.record;
               updatedAt = data.record.lastUpdated;
             } else if (data.events) {
-              // Our metadata format
               eventsData = data.events;
               updatedAt = data.lastUpdated;
             }
@@ -241,7 +253,6 @@
             setError(null);
           } catch (err) {
             console.error('Error fetching events:', err);
-            // Fall back to sample data if fetch fails
             setEvents(SAMPLE_EVENTS);
             setError(`Using cached data (${err.message})`);
           } finally {
@@ -252,17 +263,45 @@
         fetchEvents();
       }, []);
       
-      // Get current month info dynamically from events
-      const getMonthInfo = () => {
-        if (events.length === 0) {
-          const now = new Date();
-          return { year: now.getFullYear(), month: now.getMonth() };
-        }
-        const firstEventDate = new Date(events[0].date);
-        return { year: firstEventDate.getFullYear(), month: firstEventDate.getMonth() };
-      };
+      // Get today's date info
+      const today = new Date();
+      const todayYear = today.getFullYear();
+      const todayMonth = today.getMonth();
+      const todayDate = today.getDate();
       
-      const { year, month } = getMonthInfo();
+      // Calculate the latest month that has events
+      const maxEventDate = useMemo(() => {
+        if (events.length === 0) return { year: todayYear, month: todayMonth };
+        
+        let maxYear = MIN_YEAR;
+        let maxMonth = MIN_MONTH;
+        
+        events.forEach(event => {
+          const eventDate = new Date(event.date);
+          const eventYear = eventDate.getFullYear();
+          const eventMonth = eventDate.getMonth();
+          
+          if (eventYear > maxYear || (eventYear === maxYear && eventMonth > maxMonth)) {
+            maxYear = eventYear;
+            maxMonth = eventMonth;
+          }
+        });
+        
+        return { year: maxYear, month: maxMonth };
+      }, [events]);
+      
+      // Check if we can navigate backwards (can't go before Jan 2026)
+      const canGoBack = viewYear > MIN_YEAR || (viewYear === MIN_YEAR && viewMonth > MIN_MONTH);
+      
+      // Check if we can navigate forwards (can't go past the last month with events)
+      const canGoForward = viewYear < maxEventDate.year || 
+                          (viewYear === maxEventDate.year && viewMonth < maxEventDate.month);
+      
+      // Check if we're viewing the current month
+      const isCurrentMonth = viewYear === todayYear && viewMonth === todayMonth;
+      
+      const year = viewYear;
+      const month = viewMonth;
       const daysInMonth = new Date(year, month + 1, 0).getDate();
       const firstDayOfMonth = new Date(year, month, 1).getDay();
       const startDay = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
@@ -270,6 +309,35 @@
       const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
                           'July', 'August', 'September', 'October', 'November', 'December'];
       const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      
+      // Navigate months
+      const goToPrevMonth = () => {
+        if (!canGoBack) return;
+        setSelectedDate(null);
+        if (viewMonth === 0) {
+          setViewMonth(11);
+          setViewYear(viewYear - 1);
+        } else {
+          setViewMonth(viewMonth - 1);
+        }
+      };
+      
+      const goToNextMonth = () => {
+        if (!canGoForward) return;
+        setSelectedDate(null);
+        if (viewMonth === 11) {
+          setViewMonth(0);
+          setViewYear(viewYear + 1);
+        } else {
+          setViewMonth(viewMonth + 1);
+        }
+      };
+      
+      const goToToday = () => {
+        setSelectedDate(null);
+        setViewYear(todayYear);
+        setViewMonth(todayMonth);
+      };
       
       const getShortTitle = (title) => {
         const shortened = title
@@ -298,25 +366,42 @@
         return null;
       };
       
+      // Get venue group for filtering
+      const getVenueGroup = (venueName) => {
+        if (venueStyles[venueName]) {
+          return venueStyles[venueName].group;
+        }
+        // Fallback: try to match by prefix
+        if (venueName.startsWith('Hen & Chicken')) return 'Hen & Chicken';
+        if (venueName.includes('PRSC')) return 'PRSC';
+        return venueName;
+      };
+      
       const getEventsForDate = (date) => {
         return events.filter(e => {
           const eventDay = getEventDay(e);
           const matchesDate = eventDay === date;
-          const matchesFilter = activeFilter === 'all' || 
-                               e.type === activeFilter || 
-                               e.venue === activeFilter;
+          
+          // Filter logic - use venue group for matching
+          let matchesFilter = activeFilter === 'all' || e.type === activeFilter;
+          if (!matchesFilter && activeFilter !== 'all') {
+            const eventGroup = getVenueGroup(e.venue);
+            matchesFilter = eventGroup === activeFilter;
+          }
+          
           return matchesDate && matchesFilter;
         });
       };
       
       const getVenueInfo = (venueName) => {
-        if (venues[venueName]) return venues[venueName];
-        for (const [key, value] of Object.entries(venues)) {
+        if (venueStyles[venueName]) return venueStyles[venueName];
+        // Try to find by group
+        for (const [key, value] of Object.entries(venueStyles)) {
           if (venueName.includes(key.split(' ')[0]) || key.includes(venueName.split(' ')[0])) {
             return value;
           }
         }
-        return { color: colors.navy, bg: `${colors.navy}15`, icon: '📍' };
+        return { color: colors.navy, bg: `${colors.navy}15`, icon: '📍', group: venueName };
       };
       
       const totalDays = startDay + daysInMonth;
@@ -335,14 +420,15 @@
           const isSelected = selectedDate === date;
           const dayOfWeek = getDayOfWeek(date);
           const isWeekend = dayOfWeek >= 5;
+          const isToday = year === todayYear && month === todayMonth && date === todayDate;
           
           days.push(
             <div
               key={date}
-              className={`calendar-day ${hasEvents ? 'has-events' : ''} ${isSelected ? 'selected' : ''} ${isWeekend ? 'weekend' : ''}`}
+              className={`calendar-day ${hasEvents ? 'has-events' : ''} ${isSelected ? 'selected' : ''} ${isWeekend ? 'weekend' : ''} ${isToday ? 'today' : ''}`}
               onClick={() => hasEvents && setSelectedDate(isSelected ? null : date)}
             >
-              <span className="date-number">{date}</span>
+              <span className={`date-number ${isToday ? 'today-number' : ''}`}>{date}</span>
               
               {hasEvents && (
                 <div className="event-previews">
@@ -376,9 +462,19 @@
       
       const selectedEvents = selectedDate ? getEventsForDate(selectedDate) : [];
       
-      const activeVenues = [...new Set(events.map(e => e.venue))];
-      const legendVenues = Object.entries(venues).filter(([name]) => 
-        activeVenues.some(v => v === name || v.includes(name.split(' ')[0]))
+      // Get active venue groups from events
+      const activeVenueGroups = useMemo(() => {
+        const groups = new Set();
+        events.forEach(e => {
+          const group = getVenueGroup(e.venue);
+          groups.add(group);
+        });
+        return groups;
+      }, [events]);
+      
+      // Filter venue filters to only show active ones
+      const activeLegendVenues = Object.entries(venueFilters).filter(([name]) => 
+        activeVenueGroups.has(name)
       );
       
       // Format last updated time
@@ -445,7 +541,45 @@
             }
             
             .header-center {
+              display: flex;
+              align-items: center;
+              gap: 1rem;
+            }
+            
+            .month-nav {
+              display: flex;
+              align-items: center;
+              gap: 0.75rem;
+            }
+            
+            .month-nav-btn {
+              background: transparent;
+              border: 2px solid ${colors.cream}40;
+              color: ${colors.cream};
+              width: 32px;
+              height: 32px;
+              border-radius: 6px;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 1rem;
+              transition: all 0.2s ease;
+            }
+            
+            .month-nav-btn:hover:not(:disabled) {
+              background: ${colors.cream}15;
+              border-color: ${colors.cream};
+            }
+            
+            .month-nav-btn:disabled {
+              opacity: 0.3;
+              cursor: not-allowed;
+            }
+            
+            .month-display {
               text-align: center;
+              min-width: 140px;
             }
             
             .header .subtitle {
@@ -460,6 +594,32 @@
               font-size: 0.65rem;
               color: ${colors.cream}70;
               margin-top: 0.15rem;
+            }
+            
+            .today-btn {
+              font-family: 'Nunito', sans-serif;
+              font-size: 0.7rem;
+              font-weight: 700;
+              padding: 0.35rem 0.65rem;
+              border: 2px solid ${colors.sage};
+              background: ${colors.sage};
+              color: white;
+              border-radius: 6px;
+              cursor: pointer;
+              transition: all 0.2s ease;
+              text-transform: uppercase;
+              letter-spacing: 0.05em;
+            }
+            
+            .today-btn:hover {
+              background: ${colors.sage}dd;
+              transform: scale(1.05);
+            }
+            
+            .today-btn:disabled {
+              opacity: 0.4;
+              cursor: not-allowed;
+              transform: none;
             }
             
             .header-right {
@@ -633,10 +793,18 @@
               background: #fffdf8;
             }
             
+            .calendar-day.today {
+              border-color: ${colors.terracotta}60;
+              background: ${colors.terracotta}08;
+            }
+            
             .calendar-day.has-events {
               cursor: pointer;
-              background: #fff;
               border-color: ${colors.cream};
+            }
+            
+            .calendar-day.has-events.today {
+              border-color: ${colors.terracotta}60;
             }
             
             .calendar-day.has-events:hover {
@@ -660,8 +828,26 @@
               flex-shrink: 0;
             }
             
+            .date-number.today-number {
+              color: ${colors.terracotta};
+              position: relative;
+            }
+            
+            .date-number.today-number::after {
+              content: '●';
+              font-size: 0.4rem;
+              position: absolute;
+              top: -2px;
+              right: -8px;
+              color: ${colors.terracotta};
+            }
+            
             .has-events .date-number {
               color: ${colors.navy};
+            }
+            
+            .has-events .date-number.today-number {
+              color: ${colors.terracotta};
             }
             
             .event-previews {
@@ -883,8 +1069,11 @@
               border-top: 2px solid ${colors.cream};
               font-size: 0.7rem;
               font-weight: 500;
-              color: ${colors.navy}70;
               flex-shrink: 0;
+            }
+            
+            .footer-text {
+              color: ${colors.navy};
             }
             
             .footer a {
@@ -1109,6 +1298,21 @@
                 font-size: 0.65rem;
               }
               
+              .month-display {
+                min-width: 100px;
+              }
+              
+              .month-nav-btn {
+                width: 28px;
+                height: 28px;
+                font-size: 0.9rem;
+              }
+              
+              .today-btn {
+                font-size: 0.6rem;
+                padding: 0.25rem 0.5rem;
+              }
+              
               .header-button span:not(:first-child) {
                 display: none;
               }
@@ -1183,10 +1387,38 @@
               <span className="beta-badge">Beta</span>
             </div>
             <div className="header-center">
-              <div className="subtitle">{monthNames[month]} {year}</div>
-              {lastUpdated && (
-                <div className="last-updated">{formatLastUpdated(lastUpdated)}</div>
-              )}
+              <div className="month-nav">
+                <button 
+                  className="month-nav-btn" 
+                  onClick={goToPrevMonth} 
+                  disabled={!canGoBack}
+                  title={canGoBack ? "Previous month" : "No earlier events"}
+                >
+                  ←
+                </button>
+                <div className="month-display">
+                  <div className="subtitle">{monthNames[month]} {year}</div>
+                  {lastUpdated && (
+                    <div className="last-updated">{formatLastUpdated(lastUpdated)}</div>
+                  )}
+                </div>
+                <button 
+                  className="month-nav-btn" 
+                  onClick={goToNextMonth} 
+                  disabled={!canGoForward}
+                  title={canGoForward ? "Next month" : "No later events"}
+                >
+                  →
+                </button>
+              </div>
+              <button 
+                className="today-btn" 
+                onClick={goToToday}
+                disabled={isCurrentMonth}
+                title="Jump to current month"
+              >
+                Today
+              </button>
             </div>
             <div className="header-right">
               <button className="header-button" onClick={() => setShowRoadmap(true)}>
@@ -1205,12 +1437,6 @@
             <div className="loading-container">
               <div className="loading-spinner"></div>
               <div>Loading events...</div>
-            </div>
-          ) : events.length === 0 ? (
-            <div className="error-container">
-              <div className="error-icon">🎭</div>
-              <div className="error-message">No events found</div>
-              <div className="error-details">Check back soon for upcoming shows!</div>
             </div>
           ) : (
             <>
@@ -1237,7 +1463,7 @@
                 </div>
                 
                 <div className="legend">
-                  {legendVenues.map(([name, { color, icon }]) => (
+                  {activeLegendVenues.map(([name, { color, icon }]) => (
                     <div
                       key={name}
                       className={`legend-item ${activeFilter === name ? 'active' : ''}`}
@@ -1317,14 +1543,14 @@
           )}
           
           <div className="kofi-banner">
-            <span className="kofi-text">☕ Find this useful? Help keep it running!</span>
+            <span className="kofi-text">☕ If you find this useful, why not buy Ste a tea/pint?</span>
             <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-button">
               ❤️ Support on Ko-fi
             </a>
           </div>
           
           <footer className="footer">
-            Missing a show? Got corrections? <a href="https://forms.gle/bkk5pHUHbEWMaeZR7">Let us know</a>
+            <span className="footer-text">Missing a show? Got corrections?</span> <a href="mailto:ste@youremail.com">Let us know</a>
           </footer>
           
           <RoadmapModal 
