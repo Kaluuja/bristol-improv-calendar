@@ -6,69 +6,59 @@
   <title>Bristol Improv Calendar — Beta</title>
   <meta name="description" content="What's on in Bristol improv. Shows, workshops, and jams across the city.">
   
-  <!-- Open Graph for social sharing -->
   <meta property="og:title" content="Bristol Improv Calendar — Beta">
   <meta property="og:description" content="What's on in Bristol improv. Shows, workshops, and jams across the city.">
   <meta property="og:type" content="website">
   
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- React -->
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body, #root { 
-      height: 100%;
-    }
+    html, body, #root { height: 100%; }
   </style>
 </head>
 <body>
   <div id="root"></div>
   
   <script type="text/babel">
-    const { useState, useEffect, useMemo } = React;
+    const { useState, useEffect, useMemo, useRef } = React;
 
     // ============================================
     // CONFIGURATION
     // ============================================
     
-    // Using relative path since events.json is in the same repo
     const EVENTS_JSON_URL = './events.json';
-    
-    // Set to false to fetch from the JSON file
     const USE_SAMPLE_DATA = false;
-    
-    // Minimum date boundary (can't go before this)
     const MIN_YEAR = 2026;
-    const MIN_MONTH = 0; // January (0-indexed)
-    
-    // Your links
+    const MIN_MONTH = 0;
     const KOFI_URL = 'https://ko-fi.com/kaluuja';
     const FEATURE_REQUEST_URL = 'https://forms.gle/J8AJqsfRbz6m1Gbf7';
     
-    // Fallback sample data (used if USE_SAMPLE_DATA is true or if fetch fails)
     const SAMPLE_EVENTS = [
       { date: '2026-01-25', title: 'The BLANK who BLANKED me', venue: 'Bristol Improv Theatre', time: '19:00–20:00', type: 'show', url: '#' },
       { date: '2026-01-28', title: 'Lily Maryon', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
-      { date: '2026-01-28', title: 'Biscuit Barrel', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
-      { date: '2026-01-28', title: 'Luke McQueen', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
+      { date: '2026-01-28', title: 'Biscuit Barrel', venue: 'Bristol Improv Theatre', time: '20:00–21:00', type: 'show', url: '#' },
+      { date: '2026-01-28', title: 'Luke McQueen', venue: 'Bristol Improv Theatre', time: '21:00–22:00', type: 'show', url: '#' },
+      { date: '2026-01-28', title: 'Open Jam Night', venue: 'Hen & Chicken', time: '19:30–21:30', type: 'jam', url: '#' },
       { date: '2026-01-30', title: 'Belltower', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
       { date: '2026-01-31', title: 'Antics Joke Show', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
-      { date: '2026-02-05', title: 'Live in da Hive: The Improv Gauntlet', venue: 'PRSC', time: '19:00–22:30', type: 'show', url: '#', description: 'Competitive improv tournament' },
+      { date: '2026-02-05', title: 'Live in da Hive', venue: 'PRSC', time: '19:00–22:30', type: 'show', url: '#' },
       { date: '2026-02-06', title: 'The Bish Bosh Bash', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
       { date: '2026-02-11', title: 'Wednesday Night Improv', venue: 'Hen & Chicken', time: '19:30–21:30', type: 'show', url: '#' },
       { date: '2026-02-14', title: 'From HELL YEAH! with love', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
       { date: '2026-02-25', title: 'Tales From The Wasteland', venue: 'Hen & Chicken', time: '19:30–22:00', type: 'show', url: '#' },
     ];
+    
     // ============================================
-
-    // Roadmap Modal Component
+    // ROADMAP MODAL
+    // ============================================
+    
     const RoadmapModal = ({ isOpen, onClose, colors }) => {
       if (!isOpen) return null;
       
@@ -81,15 +71,15 @@
         }}>
           <span style={{ 
             flexShrink: 0,
-            width: '20px',
-            height: '20px',
+            width: '18px',
+            height: '18px',
             borderRadius: '4px',
             background: done ? colors.sage : 'transparent',
             border: done ? 'none' : `2px solid ${colors.navy}30`,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '0.75rem',
+            fontSize: '0.7rem',
             color: 'white',
             marginTop: '2px'
           }}>
@@ -97,7 +87,8 @@
           </span>
           <span style={{ 
             textDecoration: done ? 'line-through' : 'none',
-            color: done ? `${colors.navy}60` : colors.navy
+            color: done ? `${colors.navy}60` : colors.navy,
+            fontSize: '0.85rem'
           }}>
             {children}
           </span>
@@ -111,50 +102,31 @@
               <h2>🗺️ Roadmap</h2>
               <button className="modal-close" onClick={onClose}>✕</button>
             </div>
-            
             <div className="modal-body">
               <p className="roadmap-intro">
-                This calendar is a work in progress! Here's what's done and what's coming next.
+                This calendar is a work in progress! Here's what's done and what's coming.
               </p>
-              
               <div className="roadmap-section">
                 <h3>⚡ Functionality</h3>
                 <ul>
-                  <RoadmapItem done={true}>Current month view</RoadmapItem>
                   <RoadmapItem done={true}>Navigate between months</RoadmapItem>
+                  <RoadmapItem done={true}>Filter by venue & event type</RoadmapItem>
+                  <RoadmapItem done={true}>Search events</RoadmapItem>
                   <RoadmapItem done={false}>Add workshops, drop-ins, jams</RoadmapItem>
-                  <RoadmapItem done={false}>Store past months</RoadmapItem>
-                  <RoadmapItem done={false}>Search and filter (by show, venue, improv type — shortform, longform, narrative, musical...)</RoadmapItem>
                   <RoadmapItem done={false}>Downloadable calendar feed (ICS/iCal)</RoadmapItem>
                 </ul>
               </div>
-              
-              <div className="roadmap-section">
-                <h3>🎨 Design</h3>
-                <ul>
-                  <RoadmapItem done={false}>Light and dark mode</RoadmapItem>
-                  <RoadmapItem done={false}>Full mobile and desktop support</RoadmapItem>
-                </ul>
-              </div>
-              
               <div className="roadmap-section">
                 <h3>📍 Venues</h3>
                 <ul>
                   <RoadmapItem done={true}>Bristol Improv Theatre</RoadmapItem>
                   <RoadmapItem done={true}>Hen & Chicken</RoadmapItem>
                   <RoadmapItem done={true}>PRSC</RoadmapItem>
-                  <RoadmapItem done={false}>Wardrobe Theatre</RoadmapItem>
-                  <RoadmapItem done={false}>Tobacco Factory</RoadmapItem>
-                  <RoadmapItem done={false}>Bristol Beacon</RoadmapItem>
-                  <RoadmapItem done={false}>Alma Tavern & Theatre</RoadmapItem>
-                  <RoadmapItem done={false}>Bristol Old Vic</RoadmapItem>
-                  <RoadmapItem done={false}>Redgrave Theatre</RoadmapItem>
-                  <RoadmapItem done={false}>St George's Bristol</RoadmapItem>
+                  <RoadmapItem done={false}>More venues coming...</RoadmapItem>
                 </ul>
               </div>
-              
               <div className="roadmap-cta">
-                <p>Got an idea that would help make the calendar awesome?</p>
+                <p>Got an idea?</p>
                 <a href={FEATURE_REQUEST_URL} target="_blank" rel="noopener noreferrer" className="cta-button">
                   💡 Submit your idea
                 </a>
@@ -165,20 +137,26 @@
       );
     };
 
+    // ============================================
+    // MAIN COMPONENT
+    // ============================================
+
     const BristolImprovCalendar = () => {
       const [selectedDate, setSelectedDate] = useState(null);
-      const [activeFilter, setActiveFilter] = useState('all');
+      const [venueFilter, setVenueFilter] = useState('all');
+      const [typeFilter, setTypeFilter] = useState('all');
+      const [searchQuery, setSearchQuery] = useState('');
+      const [showSearchResults, setShowSearchResults] = useState(false);
       const [events, setEvents] = useState([]);
       const [loading, setLoading] = useState(true);
       const [error, setError] = useState(null);
       const [showRoadmap, setShowRoadmap] = useState(false);
       const [lastUpdated, setLastUpdated] = useState(null);
-      
-      // Current viewing month/year (separate from events)
       const [viewYear, setViewYear] = useState(new Date().getFullYear());
       const [viewMonth, setViewMonth] = useState(new Date().getMonth());
       
-      // Colour palette
+      const searchRef = useRef(null);
+      
       const colors = {
         cream: '#F4F1DE',
         terracotta: '#E07A5F',
@@ -187,7 +165,6 @@
         sand: '#F2CC8F',
       };
       
-      // Venue colour mapping (internal - includes all variations)
       const venueStyles = {
         'Bristol Improv Theatre': { color: colors.terracotta, bg: `${colors.terracotta}18`, icon: '🎪', group: 'Bristol Improv Theatre' },
         'Hen & Chicken': { color: colors.sand, bg: `${colors.sand}25`, icon: '🐔', group: 'Hen & Chicken' },
@@ -196,141 +173,95 @@
         'PRSC': { color: colors.sage, bg: `${colors.sage}20`, icon: '✊', group: 'PRSC' },
         'SPACE at PRSC': { color: colors.sage, bg: `${colors.sage}20`, icon: '✊', group: 'PRSC' },
         'Wardrobe Theatre': { color: '#7B68A6', bg: '#7B68A618', icon: '🚪', group: 'Wardrobe Theatre' },
-        'Alma Tavern & Theatre': { color: '#5B8FA8', bg: '#5B8FA818', icon: '🍺', group: 'Alma Tavern & Theatre' },
         'Tobacco Factory': { color: '#8B6F47', bg: '#8B6F4715', icon: '🏭', group: 'Tobacco Factory' },
         'Bristol Beacon': { color: '#C4A35A', bg: '#C4A35A15', icon: '🎵', group: 'Bristol Beacon' },
       };
       
-      // Consolidated venue filters (for display)
-      const venueFilters = {
-        'Bristol Improv Theatre': { color: colors.terracotta, icon: '🎪' },
-        'Hen & Chicken': { color: colors.sand, icon: '🐔' },
-        'PRSC': { color: colors.sage, icon: '✊' },
-        'Wardrobe Theatre': { color: '#7B68A6', icon: '🚪' },
-        'Alma Tavern & Theatre': { color: '#5B8FA8', icon: '🍺' },
-        'Tobacco Factory': { color: '#8B6F47', icon: '🏭' },
-        'Bristol Beacon': { color: '#C4A35A', icon: '🎵' },
+      const eventTypes = {
+        'show': { label: 'Shows', icon: '🎭' },
+        'workshop': { label: 'Workshops', icon: '📚' },
+        'jam': { label: 'Jams', icon: '🎲' },
       };
       
-      // Fetch events from static JSON
+      // Fetch events
       useEffect(() => {
         const fetchEvents = async () => {
           if (USE_SAMPLE_DATA) {
-            setTimeout(() => {
-              setEvents(SAMPLE_EVENTS);
-              setLoading(false);
-            }, 300);
+            setTimeout(() => { setEvents(SAMPLE_EVENTS); setLoading(false); }, 300);
             return;
           }
-          
           try {
             setLoading(true);
-            
-            // Add cache-busting query param to avoid stale data
-            const cacheBuster = `?t=${Date.now()}`;
-            const response = await fetch(EVENTS_JSON_URL + cacheBuster);
-            
-            if (!response.ok) {
-              throw new Error(`Failed to fetch events: ${response.status}`);
-            }
-            
+            const response = await fetch(EVENTS_JSON_URL + `?t=${Date.now()}`);
+            if (!response.ok) throw new Error(`Failed: ${response.status}`);
             const data = await response.json();
-            
-            // Handle different JSON structures
-            let eventsData = data;
-            let updatedAt = null;
-            
-            if (data.record) {
-              eventsData = data.record.events || data.record;
-              updatedAt = data.record.lastUpdated;
-            } else if (data.events) {
-              eventsData = data.events;
-              updatedAt = data.lastUpdated;
-            }
-            
+            let eventsData = data.events || data.record?.events || data;
             setEvents(Array.isArray(eventsData) ? eventsData : []);
-            setLastUpdated(updatedAt);
+            setLastUpdated(data.lastUpdated || data.record?.lastUpdated);
             setError(null);
           } catch (err) {
-            console.error('Error fetching events:', err);
             setEvents(SAMPLE_EVENTS);
-            setError(`Using cached data (${err.message})`);
+            setError(`Using sample data`);
           } finally {
             setLoading(false);
           }
         };
-        
         fetchEvents();
       }, []);
       
-      // Get today's date info
+      // Close search on outside click
+      useEffect(() => {
+        const handleClick = (e) => {
+          if (searchRef.current && !searchRef.current.contains(e.target)) {
+            setShowSearchResults(false);
+          }
+        };
+        document.addEventListener('mousedown', handleClick);
+        return () => document.removeEventListener('mousedown', handleClick);
+      }, []);
+      
       const today = new Date();
       const todayYear = today.getFullYear();
       const todayMonth = today.getMonth();
       const todayDate = today.getDate();
       
-      // Calculate the latest month that has events
       const maxEventDate = useMemo(() => {
         if (events.length === 0) return { year: todayYear, month: todayMonth };
-        
-        let maxYear = MIN_YEAR;
-        let maxMonth = MIN_MONTH;
-        
-        events.forEach(event => {
-          const eventDate = new Date(event.date);
-          const eventYear = eventDate.getFullYear();
-          const eventMonth = eventDate.getMonth();
-          
-          if (eventYear > maxYear || (eventYear === maxYear && eventMonth > maxMonth)) {
-            maxYear = eventYear;
-            maxMonth = eventMonth;
+        let maxY = MIN_YEAR, maxM = MIN_MONTH;
+        events.forEach(e => {
+          const d = new Date(e.date);
+          if (d.getFullYear() > maxY || (d.getFullYear() === maxY && d.getMonth() > maxM)) {
+            maxY = d.getFullYear();
+            maxM = d.getMonth();
           }
         });
-        
-        return { year: maxYear, month: maxMonth };
+        return { year: maxY, month: maxM };
       }, [events]);
       
-      // Check if we can navigate backwards (can't go before Jan 2026)
       const canGoBack = viewYear > MIN_YEAR || (viewYear === MIN_YEAR && viewMonth > MIN_MONTH);
-      
-      // Check if we can navigate forwards (can't go past the last month with events)
-      const canGoForward = viewYear < maxEventDate.year || 
-                          (viewYear === maxEventDate.year && viewMonth < maxEventDate.month);
-      
-      // Check if we're viewing the current month
+      const canGoForward = viewYear < maxEventDate.year || (viewYear === maxEventDate.year && viewMonth < maxEventDate.month);
       const isCurrentMonth = viewYear === todayYear && viewMonth === todayMonth;
       
-      const year = viewYear;
-      const month = viewMonth;
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-      const firstDayOfMonth = new Date(year, month, 1).getDay();
-      const startDay = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
+      const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+      const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+      const startDay = firstDay === 0 ? 6 : firstDay - 1;
       
-      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
-                          'July', 'August', 'September', 'October', 'November', 'December'];
+      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
       
-      // Navigate months
       const goToPrevMonth = () => {
         if (!canGoBack) return;
         setSelectedDate(null);
-        if (viewMonth === 0) {
-          setViewMonth(11);
-          setViewYear(viewYear - 1);
-        } else {
-          setViewMonth(viewMonth - 1);
-        }
+        setViewMonth(viewMonth === 0 ? 11 : viewMonth - 1);
+        setViewYear(viewMonth === 0 ? viewYear - 1 : viewYear);
       };
       
       const goToNextMonth = () => {
         if (!canGoForward) return;
         setSelectedDate(null);
-        if (viewMonth === 11) {
-          setViewMonth(0);
-          setViewYear(viewYear + 1);
-        } else {
-          setViewMonth(viewMonth + 1);
-        }
+        setViewMonth(viewMonth === 11 ? 0 : viewMonth + 1);
+        setViewYear(viewMonth === 11 ? viewYear + 1 : viewYear);
       };
       
       const goToToday = () => {
@@ -339,1193 +270,653 @@
         setViewMonth(todayMonth);
       };
       
-      const getShortTitle = (title) => {
-        const shortened = title
-          .replace(/^The\s+/i, '')
-          .replace(/:\s+.*$/, '')
-          .replace(/\s*\(.*\)$/, '')
-          .replace(/\s*\|.*$/, '');
-        return shortened.length > 18 ? shortened.substring(0, 16) + '…' : shortened;
-      };
+      const getVenueGroup = (venue) => venueStyles[venue]?.group || 
+        (venue.startsWith('Hen & Chicken') ? 'Hen & Chicken' : 
+         venue.includes('PRSC') ? 'PRSC' : venue);
       
-      const getDayOfWeek = (date) => {
-        const jsDay = new Date(year, month, date).getDay();
-        return jsDay === 0 ? 6 : jsDay - 1;
-      };
-      
-      const getDayName = (date) => {
-        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        return days[new Date(year, month, date).getDay()];
-      };
-      
-      const getEventDay = (event) => {
-        const eventDate = new Date(event.date);
-        if (eventDate.getMonth() === month && eventDate.getFullYear() === year) {
-          return eventDate.getDate();
-        }
-        return null;
-      };
-      
-      // Get venue group for filtering
-      const getVenueGroup = (venueName) => {
-        if (venueStyles[venueName]) {
-          return venueStyles[venueName].group;
-        }
-        // Fallback: try to match by prefix
-        if (venueName.startsWith('Hen & Chicken')) return 'Hen & Chicken';
-        if (venueName.includes('PRSC')) return 'PRSC';
-        return venueName;
-      };
+      const getVenueInfo = (venue) => venueStyles[venue] || 
+        { color: colors.navy, bg: `${colors.navy}15`, icon: '📍', group: venue };
       
       const getEventsForDate = (date) => {
         return events.filter(e => {
-          const eventDay = getEventDay(e);
-          const matchesDate = eventDay === date;
-          
-          // Filter logic - use venue group for matching
-          let matchesFilter = activeFilter === 'all' || e.type === activeFilter;
-          if (!matchesFilter && activeFilter !== 'all') {
-            const eventGroup = getVenueGroup(e.venue);
-            matchesFilter = eventGroup === activeFilter;
-          }
-          
-          return matchesDate && matchesFilter;
+          const d = new Date(e.date);
+          if (d.getMonth() !== viewMonth || d.getFullYear() !== viewYear || d.getDate() !== date) return false;
+          const group = getVenueGroup(e.venue);
+          const matchVenue = venueFilter === 'all' || group === venueFilter;
+          const matchType = typeFilter === 'all' || e.type === typeFilter;
+          return matchVenue && matchType;
         });
       };
       
-      const getVenueInfo = (venueName) => {
-        if (venueStyles[venueName]) return venueStyles[venueName];
-        // Try to find by group
-        for (const [key, value] of Object.entries(venueStyles)) {
-          if (venueName.includes(key.split(' ')[0]) || key.includes(venueName.split(' ')[0])) {
-            return value;
-          }
-        }
-        return { color: colors.navy, bg: `${colors.navy}15`, icon: '📍', group: venueName };
+      // Group events by venue for calendar preview
+      const getVenueGroupsForDate = (date) => {
+        const dateEvents = getEventsForDate(date);
+        const groups = {};
+        dateEvents.forEach(e => {
+          const g = getVenueGroup(e.venue);
+          if (!groups[g]) groups[g] = { count: 0, info: getVenueInfo(e.venue) };
+          groups[g].count++;
+        });
+        return Object.entries(groups);
       };
       
-      const totalDays = startDay + daysInMonth;
-      const weeksNeeded = Math.ceil(totalDays / 7);
+      // Search
+      const searchResults = useMemo(() => {
+        if (!searchQuery.trim()) return [];
+        const q = searchQuery.toLowerCase();
+        return events.filter(e => 
+          e.title.toLowerCase().includes(q) || 
+          e.venue.toLowerCase().includes(q) ||
+          (e.description?.toLowerCase().includes(q))
+        ).slice(0, 6);
+      }, [searchQuery, events]);
       
-      const renderCalendarDays = () => {
+      const handleSearchSelect = (event) => {
+        const d = new Date(event.date);
+        setViewYear(d.getFullYear());
+        setViewMonth(d.getMonth());
+        setSelectedDate(d.getDate());
+        setSearchQuery('');
+        setShowSearchResults(false);
+      };
+      
+      // Active filters for dropdowns
+      const activeVenueGroups = useMemo(() => {
+        const s = new Set();
+        events.forEach(e => s.add(getVenueGroup(e.venue)));
+        return s;
+      }, [events]);
+      
+      const activeTypes = useMemo(() => {
+        const s = new Set();
+        events.forEach(e => e.type && s.add(e.type));
+        return s;
+      }, [events]);
+      
+      const formatLastUpdated = (str) => {
+        if (!str) return null;
+        const d = new Date(str);
+        const mins = Math.floor((new Date() - d) / 60000);
+        if (mins < 60) return `${mins}m ago`;
+        const hrs = Math.floor(mins / 60);
+        if (hrs < 24) return `${hrs}h ago`;
+        return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+      };
+      
+      const formatEventDate = (str) => {
+        const d = new Date(str);
+        return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+      };
+      
+      const getDayName = (date) => ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(viewYear, viewMonth, date).getDay()];
+      
+      const weeksNeeded = Math.ceil((startDay + daysInMonth) / 7);
+      
+      const renderDays = () => {
         const days = [];
-        
         for (let i = 0; i < startDay; i++) {
-          days.push(<div key={`empty-${i}`} className="calendar-day empty"></div>);
+          days.push(<div key={`e-${i}`} className="cal-day empty"></div>);
         }
-        
         for (let date = 1; date <= daysInMonth; date++) {
-          const dateEvents = getEventsForDate(date);
-          const hasEvents = dateEvents.length > 0;
+          const venues = getVenueGroupsForDate(date);
+          const hasEvents = venues.length > 0;
           const isSelected = selectedDate === date;
-          const dayOfWeek = getDayOfWeek(date);
-          const isWeekend = dayOfWeek >= 5;
-          const isToday = year === todayYear && month === todayMonth && date === todayDate;
+          const dayIdx = (startDay + date - 1) % 7;
+          const isWeekend = dayIdx >= 5;
+          const isToday = viewYear === todayYear && viewMonth === todayMonth && date === todayDate;
           
           days.push(
             <div
               key={date}
-              className={`calendar-day ${hasEvents ? 'has-events' : ''} ${isSelected ? 'selected' : ''} ${isWeekend ? 'weekend' : ''} ${isToday ? 'today' : ''}`}
+              className={`cal-day ${hasEvents ? 'has-events' : ''} ${isSelected ? 'selected' : ''} ${isWeekend ? 'weekend' : ''} ${isToday ? 'today' : ''}`}
               onClick={() => hasEvents && setSelectedDate(isSelected ? null : date)}
             >
-              <span className={`date-number ${isToday ? 'today-number' : ''}`}>{date}</span>
-              
+              <span className={`date-num ${isToday ? 'today-num' : ''}`}>{date}</span>
               {hasEvents && (
-                <div className="event-previews">
-                  {dateEvents.slice(0, 3).map((event, i) => {
-                    const venueInfo = getVenueInfo(event.venue);
-                    return (
-                      <div
-                        key={i}
-                        className="event-preview"
-                        style={{ 
-                          borderLeftColor: venueInfo.color,
-                          backgroundColor: venueInfo.bg
-                        }}
-                      >
-                        <span className="preview-icon">{venueInfo.icon}</span>
-                        <span className="preview-title">{getShortTitle(event.title)}</span>
-                      </div>
-                    );
-                  })}
-                  {dateEvents.length > 3 && (
-                    <div className="more-events">+{dateEvents.length - 3} more</div>
-                  )}
+                <div className="venue-icons">
+                  {venues.slice(0, 3).map(([g, { count, info }]) => (
+                    <div key={g} className="venue-chip" style={{ background: info.bg, borderColor: info.color }}>
+                      <span className="chip-icon">{info.icon}</span>
+                      {count > 1 && <span className="chip-count">{count}</span>}
+                    </div>
+                  ))}
+                  {venues.length > 3 && <span className="more">+{venues.length - 3}</span>}
                 </div>
               )}
             </div>
           );
         }
-        
         return days;
       };
       
       const selectedEvents = selectedDate ? getEventsForDate(selectedDate) : [];
       
-      // Get active venue groups from events
-      const activeVenueGroups = useMemo(() => {
-        const groups = new Set();
-        events.forEach(e => {
-          const group = getVenueGroup(e.venue);
-          groups.add(group);
-        });
-        return groups;
-      }, [events]);
-      
-      // Filter venue filters to only show active ones
-      const activeLegendVenues = Object.entries(venueFilters).filter(([name]) => 
-        activeVenueGroups.has(name)
-      );
-      
-      // Format last updated time
-      const formatLastUpdated = (dateStr) => {
-        if (!dateStr) return null;
-        const date = new Date(dateStr);
-        const now = new Date();
-        const diffMs = now - date;
-        const diffMins = Math.floor(diffMs / 60000);
-        const diffHours = Math.floor(diffMs / 3600000);
-        
-        if (diffMins < 60) return `Updated ${diffMins}m ago`;
-        if (diffHours < 24) return `Updated ${diffHours}h ago`;
-        return `Updated ${date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}`;
-      };
-      
       return (
-        <div className="app-container">
+        <div className="app">
           <style>{`
-            * { box-sizing: border-box; }
-            
-            .app-container {
+            .app {
               display: flex;
               flex-direction: column;
               height: 100vh;
               background: ${colors.cream};
-              font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+              font-family: 'Nunito', sans-serif;
               color: ${colors.navy};
               overflow: hidden;
             }
             
+            /* HEADER */
             .header {
+              background: ${colors.navy};
+              padding: 0.5rem 0.75rem;
               display: flex;
               align-items: center;
               justify-content: space-between;
-              padding: 1rem 1.5rem;
-              background: ${colors.navy};
+              gap: 0.5rem;
               flex-shrink: 0;
             }
-            
             .header-left {
               display: flex;
               align-items: center;
-              gap: 0.75rem;
+              gap: 0.4rem;
+              min-width: 0;
             }
-            
             .header h1 {
-              font-size: 1.5rem;
+              font-size: 1.1rem;
               font-weight: 800;
-              margin: 0;
-              letter-spacing: 0.02em;
               color: ${colors.cream};
+              white-space: nowrap;
             }
-            
-            .beta-badge {
+            .beta {
               background: ${colors.terracotta};
               color: white;
-              font-size: 0.65rem;
+              font-size: 0.5rem;
               font-weight: 700;
-              padding: 0.2rem 0.5rem;
-              border-radius: 4px;
+              padding: 0.15rem 0.35rem;
+              border-radius: 3px;
               text-transform: uppercase;
-              letter-spacing: 0.05em;
             }
-            
             .header-center {
               display: flex;
               align-items: center;
-              gap: 1rem;
+              gap: 0.4rem;
             }
-            
-            .month-nav {
-              display: flex;
-              align-items: center;
-              gap: 0.75rem;
-            }
-            
-            .month-nav-btn {
+            .nav-btn {
               background: transparent;
               border: 2px solid ${colors.cream}40;
               color: ${colors.cream};
-              width: 32px;
-              height: 32px;
-              border-radius: 6px;
+              width: 26px;
+              height: 26px;
+              border-radius: 5px;
               cursor: pointer;
               display: flex;
               align-items: center;
               justify-content: center;
-              font-size: 1rem;
-              transition: all 0.2s ease;
-            }
-            
-            .month-nav-btn:hover:not(:disabled) {
-              background: ${colors.cream}15;
-              border-color: ${colors.cream};
-            }
-            
-            .month-nav-btn:disabled {
-              opacity: 0.3;
-              cursor: not-allowed;
-            }
-            
-            .month-display {
-              text-align: center;
-              min-width: 140px;
-            }
-            
-            .header .subtitle {
               font-size: 0.85rem;
+            }
+            .nav-btn:hover:not(:disabled) { background: ${colors.cream}15; border-color: ${colors.cream}; }
+            .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+            .month-label {
+              font-size: 0.75rem;
               font-weight: 600;
               color: ${colors.sage};
               text-transform: uppercase;
-              letter-spacing: 0.15em;
+              letter-spacing: 0.08em;
+              min-width: 80px;
+              text-align: center;
             }
-            
-            .header .last-updated {
-              font-size: 0.65rem;
-              color: ${colors.cream}70;
-              margin-top: 0.15rem;
-            }
-            
+            .month-full { display: inline; }
+            .month-short { display: none; }
             .today-btn {
-              font-family: 'Nunito', sans-serif;
-              font-size: 0.7rem;
+              font-size: 0.55rem;
               font-weight: 700;
-              padding: 0.35rem 0.65rem;
-              border: 2px solid ${colors.sage};
+              padding: 0.25rem 0.4rem;
               background: ${colors.sage};
               color: white;
-              border-radius: 6px;
+              border: none;
+              border-radius: 4px;
               cursor: pointer;
-              transition: all 0.2s ease;
               text-transform: uppercase;
-              letter-spacing: 0.05em;
             }
-            
-            .today-btn:hover {
-              background: ${colors.sage}dd;
-              transform: scale(1.05);
-            }
-            
-            .today-btn:disabled {
-              opacity: 0.4;
-              cursor: not-allowed;
-              transform: none;
-            }
-            
-            .header-right {
-              display: flex;
-              align-items: center;
-              gap: 0.5rem;
-            }
-            
-            .header-button {
-              font-family: 'Nunito', sans-serif;
-              font-size: 0.75rem;
+            .today-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+            .roadmap-btn {
+              font-size: 0.65rem;
               font-weight: 600;
-              padding: 0.4rem 0.75rem;
-              border: 2px solid ${colors.cream}40;
+              padding: 0.3rem 0.5rem;
               background: transparent;
+              border: 2px solid ${colors.cream}40;
               color: ${colors.cream};
-              border-radius: 6px;
+              border-radius: 5px;
               cursor: pointer;
-              transition: all 0.2s ease;
               display: flex;
               align-items: center;
-              gap: 0.4rem;
+              gap: 0.25rem;
             }
+            .roadmap-btn:hover { background: ${colors.cream}15; border-color: ${colors.cream}; }
+            .roadmap-btn span { display: inline; }
             
-            .header-button:hover {
-              background: ${colors.cream}15;
-              border-color: ${colors.cream};
-            }
-            
+            /* CONTROLS */
             .controls {
+              background: white;
+              border-bottom: 2px solid ${colors.cream};
+              padding: 0.5rem;
               display: flex;
               flex-wrap: wrap;
-              gap: 0.5rem;
-              justify-content: center;
+              gap: 0.4rem;
               align-items: center;
-              padding: 0.75rem;
-              background: #fff;
-              border-bottom: 2px solid ${colors.cream};
+              justify-content: center;
               flex-shrink: 0;
             }
-            
-            .type-filters {
-              display: flex;
-              gap: 0.35rem;
+            .search-box {
+              position: relative;
+              flex: 1;
+              min-width: 120px;
+              max-width: 200px;
             }
-            
-            .type-filter {
-              font-family: 'Nunito', sans-serif;
-              font-size: 0.8rem;
-              font-weight: 600;
-              padding: 0.4rem 0.85rem;
-              border: 2px solid ${colors.navy}30;
-              background: transparent;
+            .search-input {
+              width: 100%;
+              padding: 0.35rem 0.5rem 0.35rem 1.8rem;
+              border: 2px solid ${colors.navy}20;
+              border-radius: 16px;
+              font-size: 0.7rem;
+              font-family: inherit;
               color: ${colors.navy};
-              border-radius: 20px;
+            }
+            .search-input:focus { outline: none; border-color: ${colors.terracotta}; }
+            .search-icon {
+              position: absolute;
+              left: 0.6rem;
+              top: 50%;
+              transform: translateY(-50%);
+              font-size: 0.7rem;
+            }
+            .search-results {
+              position: absolute;
+              top: 100%;
+              left: 0;
+              right: 0;
+              background: white;
+              border-radius: 8px;
+              box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+              margin-top: 4px;
+              z-index: 100;
+              max-height: 220px;
+              overflow-y: auto;
+            }
+            .search-item {
+              padding: 0.5rem 0.6rem;
               cursor: pointer;
-              transition: all 0.2s ease;
+              border-bottom: 1px solid ${colors.cream};
             }
+            .search-item:hover { background: ${colors.cream}; }
+            .search-item:last-child { border-bottom: none; }
+            .search-title { font-size: 0.75rem; font-weight: 600; color: ${colors.navy}; }
+            .search-meta { font-size: 0.65rem; color: ${colors.navy}80; }
             
-            .type-filter:hover {
-              border-color: ${colors.terracotta};
-              color: ${colors.terracotta};
-            }
-            
-            .type-filter.active {
-              background: ${colors.terracotta};
-              border-color: ${colors.terracotta};
-              color: white;
-            }
-            
-            .type-filter.coming-soon {
-              opacity: 0.4;
-              cursor: not-allowed;
-            }
-            
-            .legend {
-              display: flex;
-              flex-wrap: wrap;
-              gap: 0.5rem;
-              justify-content: center;
-            }
-            
-            .legend-item {
-              display: flex;
-              align-items: center;
-              gap: 0.4rem;
-              font-size: 0.75rem;
+            .filter-select {
+              font-family: inherit;
+              font-size: 0.7rem;
               font-weight: 600;
-              cursor: pointer;
-              padding: 0.3rem 0.6rem;
+              padding: 0.35rem 1.5rem 0.35rem 0.5rem;
+              border: 2px solid ${colors.navy}20;
               border-radius: 6px;
-              transition: all 0.2s ease;
-              border: 2px solid transparent;
+              background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%233D405B' d='M2 4l3 3 3-3H2z'/%3E%3C/svg%3E") no-repeat right 0.4rem center;
+              color: ${colors.navy};
+              cursor: pointer;
+              appearance: none;
             }
+            .filter-select:focus { outline: none; border-color: ${colors.terracotta}; }
+            .filter-select.active { border-color: ${colors.terracotta}; background-color: ${colors.terracotta}10; }
             
-            .legend-item:hover {
-              background: ${colors.cream};
-            }
-            
-            .legend-item.active {
-              border-color: currentColor;
-              background: ${colors.cream};
-            }
-            
-            .legend-icon {
-              font-size: 0.9rem;
-            }
-            
-            .legend-dot {
-              width: 10px;
-              height: 10px;
-              border-radius: 50%;
-            }
-            
-            .main-content {
+            /* MAIN */
+            .main {
               display: flex;
               flex: 1;
               overflow: hidden;
               min-height: 0;
             }
-            
-            .calendar-section {
+            .calendar {
               flex: 1;
               display: flex;
               flex-direction: column;
               overflow: hidden;
-              min-width: 0;
             }
-            
-            .calendar-grid {
+            .cal-grid {
               display: grid;
               grid-template-columns: repeat(7, 1fr);
               grid-template-rows: auto repeat(${weeksNeeded}, 1fr);
-              gap: 4px;
-              background: ${colors.cream};
-              padding: 0.75rem;
+              gap: 3px;
+              padding: 0.4rem;
               flex: 1;
               min-height: 0;
             }
-            
-            .day-header {
-              font-size: 0.75rem;
+            .day-hdr {
+              font-size: 0.65rem;
               font-weight: 700;
               text-align: center;
-              padding: 0.5rem 0;
+              padding: 0.3rem 0;
               color: ${colors.navy}90;
               text-transform: uppercase;
-              letter-spacing: 0.08em;
             }
-            
-            .calendar-day {
+            .cal-day {
+              background: white;
+              border-radius: 5px;
+              padding: 0.25rem;
               display: flex;
               flex-direction: column;
-              background: #fff;
-              border-radius: 8px;
-              cursor: default;
-              transition: all 0.15s ease;
-              position: relative;
-              padding: 0.4rem;
+              border: 2px solid transparent;
               overflow: hidden;
               min-height: 0;
-              border: 2px solid transparent;
             }
-            
-            .calendar-day.empty {
-              background: transparent;
-              border: none;
-            }
-            
-            .calendar-day.weekend {
-              background: #fffdf8;
-            }
-            
-            .calendar-day.today {
-              border-color: ${colors.terracotta}60;
-              background: ${colors.terracotta}08;
-            }
-            
-            .calendar-day.has-events {
-              cursor: pointer;
-              border-color: ${colors.cream};
-            }
-            
-            .calendar-day.has-events.today {
-              border-color: ${colors.terracotta}60;
-            }
-            
-            .calendar-day.has-events:hover {
-              transform: scale(1.02);
-              z-index: 1;
-              box-shadow: 0 4px 12px rgba(61, 64, 91, 0.12);
-              border-color: ${colors.sage};
-            }
-            
-            .calendar-day.selected {
-              border-color: ${colors.terracotta};
-              box-shadow: 0 4px 12px rgba(224, 122, 95, 0.2);
-              z-index: 2;
-            }
-            
-            .date-number {
-              font-size: 0.85rem;
+            .cal-day.empty { background: transparent; border: none; }
+            .cal-day.weekend { background: #fffdf8; }
+            .cal-day.today { border-color: ${colors.terracotta}50; background: ${colors.terracotta}08; }
+            .cal-day.has-events { cursor: pointer; }
+            .cal-day.has-events:hover { border-color: ${colors.sage}; transform: scale(1.02); z-index: 1; }
+            .cal-day.selected { border-color: ${colors.terracotta}; box-shadow: 0 2px 8px ${colors.terracotta}30; z-index: 2; }
+            .date-num {
+              font-size: 0.7rem;
               font-weight: 700;
               color: ${colors.navy}50;
-              margin-bottom: 0.25rem;
-              flex-shrink: 0;
+              margin-bottom: 0.15rem;
             }
-            
-            .date-number.today-number {
-              color: ${colors.terracotta};
-              position: relative;
-            }
-            
-            .date-number.today-number::after {
-              content: '●';
-              font-size: 0.4rem;
-              position: absolute;
-              top: -2px;
-              right: -8px;
-              color: ${colors.terracotta};
-            }
-            
-            .has-events .date-number {
-              color: ${colors.navy};
-            }
-            
-            .has-events .date-number.today-number {
-              color: ${colors.terracotta};
-            }
-            
-            .event-previews {
+            .has-events .date-num { color: ${colors.navy}; }
+            .date-num.today-num { color: ${colors.terracotta}; }
+            .venue-icons {
               display: flex;
-              flex-direction: column;
+              flex-wrap: wrap;
               gap: 2px;
-              flex: 1;
               overflow: hidden;
-              min-height: 0;
             }
-            
-            .event-preview {
+            .venue-chip {
               display: flex;
               align-items: center;
-              gap: 4px;
-              padding: 3px 6px;
-              border-radius: 4px;
-              border-left: 3px solid;
-              overflow: hidden;
-              flex-shrink: 0;
-            }
-            
-            .preview-icon {
-              font-size: 0.7rem;
-              flex-shrink: 0;
-            }
-            
-            .preview-title {
-              font-size: 0.6rem;
-              font-weight: 600;
-              color: ${colors.navy};
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              line-height: 1.2;
-            }
-            
-            .more-events {
+              gap: 1px;
+              padding: 1px 3px;
+              border-radius: 3px;
+              border-left: 2px solid;
               font-size: 0.55rem;
-              font-weight: 600;
-              color: ${colors.navy}70;
-              text-align: center;
-              padding-top: 2px;
             }
+            .chip-icon { font-size: 0.6rem; }
+            .chip-count { font-weight: 700; color: ${colors.navy}70; }
+            .more { font-size: 0.5rem; color: ${colors.navy}60; padding: 2px; }
             
-            .detail-panel {
-              width: 320px;
-              background: #fff;
+            /* DETAIL PANEL */
+            .detail {
+              width: 280px;
+              background: white;
               border-left: 3px solid ${colors.cream};
               overflow-y: auto;
               flex-shrink: 0;
             }
-            
-            .detail-content {
-              padding: 1.25rem;
-            }
-            
-            .detail-header {
-              margin-bottom: 1rem;
-              padding-bottom: 0.75rem;
-              border-bottom: 2px solid ${colors.cream};
-            }
-            
-            .detail-header h3 {
-              margin: 0;
-              font-size: 1.1rem;
+            .detail-inner { padding: 0.75rem; }
+            .detail-hdr {
+              font-size: 0.95rem;
               font-weight: 700;
               color: ${colors.terracotta};
+              margin-bottom: 0.6rem;
+              padding-bottom: 0.4rem;
+              border-bottom: 2px solid ${colors.cream};
             }
-            
             .event-card {
               display: block;
               background: ${colors.cream};
-              border-radius: 10px;
-              padding: 1rem;
-              margin-bottom: 0.75rem;
+              border-radius: 8px;
+              padding: 0.7rem;
+              margin-bottom: 0.5rem;
               text-decoration: none;
               color: inherit;
               border-left: 4px solid;
-              transition: all 0.2s ease;
+              transition: transform 0.15s;
             }
+            .event-card:hover { transform: translateX(3px); }
+            .event-row { display: flex; gap: 0.5rem; }
+            .event-icon { font-size: 1.2rem; }
+            .event-info { flex: 1; min-width: 0; }
+            .event-title { font-size: 0.8rem; font-weight: 700; margin-bottom: 0.2rem; }
+            .event-meta { font-size: 0.7rem; color: ${colors.navy}80; }
+            .event-meta span { display: block; }
+            .event-cta { font-size: 0.65rem; font-weight: 700; color: ${colors.terracotta}; margin-top: 0.4rem; }
+            .no-select { text-align: center; padding: 1.5rem 0.75rem; color: ${colors.navy}60; font-size: 0.8rem; }
+            .clash { background: ${colors.sand}40; border: 2px solid ${colors.sand}; border-radius: 6px; padding: 0.4rem 0.5rem; font-size: 0.7rem; font-weight: 600; margin-bottom: 0.5rem; }
             
-            .event-card:last-child {
-              margin-bottom: 0;
-            }
-            
-            .event-card:hover {
-              transform: translateX(4px);
-              box-shadow: 0 4px 12px rgba(61, 64, 91, 0.1);
-            }
-            
-            .event-header {
-              display: flex;
-              align-items: flex-start;
-              gap: 0.75rem;
-            }
-            
-            .event-icon {
-              font-size: 1.5rem;
-              line-height: 1;
-            }
-            
-            .event-info {
-              flex: 1;
-              min-width: 0;
-            }
-            
-            .event-title {
-              font-size: 0.95rem;
-              font-weight: 700;
-              margin-bottom: 0.4rem;
-              color: ${colors.navy};
-            }
-            
-            .event-meta {
-              font-size: 0.8rem;
-              font-weight: 500;
-              color: ${colors.navy}80;
-              display: flex;
-              flex-direction: column;
-              gap: 0.2rem;
-            }
-            
-            .event-meta span {
-              display: flex;
-              align-items: center;
-              gap: 0.3rem;
-            }
-            
-            .event-description {
-              font-size: 0.8rem;
-              color: ${colors.navy}90;
-              margin-top: 0.5rem;
-              font-style: italic;
-            }
-            
-            .event-cta {
-              font-size: 0.75rem;
-              font-weight: 700;
-              color: ${colors.terracotta};
-              margin-top: 0.6rem;
-              display: flex;
-              align-items: center;
-              gap: 0.3rem;
-            }
-            
-            .no-selection {
-              text-align: center;
-              padding: 2rem 1rem;
-              color: ${colors.navy}60;
-              font-size: 0.9rem;
-            }
-            
-            .clash-warning {
-              background: ${colors.sand}40;
-              border: 2px solid ${colors.sand};
-              border-radius: 8px;
-              padding: 0.6rem 0.75rem;
-              margin-bottom: 0.75rem;
-              font-size: 0.8rem;
-              font-weight: 600;
-              color: ${colors.navy};
-              display: flex;
-              align-items: center;
-              gap: 0.4rem;
-            }
-            
-            /* Stale data warning */
-            .stale-warning {
-              background: ${colors.sand}30;
-              color: ${colors.navy}90;
-              font-size: 0.7rem;
-              padding: 0.4rem 0.75rem;
-              text-align: center;
-              border-bottom: 1px solid ${colors.sand};
-            }
-            
-            /* Ko-fi Banner */
-            .kofi-banner {
-              background: linear-gradient(135deg, ${colors.sage}20 0%, ${colors.sand}30 100%);
+            /* FOOTER */
+            .kofi {
+              background: linear-gradient(135deg, ${colors.sage}20, ${colors.sand}30);
               border-top: 2px solid ${colors.cream};
-              padding: 0.75rem 1rem;
+              padding: 0.5rem;
               display: flex;
               align-items: center;
               justify-content: center;
-              gap: 0.75rem;
+              gap: 0.5rem;
               flex-shrink: 0;
+              flex-wrap: wrap;
             }
-            
-            .kofi-text {
-              font-size: 0.8rem;
-              font-weight: 600;
-              color: ${colors.navy};
-            }
-            
-            .kofi-button {
-              display: inline-flex;
-              align-items: center;
-              gap: 0.4rem;
+            .kofi-text { font-size: 0.7rem; font-weight: 600; color: ${colors.navy}; }
+            .kofi-btn {
               background: #FF5E5B;
               color: white;
-              padding: 0.4rem 0.85rem;
-              border-radius: 6px;
-              font-size: 0.75rem;
+              padding: 0.3rem 0.6rem;
+              border-radius: 5px;
+              font-size: 0.65rem;
               font-weight: 700;
               text-decoration: none;
-              transition: all 0.2s ease;
+              display: flex;
+              align-items: center;
+              gap: 0.25rem;
             }
-            
-            .kofi-button:hover {
-              transform: scale(1.05);
-              box-shadow: 0 4px 12px rgba(255, 94, 91, 0.3);
-            }
-            
+            .kofi-btn:hover { transform: scale(1.05); }
             .footer {
-              text-align: center;
-              padding: 0.6rem;
-              background: #fff;
+              background: white;
               border-top: 2px solid ${colors.cream};
-              font-size: 0.7rem;
-              font-weight: 500;
+              padding: 0.4rem;
+              text-align: center;
+              font-size: 0.6rem;
               flex-shrink: 0;
             }
+            .footer-text { color: ${colors.navy}; }
+            .footer a { color: ${colors.terracotta}; font-weight: 700; text-decoration: none; }
+            .footer-updated { color: ${colors.navy}60; margin-left: 0.4rem; }
             
-            .footer-text {
-              color: ${colors.navy};
-            }
-            
-            .footer a {
-              color: ${colors.terracotta};
-              text-decoration: none;
-              font-weight: 700;
-            }
-            
-            .footer a:hover {
-              text-decoration: underline;
-            }
-            
-            /* Loading state */
-            .loading-container {
+            /* LOADING */
+            .loading {
               flex: 1;
               display: flex;
               flex-direction: column;
               align-items: center;
               justify-content: center;
-              gap: 1rem;
+              gap: 0.75rem;
               color: ${colors.navy}80;
             }
-            
-            .loading-spinner {
-              width: 40px;
-              height: 40px;
+            .spinner {
+              width: 32px;
+              height: 32px;
               border: 4px solid ${colors.cream};
               border-top-color: ${colors.terracotta};
               border-radius: 50%;
               animation: spin 1s linear infinite;
             }
+            @keyframes spin { to { transform: rotate(360deg); } }
             
-            @keyframes spin {
-              to { transform: rotate(360deg); }
-            }
-            
-            /* Error state */
-            .error-container {
-              flex: 1;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              justify-content: center;
-              gap: 1rem;
-              padding: 2rem;
-              text-align: center;
-            }
-            
-            .error-icon { font-size: 3rem; }
-            .error-message { color: ${colors.terracotta}; font-weight: 600; }
-            .error-details { color: ${colors.navy}70; font-size: 0.85rem; max-width: 400px; }
-            
-            .retry-button {
-              font-family: 'Nunito', sans-serif;
-              padding: 0.6rem 1.5rem;
-              background: ${colors.terracotta};
-              color: white;
-              border: none;
-              border-radius: 20px;
-              font-weight: 700;
-              cursor: pointer;
-              transition: all 0.2s ease;
-            }
-            
-            .retry-button:hover {
-              transform: scale(1.05);
-              box-shadow: 0 4px 12px rgba(224, 122, 95, 0.3);
-            }
-            
-            /* Modal Styles */
+            /* MODAL */
             .modal-overlay {
               position: fixed;
-              top: 0;
-              left: 0;
-              right: 0;
-              bottom: 0;
-              background: rgba(61, 64, 91, 0.7);
+              inset: 0;
+              background: rgba(61,64,91,0.7);
               display: flex;
               align-items: center;
               justify-content: center;
               z-index: 1000;
-              padding: 1rem;
-              backdrop-filter: blur(4px);
+              padding: 0.75rem;
             }
-            
             .modal-content {
               background: white;
-              border-radius: 16px;
-              max-width: 500px;
+              border-radius: 12px;
+              max-width: 420px;
               width: 100%;
-              max-height: 85vh;
+              max-height: 80vh;
               overflow: hidden;
               display: flex;
               flex-direction: column;
-              box-shadow: 0 20px 60px rgba(61, 64, 91, 0.3);
             }
-            
             .modal-header {
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-              padding: 1.25rem 1.5rem;
               background: ${colors.navy};
               color: ${colors.cream};
-            }
-            
-            .modal-header h2 {
-              font-size: 1.25rem;
-              font-weight: 800;
-              margin: 0;
-            }
-            
-            .modal-close {
-              background: transparent;
-              border: none;
-              color: ${colors.cream};
-              font-size: 1.25rem;
-              cursor: pointer;
-              padding: 0.25rem;
-              line-height: 1;
-              opacity: 0.7;
-              transition: opacity 0.2s;
-            }
-            
-            .modal-close:hover {
-              opacity: 1;
-            }
-            
-            .modal-body {
-              padding: 1.5rem;
-              overflow-y: auto;
-              flex: 1;
-            }
-            
-            .roadmap-intro {
-              font-size: 0.9rem;
-              color: ${colors.navy}90;
-              margin-bottom: 1.5rem;
-              line-height: 1.5;
-            }
-            
-            .roadmap-section {
-              margin-bottom: 1.5rem;
-            }
-            
-            .roadmap-section h3 {
-              font-size: 1rem;
-              font-weight: 700;
-              color: ${colors.navy};
-              margin-bottom: 0.75rem;
-              padding-bottom: 0.5rem;
-              border-bottom: 2px solid ${colors.cream};
-            }
-            
-            .roadmap-section ul {
-              list-style: none;
-              padding: 0;
-              margin: 0;
-            }
-            
-            .roadmap-cta {
-              background: ${colors.cream};
-              border-radius: 10px;
-              padding: 1.25rem;
-              text-align: center;
-              margin-top: 1rem;
-            }
-            
-            .roadmap-cta p {
-              font-size: 0.9rem;
-              font-weight: 600;
-              color: ${colors.navy};
-              margin-bottom: 0.75rem;
-            }
-            
-            .cta-button {
-              display: inline-flex;
+              padding: 0.75rem 1rem;
+              display: flex;
+              justify-content: space-between;
               align-items: center;
-              gap: 0.4rem;
-              background: ${colors.terracotta};
-              color: white;
-              padding: 0.6rem 1.25rem;
-              border-radius: 8px;
-              font-size: 0.85rem;
-              font-weight: 700;
-              text-decoration: none;
-              transition: all 0.2s ease;
             }
+            .modal-header h2 { font-size: 1rem; margin: 0; }
+            .modal-close { background: none; border: none; color: ${colors.cream}; font-size: 1rem; cursor: pointer; opacity: 0.7; }
+            .modal-close:hover { opacity: 1; }
+            .modal-body { padding: 1rem; overflow-y: auto; }
+            .roadmap-intro { font-size: 0.8rem; color: ${colors.navy}90; margin-bottom: 1rem; }
+            .roadmap-section { margin-bottom: 1rem; }
+            .roadmap-section h3 { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; padding-bottom: 0.3rem; border-bottom: 2px solid ${colors.cream}; }
+            .roadmap-section ul { list-style: none; }
+            .roadmap-cta { background: ${colors.cream}; border-radius: 8px; padding: 0.75rem; text-align: center; }
+            .roadmap-cta p { font-size: 0.8rem; font-weight: 600; margin-bottom: 0.5rem; }
+            .cta-button { display: inline-block; background: ${colors.terracotta}; color: white; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-decoration: none; }
             
-            .cta-button:hover {
-              transform: scale(1.05);
-              box-shadow: 0 4px 12px rgba(224, 122, 95, 0.3);
-            }
-            
-            /* Mobile styles */
+            /* MOBILE */
             @media (max-width: 768px) {
-              .main-content {
-                flex-direction: column;
-              }
-              
-              .calendar-section {
-                flex: 1;
-              }
-              
-              .detail-panel {
+              .main { flex-direction: column; }
+              .detail {
                 width: 100%;
                 border-left: none;
                 border-top: 3px solid ${colors.cream};
-                max-height: 45vh;
-                flex-shrink: 0;
+                max-height: 38vh;
               }
-              
-              .header {
-                padding: 0.75rem 1rem;
-              }
-              
-              .header h1 {
-                font-size: 1.1rem;
-              }
-              
-              .header .subtitle {
-                font-size: 0.65rem;
-              }
-              
-              .month-display {
-                min-width: 100px;
-              }
-              
-              .month-nav-btn {
-                width: 28px;
-                height: 28px;
-                font-size: 0.9rem;
-              }
-              
-              .today-btn {
-                font-size: 0.6rem;
-                padding: 0.25rem 0.5rem;
-              }
-              
-              .header-button span:not(:first-child) {
-                display: none;
-              }
-              
-              .controls {
-                padding: 0.5rem;
-              }
-              
-              .type-filter {
-                font-size: 0.7rem;
-                padding: 0.3rem 0.6rem;
-              }
-              
-              .legend-item {
-                font-size: 0.65rem;
-                padding: 0.2rem 0.4rem;
-              }
-              
-              .date-number {
-                font-size: 0.75rem;
-              }
-              
-              .preview-title {
-                font-size: 0.55rem;
-              }
-              
-              .preview-icon {
-                font-size: 0.6rem;
-              }
-              
-              .kofi-banner {
-                flex-direction: column;
-                gap: 0.5rem;
-                padding: 0.6rem;
-              }
-              
-              .kofi-text {
-                font-size: 0.75rem;
-              }
+              .month-full { display: none; }
+              .month-short { display: inline; }
+              .roadmap-btn span { display: none; }
             }
-            
             @media (max-width: 480px) {
-              .legend {
-                display: none;
-              }
-              
-              .preview-title {
-                display: none;
-              }
-              
-              .event-preview {
-                justify-content: center;
-                border-left: none;
-                border-bottom: 2px solid;
-              }
-              
-              .calendar-grid {
-                padding: 0.4rem;
-                gap: 2px;
-              }
-              
-              .calendar-day {
-                padding: 0.3rem;
-                border-radius: 6px;
-              }
+              .header h1 { font-size: 0.95rem; }
+              .beta { font-size: 0.45rem; }
+              .month-label { font-size: 0.65rem; min-width: 60px; }
+              .nav-btn { width: 22px; height: 22px; font-size: 0.75rem; }
+              .today-btn { font-size: 0.5rem; padding: 0.2rem 0.35rem; }
+              .roadmap-btn { padding: 0.25rem 0.4rem; font-size: 0.6rem; }
+              .controls { padding: 0.35rem; gap: 0.3rem; }
+              .search-box { max-width: 100%; min-width: 100%; order: -1; }
+              .filter-select { font-size: 0.65rem; padding: 0.3rem 1.3rem 0.3rem 0.4rem; }
+              .cal-grid { padding: 0.25rem; gap: 2px; }
+              .day-hdr { font-size: 0.55rem; padding: 0.25rem 0; }
+              .cal-day { padding: 0.2rem; border-radius: 4px; }
+              .date-num { font-size: 0.6rem; }
+              .venue-chip { padding: 1px 2px; }
+              .chip-icon { font-size: 0.5rem; }
+              .chip-count { font-size: 0.45rem; }
+              .kofi { padding: 0.4rem; gap: 0.35rem; }
+              .kofi-text { font-size: 0.6rem; }
+              .kofi-btn { font-size: 0.55rem; padding: 0.25rem 0.5rem; }
+              .footer { font-size: 0.55rem; padding: 0.3rem; }
             }
           `}</style>
           
           <header className="header">
             <div className="header-left">
-              <h1>Bristol Improv Calendar</h1>
-              <span className="beta-badge">Beta</span>
+              <h1>Bristol Improv</h1>
+              <span className="beta">Beta</span>
             </div>
             <div className="header-center">
-              <div className="month-nav">
-                <button 
-                  className="month-nav-btn" 
-                  onClick={goToPrevMonth} 
-                  disabled={!canGoBack}
-                  title={canGoBack ? "Previous month" : "No earlier events"}
-                >
-                  ←
-                </button>
-                <div className="month-display">
-                  <div className="subtitle">{monthNames[month]} {year}</div>
-                  {lastUpdated && (
-                    <div className="last-updated">{formatLastUpdated(lastUpdated)}</div>
-                  )}
-                </div>
-                <button 
-                  className="month-nav-btn" 
-                  onClick={goToNextMonth} 
-                  disabled={!canGoForward}
-                  title={canGoForward ? "Next month" : "No later events"}
-                >
-                  →
-                </button>
-              </div>
-              <button 
-                className="today-btn" 
-                onClick={goToToday}
-                disabled={isCurrentMonth}
-                title="Jump to current month"
-              >
-                Today
-              </button>
+              <button className="nav-btn" onClick={goToPrevMonth} disabled={!canGoBack}>←</button>
+              <span className="month-label">
+                <span className="month-full">{monthNames[viewMonth]} {viewYear}</span>
+                <span className="month-short">{monthShort[viewMonth]} {viewYear}</span>
+              </span>
+              <button className="nav-btn" onClick={goToNextMonth} disabled={!canGoForward}>→</button>
+              <button className="today-btn" onClick={goToToday} disabled={isCurrentMonth}>Today</button>
             </div>
-            <div className="header-right">
-              <button className="header-button" onClick={() => setShowRoadmap(true)}>
-                🗺️ <span>Roadmap</span>
-              </button>
-            </div>
+            <button className="roadmap-btn" onClick={() => setShowRoadmap(true)}>
+              🗺️ <span>Roadmap</span>
+            </button>
           </header>
           
-          {error && (
-            <div className="stale-warning">
-              ⚠️ {error}
-            </div>
-          )}
+          {error && <div style={{ background: `${colors.sand}30`, textAlign: 'center', fontSize: '0.6rem', padding: '0.25rem', color: colors.navy }}>⚠️ {error}</div>}
           
           {loading ? (
-            <div className="loading-container">
-              <div className="loading-spinner"></div>
+            <div className="loading">
+              <div className="spinner"></div>
               <div>Loading events...</div>
             </div>
           ) : (
             <>
               <div className="controls">
-                <div className="type-filters">
-                  <button 
-                    className={`type-filter ${activeFilter === 'all' ? 'active' : ''}`}
-                    onClick={() => setActiveFilter('all')}
-                  >
-                    All
-                  </button>
-                  <button 
-                    className={`type-filter ${activeFilter === 'show' ? 'active' : ''}`}
-                    onClick={() => setActiveFilter('show')}
-                  >
-                    🎭 Shows
-                  </button>
-                  <button className="type-filter coming-soon" title="Coming soon">
-                    📚 Workshops
-                  </button>
-                  <button className="type-filter coming-soon" title="Coming soon">
-                    🎲 Jams
-                  </button>
-                </div>
-                
-                <div className="legend">
-                  {activeLegendVenues.map(([name, { color, icon }]) => (
-                    <div
-                      key={name}
-                      className={`legend-item ${activeFilter === name ? 'active' : ''}`}
-                      style={{ color }}
-                      onClick={() => setActiveFilter(activeFilter === name ? 'all' : name)}
-                    >
-                      <span className="legend-icon">{icon}</span>
-                      <span className="legend-dot" style={{ backgroundColor: color }} />
-                      {name}
+                <div className="search-box" ref={searchRef}>
+                  <span className="search-icon">🔍</span>
+                  <input
+                    type="text"
+                    className="search-input"
+                    placeholder="Search events..."
+                    value={searchQuery}
+                    onChange={e => { setSearchQuery(e.target.value); setShowSearchResults(true); }}
+                    onFocus={() => setShowSearchResults(true)}
+                  />
+                  {showSearchResults && searchResults.length > 0 && (
+                    <div className="search-results">
+                      {searchResults.map((e, i) => (
+                        <div key={i} className="search-item" onClick={() => handleSearchSelect(e)}>
+                          <div className="search-title">{e.title}</div>
+                          <div className="search-meta">{formatEventDate(e.date)} • {e.venue}</div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                  )}
                 </div>
+                <select 
+                  className={`filter-select ${typeFilter !== 'all' ? 'active' : ''}`}
+                  value={typeFilter}
+                  onChange={e => setTypeFilter(e.target.value)}
+                >
+                  <option value="all">All Events</option>
+                  {Object.entries(eventTypes).map(([k, v]) => (
+                    <option key={k} value={k} disabled={!activeTypes.has(k)}>{v.icon} {v.label}</option>
+                  ))}
+                </select>
+                <select 
+                  className={`filter-select ${venueFilter !== 'all' ? 'active' : ''}`}
+                  value={venueFilter}
+                  onChange={e => setVenueFilter(e.target.value)}
+                >
+                  <option value="all">All Venues</option>
+                  {Object.entries(venueStyles)
+                    .filter(([k, v]) => v.group === k) // Only main groups
+                    .map(([k, v]) => (
+                      <option key={k} value={k} disabled={!activeVenueGroups.has(k)}>{v.icon} {k}</option>
+                    ))}
+                </select>
               </div>
               
-              <div className="main-content">
-                <div className="calendar-section">
-                  <div className="calendar-grid">
-                    {dayNames.map(day => (
-                      <div key={day} className="day-header">{day}</div>
-                    ))}
-                    {renderCalendarDays()}
+              <div className="main">
+                <div className="calendar">
+                  <div className="cal-grid">
+                    {dayNames.map(d => <div key={d} className="day-hdr">{d}</div>)}
+                    {renderDays()}
                   </div>
                 </div>
                 
-                <div className="detail-panel">
+                <div className="detail">
                   {selectedDate ? (
-                    <div className="detail-content">
-                      <div className="detail-header">
-                        <h3>{getDayName(selectedDate)} {selectedDate} {monthNames[month]}</h3>
-                      </div>
-                      
+                    <div className="detail-inner">
+                      <h3 className="detail-hdr">{getDayName(selectedDate)} {selectedDate} {monthShort[viewMonth]}</h3>
                       {selectedEvents.length > 1 && (
-                        <div className="clash-warning">
-                          ⚠️ Multiple events — pick your poison!
-                        </div>
+                        <div className="clash">⚠️ {selectedEvents.length} events — pick your poison!</div>
                       )}
-                      
-                      {selectedEvents.map((event, i) => {
-                        const venueInfo = getVenueInfo(event.venue);
+                      {selectedEvents.map((e, i) => {
+                        const info = getVenueInfo(e.venue);
                         return (
-                          <a
-                            key={i}
-                            href={event.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="event-card"
-                            style={{ borderColor: venueInfo.color }}
-                          >
-                            <div className="event-header">
-                              <span className="event-icon">{venueInfo.icon}</span>
+                          <a key={i} href={e.url} target="_blank" rel="noopener noreferrer" className="event-card" style={{ borderColor: info.color }}>
+                            <div className="event-row">
+                              <span className="event-icon">{info.icon}</span>
                               <div className="event-info">
-                                <div className="event-title">{event.title}</div>
+                                <div className="event-title">{e.title}</div>
                                 <div className="event-meta">
-                                  <span>📍 {event.venue}</span>
-                                  <span>🕖 {event.time}</span>
+                                  <span>📍 {e.venue}</span>
+                                  <span>🕖 {e.time}</span>
                                 </div>
-                                {event.description && (
-                                  <div className="event-description">{event.description}</div>
-                                )}
-                                <div className="event-cta">
-                                  View details / Book tickets →
-                                </div>
+                                <div className="event-cta">View details / Book tickets →</div>
                               </div>
                             </div>
                           </a>
@@ -1533,37 +924,29 @@
                       })}
                     </div>
                   ) : (
-                    <div className="no-selection">
-                      <p>👈 Click a date to see event details</p>
-                    </div>
+                    <div className="no-select">👈 Click a date to see event details</div>
                   )}
                 </div>
               </div>
             </>
           )}
           
-          <div className="kofi-banner">
-            <span className="kofi-text">☕ If you find this useful, why not buy Ste a tea/pint?</span>
-            <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-button">
-              ❤️ Support on Ko-fi
-            </a>
+          <div className="kofi">
+            <span className="kofi-text">☕ Find this useful? Buy Ste a tea/pint!</span>
+            <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
           </div>
           
           <footer className="footer">
             <span className="footer-text">Missing a show? Got corrections?</span> <a href="mailto:ste@youremail.com">Let us know</a>
+            {lastUpdated && <span className="footer-updated">• Updated {formatLastUpdated(lastUpdated)}</span>}
           </footer>
           
-          <RoadmapModal 
-            isOpen={showRoadmap} 
-            onClose={() => setShowRoadmap(false)} 
-            colors={colors}
-          />
+          <RoadmapModal isOpen={showRoadmap} onClose={() => setShowRoadmap(false)} colors={colors} />
         </div>
       );
     };
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<BristolImprovCalendar />);
+    ReactDOM.createRoot(document.getElementById('root')).render(<BristolImprovCalendar />);
   </script>
 </body>
 </html>
