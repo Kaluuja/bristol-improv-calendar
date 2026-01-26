@@ -1,6 +1,78 @@
 {
-  "lastUpdated": "2026-01-26T14:16:52.764Z",
+  "lastUpdated": "2026-01-26T14:37:30.291Z",
   "events": [
+    {
+      "date": "2026-01-25",
+      "title": "The BLANK who BLANKED me",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:00–20:00",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/the-blank-who-blanked-me/",
+      "description": ""
+    },
+    {
+      "date": "2026-01-28",
+      "title": "Lily Maryon: Princess Sparkles (WiP) | The Bristol Comedy Festival",
+      "venue": "Bristol Improv Theatre",
+      "time": "18:00–19:00",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/lily-maryon-princess-sparkles-wip-the-bristol-comedy-festival/",
+      "description": ""
+    },
+    {
+      "date": "2026-01-28",
+      "title": "Biscuit Barrel: The 69-Sketch Show | The Bristol Comedy Festival",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–20:30",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/biscuit-barrel-69-sketch-show-bristol-comedy-festival/",
+      "description": ""
+    },
+    {
+      "date": "2026-01-28",
+      "title": "Luke McQueen: Comedian's Comedian | The Bristol Comedy Festival",
+      "venue": "Bristol Improv Theatre",
+      "time": "21:00–22:00",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/luke-mcqueen-comedians-comedian-the-bristol-comedy-festival/",
+      "description": ""
+    },
+    {
+      "date": "2026-01-30",
+      "title": "The Belltower",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–21:30",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/the-belltower/",
+      "description": ""
+    },
+    {
+      "date": "2026-01-31",
+      "title": "The Antics Joke Show Ft. Luke Rollason",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–22:30",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/the-antics-joke-show-ft-luke-rollason/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-05",
+      "title": "Live in da Hive: The Improv Gauntlet",
+      "venue": "SPACE at PRSC",
+      "time": "19:00–22:30",
+      "type": "show",
+      "url": "https://prsc.org.uk/event/live-in-da-hive-the-improv-gauntlet/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-06",
+      "title": "The Bish Bosh Bash: The Improvised Game Show",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–21:30",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/the-bish-bosh-bash-the-improvised-game-show-2026/2026-02-06/",
+      "description": ""
+    },
     {
       "date": "2026-02-11",
       "title": "Wednesday Night Improv: February Triple Bill",
@@ -8,6 +80,33 @@
       "time": "19:30–21:45",
       "type": "show",
       "url": "https://www.henandchicken.com/event/theatre-wednesday-night-improv-february-triple-bill/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-12",
+      "title": "The Drag Dungeoneers",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–22:00",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/the-drag-dungeoneers-feb26/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-14",
+      "title": "From HELL YEAH! with love",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–21:30",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/hell-yeah-valentines-day/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-25",
+      "title": "Tales From The Wasteland",
+      "venue": "Hen & Chicken (Studio)",
+      "time": "20:00–22:00",
+      "type": "show",
+      "url": "https://www.henandchicken.com/event/theatre-tales-from-the-wasteland/",
       "description": ""
     }
   ]
