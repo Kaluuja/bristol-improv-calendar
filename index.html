@@ -129,8 +129,8 @@
                 <h3>🎭 Event Types</h3>
                 <ul>
                   <RoadmapItem done={true}>Shows</RoadmapItem>
-                  <RoadmapItem done={false}>Workshops & classes</RoadmapItem>
-                  <RoadmapItem done={false}>Drop-in jams</RoadmapItem>
+                  <RoadmapItem done={true}>Workshops & classes</RoadmapItem>
+                  <RoadmapItem done={true}>Drop-in jams</RoadmapItem>
                   <RoadmapItem done={false}>Courses & programmes</RoadmapItem>
                   <RoadmapItem done={false}>Improv type tags (shortform, longform, narrative, musical, etc.)</RoadmapItem>
                 </ul>
@@ -157,9 +157,10 @@
                 <h3>🎨 Design & Experience</h3>
                 <ul>
                   <RoadmapItem done={true}>Venue colour-coding</RoadmapItem>
-                  <RoadmapItem done={true}>Event grouping by venue</RoadmapItem>
+                  <RoadmapItem done={true}>Event type colour-coding</RoadmapItem>
                   <RoadmapItem done={false}>Dark mode</RoadmapItem>
                   <RoadmapItem done={false}>List view option</RoadmapItem>
+                  <RoadmapItem done={false}>Map view option</RoadmapItem>
                   <RoadmapItem done={false}>Save favourite events</RoadmapItem>
                 </ul>
               </div>
@@ -216,6 +217,14 @@
         sand: '#F2CC8F',
       };
       
+      // Event type styles with colors
+      const eventTypeStyles = {
+        'show': { color: colors.terracotta, label: 'Shows', icon: '🎭' },
+        'workshop': { color: colors.sage, label: 'Workshops', icon: '📚' },
+        'jam': { color: colors.sand, label: 'Jams', icon: '🎲' },
+        'dropin': { color: '#7B68A6', label: 'Drop-ins', icon: '🚪' },
+      };
+      
       const venueStyles = {
         'Bristol Improv Theatre': { color: colors.terracotta, bg: `${colors.terracotta}18`, icon: '🎪', group: 'Bristol Improv Theatre' },
         'Hen & Chicken': { color: colors.sand, bg: `${colors.sand}25`, icon: '🐔', group: 'Hen & Chicken' },
@@ -226,12 +235,6 @@
         'Wardrobe Theatre': { color: '#7B68A6', bg: '#7B68A618', icon: '🚪', group: 'Wardrobe Theatre' },
         'Tobacco Factory': { color: '#8B6F47', bg: '#8B6F4715', icon: '🏭', group: 'Tobacco Factory' },
         'Bristol Beacon': { color: '#C4A35A', bg: '#C4A35A15', icon: '🎵', group: 'Bristol Beacon' },
-      };
-      
-      const eventTypes = {
-        'show': { label: 'Shows', icon: '🎭' },
-        'workshop': { label: 'Workshops', icon: '📚' },
-        'jam': { label: 'Jams', icon: '🎲' },
       };
       
       const isEveningEvent = (timeStr) => {
@@ -356,16 +359,15 @@
         });
       };
       
-      const getVenueGroupsForDate = (date) => {
+      // Get event type counts for a date (for dot display)
+      const getEventTypeCounts = (date) => {
         const dateEvents = getEventsForDate(date);
-        const groups = {};
+        const counts = {};
         dateEvents.forEach(e => {
-          const g = getVenueGroup(e.venue);
-          if (!groups[g]) groups[g] = { count: 0, info: getVenueInfo(e.venue), events: [] };
-          groups[g].count++;
-          groups[g].events.push(e);
+          const type = e.type || 'show';
+          counts[type] = (counts[type] || 0) + 1;
         });
-        return Object.entries(groups);
+        return counts;
       };
       
       const searchResults = useMemo(() => {
@@ -426,15 +428,37 @@
       
       const weeksNeeded = Math.ceil((startDay + daysInMonth) / 7);
       
+      // Render event type dots
+      const renderEventDots = (typeCounts) => {
+        const typeOrder = ['show', 'workshop', 'jam', 'dropin'];
+        const dots = [];
+        
+        typeOrder.forEach(type => {
+          if (typeCounts[type]) {
+            const count = typeCounts[type];
+            const style = eventTypeStyles[type] || { color: colors.navy };
+            dots.push({
+              type,
+              count,
+              color: style.color
+            });
+          }
+        });
+        
+        // Max 4 dots
+        return dots.slice(0, 4);
+      };
+      
       const renderDays = () => {
         const days = [];
         for (let i = 0; i < startDay; i++) {
           days.push(<div key={`e-${i}`} className="cal-day empty"></div>);
         }
         for (let date = 1; date <= daysInMonth; date++) {
-          const venues = getVenueGroupsForDate(date);
-          const allEvents = venues.flatMap(([_, { events }]) => events);
-          const hasEvents = venues.length > 0;
+          const dateEvents = getEventsForDate(date);
+          const typeCounts = getEventTypeCounts(date);
+          const dots = renderEventDots(typeCounts);
+          const hasEvents = dateEvents.length > 0;
           const isSelected = selectedDate === date;
           const dayIdx = (startDay + date - 1) % 7;
           const isWeekend = dayIdx >= 5;
@@ -449,26 +473,30 @@
               <span className={`date-num ${isToday ? 'today-num' : ''}`}>{date}</span>
               {hasEvents && (
                 <div className="event-previews">
+                  {/* Desktop: show event titles */}
                   <div className="desktop-events">
-                    {allEvents.slice(0, 3).map((e, i) => {
-                      const info = getVenueInfo(e.venue);
+                    {dateEvents.slice(0, 3).map((e, i) => {
+                      const typeStyle = eventTypeStyles[e.type] || eventTypeStyles.show;
                       return (
-                        <div key={i} className="event-chip" style={{ background: info.bg, borderColor: info.color }}>
-                          <span className="chip-icon">{info.icon}</span>
+                        <div key={i} className="event-chip" style={{ background: `${typeStyle.color}18`, borderColor: typeStyle.color }}>
+                          <span className="chip-dot" style={{ background: typeStyle.color }}></span>
                           <span className="chip-title">{getShortTitle(e.title)}</span>
                         </div>
                       );
                     })}
-                    {allEvents.length > 3 && <span className="more">+{allEvents.length - 3} more</span>}
+                    {dateEvents.length > 3 && <span className="more">+{dateEvents.length - 3} more</span>}
                   </div>
+                  {/* Mobile: show colored dots by event type */}
                   <div className="mobile-events">
-                    {venues.slice(0, 3).map(([g, { count, info }]) => (
-                      <div key={g} className="venue-chip" style={{ background: info.bg, borderColor: info.color }}>
-                        <span className="chip-icon">{info.icon}</span>
-                        {count > 1 && <span className="chip-count">{count}</span>}
+                    {dots.map((dot, i) => (
+                      <div 
+                        key={i} 
+                        className="event-dot" 
+                        style={{ background: dot.color }}
+                      >
+                        {dot.count > 1 && <span className="dot-count">{dot.count}</span>}
                       </div>
                     ))}
-                    {venues.length > 3 && <span className="more">+{venues.length - 3}</span>}
                   </div>
                 </div>
               )}
@@ -736,6 +764,8 @@
               flex-direction: column;
               gap: 3px;
             }
+            
+            /* Desktop events - show titles */
             .desktop-events {
               display: flex;
               flex-direction: column;
@@ -750,7 +780,12 @@
               border-left: 3px solid;
               overflow: hidden;
             }
-            .chip-icon { font-size: 0.75rem; flex-shrink: 0; }
+            .chip-dot {
+              width: 8px;
+              height: 8px;
+              border-radius: 50%;
+              flex-shrink: 0;
+            }
             .chip-title {
               font-size: 0.7rem;
               font-weight: 600;
@@ -759,20 +794,31 @@
               overflow: hidden;
               text-overflow: ellipsis;
             }
+            
+            /* Mobile events - colored dots */
             .mobile-events {
               display: none;
               flex-wrap: wrap;
-              gap: 3px;
+              gap: 4px;
+              justify-content: flex-start;
+              align-items: center;
             }
-            .venue-chip {
+            .event-dot {
+              width: 18px;
+              height: 18px;
+              border-radius: 50%;
               display: flex;
               align-items: center;
-              gap: 2px;
-              padding: 3px 5px;
-              border-radius: 4px;
-              border-left: 3px solid;
+              justify-content: center;
+              flex-shrink: 0;
             }
-            .chip-count { font-size: 0.65rem; font-weight: 700; color: ${colors.navy}70; }
+            .dot-count {
+              font-size: 0.6rem;
+              font-weight: 700;
+              color: white;
+              line-height: 1;
+            }
+            
             .more { font-size: 0.65rem; color: ${colors.navy}60; padding: 2px; }
             
             /* DETAIL PANEL - DESKTOP */
@@ -1012,10 +1058,16 @@
               .cal-day { padding: 0.25rem; border-radius: 5px; }
               .date-num { font-size: 0.75rem; margin-bottom: 0.15rem; }
               
+              /* Show mobile dots, hide desktop events */
               .desktop-events { display: none; }
               .mobile-events { display: flex; }
-              .chip-icon { font-size: 0.7rem; }
-              .chip-count { font-size: 0.6rem; }
+              
+              /* Event dots sizing */
+              .event-dot {
+                width: 16px;
+                height: 16px;
+              }
+              .dot-count { font-size: 0.55rem; }
               
               /* Detail panel content */
               .detail-hdr { font-size: 1rem; margin-bottom: 0.5rem; padding-bottom: 0.4rem; }
@@ -1031,6 +1083,8 @@
             @media (max-width: 380px) {
               .header h1 { font-size: 0.9rem; }
               .filter-select { font-size: 0.7rem; padding: 0.3rem 1.3rem 0.3rem 0.4rem; }
+              .event-dot { width: 14px; height: 14px; }
+              .dot-count { font-size: 0.5rem; }
             }
             
             /* Desktop: show desktop footer, hide mobile footer */
@@ -1086,7 +1140,7 @@
                     onChange={e => setTypeFilter(e.target.value)}
                   >
                     <option value="all">All Events</option>
-                    {Object.entries(eventTypes).map(([k, v]) => (
+                    {Object.entries(eventTypeStyles).map(([k, v]) => (
                       <option key={k} value={k} disabled={!activeTypes.has(k)}>{v.icon} {v.label}</option>
                     ))}
                     <option disabled>──────────</option>
@@ -1132,14 +1186,15 @@
                       <div className="detail-inner">
                         <h3 className="detail-hdr">{getDayName(selectedDate)} {selectedDate} {monthShort[viewMonth]}</h3>
                         {selectedEvents.length > 1 && (
-                          <div className="clash">⚠️ {selectedEvents.length} events — choose your favourite!</div>
+                          <div className="clash">⚠️ {selectedEvents.length} events — pick your poison!</div>
                         )}
                         {selectedEvents.map((e, i) => {
-                          const info = getVenueInfo(e.venue);
+                          const venueInfo = getVenueInfo(e.venue);
+                          const typeStyle = eventTypeStyles[e.type] || eventTypeStyles.show;
                           return (
-                            <a key={i} href={e.url} target="_blank" rel="noopener noreferrer" className="event-card" style={{ borderColor: info.color }}>
+                            <a key={i} href={e.url} target="_blank" rel="noopener noreferrer" className="event-card" style={{ borderColor: typeStyle.color }}>
                               <div className="event-row">
-                                <span className="event-icon">{info.icon}</span>
+                                <span className="event-icon">{typeStyle.icon}</span>
                                 <div className="event-info">
                                   <div className="event-title">{e.title}</div>
                                   <div className="event-meta">
@@ -1155,7 +1210,7 @@
                       </div>
                       <div className="mobile-footer">
                         <div className="kofi-bar">
-                          <span className="kofi-text">☕ Find this useful? Buy Ste a tea/pint!</span>
+                          <span className="kofi-text">☕ Find this useful? Buy Ste a brew! (... or a pint...)</span>
                           <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
                         </div>
                         <div className="footer">
