@@ -217,12 +217,23 @@
         sand: '#F2CC8F',
       };
       
-      // Event type styles with colors
+      // Normalize event type to handle variations like 'drop-in', 'Drop-in', 'dropin', etc.
+      const normalizeEventType = (type) => {
+        if (!type) return 'show';
+        const t = type.toLowerCase().replace(/[-_\s]/g, '');
+        if (t === 'dropin' || t === 'dropins') return 'dropin';
+        if (t === 'workshop' || t === 'workshops' || t === 'class' || t === 'classes') return 'workshop';
+        if (t === 'jam' || t === 'jams') return 'jam';
+        if (t === 'show' || t === 'shows') return 'show';
+        return 'show'; // default
+      };
+      
+      // Event type styles with colors and emoji circles for dropdown
       const eventTypeStyles = {
-        'show': { color: colors.terracotta, label: 'Shows', icon: '🎭' },
-        'workshop': { color: colors.sage, label: 'Workshops', icon: '📚' },
-        'jam': { color: colors.sand, label: 'Jams', icon: '🎲' },
-        'dropin': { color: '#7B68A6', label: 'Drop-ins', icon: '🚪' },
+        'show': { color: colors.terracotta, label: 'Shows', icon: '🎭', dot: '🔴' },
+        'workshop': { color: colors.sage, label: 'Workshops', icon: '📚', dot: '🟢' },
+        'jam': { color: colors.sand, label: 'Jams', icon: '🎲', dot: '🟡' },
+        'dropin': { color: '#7B68A6', label: 'Drop-ins', icon: '🚪', dot: '🟣' },
       };
       
       const venueStyles = {
@@ -346,13 +357,15 @@
           const group = getVenueGroup(e.venue);
           const matchVenue = venueFilter === 'all' || group === venueFilter;
           
+          const normalizedType = normalizeEventType(e.type);
+          
           let matchType = true;
           if (typeFilter === 'daytime') {
             matchType = !isEveningEvent(e.time);
           } else if (typeFilter === 'evening') {
             matchType = isEveningEvent(e.time);
           } else if (typeFilter !== 'all') {
-            matchType = e.type === typeFilter;
+            matchType = normalizedType === typeFilter;
           }
           
           return matchVenue && matchType;
@@ -364,7 +377,7 @@
         const dateEvents = getEventsForDate(date);
         const counts = {};
         dateEvents.forEach(e => {
-          const type = e.type || 'show';
+          const type = normalizeEventType(e.type);
           counts[type] = (counts[type] || 0) + 1;
         });
         return counts;
@@ -389,6 +402,7 @@
         setShowSearchResults(false);
       };
       
+      // Get active types using normalized types
       const activeVenueGroups = useMemo(() => {
         const s = new Set();
         events.forEach(e => s.add(getVenueGroup(e.venue)));
@@ -397,7 +411,10 @@
       
       const activeTypes = useMemo(() => {
         const s = new Set();
-        events.forEach(e => e.type && s.add(e.type));
+        events.forEach(e => {
+          const normalizedType = normalizeEventType(e.type);
+          s.add(normalizedType);
+        });
         return s;
       }, [events]);
       
@@ -476,7 +493,8 @@
                   {/* Desktop: show event titles */}
                   <div className="desktop-events">
                     {dateEvents.slice(0, 3).map((e, i) => {
-                      const typeStyle = eventTypeStyles[e.type] || eventTypeStyles.show;
+                      const normalizedType = normalizeEventType(e.type);
+                      const typeStyle = eventTypeStyles[normalizedType] || eventTypeStyles.show;
                       return (
                         <div key={i} className="event-chip" style={{ background: `${typeStyle.color}18`, borderColor: typeStyle.color }}>
                           <span className="chip-dot" style={{ background: typeStyle.color }}></span>
@@ -1202,10 +1220,10 @@
                     onChange={e => setTypeFilter(e.target.value)}
                   >
                     <option value="all">All Events</option>
-                    <option value="show" disabled={!activeTypes.has('show')}>● Shows</option>
-                    <option value="workshop" disabled={!activeTypes.has('workshop')}>● Workshops</option>
-                    <option value="jam" disabled={!activeTypes.has('jam')}>● Jams</option>
-                    <option value="dropin" disabled={!activeTypes.has('dropin')}>● Drop-ins</option>
+                    <option value="show" disabled={!activeTypes.has('show')}>🔴 Shows</option>
+                    <option value="workshop" disabled={!activeTypes.has('workshop')}>🟢 Workshops</option>
+                    <option value="jam" disabled={!activeTypes.has('jam')}>🟡 Jams</option>
+                    <option value="dropin" disabled={!activeTypes.has('dropin')}>🟣 Drop-ins</option>
                     <option disabled>──────────</option>
                     <option value="daytime" disabled={!hasDaytimeEvents}>☀️ Daytime</option>
                     <option value="evening" disabled={!hasEveningEvents}>🌙 Evening</option>
@@ -1255,7 +1273,8 @@
                         )}
                         {selectedEvents.map((e, i) => {
                           const venueInfo = getVenueInfo(e.venue);
-                          const typeStyle = eventTypeStyles[e.type] || eventTypeStyles.show;
+                          const normalizedType = normalizeEventType(e.type);
+                          const typeStyle = eventTypeStyles[normalizedType] || eventTypeStyles.show;
                           return (
                             <a key={i} href={e.url} target="_blank" rel="noopener noreferrer" className="event-card" style={{ borderColor: typeStyle.color }}>
                               <div className="event-row">
