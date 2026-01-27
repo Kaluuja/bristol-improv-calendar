@@ -508,6 +508,19 @@
       
       const selectedEvents = selectedDate ? getEventsForDate(selectedDate) : [];
       
+      // Color key component
+      const ColorKey = () => (
+        <div className="color-key">
+          <span className="key-label">Key:</span>
+          {Object.entries(eventTypeStyles).map(([type, style]) => (
+            <div key={type} className="key-item">
+              <span className="key-dot" style={{ background: style.color }}></span>
+              <span className="key-text">{style.label}</span>
+            </div>
+          ))}
+        </div>
+      );
+      
       return (
         <div className="app">
           <style>{`
@@ -698,6 +711,41 @@
             }
             .filter-select:focus { outline: none; border-color: ${colors.terracotta}; }
             .filter-select.active { border-color: ${colors.terracotta}; background-color: ${colors.terracotta}10; }
+            
+            /* COLOR KEY */
+            .color-key {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 1rem;
+              padding: 0.4rem 0.75rem;
+              background: white;
+              border-bottom: 2px solid ${colors.cream};
+              flex-shrink: 0;
+            }
+            .key-label {
+              font-size: 0.75rem;
+              font-weight: 700;
+              color: ${colors.navy}80;
+              text-transform: uppercase;
+              letter-spacing: 0.05em;
+            }
+            .key-item {
+              display: flex;
+              align-items: center;
+              gap: 0.35rem;
+            }
+            .key-dot {
+              width: 12px;
+              height: 12px;
+              border-radius: 50%;
+              flex-shrink: 0;
+            }
+            .key-text {
+              font-size: 0.8rem;
+              font-weight: 600;
+              color: ${colors.navy};
+            }
             
             /* MAIN LAYOUT */
             .main {
@@ -981,8 +1029,8 @@
               /* Calendar - ALWAYS FIXED HEIGHT */
               .calendar {
                 flex: none;
-                height: 50vh;
-                min-height: 260px;
+                height: 48vh;
+                min-height: 240px;
               }
               
               /* Bottom panel - when NO selection, auto height (compact) */
@@ -1052,6 +1100,16 @@
               .search-icon { font-size: 0.7rem; left: 0.55rem; }
               .filter-select { font-size: 0.75rem; padding: 0.35rem 1.4rem 0.35rem 0.45rem; flex: 1; }
               
+              /* Color key - mobile */
+              .color-key {
+                padding: 0.3rem 0.5rem;
+                gap: 0.5rem;
+                flex-wrap: wrap;
+              }
+              .key-label { font-size: 0.65rem; }
+              .key-dot { width: 10px; height: 10px; }
+              .key-text { font-size: 0.7rem; }
+              
               /* Calendar grid */
               .cal-grid { padding: 0.35rem; gap: 3px; }
               .day-hdr { font-size: 0.7rem; padding: 0.3rem 0; }
@@ -1085,6 +1143,10 @@
               .filter-select { font-size: 0.7rem; padding: 0.3rem 1.3rem 0.3rem 0.4rem; }
               .event-dot { width: 14px; height: 14px; }
               .dot-count { font-size: 0.5rem; }
+              .color-key { gap: 0.4rem; }
+              .key-item { gap: 0.25rem; }
+              .key-dot { width: 8px; height: 8px; }
+              .key-text { font-size: 0.6rem; }
             }
             
             /* Desktop: show desktop footer, hide mobile footer */
@@ -1140,9 +1202,10 @@
                     onChange={e => setTypeFilter(e.target.value)}
                   >
                     <option value="all">All Events</option>
-                    {Object.entries(eventTypeStyles).map(([k, v]) => (
-                      <option key={k} value={k} disabled={!activeTypes.has(k)}>{v.icon} {v.label}</option>
-                    ))}
+                    <option value="show" disabled={!activeTypes.has('show')}>● Shows</option>
+                    <option value="workshop" disabled={!activeTypes.has('workshop')}>● Workshops</option>
+                    <option value="jam" disabled={!activeTypes.has('jam')}>● Jams</option>
+                    <option value="dropin" disabled={!activeTypes.has('dropin')}>● Drop-ins</option>
                     <option disabled>──────────</option>
                     <option value="daytime" disabled={!hasDaytimeEvents}>☀️ Daytime</option>
                     <option value="evening" disabled={!hasEveningEvents}>🌙 Evening</option>
@@ -1172,6 +1235,8 @@
                 </div>
               </div>
               
+              <ColorKey />
+              
               <div className="main">
                 <div className="calendar">
                   <div className="cal-grid">
@@ -1186,7 +1251,7 @@
                       <div className="detail-inner">
                         <h3 className="detail-hdr">{getDayName(selectedDate)} {selectedDate} {monthShort[viewMonth]}</h3>
                         {selectedEvents.length > 1 && (
-                          <div className="clash">⚠️ {selectedEvents.length} events — pick your poison!</div>
+                          <div className="clash">🎭 {selectedEvents.length} events — choose your favourite!</div>
                         )}
                         {selectedEvents.map((e, i) => {
                           const venueInfo = getVenueInfo(e.venue);
@@ -1210,7 +1275,7 @@
                       </div>
                       <div className="mobile-footer">
                         <div className="kofi-bar">
-                          <span className="kofi-text">☕ Find this useful? Buy Ste a brew! (... or a pint...)</span>
+                          <span className="kofi-text">☕ Find this useful? Buy Ste a brew! (...or a pint...)</span>
                           <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
                         </div>
                         <div className="footer">
@@ -1226,7 +1291,7 @@
                       </div>
                       <div className="mobile-footer">
                         <div className="kofi-bar">
-                          <span className="kofi-text">☕ Find this useful? Buy Ste a tea/pint!</span>
+                          <span className="kofi-text">☕ Find this useful? Buy Ste a brew! (...or a pint...)</span>
                           <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
                         </div>
                         <div className="footer">
@@ -1244,7 +1309,7 @@
           {/* Desktop footer */}
           <div className="desktop-footer">
             <div className="kofi-bar">
-              <span className="kofi-text">☕ Find this useful? Buy Ste a tea/pint!</span>
+              <span className="kofi-text">☕ Find this useful? Buy Ste a brew! (...or a pint...)</span>
               <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
             </div>
             <div className="footer">
