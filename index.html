@@ -550,6 +550,36 @@
               font-family: 'Nunito', sans-serif;
               color: ${colors.navy};
               overflow: hidden;
+              position: relative;
+            }
+            
+            /* BETA CORNER RIBBON */
+            .beta-ribbon {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 85px;
+              height: 85px;
+              overflow: hidden;
+              z-index: 100;
+              pointer-events: none;
+            }
+            .beta-ribbon span {
+              position: absolute;
+              display: block;
+              width: 120px;
+              padding: 4px 0;
+              background: ${colors.terracotta};
+              color: white;
+              font-size: 0.55rem;
+              font-weight: 800;
+              text-transform: uppercase;
+              text-align: center;
+              letter-spacing: 0.1em;
+              left: -35px;
+              top: 22px;
+              transform: rotate(-45deg);
+              box-shadow: 0 2px 8px rgba(0,0,0,0.2);
             }
             
             /* HEADER */
@@ -865,7 +895,7 @@
             .mobile-events {
               display: none;
               flex-wrap: wrap;
-              gap: 4px;
+              gap: 3px;
               justify-content: flex-start;
               align-items: center;
             }
@@ -1041,6 +1071,22 @@
                MOBILE STYLES
                ============================================ */
             @media (max-width: 768px) {
+              /* Beta ribbon - smaller on mobile */
+              .beta-ribbon {
+                width: 70px;
+                height: 70px;
+              }
+              .beta-ribbon span {
+                width: 100px;
+                padding: 3px 0;
+                font-size: 0.5rem;
+                left: -28px;
+                top: 18px;
+              }
+              
+              /* Hide inline beta badge on mobile */
+              .beta { display: none; }
+              
               /* Vertical stack layout */
               .main { flex-direction: column; }
               
@@ -1093,6 +1139,7 @@
               /* Header adjustments */
               .header {
                 padding: 0.5rem 0.6rem;
+                padding-left: 2.5rem;
                 gap: 0.4rem;
               }
               .header h1 {
@@ -1101,7 +1148,6 @@
                 line-height: 1.15;
               }
               .header-left { gap: 0.35rem; }
-              .beta { font-size: 0.5rem; padding: 0.15rem 0.35rem; }
               .month-full { display: none; }
               .month-short { display: inline; }
               .month-label { min-width: 75px; font-size: 0.75rem; }
@@ -1132,18 +1178,18 @@
               .cal-grid { padding: 0.35rem; gap: 3px; }
               .day-hdr { font-size: 0.7rem; padding: 0.3rem 0; }
               .cal-day { padding: 0.25rem; border-radius: 5px; }
-              .date-num { font-size: 0.75rem; margin-bottom: 0.15rem; }
+              .date-num { font-size: 0.75rem; margin-bottom: 0.1rem; }
               
               /* Show mobile dots, hide desktop events */
               .desktop-events { display: none; }
               .mobile-events { display: flex; }
               
-              /* Event dots sizing */
+              /* Event dots sizing - SMALLER */
               .event-dot {
-                width: 16px;
-                height: 16px;
+                width: 12px;
+                height: 12px;
               }
-              .dot-count { font-size: 0.55rem; }
+              .dot-count { font-size: 0.45rem; }
               
               /* Detail panel content */
               .detail-hdr { font-size: 1rem; margin-bottom: 0.5rem; padding-bottom: 0.4rem; }
@@ -1159,19 +1205,25 @@
             @media (max-width: 380px) {
               .header h1 { font-size: 0.9rem; }
               .filter-select { font-size: 0.7rem; padding: 0.3rem 1.3rem 0.3rem 0.4rem; }
-              .event-dot { width: 14px; height: 14px; }
-              .dot-count { font-size: 0.5rem; }
+              .event-dot { width: 10px; height: 10px; }
+              .dot-count { font-size: 0.4rem; }
               .color-key { gap: 0.4rem; }
               .key-item { gap: 0.25rem; }
               .key-dot { width: 8px; height: 8px; }
               .key-text { font-size: 0.6rem; }
             }
             
-            /* Desktop: show desktop footer, hide mobile footer */
+            /* Desktop: show desktop footer, hide mobile footer, hide ribbon */
             @media (min-width: 769px) {
               .mobile-footer { display: none; }
+              .beta-ribbon { display: none; }
             }
           `}</style>
+          
+          {/* Beta corner ribbon - mobile only */}
+          <div className="beta-ribbon">
+            <span>Beta</span>
+          </div>
           
           <header className="header">
             <div className="header-left">
