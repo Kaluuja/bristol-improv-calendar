@@ -208,6 +208,9 @@
       const [viewMonth, setViewMonth] = useState(new Date().getMonth());
       
       const controlsRef = useRef(null);
+      const calendarRef = useRef(null);
+      const touchStartX = useRef(null);
+      const touchStartY = useRef(null);
       
       const colors = {
         cream: '#F4F1DE',
@@ -237,16 +240,25 @@
       };
       
       const venueStyles = {
-        'Bristol Improv Theatre': { color: colors.terracotta, bg: `${colors.terracotta}18`, icon: '🎪', group: 'Bristol Improv Theatre' },
-        'Hen & Chicken': { color: colors.sand, bg: `${colors.sand}25`, icon: '🐔', group: 'Hen & Chicken' },
-        'Hen & Chicken (Chicken Shed)': { color: colors.sand, bg: `${colors.sand}25`, icon: '🐔', group: 'Hen & Chicken' },
-        'Hen & Chicken (Studio)': { color: colors.sand, bg: `${colors.sand}25`, icon: '🐔', group: 'Hen & Chicken' },
-        'PRSC': { color: colors.sage, bg: `${colors.sage}20`, icon: '✊', group: 'PRSC' },
-        'SPACE at PRSC': { color: colors.sage, bg: `${colors.sage}20`, icon: '✊', group: 'PRSC' },
-        'Wardrobe Theatre': { color: '#7B68A6', bg: '#7B68A618', icon: '🚪', group: 'Wardrobe Theatre' },
-        'Tobacco Factory': { color: '#8B6F47', bg: '#8B6F4715', icon: '🏭', group: 'Tobacco Factory' },
-        'Bristol Beacon': { color: '#C4A35A', bg: '#C4A35A15', icon: '🎵', group: 'Bristol Beacon' },
+        'Bristol Improv Theatre': { color: colors.terracotta, bg: `${colors.terracotta}18`, group: 'Bristol Improv Theatre', order: 1 },
+        'Hen & Chicken': { color: colors.sand, bg: `${colors.sand}25`, group: 'Hen & Chicken', order: 2 },
+        'Hen & Chicken (Chicken Shed)': { color: colors.sand, bg: `${colors.sand}25`, group: 'Hen & Chicken', order: 2 },
+        'Hen & Chicken (Studio)': { color: colors.sand, bg: `${colors.sand}25`, group: 'Hen & Chicken', order: 2 },
+        'PRSC': { color: colors.sage, bg: `${colors.sage}20`, group: 'PRSC', order: 3 },
+        'SPACE at PRSC': { color: colors.sage, bg: `${colors.sage}20`, group: 'PRSC', order: 3 },
+        'Wardrobe Theatre': { color: '#7B68A6', bg: '#7B68A618', group: 'Wardrobe Theatre', order: 4 },
+        'Tobacco Factory': { color: '#8B6F47', bg: '#8B6F4715', group: 'Other', order: 5 },
+        'Bristol Beacon': { color: '#C4A35A', bg: '#C4A35A15', group: 'Other', order: 5 },
       };
+      
+      // Venue groups for filter dropdown (in display order)
+      const venueGroups = [
+        { key: 'Bristol Improv Theatre', label: 'Bristol Improv Theatre' },
+        { key: 'Hen & Chicken', label: 'Hen & Chicken' },
+        { key: 'PRSC', label: 'PRSC' },
+        { key: 'Wardrobe Theatre', label: 'Wardrobe Theatre' },
+        { key: 'Other', label: 'Other' },
+      ];
       
       const isEveningEvent = (timeStr) => {
         if (!timeStr) return true;
@@ -343,12 +355,50 @@
         setViewMonth(todayMonth);
       };
       
-      const getVenueGroup = (venue) => venueStyles[venue]?.group || 
-        (venue.startsWith('Hen & Chicken') ? 'Hen & Chicken' : 
-         venue.includes('PRSC') ? 'PRSC' : venue);
+      // Touch handlers for swipe navigation on mobile
+      const handleTouchStart = (e) => {
+        touchStartX.current = e.touches[0].clientX;
+        touchStartY.current = e.touches[0].clientY;
+      };
+      
+      const handleTouchEnd = (e) => {
+        if (touchStartX.current === null || touchStartY.current === null) return;
+        
+        const touchEndX = e.changedTouches[0].clientX;
+        const touchEndY = e.changedTouches[0].clientY;
+        
+        const deltaX = touchEndX - touchStartX.current;
+        const deltaY = touchEndY - touchStartY.current;
+        
+        // Only trigger swipe if horizontal movement is greater than vertical
+        // and the swipe is at least 50px
+        const minSwipeDistance = 50;
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+          if (deltaX > 0) {
+            // Swiped right - go to previous month
+            goToPrevMonth();
+          } else {
+            // Swiped left - go to next month
+            goToNextMonth();
+          }
+        }
+        
+        touchStartX.current = null;
+        touchStartY.current = null;
+      };
+      
+      const getVenueGroup = (venue) => {
+        const style = venueStyles[venue];
+        if (style) return style.group;
+        // Check if venue starts with known prefixes
+        if (venue.startsWith('Hen & Chicken')) return 'Hen & Chicken';
+        if (venue.includes('PRSC')) return 'PRSC';
+        // Everything else is 'Other'
+        return 'Other';
+      };
       
       const getVenueInfo = (venue) => venueStyles[venue] || 
-        { color: colors.navy, bg: `${colors.navy}15`, icon: '📍', group: venue };
+        { color: colors.navy, bg: `${colors.navy}15`, group: 'Other' };
       
       const getEventsForDate = (date) => {
         return events.filter(e => {
@@ -395,6 +445,33 @@
       
       const handleSearchSelect = (event) => {
         const d = new Date(event.date);
+        
+        // Check if selected event matches current filters
+        const normalizedType = normalizeEventType(event.type);
+        const venueGroup = getVenueGroup(event.venue);
+        const isEvening = isEveningEvent(event.time);
+        
+        // Check if event matches type filter
+        let matchesTypeFilter = typeFilter === 'all';
+        if (typeFilter === 'daytime') {
+          matchesTypeFilter = !isEvening;
+        } else if (typeFilter === 'evening') {
+          matchesTypeFilter = isEvening;
+        } else if (typeFilter !== 'all') {
+          matchesTypeFilter = normalizedType === typeFilter;
+        }
+        
+        // Check if event matches venue filter
+        const matchesVenueFilter = venueFilter === 'all' || venueGroup === venueFilter;
+        
+        // Reset filters if event doesn't match
+        if (!matchesTypeFilter) {
+          setTypeFilter('all');
+        }
+        if (!matchesVenueFilter) {
+          setVenueFilter('all');
+        }
+        
         setViewYear(d.getFullYear());
         setViewMonth(d.getMonth());
         setSelectedDate(d.getDate());
@@ -528,6 +605,22 @@
           const isWeekend = dayIdx >= 5;
           const isToday = viewYear === todayYear && viewMonth === todayMonth && date === todayDate;
           
+          // Render chip shape for desktop view
+          const renderChipShape = (type, color) => {
+            switch(type) {
+              case 'show':
+                return <div className="chip-shape-wrap"><div className="chip-circle" style={{ background: color }}></div></div>;
+              case 'workshop':
+                return <div className="chip-shape-wrap"><div className="chip-square" style={{ background: color }}></div></div>;
+              case 'jam':
+                return <div className="chip-shape-wrap"><div className="chip-diamond" style={{ background: color }}></div></div>;
+              case 'dropin':
+                return <div className="chip-triangle-wrap"><div className="chip-triangle" style={{ background: color }}></div></div>;
+              default:
+                return <div className="chip-shape-wrap"><div className="chip-circle" style={{ background: color }}></div></div>;
+            }
+          };
+          
           days.push(
             <div
               key={date}
@@ -537,14 +630,14 @@
               <span className={`date-num ${isToday ? 'today-num' : ''}`}>{date}</span>
               {hasEvents && (
                 <div className="event-previews">
-                  {/* Desktop: show event titles */}
+                  {/* Desktop: show event titles with shapes */}
                   <div className="desktop-events">
                     {dateEvents.slice(0, 3).map((e, i) => {
                       const normalizedType = normalizeEventType(e.type);
                       const typeStyle = eventTypeStyles[normalizedType] || eventTypeStyles.show;
                       return (
                         <div key={i} className="event-chip" style={{ background: `${typeStyle.color}18`, borderColor: typeStyle.color }}>
-                          <span className="chip-dot" style={{ background: typeStyle.color }}></span>
+                          {renderChipShape(normalizedType, typeStyle.color)}
                           <span className="chip-title">{getShortTitle(e.title)}</span>
                         </div>
                       );
@@ -994,11 +1087,64 @@
               border-left: 3px solid;
               overflow: hidden;
             }
-            .chip-dot {
+            /* Desktop chip shapes */
+            .chip-shape-wrap {
+              width: 8px;
+              height: 8px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+            }
+            .chip-circle {
               width: 8px;
               height: 8px;
               border-radius: 50%;
-              flex-shrink: 0;
+            }
+            .chip-square {
+              width: 8px;
+              height: 8px;
+              border-radius: 2px;
+            }
+            .chip-diamond {
+              width: 6px;
+              height: 6px;
+              border-radius: 1px;
+              transform: rotate(45deg);
+            }
+            .chip-triangle-wrap {
+              width: 8px;
+              height: 8px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: relative;
+            }
+            .chip-triangle {
+              position: relative;
+              text-align: left;
+            }
+            .chip-triangle:before,
+            .chip-triangle:after {
+              content: '';
+              position: absolute;
+              background-color: inherit;
+            }
+            .chip-triangle,
+            .chip-triangle:before,
+            .chip-triangle:after {
+              width: 5px;
+              height: 5px;
+              border-top-right-radius: 30%;
+            }
+            .chip-triangle {
+              transform: rotate(-60deg) skewX(-30deg) scale(1,.866);
+            }
+            .chip-triangle:before {
+              transform: rotate(-135deg) skewX(-45deg) scale(1.414,.707) translate(0,-50%);
+            }
+            .chip-triangle:after {
+              transform: rotate(135deg) skewY(-45deg) scale(.707,1.414) translate(50%);
             }
             .chip-title {
               font-size: 0.7rem;
@@ -1193,16 +1339,25 @@
             }
             .kofi-btn:hover { transform: scale(1.05); }
             .footer {
-              background: white;
-              border-top: 2px solid ${colors.cream};
-              padding: 0.55rem;
+              background: ${colors.cream};
+              border-top: 2px solid ${colors.navy}15;
+              padding: 0.75rem 1rem;
               text-align: center;
-              font-size: 0.75rem;
+              font-size: 0.9rem;
               flex-shrink: 0;
             }
-            .footer-text { color: ${colors.navy}; }
-            .footer a { color: ${colors.terracotta}; font-weight: 700; text-decoration: none; }
-            .footer-updated { color: ${colors.navy}60; margin-left: 0.4rem; }
+            .footer-text { color: ${colors.navy}; font-weight: 600; }
+            .footer a { 
+              color: ${colors.terracotta}; 
+              font-weight: 700; 
+              text-decoration: none;
+              padding: 0.3rem 0.6rem;
+              background: ${colors.terracotta}15;
+              border-radius: 4px;
+              margin-left: 0.3rem;
+            }
+            .footer a:hover { background: ${colors.terracotta}25; }
+            .footer-updated { color: ${colors.navy}60; margin-left: 0.5rem; font-size: 0.8rem; }
             
             /* LOADING */
             .loading {
@@ -1332,7 +1487,8 @@
               }
               .mobile-footer .kofi-text { font-size: 0.7rem; }
               .mobile-footer .kofi-btn { font-size: 0.65rem; padding: 0.3rem 0.55rem; }
-              .mobile-footer .footer { font-size: 0.6rem; padding: 0.35rem; }
+              .mobile-footer .footer { font-size: 0.8rem; padding: 0.6rem 0.5rem; }
+              .mobile-footer .footer a { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
               
               /* Hide desktop footer on mobile */
               .desktop-footer { display: none; }
@@ -1498,10 +1654,10 @@
                     onChange={e => setTypeFilter(e.target.value)}
                   >
                     <option value="all">All Events</option>
-                    <option value="show" disabled={!activeTypes.has('show')}>🔴 Shows</option>
-                    <option value="workshop" disabled={!activeTypes.has('workshop')}>🟢 Workshops</option>
-                    <option value="jam" disabled={!activeTypes.has('jam')}>🟡 Jams</option>
-                    <option value="dropin" disabled={!activeTypes.has('dropin')}>🟣 Drop-ins</option>
+                    <option value="show" disabled={!activeTypes.has('show')}>● Shows</option>
+                    <option value="workshop" disabled={!activeTypes.has('workshop')}>■ Workshops</option>
+                    <option value="jam" disabled={!activeTypes.has('jam')}>◆ Jams</option>
+                    <option value="dropin" disabled={!activeTypes.has('dropin')}>▲ Drop-ins</option>
                     <option disabled>──────────</option>
                     <option value="daytime" disabled={!hasDaytimeEvents}>☀️ Daytime</option>
                     <option value="evening" disabled={!hasEveningEvents}>🌙 Evening</option>
@@ -1512,11 +1668,9 @@
                     onChange={e => setVenueFilter(e.target.value)}
                   >
                     <option value="all">All Venues</option>
-                    {Object.entries(venueStyles)
-                      .filter(([k, v]) => v.group === k)
-                      .map(([k, v]) => (
-                        <option key={k} value={k} disabled={!activeVenueGroups.has(k)}>{v.icon} {k}</option>
-                      ))}
+                    {venueGroups.map(({ key, label }) => (
+                      <option key={key} value={key} disabled={!activeVenueGroups.has(key)}>{label}</option>
+                    ))}
                   </select>
                   {showSearchResults && searchResults.length > 0 && (
                     <div className="search-results">
@@ -1534,7 +1688,12 @@
               <ColorKey />
               
               <div className="main">
-                <div className="calendar">
+                <div 
+                  className="calendar"
+                  ref={calendarRef}
+                  onTouchStart={handleTouchStart}
+                  onTouchEnd={handleTouchEnd}
+                >
                   <div className="cal-grid">
                     {dayNames.map(d => <div key={d} className="day-hdr">{d}</div>)}
                     {renderDays()}
@@ -1576,7 +1735,7 @@
                           <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
                         </div>
                         <div className="footer">
-                          <span className="footer-text">Missing a show? Got corrections?</span> <a href="mailto:ste@youremail.com">Let us know</a>
+                          <span className="footer-text">Missing a show? Got corrections?</span> <a href="https://forms.gle/62psP8V9JF88Kdnz8" target="_blank" rel="noopener noreferrer">Let us know</a>
                           {lastUpdated && <span className="footer-updated">• Updated {formatLastUpdated(lastUpdated)}</span>}
                         </div>
                       </div>
@@ -1592,7 +1751,7 @@
                           <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
                         </div>
                         <div className="footer">
-                          <span className="footer-text">Missing a show? Got corrections?</span> <a href="mailto:ste@youremail.com">Let us know</a>
+                          <span className="footer-text">Missing a show? Got corrections?</span> <a href="https://forms.gle/62psP8V9JF88Kdnz8" target="_blank" rel="noopener noreferrer">Let us know</a>
                           {lastUpdated && <span className="footer-updated">• Updated {formatLastUpdated(lastUpdated)}</span>}
                         </div>
                       </div>
@@ -1610,7 +1769,7 @@
               <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
             </div>
             <div className="footer">
-              <span className="footer-text">Missing a show? Got corrections?</span> <a href="mailto:ste@youremail.com">Let us know</a>
+              <span className="footer-text">Missing a show? Got corrections?</span> <a href="https://forms.gle/62psP8V9JF88Kdnz8" target="_blank" rel="noopener noreferrer">Let us know</a>
               {lastUpdated && <span className="footer-updated">• Updated {formatLastUpdated(lastUpdated)}</span>}
             </div>
           </div>
