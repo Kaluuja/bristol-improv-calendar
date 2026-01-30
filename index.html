@@ -445,16 +445,16 @@
       
       const weeksNeeded = Math.ceil((startDay + daysInMonth) / 7);
       
-      // Render event type dots
-      const renderEventDots = (typeCounts) => {
+      // Render event type shapes
+      const renderEventShapes = (typeCounts) => {
         const typeOrder = ['show', 'workshop', 'jam', 'dropin'];
-        const dots = [];
+        const shapes = [];
         
         typeOrder.forEach(type => {
           if (typeCounts[type]) {
             const count = typeCounts[type];
             const style = eventTypeStyles[type] || { color: colors.navy };
-            dots.push({
+            shapes.push({
               type,
               count,
               color: style.color
@@ -462,8 +462,55 @@
           }
         });
         
-        // Max 4 dots
-        return dots.slice(0, 4);
+        // Max 4 shapes
+        return shapes.slice(0, 4);
+      };
+      
+      // Render a single shape for mobile
+      const renderMobileShape = (shape, index) => {
+        const { type, count, color } = shape;
+        
+        switch(type) {
+          case 'show':
+            return (
+              <div key={index} className="mobile-shape-wrap">
+                <div className="mobile-circle" style={{ background: color }}>
+                  {count > 1 && <span className="shape-count">{count}</span>}
+                </div>
+              </div>
+            );
+          case 'workshop':
+            return (
+              <div key={index} className="mobile-shape-wrap">
+                <div className="mobile-square" style={{ background: color }}>
+                  {count > 1 && <span className="shape-count">{count}</span>}
+                </div>
+              </div>
+            );
+          case 'jam':
+            return (
+              <div key={index} className="mobile-shape-wrap">
+                <div className="mobile-diamond" style={{ background: color }}>
+                  <span>{count > 1 ? <span className="shape-count">{count}</span> : ''}</span>
+                </div>
+              </div>
+            );
+          case 'dropin':
+            return (
+              <div key={index} className="mobile-triangle-wrap">
+                <div className="mobile-triangle" style={{ background: color }}></div>
+                {count > 1 && <span className="mobile-triangle-num">{count}</span>}
+              </div>
+            );
+          default:
+            return (
+              <div key={index} className="mobile-shape-wrap">
+                <div className="mobile-circle" style={{ background: color }}>
+                  {count > 1 && <span className="shape-count">{count}</span>}
+                </div>
+              </div>
+            );
+        }
       };
       
       const renderDays = () => {
@@ -474,7 +521,7 @@
         for (let date = 1; date <= daysInMonth; date++) {
           const dateEvents = getEventsForDate(date);
           const typeCounts = getEventTypeCounts(date);
-          const dots = renderEventDots(typeCounts);
+          const shapes = renderEventShapes(typeCounts);
           const hasEvents = dateEvents.length > 0;
           const isSelected = selectedDate === date;
           const dayIdx = (startDay + date - 1) % 7;
@@ -504,17 +551,9 @@
                     })}
                     {dateEvents.length > 3 && <span className="more">+{dateEvents.length - 3} more</span>}
                   </div>
-                  {/* Mobile: show colored dots by event type */}
+                  {/* Mobile: show shapes by event type */}
                   <div className="mobile-events">
-                    {dots.map((dot, i) => (
-                      <div 
-                        key={i} 
-                        className="event-dot" 
-                        style={{ background: dot.color }}
-                      >
-                        {dot.count > 1 && <span className="dot-count">{dot.count}</span>}
-                      </div>
-                    ))}
+                    {shapes.map((shape, i) => renderMobileShape(shape, i))}
                   </div>
                 </div>
               )}
@@ -526,18 +565,35 @@
       
       const selectedEvents = selectedDate ? getEventsForDate(selectedDate) : [];
       
-      // Color key component
-      const ColorKey = () => (
-        <div className="color-key">
-          <span className="key-label">Key:</span>
-          {Object.entries(eventTypeStyles).map(([type, style]) => (
-            <div key={type} className="key-item">
-              <span className="key-dot" style={{ background: style.color }}></span>
-              <span className="key-text">{style.label}</span>
-            </div>
-          ))}
-        </div>
-      );
+      // Color key component with shapes
+      const ColorKey = () => {
+        const renderKeyShape = (type, color) => {
+          switch(type) {
+            case 'show':
+              return <div className="key-shape"><div className="shape-circle" style={{ background: color }}></div></div>;
+            case 'workshop':
+              return <div className="key-shape"><div className="shape-square" style={{ background: color }}></div></div>;
+            case 'jam':
+              return <div className="shape-diamond-wrap"><div className="shape-diamond" style={{ background: color }}></div></div>;
+            case 'dropin':
+              return <div className="shape-triangle-wrap"><div className="shape-triangle" style={{ background: color }}></div></div>;
+            default:
+              return <div className="key-shape"><div className="shape-circle" style={{ background: color }}></div></div>;
+          }
+        };
+        
+        return (
+          <div className="color-key">
+            <span className="key-label">Key:</span>
+            {Object.entries(eventTypeStyles).map(([type, style]) => (
+              <div key={type} className="key-item">
+                {renderKeyShape(type, style.color)}
+                <span className="key-text">{style.label}</span>
+              </div>
+            ))}
+          </div>
+        );
+      };
       
       return (
         <div className="app">
@@ -783,16 +839,78 @@
               align-items: center;
               gap: 0.35rem;
             }
-            .key-dot {
-              width: 12px;
-              height: 12px;
-              border-radius: 50%;
+            .key-shape {
+              width: 14px;
+              height: 14px;
               flex-shrink: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
             }
             .key-text {
               font-size: 0.8rem;
               font-weight: 600;
               color: ${colors.navy};
+            }
+            
+            /* Shape definitions for key */
+            .shape-circle {
+              width: 100%;
+              height: 100%;
+              border-radius: 50%;
+            }
+            .shape-square {
+              width: 100%;
+              height: 100%;
+              border-radius: 3px;
+            }
+            .shape-diamond-wrap {
+              width: 14px;
+              height: 14px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+            .shape-diamond {
+              width: 11px;
+              height: 11px;
+              border-radius: 2px;
+              transform: rotate(45deg);
+            }
+            /* Rounded Triangle CSS - Source: https://stackoverflow.com/a/14451916, License: CC BY-SA 3.0 */
+            .shape-triangle-wrap {
+              width: 14px;
+              height: 14px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: relative;
+            }
+            .shape-triangle {
+              position: relative;
+              text-align: left;
+            }
+            .shape-triangle:before,
+            .shape-triangle:after {
+              content: '';
+              position: absolute;
+              background-color: inherit;
+            }
+            .shape-triangle,
+            .shape-triangle:before,
+            .shape-triangle:after {
+              width: 8px;
+              height: 8px;
+              border-top-right-radius: 30%;
+            }
+            .shape-triangle {
+              transform: rotate(-60deg) skewX(-30deg) scale(1,.866);
+            }
+            .shape-triangle:before {
+              transform: rotate(-135deg) skewX(-45deg) scale(1.414,.707) translate(0,-50%);
+            }
+            .shape-triangle:after {
+              transform: rotate(135deg) skewY(-45deg) scale(.707,1.414) translate(50%);
             }
             
             /* MAIN LAYOUT */
@@ -891,7 +1009,7 @@
               text-overflow: ellipsis;
             }
             
-            /* Mobile events - colored dots */
+            /* Mobile events - shape indicators */
             .mobile-events {
               display: none;
               flex-wrap: wrap;
@@ -899,16 +1017,99 @@
               justify-content: flex-start;
               align-items: center;
             }
-            .event-dot {
+            
+            /* Mobile shape wrapper - consistent sizing */
+            .mobile-shape-wrap {
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+              position: relative;
+            }
+            
+            /* Mobile Circle (Shows) */
+            .mobile-circle {
               width: 18px;
               height: 18px;
               border-radius: 50%;
               display: flex;
               align-items: center;
               justify-content: center;
-              flex-shrink: 0;
             }
-            .dot-count {
+            
+            /* Mobile Rounded Square (Workshops) */
+            .mobile-square {
+              width: 18px;
+              height: 18px;
+              border-radius: 4px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+            
+            /* Mobile Rounded Diamond (Jams) */
+            .mobile-diamond {
+              width: 14px;
+              height: 14px;
+              border-radius: 3px;
+              transform: rotate(45deg);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+            .mobile-diamond span {
+              transform: rotate(-45deg);
+            }
+            
+            /* Mobile Rounded Triangle (Drop-ins) - Source: https://stackoverflow.com/a/14451916, License: CC BY-SA 3.0 */
+            .mobile-triangle-wrap {
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: relative;
+            }
+            .mobile-triangle {
+              position: relative;
+              text-align: left;
+            }
+            .mobile-triangle:before,
+            .mobile-triangle:after {
+              content: '';
+              position: absolute;
+              background-color: inherit;
+            }
+            .mobile-triangle,
+            .mobile-triangle:before,
+            .mobile-triangle:after {
+              width: 10px;
+              height: 10px;
+              border-top-right-radius: 30%;
+            }
+            .mobile-triangle {
+              transform: rotate(-60deg) skewX(-30deg) scale(1,.866);
+            }
+            .mobile-triangle:before {
+              transform: rotate(-135deg) skewX(-45deg) scale(1.414,.707) translate(0,-50%);
+            }
+            .mobile-triangle:after {
+              transform: rotate(135deg) skewY(-45deg) scale(.707,1.414) translate(50%);
+            }
+            .mobile-triangle-num {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -35%);
+              font-size: 0.6rem;
+              font-weight: 700;
+              color: white;
+              z-index: 10;
+            }
+            
+            .shape-count {
               font-size: 0.6rem;
               font-weight: 700;
               color: white;
@@ -1171,7 +1372,13 @@
                 flex-wrap: wrap;
               }
               .key-label { font-size: 0.65rem; }
-              .key-dot { width: 10px; height: 10px; }
+              .key-shape { width: 10px; height: 10px; }
+              .shape-diamond-wrap { width: 10px; height: 10px; }
+              .shape-diamond { width: 8px; height: 8px; }
+              .shape-triangle-wrap { width: 10px; height: 10px; }
+              .shape-triangle,
+              .shape-triangle:before,
+              .shape-triangle:after { width: 6px; height: 6px; }
               .key-text { font-size: 0.7rem; }
               
               /* Calendar grid */
@@ -1180,16 +1387,21 @@
               .cal-day { padding: 0.25rem; border-radius: 5px; }
               .date-num { font-size: 0.75rem; margin-bottom: 0.1rem; }
               
-              /* Show mobile dots, hide desktop events */
+              /* Show mobile shapes, hide desktop events */
               .desktop-events { display: none; }
               .mobile-events { display: flex; }
               
-              /* Event dots sizing - SMALLER */
-              .event-dot {
-                width: 12px;
-                height: 12px;
-              }
-              .dot-count { font-size: 0.45rem; }
+              /* Mobile shape sizing - SMALLER */
+              .mobile-shape-wrap { width: 12px; height: 12px; }
+              .mobile-circle { width: 12px; height: 12px; }
+              .mobile-square { width: 12px; height: 12px; border-radius: 3px; }
+              .mobile-diamond { width: 9px; height: 9px; border-radius: 2px; }
+              .mobile-triangle-wrap { width: 12px; height: 12px; }
+              .mobile-triangle,
+              .mobile-triangle:before,
+              .mobile-triangle:after { width: 7px; height: 7px; }
+              .mobile-triangle-num { font-size: 0.45rem; }
+              .shape-count { font-size: 0.45rem; }
               
               /* Detail panel content */
               .detail-hdr { font-size: 1rem; margin-bottom: 0.5rem; padding-bottom: 0.4rem; }
@@ -1205,11 +1417,25 @@
             @media (max-width: 380px) {
               .header h1 { font-size: 0.9rem; }
               .filter-select { font-size: 0.7rem; padding: 0.3rem 1.3rem 0.3rem 0.4rem; }
-              .event-dot { width: 10px; height: 10px; }
-              .dot-count { font-size: 0.4rem; }
+              .mobile-shape-wrap { width: 10px; height: 10px; }
+              .mobile-circle { width: 10px; height: 10px; }
+              .mobile-square { width: 10px; height: 10px; border-radius: 2px; }
+              .mobile-diamond { width: 8px; height: 8px; }
+              .mobile-triangle-wrap { width: 10px; height: 10px; }
+              .mobile-triangle,
+              .mobile-triangle:before,
+              .mobile-triangle:after { width: 6px; height: 6px; }
+              .mobile-triangle-num { font-size: 0.4rem; }
+              .shape-count { font-size: 0.4rem; }
               .color-key { gap: 0.4rem; }
               .key-item { gap: 0.25rem; }
-              .key-dot { width: 8px; height: 8px; }
+              .key-shape { width: 8px; height: 8px; }
+              .shape-diamond-wrap { width: 8px; height: 8px; }
+              .shape-diamond { width: 6px; height: 6px; }
+              .shape-triangle-wrap { width: 8px; height: 8px; }
+              .shape-triangle,
+              .shape-triangle:before,
+              .shape-triangle:after { width: 5px; height: 5px; }
               .key-text { font-size: 0.6rem; }
             }
             
