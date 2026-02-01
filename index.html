@@ -112,55 +112,29 @@
               <div className="roadmap-section">
                 <h3>⚡ Core Functionality</h3>
                 <ul>
-                  <RoadmapItem done={true}>Monthly calendar view</RoadmapItem>
-                  <RoadmapItem done={true}>Navigate between months</RoadmapItem>
-                  <RoadmapItem done={true}>Filter by venue</RoadmapItem>
-                  <RoadmapItem done={true}>Filter by event type</RoadmapItem>
-                  <RoadmapItem done={true}>Search events by name</RoadmapItem>
-                  <RoadmapItem done={true}>Mobile-friendly responsive design</RoadmapItem>
-                  <RoadmapItem done={true}>Auto-updates from Airtable database</RoadmapItem>
-                  <RoadmapItem done={false}>Downloadable calendar feed (ICS/iCal)</RoadmapItem>
+                  <RoadmapItem done={true}>Add filters and search</RoadmapItem>
+                  <RoadmapItem done={true}>'Swipe' between months on mobile</RoadmapItem>
+                  <RoadmapItem done={true}>Shows, workshops, drop-ins, jams added</RoadmapItem>
+                  <RoadmapItem done={false}>Downloadable calendar feed</RoadmapItem>
                   <RoadmapItem done={false}>Email newsletter for weekly updates</RoadmapItem>
-                  <RoadmapItem done={false}>Google Calendar integration</RoadmapItem>
                 </ul>
               </div>
               
               <div className="roadmap-section">
-                <h3>🎭 Event Types</h3>
+                <h3>🎭 Events</h3>
                 <ul>
-                  <RoadmapItem done={true}>Shows</RoadmapItem>
-                  <RoadmapItem done={true}>Workshops & classes</RoadmapItem>
-                  <RoadmapItem done={true}>Drop-in jams</RoadmapItem>
-                  <RoadmapItem done={false}>Courses & programmes</RoadmapItem>
-                  <RoadmapItem done={false}>Improv type tags (shortform, longform, narrative, musical, etc.)</RoadmapItem>
-                </ul>
-              </div>
-              
-              <div className="roadmap-section">
-                <h3>📍 Venues</h3>
-                <ul>
-                  <RoadmapItem done={true}>Bristol Improv Theatre</RoadmapItem>
-                  <RoadmapItem done={true}>Hen & Chicken (all spaces)</RoadmapItem>
-                  <RoadmapItem done={true}>PRSC / SPACE at PRSC</RoadmapItem>
-                  <RoadmapItem done={true}>Wardrobe Theatre</RoadmapItem>
-                  <RoadmapItem done={true}>Tobacco Factory</RoadmapItem>
-                  <RoadmapItem done={true}>Bristol Beacon</RoadmapItem>
-                  <RoadmapItem done={false}>Alma Tavern & Theatre</RoadmapItem>
-                  <RoadmapItem done={false}>Bristol Old Vic</RoadmapItem>
-                  <RoadmapItem done={false}>Redgrave Theatre</RoadmapItem>
-                  <RoadmapItem done={false}>St George's Bristol</RoadmapItem>
-                  <RoadmapItem done={false}>The Stag & Hounds</RoadmapItem>
+                  <RoadmapItem done={true}>Added 15 venues</RoadmapItem>
+                  <RoadmapItem done={true}>Added additional ticket websites</RoadmapItem>
                 </ul>
               </div>
               
               <div className="roadmap-section">
                 <h3>🎨 Design & Experience</h3>
                 <ul>
-                  <RoadmapItem done={true}>Venue colour-coding</RoadmapItem>
                   <RoadmapItem done={true}>Event type colour-coding</RoadmapItem>
+                  <RoadmapItem done={true}>Event type icons for colour-blind</RoadmapItem>
                   <RoadmapItem done={false}>Dark mode</RoadmapItem>
                   <RoadmapItem done={false}>List view option</RoadmapItem>
-                  <RoadmapItem done={false}>Map view option</RoadmapItem>
                   <RoadmapItem done={false}>Save favourite events</RoadmapItem>
                 </ul>
               </div>
@@ -168,11 +142,10 @@
               <div className="roadmap-section">
                 <h3>🔮 Future Ideas</h3>
                 <ul>
-                  <RoadmapItem done={false}>Performer & group profiles</RoadmapItem>
-                  <RoadmapItem done={false}>User accounts & personalisation</RoadmapItem>
-                  <RoadmapItem done={false}>Event reminders</RoadmapItem>
-                  <RoadmapItem done={false}>Community reviews & ratings</RoadmapItem>
-                  <RoadmapItem done={false}>Ticket price comparison</RoadmapItem>
+                  <RoadmapItem done={false}>Improv type tags? (shortform, longform, musical, narrative, etc.)</RoadmapItem>
+                  <RoadmapItem done={false}>Performer and group profiles/socials</RoadmapItem>
+                  <RoadmapItem done={false}>User accounts and personalisation</RoadmapItem>
+                  <RoadmapItem done={false}>Event reminders/New events added</RoadmapItem>
                 </ul>
               </div>
               
@@ -268,6 +241,59 @@
           return hour >= 17;
         }
         return true;
+      };
+      
+      // Parse time string to get start and end times in minutes from midnight
+      const parseEventTimes = (timeStr) => {
+        if (!timeStr) return null;
+        // Handle formats like "19:00–21:00", "19:00-21:00", "7pm - 9pm", "19:00"
+        const timeRange = timeStr.replace(/\s/g, '').split(/[–\-]/);
+        
+        const parseTime = (t) => {
+          if (!t) return null;
+          // Handle "7pm", "19:00", "7:30pm" formats
+          const pmMatch = t.toLowerCase().includes('pm');
+          const amMatch = t.toLowerCase().includes('am');
+          const cleaned = t.replace(/[apm]/gi, '');
+          const parts = cleaned.split(':');
+          let hour = parseInt(parts[0], 10);
+          const mins = parts[1] ? parseInt(parts[1], 10) : 0;
+          
+          if (pmMatch && hour < 12) hour += 12;
+          if (amMatch && hour === 12) hour = 0;
+          
+          return hour * 60 + mins;
+        };
+        
+        const start = parseTime(timeRange[0]);
+        const end = timeRange[1] ? parseTime(timeRange[1]) : (start ? start + 120 : null); // Default 2 hour duration
+        
+        return start !== null ? { start, end } : null;
+      };
+      
+      // Check if two events overlap in time
+      const eventsOverlap = (event1, event2) => {
+        const times1 = parseEventTimes(event1.time);
+        const times2 = parseEventTimes(event2.time);
+        
+        if (!times1 || !times2) return false; // Can't determine, assume no overlap
+        
+        // Events overlap if one starts before the other ends
+        return times1.start < times2.end && times2.start < times1.end;
+      };
+      
+      // Check if any events in a list have overlapping times
+      const hasOverlappingEvents = (eventsList) => {
+        if (eventsList.length < 2) return false;
+        
+        for (let i = 0; i < eventsList.length; i++) {
+          for (let j = i + 1; j < eventsList.length; j++) {
+            if (eventsOverlap(eventsList[i], eventsList[j])) {
+              return true;
+            }
+          }
+        }
+        return false;
       };
       
       useEffect(() => {
@@ -522,7 +548,20 @@
       
       const weeksNeeded = Math.ceil((startDay + daysInMonth) / 7);
       
-      // Render event type shapes
+      // Get event type counts for a specific time period (daytime or evening)
+      const getEventTypeCountsByTime = (dateEvents, isEvening) => {
+        const counts = {};
+        dateEvents.forEach(e => {
+          const eventIsEvening = isEveningEvent(e.time);
+          if (eventIsEvening === isEvening) {
+            const type = normalizeEventType(e.type);
+            counts[type] = (counts[type] || 0) + 1;
+          }
+        });
+        return counts;
+      };
+      
+      // Render event type shapes from counts
       const renderEventShapes = (typeCounts) => {
         const typeOrder = ['show', 'workshop', 'jam', 'dropin'];
         const shapes = [];
@@ -597,13 +636,17 @@
         }
         for (let date = 1; date <= daysInMonth; date++) {
           const dateEvents = getEventsForDate(date);
-          const typeCounts = getEventTypeCounts(date);
-          const shapes = renderEventShapes(typeCounts);
           const hasEvents = dateEvents.length > 0;
           const isSelected = selectedDate === date;
           const dayIdx = (startDay + date - 1) % 7;
           const isWeekend = dayIdx >= 5;
           const isToday = viewYear === todayYear && viewMonth === todayMonth && date === todayDate;
+          
+          // Get shapes for daytime and evening separately
+          const daytimeCounts = getEventTypeCountsByTime(dateEvents, false);
+          const eveningCounts = getEventTypeCountsByTime(dateEvents, true);
+          const daytimeShapes = renderEventShapes(daytimeCounts);
+          const eveningShapes = renderEventShapes(eveningCounts);
           
           // Render chip shape for desktop view
           const renderChipShape = (type, color) => {
@@ -644,9 +687,14 @@
                     })}
                     {dateEvents.length > 3 && <span className="more">+{dateEvents.length - 3} more</span>}
                   </div>
-                  {/* Mobile: show shapes by event type */}
+                  {/* Mobile: two-zone layout (daytime top, evening bottom) */}
                   <div className="mobile-events">
-                    {shapes.map((shape, i) => renderMobileShape(shape, i))}
+                    <div className="mobile-time-zone daytime">
+                      {daytimeShapes.map((shape, i) => renderMobileShape(shape, `day-${i}`))}
+                    </div>
+                    <div className="mobile-time-zone evening">
+                      {eveningShapes.map((shape, i) => renderMobileShape(shape, `eve-${i}`))}
+                    </div>
                   </div>
                 </div>
               )}
@@ -1155,19 +1203,31 @@
               text-overflow: ellipsis;
             }
             
-            /* Mobile events - shape indicators */
+            /* Mobile events - two-zone layout (daytime top, evening bottom) */
             .mobile-events {
               display: none;
+              flex-direction: column;
+              flex: 1;
+              min-height: 24px;
+            }
+            .mobile-time-zone {
+              flex: 1;
+              display: flex;
               flex-wrap: wrap;
-              gap: 3px;
-              justify-content: flex-start;
-              align-items: center;
+              gap: 2px;
+              align-items: flex-start;
+              align-content: flex-start;
+              min-height: 12px;
+            }
+            .mobile-time-zone.evening {
+              align-items: flex-end;
+              align-content: flex-end;
             }
             
             /* Mobile shape wrapper - consistent sizing */
             .mobile-shape-wrap {
-              width: 18px;
-              height: 18px;
+              width: 12px;
+              height: 12px;
               display: flex;
               align-items: center;
               justify-content: center;
@@ -1177,8 +1237,8 @@
             
             /* Mobile Circle (Shows) */
             .mobile-circle {
-              width: 18px;
-              height: 18px;
+              width: 12px;
+              height: 12px;
               border-radius: 50%;
               display: flex;
               align-items: center;
@@ -1187,9 +1247,9 @@
             
             /* Mobile Rounded Square (Workshops) */
             .mobile-square {
-              width: 18px;
-              height: 18px;
-              border-radius: 4px;
+              width: 12px;
+              height: 12px;
+              border-radius: 3px;
               display: flex;
               align-items: center;
               justify-content: center;
@@ -1197,9 +1257,9 @@
             
             /* Mobile Rounded Diamond (Jams) */
             .mobile-diamond {
-              width: 14px;
-              height: 14px;
-              border-radius: 3px;
+              width: 9px;
+              height: 9px;
+              border-radius: 2px;
               transform: rotate(45deg);
               display: flex;
               align-items: center;
@@ -1211,8 +1271,8 @@
             
             /* Mobile Rounded Triangle (Drop-ins) - Source: https://stackoverflow.com/a/14451916, License: CC BY-SA 3.0 */
             .mobile-triangle-wrap {
-              width: 18px;
-              height: 18px;
+              width: 12px;
+              height: 12px;
               display: flex;
               align-items: center;
               justify-content: center;
@@ -1231,8 +1291,8 @@
             .mobile-triangle,
             .mobile-triangle:before,
             .mobile-triangle:after {
-              width: 10px;
-              height: 10px;
+              width: 7px;
+              height: 7px;
               border-top-right-radius: 30%;
             }
             .mobile-triangle {
@@ -1249,14 +1309,14 @@
               top: 50%;
               left: 50%;
               transform: translate(-50%, -35%);
-              font-size: 0.6rem;
+              font-size: 0.4rem;
               font-weight: 700;
               color: white;
               z-index: 10;
             }
             
             .shape-count {
-              font-size: 0.6rem;
+              font-size: 0.4rem;
               font-weight: 700;
               color: white;
               line-height: 1;
@@ -1547,17 +1607,8 @@
               .desktop-events { display: none; }
               .mobile-events { display: flex; }
               
-              /* Mobile shape sizing - SMALLER */
-              .mobile-shape-wrap { width: 12px; height: 12px; }
-              .mobile-circle { width: 12px; height: 12px; }
-              .mobile-square { width: 12px; height: 12px; border-radius: 3px; }
-              .mobile-diamond { width: 9px; height: 9px; border-radius: 2px; }
-              .mobile-triangle-wrap { width: 12px; height: 12px; }
-              .mobile-triangle,
-              .mobile-triangle:before,
-              .mobile-triangle:after { width: 7px; height: 7px; }
-              .mobile-triangle-num { font-size: 0.45rem; }
-              .shape-count { font-size: 0.45rem; }
+              /* Two-zone layout adjustments for mobile */
+              .mobile-time-zone { min-height: 14px; }
               
               /* Detail panel content */
               .detail-hdr { font-size: 1rem; margin-bottom: 0.5rem; padding-bottom: 0.4rem; }
@@ -1705,7 +1756,7 @@
                     <>
                       <div className="detail-inner">
                         <h3 className="detail-hdr">{getDayName(selectedDate)} {selectedDate} {monthShort[viewMonth]}</h3>
-                        {selectedEvents.length > 1 && (
+                        {selectedEvents.length > 1 && hasOverlappingEvents(selectedEvents) && (
                           <div className="clash">🎭 {selectedEvents.length} events — choose your favourite!</div>
                         )}
                         {selectedEvents.map((e, i) => {
