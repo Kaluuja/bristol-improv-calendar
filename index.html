@@ -75,7 +75,7 @@
             height: '22px',
             borderRadius: '5px',
             background: done ? colors.sage : 'transparent',
-            border: done ? 'none' : `2px solid ${colors.navy}30`,
+            border: done ? 'none' : `2px solid ${colors.textMuted}`,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -87,7 +87,7 @@
           </span>
           <span style={{ 
             textDecoration: done ? 'line-through' : 'none',
-            color: done ? `${colors.navy}60` : colors.navy,
+            color: done ? colors.textMuted : colors.text,
             fontSize: '0.9rem',
             lineHeight: 1.4
           }}>
@@ -105,8 +105,7 @@
             </div>
             <div className="modal-body">
               <p className="roadmap-intro">
-                This calendar is a work in progress! Here's what's been done and what's coming next. 
-                Got an idea? Submit it at the bottom — I'd love to hear from you!
+                This calendar is a work in progress! Here's what's been done and what's coming next.
               </p>
               
               <div className="roadmap-section">
@@ -133,7 +132,7 @@
                 <ul>
                   <RoadmapItem done={true}>Event type colour-coding</RoadmapItem>
                   <RoadmapItem done={true}>Event type icons for colour-blind</RoadmapItem>
-                  <RoadmapItem done={false}>Dark mode</RoadmapItem>
+                  <RoadmapItem done={true}>Dark mode</RoadmapItem>
                   <RoadmapItem done={false}>List view option</RoadmapItem>
                   <RoadmapItem done={false}>Save favourite events</RoadmapItem>
                 </ul>
@@ -148,14 +147,74 @@
                   <RoadmapItem done={false}>Event reminders/New events added</RoadmapItem>
                 </ul>
               </div>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // ============================================
+    // SETTINGS MODAL
+    // ============================================
+    
+    const SettingsModal = ({ isOpen, onClose, colors, darkMode, setDarkMode, onOpenRoadmap, lastUpdated, formatLastUpdated }) => {
+      if (!isOpen) return null;
+      
+      const FEATURE_REQUEST_URL = 'https://forms.gle/62psP8V9JF88Kdnz8';
+      
+      return (
+        <div className="modal-overlay" onClick={onClose}>
+          <div className="modal-content settings-modal" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>⚙️ Settings</h2>
+              <button className="modal-close" onClick={onClose}>✕</button>
+            </div>
+            <div className="modal-body">
               
-              <div className="roadmap-cta">
-                <p>Got an idea that would make this calendar awesome?</p>
-                <a href={FEATURE_REQUEST_URL} target="_blank" rel="noopener noreferrer" className="cta-button">
-                  💡 Submit your idea
-                </a>
-                <p className="cta-note">All suggestions welcome — big or small!</p>
+              {/* Dark Mode Toggle */}
+              <div className="settings-section">
+                <div className="settings-row">
+                  <div className="settings-label">
+                    <span className="settings-icon">{darkMode ? '🌙' : '☀️'}</span>
+                    <span>{darkMode ? 'Dark Mode' : 'Light Mode'}</span>
+                  </div>
+                  <button 
+                    className={`toggle-btn ${darkMode ? 'active' : ''}`}
+                    onClick={() => setDarkMode(!darkMode)}
+                    aria-label="Toggle dark mode"
+                  >
+                    <span className="toggle-slider"></span>
+                  </button>
+                </div>
               </div>
+              
+              {/* Roadmap Link */}
+              <div className="settings-section">
+                <button 
+                  className="settings-link-btn"
+                  onClick={() => { onClose(); onOpenRoadmap(); }}
+                >
+                  <span className="settings-icon">🗺️</span>
+                  <span>View Roadmap</span>
+                  <span className="settings-arrow">→</span>
+                </button>
+              </div>
+              
+              {/* Feature Request */}
+              <div className="settings-section settings-cta">
+                <p className="settings-cta-text">Got suggestions? Ideas for new features?</p>
+                <a href={FEATURE_REQUEST_URL} target="_blank" rel="noopener noreferrer" className="cta-button">
+                  💡 Submit your ideas
+                </a>
+              </div>
+              
+              {/* Last Updated */}
+              {lastUpdated && (
+                <div className="settings-footer">
+                  <span className="settings-updated">Calendar last updated: {formatLastUpdated(lastUpdated)}</span>
+                </div>
+              )}
+              
             </div>
           </div>
         </div>
@@ -176,6 +235,15 @@
       const [loading, setLoading] = useState(true);
       const [error, setError] = useState(null);
       const [showRoadmap, setShowRoadmap] = useState(false);
+      const [showSettings, setShowSettings] = useState(false);
+      const [darkMode, setDarkMode] = useState(() => {
+        // Check localStorage for saved preference
+        if (typeof window !== 'undefined') {
+          const saved = localStorage.getItem('bristolImprovDarkMode');
+          return saved === 'true';
+        }
+        return false;
+      });
       const [lastUpdated, setLastUpdated] = useState(null);
       const [viewYear, setViewYear] = useState(new Date().getFullYear());
       const [viewMonth, setViewMonth] = useState(new Date().getMonth());
@@ -185,13 +253,39 @@
       const touchStartX = useRef(null);
       const touchStartY = useRef(null);
       
-      const colors = {
+      // Save dark mode preference
+      useEffect(() => {
+        localStorage.setItem('bristolImprovDarkMode', darkMode.toString());
+      }, [darkMode]);
+      
+      // Light and dark mode color schemes
+      const lightColors = {
         cream: '#F4F1DE',
         terracotta: '#E07A5F',
         navy: '#3D405B',
         sage: '#81B29A',
         sand: '#F2CC8F',
+        bg: '#F4F1DE',
+        cardBg: '#FFFFFF',
+        text: '#3D405B',
+        textMuted: '#3D405B80',
+        border: '#F4F1DE',
       };
+      
+      const darkColors = {
+        cream: '#2A2D3E',
+        terracotta: '#E07A5F',
+        navy: '#E8E8E8',
+        sage: '#81B29A',
+        sand: '#F2CC8F',
+        bg: '#1A1C28',
+        cardBg: '#2A2D3E',
+        text: '#E8E8E8',
+        textMuted: '#E8E8E880',
+        border: '#3D405B',
+      };
+      
+      const colors = darkMode ? darkColors : lightColors;
       
       // Normalize event type to handle variations like 'drop-in', 'Drop-in', 'dropin', etc.
       const normalizeEventType = (type) => {
@@ -745,9 +839,9 @@
               display: flex;
               flex-direction: column;
               height: 100vh;
-              background: ${colors.cream};
+              background: ${colors.bg};
               font-family: 'Nunito', sans-serif;
-              color: ${colors.navy};
+              color: ${colors.text};
               overflow: hidden;
               position: relative;
             }
@@ -858,7 +952,7 @@
               text-transform: uppercase;
             }
             .today-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-            .roadmap-btn {
+            .settings-btn {
               font-size: 0.75rem;
               font-weight: 600;
               padding: 0.4rem 0.7rem;
@@ -872,12 +966,12 @@
               gap: 0.35rem;
               white-space: nowrap;
             }
-            .roadmap-btn:hover { background: ${colors.cream}15; border-color: ${colors.cream}; }
+            .settings-btn:hover { background: ${colors.cream}15; border-color: ${colors.cream}; }
             
             /* CONTROLS */
             .controls {
-              background: white;
-              border-bottom: 2px solid ${colors.cream};
+              background: ${colors.cardBg};
+              border-bottom: 2px solid ${colors.border};
               padding: 0.6rem 0.75rem;
               display: flex;
               flex-wrap: wrap;
@@ -904,11 +998,12 @@
             .search-input {
               width: 100%;
               padding: 0.45rem 0.6rem 0.45rem 2rem;
-              border: 2px solid ${colors.navy}20;
+              border: 2px solid ${colors.border};
               border-radius: 18px;
               font-size: 0.85rem;
               font-family: inherit;
-              color: ${colors.navy};
+              color: ${colors.text};
+              background: ${colors.cardBg};
             }
             .search-input:focus { outline: none; border-color: ${colors.terracotta}; }
             .search-icon {
@@ -924,7 +1019,7 @@
               top: 100%;
               left: 0;
               right: 0;
-              background: white;
+              background: ${colors.cardBg};
               border-radius: 10px;
               box-shadow: 0 4px 20px rgba(0,0,0,0.15);
               margin-top: 4px;
@@ -935,22 +1030,22 @@
             .search-item {
               padding: 0.75rem 0.9rem;
               cursor: pointer;
-              border-bottom: 1px solid ${colors.cream};
+              border-bottom: 1px solid ${colors.border};
             }
             .search-item:hover { background: ${colors.cream}; }
             .search-item:last-child { border-bottom: none; }
-            .search-title { font-size: 0.9rem; font-weight: 600; color: ${colors.navy}; }
-            .search-meta { font-size: 0.8rem; color: ${colors.navy}80; margin-top: 0.15rem; }
+            .search-title { font-size: 0.9rem; font-weight: 600; color: ${colors.text}; }
+            .search-meta { font-size: 0.8rem; color: ${colors.textMuted}; margin-top: 0.15rem; }
             
             .filter-select {
               font-family: inherit;
               font-size: 0.85rem;
               font-weight: 600;
               padding: 0.45rem 1.8rem 0.45rem 0.7rem;
-              border: 2px solid ${colors.navy}20;
+              border: 2px solid ${colors.border};
               border-radius: 8px;
-              background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233D405B' d='M2 4l4 4 4-4H2z'/%3E%3C/svg%3E") no-repeat right 0.6rem center;
-              color: ${colors.navy};
+              background: ${colors.cardBg} url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='${darkMode ? '%23E8E8E8' : '%233D405B'}' d='M2 4l4 4 4-4H2z'/%3E%3C/svg%3E") no-repeat right 0.6rem center;
+              color: ${colors.text};
               cursor: pointer;
               appearance: none;
               flex: 1;
@@ -966,14 +1061,14 @@
               justify-content: center;
               gap: 1rem;
               padding: 0.4rem 0.75rem;
-              background: white;
-              border-bottom: 2px solid ${colors.cream};
+              background: ${colors.cardBg};
+              border-bottom: 2px solid ${colors.border};
               flex-shrink: 0;
             }
             .key-label {
               font-size: 0.75rem;
               font-weight: 700;
-              color: ${colors.navy}80;
+              color: ${colors.textMuted};
               text-transform: uppercase;
               letter-spacing: 0.05em;
             }
@@ -993,7 +1088,7 @@
             .key-text {
               font-size: 0.8rem;
               font-weight: 600;
-              color: ${colors.navy};
+              color: ${colors.text};
             }
             
             /* Shape definitions for key */
@@ -1085,11 +1180,11 @@
               font-weight: 700;
               text-align: center;
               padding: 0.4rem 0;
-              color: ${colors.navy}90;
+              color: ${colors.textMuted};
               text-transform: uppercase;
             }
             .cal-day {
-              background: white;
+              background: ${colors.cardBg};
               border-radius: 6px;
               padding: 0.35rem;
               display: flex;
@@ -1099,19 +1194,19 @@
               min-height: 0;
             }
             .cal-day.empty { background: transparent; border: none; }
-            .cal-day.weekend { background: #fffdf8; }
-            .cal-day.today { border-color: ${colors.terracotta}50; background: ${colors.terracotta}08; }
+            .cal-day.weekend { background: ${darkMode ? '#2F3244' : '#fffdf8'}; }
+            .cal-day.today { border-color: ${colors.terracotta}50; background: ${colors.terracotta}15; }
             .cal-day.has-events { cursor: pointer; }
             .cal-day.has-events:hover { border-color: ${colors.sage}; transform: scale(1.02); z-index: 1; }
             .cal-day.selected { border-color: ${colors.terracotta}; box-shadow: 0 2px 8px ${colors.terracotta}30; z-index: 2; }
             .date-num {
               font-size: 0.9rem;
               font-weight: 700;
-              color: ${colors.navy}50;
+              color: ${colors.textMuted};
               margin-bottom: 0.25rem;
               flex-shrink: 0;
             }
-            .has-events .date-num { color: ${colors.navy}; }
+            .has-events .date-num { color: ${colors.text}; }
             .date-num.today-num { color: ${colors.terracotta}; }
             
             .event-previews {
@@ -1199,7 +1294,7 @@
             .chip-title {
               font-size: 0.7rem;
               font-weight: 600;
-              color: ${colors.navy};
+              color: ${colors.text};
               white-space: nowrap;
               overflow: hidden;
               text-overflow: ellipsis;
@@ -1230,7 +1325,7 @@
             .mobile-more {
               font-size: 0.55rem;
               font-weight: 700;
-              color: ${colors.navy}70;
+              color: ${colors.textMuted};
               line-height: 1;
               padding: 0 1px;
             }
@@ -1333,13 +1428,13 @@
               line-height: 1;
             }
             
-            .more { font-size: 0.65rem; color: ${colors.navy}60; padding: 2px; }
+            .more { font-size: 0.65rem; color: ${colors.textMuted}; padding: 2px; }
             
             /* DETAIL PANEL - DESKTOP */
             .detail {
               width: 340px;
-              background: white;
-              border-left: 3px solid ${colors.cream};
+              background: ${colors.cardBg};
+              border-left: 3px solid ${colors.border};
               overflow-y: auto;
               flex-shrink: 0;
               display: flex;
@@ -1352,7 +1447,7 @@
               color: ${colors.terracotta};
               margin-bottom: 0.75rem;
               padding-bottom: 0.5rem;
-              border-bottom: 2px solid ${colors.cream};
+              border-bottom: 2px solid ${colors.border};
             }
             .event-card {
               display: block;
@@ -1370,7 +1465,7 @@
             .event-icon { font-size: 1.5rem; }
             .event-info { flex: 1; min-width: 0; }
             .event-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
-            .event-meta { font-size: 0.85rem; color: ${colors.navy}80; }
+            .event-meta { font-size: 0.85rem; color: ${colors.textMuted}; }
             .event-meta span { display: block; }
             .event-cta { font-size: 0.8rem; font-weight: 700; color: ${colors.terracotta}; margin-top: 0.5rem; }
             .no-select {
@@ -1379,7 +1474,7 @@
               justify-content: center;
               text-align: center;
               padding: 1rem;
-              color: ${colors.navy}60;
+              color: ${colors.textMuted};
               font-size: 0.95rem;
             }
             .clash { background: ${colors.sand}40; border: 2px solid ${colors.sand}; border-radius: 8px; padding: 0.55rem 0.7rem; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.7rem; }
@@ -1387,7 +1482,7 @@
             /* FOOTER */
             .kofi-bar {
               background: linear-gradient(135deg, ${colors.sage}20, ${colors.sand}30);
-              border-top: 2px solid ${colors.cream};
+              border-top: 2px solid ${colors.border};
               padding: 0.55rem 1rem;
               display: flex;
               align-items: center;
@@ -1395,7 +1490,7 @@
               gap: 0.7rem;
               flex-shrink: 0;
             }
-            .kofi-text { font-size: 0.85rem; font-weight: 600; color: ${colors.navy}; }
+            .kofi-text { font-size: 0.85rem; font-weight: 600; color: ${colors.text}; }
             .kofi-btn {
               display: inline-flex;
               align-items: center;
@@ -1411,13 +1506,13 @@
             .kofi-btn:hover { transform: scale(1.05); }
             .footer {
               background: ${colors.cream};
-              border-top: 2px solid ${colors.navy}15;
+              border-top: 2px solid ${colors.border};
               padding: 0.75rem 1rem;
               text-align: center;
               font-size: 0.9rem;
               flex-shrink: 0;
             }
-            .footer-text { color: ${colors.navy}; font-weight: 600; }
+            .footer-text { color: ${colors.text}; font-weight: 600; }
             .footer a { 
               color: ${colors.terracotta}; 
               font-weight: 700; 
@@ -1428,7 +1523,7 @@
               margin-left: 0.3rem;
             }
             .footer a:hover { background: ${colors.terracotta}25; }
-            .footer-updated { color: ${colors.navy}60; margin-left: 0.5rem; font-size: 0.8rem; }
+            .footer-updated { color: ${colors.textMuted}; margin-left: 0.5rem; font-size: 0.8rem; }
             
             /* LOADING */
             .loading {
@@ -1438,12 +1533,12 @@
               align-items: center;
               justify-content: center;
               gap: 0.75rem;
-              color: ${colors.navy}80;
+              color: ${colors.textMuted};
             }
             .spinner {
               width: 40px;
               height: 40px;
-              border: 4px solid ${colors.cream};
+              border: 4px solid ${colors.border};
               border-top-color: ${colors.terracotta};
               border-radius: 50%;
               animation: spin 1s linear infinite;
@@ -1454,7 +1549,7 @@
             .modal-overlay {
               position: fixed;
               inset: 0;
-              background: rgba(61,64,91,0.75);
+              background: rgba(0,0,0,0.75);
               display: flex;
               align-items: center;
               justify-content: center;
@@ -1462,7 +1557,7 @@
               padding: 1rem;
             }
             .modal-content {
-              background: white;
+              background: ${colors.cardBg};
               border-radius: 14px;
               max-width: 540px;
               width: 100%;
@@ -1473,26 +1568,115 @@
               box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             }
             .modal-header {
-              background: ${colors.navy};
-              color: ${colors.cream};
+              background: ${darkMode ? '#1A1C28' : colors.navy};
+              color: ${darkMode ? '#E8E8E8' : colors.cream};
               padding: 1rem 1.25rem;
               display: flex;
               justify-content: space-between;
               align-items: center;
             }
             .modal-header h2 { font-size: 1.2rem; margin: 0; }
-            .modal-close { background: none; border: none; color: ${colors.cream}; font-size: 1.2rem; cursor: pointer; opacity: 0.7; }
+            .modal-close { background: none; border: none; color: ${darkMode ? '#E8E8E8' : colors.cream}; font-size: 1.2rem; cursor: pointer; opacity: 0.7; }
             .modal-close:hover { opacity: 1; }
             .modal-body { padding: 1.25rem; overflow-y: auto; flex: 1; }
-            .roadmap-intro { font-size: 0.9rem; color: ${colors.navy}90; margin-bottom: 1.25rem; line-height: 1.5; }
+            .roadmap-intro { font-size: 0.9rem; color: ${colors.textMuted}; margin-bottom: 1.25rem; line-height: 1.5; }
             .roadmap-section { margin-bottom: 1.5rem; }
-            .roadmap-section h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; padding-bottom: 0.4rem; border-bottom: 2px solid ${colors.cream}; }
+            .roadmap-section h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; padding-bottom: 0.4rem; border-bottom: 2px solid ${colors.border}; color: ${colors.text}; }
             .roadmap-section ul { list-style: none; }
             .roadmap-cta { background: ${colors.cream}; border-radius: 10px; padding: 1rem; text-align: center; margin-top: 0.5rem; }
             .roadmap-cta p { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.6rem; }
-            .roadmap-cta .cta-note { font-size: 0.75rem; color: ${colors.navy}70; margin-top: 0.5rem; margin-bottom: 0; }
+            .roadmap-cta .cta-note { font-size: 0.75rem; color: ${colors.textMuted}; margin-top: 0.5rem; margin-bottom: 0; }
             .cta-button { display: inline-block; background: ${colors.terracotta}; color: white; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.85rem; font-weight: 700; text-decoration: none; }
             .cta-button:hover { transform: scale(1.03); }
+            
+            /* Settings Modal */
+            .settings-modal { max-width: 380px; }
+            .settings-section {
+              padding: 0.75rem 0;
+              border-bottom: 1px solid ${colors.border};
+            }
+            .settings-section:last-of-type { border-bottom: none; }
+            .settings-row {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            }
+            .settings-label {
+              display: flex;
+              align-items: center;
+              gap: 0.6rem;
+              font-size: 0.95rem;
+              font-weight: 600;
+              color: ${colors.text};
+            }
+            .settings-icon { font-size: 1.1rem; }
+            
+            /* Toggle Button */
+            .toggle-btn {
+              width: 52px;
+              height: 28px;
+              background: ${darkMode ? '#4A4D5E' : colors.navy + '30'};
+              border: none;
+              border-radius: 14px;
+              cursor: pointer;
+              position: relative;
+              transition: background 0.2s;
+            }
+            .toggle-btn.active { background: ${colors.sage}; }
+            .toggle-slider {
+              position: absolute;
+              top: 3px;
+              left: 3px;
+              width: 22px;
+              height: 22px;
+              background: white;
+              border-radius: 50%;
+              transition: transform 0.2s;
+              box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            }
+            .toggle-btn.active .toggle-slider { transform: translateX(24px); }
+            
+            /* Settings Link Button */
+            .settings-link-btn {
+              width: 100%;
+              display: flex;
+              align-items: center;
+              gap: 0.6rem;
+              padding: 0.6rem 0.5rem;
+              background: transparent;
+              border: none;
+              font-size: 0.95rem;
+              font-weight: 600;
+              color: ${colors.text};
+              cursor: pointer;
+              border-radius: 8px;
+              transition: background 0.15s;
+            }
+            .settings-link-btn:hover { background: ${colors.cream}; }
+            .settings-arrow { margin-left: auto; color: ${colors.textMuted}; }
+            
+            /* Settings CTA */
+            .settings-cta {
+              text-align: center;
+              padding-top: 1rem !important;
+            }
+            .settings-cta-text {
+              font-size: 0.9rem;
+              color: ${colors.textMuted};
+              margin-bottom: 0.75rem;
+            }
+            
+            /* Settings Footer */
+            .settings-footer {
+              padding-top: 1rem;
+              margin-top: 0.5rem;
+              border-top: 1px solid ${colors.border};
+              text-align: center;
+            }
+            .settings-updated {
+              font-size: 0.75rem;
+              color: ${colors.textMuted};
+            }
             
             /* ============================================
                MOBILE STYLES
@@ -1547,7 +1731,7 @@
               .detail {
                 width: 100%;
                 border-left: none;
-                border-top: 3px solid ${colors.cream};
+                border-top: 3px solid ${colors.border};
               }
               
               /* Compact no-select message */
@@ -1587,8 +1771,8 @@
               .month-label { min-width: 75px; font-size: 0.75rem; }
               .nav-btn { width: 28px; height: 28px; font-size: 0.9rem; }
               .today-btn { font-size: 0.55rem; padding: 0.3rem 0.45rem; }
-              .roadmap-btn { padding: 0.3rem 0.45rem; font-size: 0.65rem; }
-              .roadmap-btn span { display: none; }
+              .settings-btn { padding: 0.3rem 0.45rem; font-size: 0.65rem; }
+              .settings-btn span { display: none; }
               
               /* Controls */
               .controls { padding: 0.45rem 0.5rem; }
@@ -1700,12 +1884,12 @@
               <button className="nav-btn" onClick={goToNextMonth} disabled={!canGoForward}>→</button>
               <button className="today-btn" onClick={goToToday} disabled={isCurrentMonth}>Today</button>
             </div>
-            <button className="roadmap-btn" onClick={() => setShowRoadmap(true)}>
-              🗺️ <span>Roadmap</span>
+            <button className="settings-btn" onClick={() => setShowSettings(true)}>
+              ⚙️ <span>Settings</span>
             </button>
           </header>
           
-          {error && <div style={{ background: `${colors.sand}30`, textAlign: 'center', fontSize: '0.65rem', padding: '0.3rem', color: colors.navy }}>⚠️ {error}</div>}
+          {error && <div style={{ background: `${colors.sand}30`, textAlign: 'center', fontSize: '0.65rem', padding: '0.3rem', color: colors.text }}>⚠️ {error}</div>}
           
           {loading ? (
             <div className="loading">
@@ -1815,7 +1999,6 @@
                         </div>
                         <div className="footer">
                           <span className="footer-text">Missing a show? Got corrections?</span> <a href="https://forms.gle/62psP8V9JF88Kdnz8" target="_blank" rel="noopener noreferrer">Let us know</a>
-                          {lastUpdated && <span className="footer-updated">• Updated {formatLastUpdated(lastUpdated)}</span>}
                         </div>
                       </div>
                     </>
@@ -1831,7 +2014,6 @@
                         </div>
                         <div className="footer">
                           <span className="footer-text">Missing a show? Got corrections?</span> <a href="https://forms.gle/62psP8V9JF88Kdnz8" target="_blank" rel="noopener noreferrer">Let us know</a>
-                          {lastUpdated && <span className="footer-updated">• Updated {formatLastUpdated(lastUpdated)}</span>}
                         </div>
                       </div>
                     </>
@@ -1854,6 +2036,16 @@
           </div>
           
           <RoadmapModal isOpen={showRoadmap} onClose={() => setShowRoadmap(false)} colors={colors} />
+          <SettingsModal 
+            isOpen={showSettings} 
+            onClose={() => setShowSettings(false)} 
+            colors={colors}
+            darkMode={darkMode}
+            setDarkMode={setDarkMode}
+            onOpenRoadmap={() => setShowRoadmap(true)}
+            lastUpdated={lastUpdated}
+            formatLastUpdated={formatLastUpdated}
+          />
         </div>
       );
     };
