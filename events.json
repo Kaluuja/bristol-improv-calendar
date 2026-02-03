@@ -1,24 +1,6 @@
 {
-  "lastUpdated": "2026-02-02T06:58:47.648Z",
+  "lastUpdated": "2026-02-03T06:46:01.069Z",
   "events": [
-    {
-      "date": "2026-02-02",
-      "title": "Lunchtime Improv with Rebecca MacMillan",
-      "venue": "Bristol Improv Theatre",
-      "time": "13:00–14:30",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/lunchtime-improv-with-rebecca-macmillan-2-2/2026-02-02/",
-      "description": ""
-    },
-    {
-      "date": "2026-02-02",
-      "title": "Improv Drop-ins",
-      "venue": "Bristol Improv Theatre",
-      "time": "19:00–21:00",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-02-02/",
-      "description": ""
-    },
     {
       "date": "2026-02-05",
       "title": "Live in da Hive: The Improv Gauntlet",
@@ -88,7 +70,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "19:00–21:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-02-09/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-02-09/",
       "description": ""
     },
     {
@@ -151,7 +133,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "19:00–21:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-02-16/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-02-16/",
       "description": ""
     },
     {
@@ -187,7 +169,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "14:00–16:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3/2026-02-21/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2/2026-02-21/",
       "description": ""
     },
     {
@@ -232,7 +214,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "19:00–21:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-02-23/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-02-23/",
       "description": ""
     },
     {
@@ -248,7 +230,7 @@
       "date": "2026-02-24",
       "title": "Level 2: Intro to Performing Improv",
       "venue": "Bristol Improv Theatre",
-      "time": "18:30",
+      "time": "18:30–21:00",
       "type": "workshop",
       "url": "https://improvtheatre.co.uk/upcoming-show/level-2-intro-to-performing-improv-4/",
       "description": ""
@@ -349,7 +331,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "19:00–21:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-03-02/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-03-02/",
       "description": ""
     },
     {
@@ -403,7 +385,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "14:00–16:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3/2026-03-07/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2/2026-03-07/",
       "description": ""
     },
     {
@@ -430,7 +412,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "19:00–21:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-03-09/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-03-09/",
       "description": ""
     },
     {
@@ -511,7 +493,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "19:00–21:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-03-16/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-03-16/",
       "description": ""
     },
     {
@@ -547,7 +529,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "14:00–16:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3/2026-03-21/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2-2/",
       "description": ""
     },
     {
@@ -574,7 +556,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "19:00–21:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-03-23/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-03-23/",
       "description": ""
     },
     {
@@ -637,7 +619,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-03-30/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-03-30/",
       "description": ""
     },
     {
@@ -664,7 +646,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "15:00–17:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3/2026-04-04/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2/2026-04-04/",
       "description": ""
     },
     {
@@ -682,7 +664,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-04-06/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-04-06/",
       "description": ""
     },
     {
@@ -754,7 +736,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-04-13/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-04-13/",
       "description": ""
     },
     {
@@ -799,7 +781,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "15:00–17:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3/2026-04-18/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2-3/",
       "description": ""
     },
     {
@@ -808,7 +790,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-04-20/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-04-20/",
       "description": ""
     },
     {
@@ -853,7 +835,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-04-27/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-04-27/",
       "description": ""
     },
     {
@@ -871,7 +853,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "15:00–17:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3/2026-05-02/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2/2026-05-02/",
       "description": ""
     },
     {
@@ -880,7 +862,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-05-04/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-05-04/",
       "description": ""
     },
     {
@@ -898,7 +880,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-05-11/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-05-11/",
       "description": ""
     },
     {
@@ -925,7 +907,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "15:00–17:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3/2026-05-16/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2/2026-05-16/",
       "description": ""
     },
     {
@@ -934,7 +916,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-05-18/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-05-18/",
       "description": ""
     },
     {
@@ -952,7 +934,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-05-25/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-05-25/",
       "description": ""
     },
     {
@@ -988,7 +970,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-06-01/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-06-01/",
       "description": ""
     },
     {
@@ -1006,7 +988,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "15:00–17:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3/2026-06-06/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2/2026-06-06/",
       "description": ""
     },
     {
@@ -1015,7 +997,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-06-08/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-06-08/",
       "description": ""
     },
     {
@@ -1042,7 +1024,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-06-15/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-06-15/",
       "description": ""
     },
     {
@@ -1060,7 +1042,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "15:00–17:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3/2026-06-20/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2/2026-06-20/",
       "description": ""
     },
     {
@@ -1069,7 +1051,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-06-22/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-06-22/",
       "description": ""
     },
     {
@@ -1078,7 +1060,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-06-29/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-06-29/",
       "description": ""
     },
     {
@@ -1096,7 +1078,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "15:00–17:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3/2026-07-04/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2/2026-07-04/",
       "description": ""
     },
     {
@@ -1105,7 +1087,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-07-06/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-07-06/",
       "description": ""
     },
     {
@@ -1114,7 +1096,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-07-13/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-07-13/",
       "description": ""
     },
     {
@@ -1132,7 +1114,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-07-20/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-07-20/",
       "description": ""
     },
     {
@@ -1141,7 +1123,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "15:00–17:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3/2026-07-25/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2/2026-07-25/",
       "description": ""
     },
     {
@@ -1150,7 +1132,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-07-27/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-07-27/",
       "description": ""
     },
     {
@@ -1159,7 +1141,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-08-03/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-08-03/",
       "description": ""
     },
     {
@@ -1177,7 +1159,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "15:00–17:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3/2026-08-08/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2-4/",
       "description": ""
     },
     {
@@ -1186,7 +1168,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-08-10/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-08-10/",
       "description": ""
     },
     {
@@ -1204,7 +1186,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-08-17/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-08-17/",
       "description": ""
     },
     {
@@ -1213,7 +1195,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "15:00–17:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3/2026-08-22/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2/2026-08-22/",
       "description": ""
     },
     {
@@ -1222,7 +1204,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-08-24/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-08-24/",
       "description": ""
     },
     {
@@ -1231,7 +1213,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-08-31/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-08-31/",
       "description": ""
     },
     {
@@ -1249,7 +1231,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-09-07/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-09-07/",
       "description": ""
     },
     {
@@ -1258,7 +1240,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "15:00–17:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3/2026-09-12/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2/2026-09-12/",
       "description": ""
     },
     {
@@ -1267,7 +1249,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-09-14/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-09-14/",
       "description": ""
     },
     {
@@ -1285,7 +1267,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-09-21/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-09-21/",
       "description": ""
     },
     {
@@ -1294,7 +1276,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "15:00–17:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3/2026-09-26/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2/2026-09-26/",
       "description": ""
     },
     {
@@ -1303,7 +1285,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-09-28/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-09-28/",
       "description": ""
     },
     {
@@ -1321,7 +1303,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-10-05/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-10-05/",
       "description": ""
     },
     {
@@ -1330,7 +1312,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "15:00–17:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3/2026-10-10/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2/2026-10-10/",
       "description": ""
     },
     {
@@ -1339,7 +1321,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-10-12/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-10-12/",
       "description": ""
     },
     {
@@ -1357,7 +1339,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-10-19/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-10-19/",
       "description": ""
     },
     {
@@ -1366,7 +1348,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "19:00–21:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-10-26/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-10-26/",
       "description": ""
     },
     {
@@ -1375,7 +1357,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "14:00–16:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3/2026-10-31/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2/2026-10-31/",
       "description": ""
     },
     {
@@ -1384,7 +1366,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "19:00–21:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-11-02/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-11-02/",
       "description": ""
     },
     {
@@ -1393,7 +1375,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "19:00–21:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-11-09/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-11-09/",
       "description": ""
     },
     {
@@ -1402,7 +1384,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "14:00–16:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3/2026-11-14/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2/2026-11-14/",
       "description": ""
     },
     {
@@ -1411,7 +1393,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "19:00–21:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-11-16/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-11-16/",
       "description": ""
     },
     {
@@ -1429,7 +1411,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "19:00–21:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-11-23/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-11-23/",
       "description": ""
     },
     {
@@ -1438,7 +1420,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "14:00–16:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3/2026-11-28/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2/2026-11-28/",
       "description": ""
     },
     {
@@ -1447,7 +1429,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "19:00–21:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-11-30/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-11-30/",
       "description": ""
     },
     {
@@ -1465,7 +1447,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "19:00–21:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-12-07/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-12-07/",
       "description": ""
     },
     {
@@ -1474,7 +1456,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "14:00–16:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3/2026-12-12/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2/2026-12-12/",
       "description": ""
     },
     {
@@ -1492,7 +1474,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "19:00–21:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-12-14/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-12-14/",
       "description": ""
     },
     {
@@ -1501,7 +1483,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "19:00–21:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-12-21/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-12-21/",
       "description": ""
     },
     {
@@ -1510,7 +1492,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "19:00–21:00",
       "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-12-28/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-12-28/",
       "description": ""
     }
   ]
