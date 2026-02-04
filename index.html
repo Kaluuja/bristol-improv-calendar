@@ -1830,6 +1830,48 @@
             .footer a:hover { background: ${colors.terracotta}25; }
             .footer-updated { color: ${colors.textMuted}; margin-left: 0.5rem; font-size: 0.8rem; }
             
+            /* Desktop footer - single row */
+            .desktop-footer {
+              background: linear-gradient(135deg, ${colors.sage}15, ${colors.sand}20);
+              border-top: 2px solid ${colors.border};
+              padding: 0.5rem 1rem;
+              flex-shrink: 0;
+            }
+            .footer-row {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              gap: 1rem;
+              max-width: 1200px;
+              margin: 0 auto;
+            }
+            .footer-left {
+              display: flex;
+              align-items: center;
+              gap: 0.4rem;
+              flex-wrap: wrap;
+            }
+            .footer-left .footer-text { font-size: 0.85rem; }
+            .footer-left a { 
+              color: ${colors.terracotta}; 
+              font-weight: 700; 
+              text-decoration: none;
+              padding: 0.25rem 0.5rem;
+              background: ${colors.terracotta}15;
+              border-radius: 4px;
+              font-size: 0.8rem;
+            }
+            .footer-left a:hover { background: ${colors.terracotta}25; }
+            .footer-left .footer-updated { font-size: 0.75rem; }
+            .footer-right {
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+              flex-shrink: 0;
+            }
+            .footer-right .kofi-text { font-size: 0.8rem; }
+            .footer-right .kofi-btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+            
             /* LOADING */
             .loading {
               flex: 1;
@@ -2009,6 +2051,66 @@
             .settings-updated {
               font-size: 0.75rem;
               color: ${colors.textMuted};
+            }
+            
+            /* ============================================
+               SMALLER HEIGHT SCREENS (e.g. 1080p at 125% scale)
+               ============================================ */
+            @media (max-height: 800px) and (min-width: 769px) {
+              .header { padding: 0.4rem 0.8rem; }
+              .header h1 { font-size: 1.2rem; }
+              .controls { padding: 0.4rem 0.6rem; }
+              .color-key { padding: 0.3rem 0.6rem; }
+              .key-text { font-size: 0.75rem; }
+              .cal-grid { gap: 3px; padding: 0.35rem; }
+              .day-hdr { padding: 0.25rem 0; font-size: 0.7rem; }
+              .cal-day { padding: 0.25rem; }
+              .date-num { font-size: 0.8rem; margin-bottom: 0.15rem; }
+              .desktop-event { padding: 0.15rem 0.25rem; margin-bottom: 2px; }
+              .chip-shape { width: 10px; height: 10px; }
+              .chip-title { font-size: 0.65rem; }
+              .detail { width: 300px; }
+              .detail-inner { padding: 0.75rem; }
+              .detail-hdr { font-size: 1rem; margin-bottom: 0.5rem; padding-bottom: 0.35rem; }
+              .event-card { padding: 0.7rem; margin-bottom: 0.5rem; }
+              .event-icon { font-size: 1.3rem; }
+              .event-title { font-size: 0.85rem; }
+              .event-meta { font-size: 0.8rem; }
+              .event-cta { font-size: 0.75rem; margin-top: 0.35rem; }
+              .desktop-footer { padding: 0.35rem 0.8rem; }
+              .footer-left .footer-text { font-size: 0.75rem; }
+              .footer-left a { font-size: 0.7rem; padding: 0.2rem 0.4rem; }
+              .footer-right .kofi-text { font-size: 0.7rem; }
+              .footer-right .kofi-btn { font-size: 0.65rem; padding: 0.25rem 0.5rem; }
+            }
+            
+            /* Extra tight height (very scaled displays) */
+            @media (max-height: 700px) and (min-width: 769px) {
+              .header { padding: 0.3rem 0.6rem; }
+              .header h1 { font-size: 1.1rem; }
+              .controls { padding: 0.35rem 0.5rem; }
+              .search-input { padding: 0.35rem 0.5rem 0.35rem 1.8rem; font-size: 0.8rem; }
+              .filter-select { padding: 0.35rem 1.5rem 0.35rem 0.5rem; font-size: 0.8rem; }
+              .color-key { padding: 0.25rem 0.5rem; gap: 0.6rem; }
+              .key-label { font-size: 0.65rem; }
+              .key-text { font-size: 0.7rem; }
+              .cal-grid { gap: 2px; padding: 0.25rem; }
+              .day-hdr { padding: 0.2rem 0; font-size: 0.65rem; }
+              .cal-day { padding: 0.2rem; border-radius: 4px; }
+              .date-num { font-size: 0.75rem; margin-bottom: 0.1rem; }
+              .desktop-event { padding: 0.1rem 0.2rem; margin-bottom: 1px; border-radius: 3px; }
+              .chip-shape { width: 8px; height: 8px; }
+              .chip-title { font-size: 0.6rem; }
+              .more { font-size: 0.55rem; }
+              .detail { width: 280px; }
+              .detail-inner { padding: 0.6rem; }
+              .detail-hdr { font-size: 0.95rem; margin-bottom: 0.4rem; padding-bottom: 0.3rem; }
+              .event-card { padding: 0.6rem; margin-bottom: 0.4rem; border-radius: 8px; }
+              .event-icon { font-size: 1.2rem; }
+              .event-title { font-size: 0.8rem; }
+              .event-meta { font-size: 0.75rem; }
+              .event-cta { font-size: 0.7rem; margin-top: 0.3rem; }
+              .no-select { font-size: 0.85rem; padding: 0.75rem; }
             }
             
             /* ============================================
@@ -2422,13 +2524,16 @@
           {/* Desktop footer - only shown in calendar view */}
           {viewMode === 'calendar' && (
             <div className="desktop-footer">
-              <div className="kofi-bar">
-                <span className="kofi-text">☕ Find this useful? Buy Ste a brew! (...or a pint...)</span>
-                <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
-              </div>
-              <div className="footer">
-                <span className="footer-text">Missing a show? Got corrections?</span> <a href="https://forms.gle/62psP8V9JF88Kdnz8" target="_blank" rel="noopener noreferrer">Let us know</a>
-                {lastUpdated && <span className="footer-updated">• Updated {formatLastUpdated(lastUpdated)}</span>}
+              <div className="footer-row">
+                <div className="footer-left">
+                  <span className="footer-text">Missing a show? Got corrections?</span>
+                  <a href="https://forms.gle/62psP8V9JF88Kdnz8" target="_blank" rel="noopener noreferrer">Let us know</a>
+                  {lastUpdated && <span className="footer-updated">• Updated {formatLastUpdated(lastUpdated)}</span>}
+                </div>
+                <div className="footer-right">
+                  <span className="kofi-text">☕ Buy Ste a brew!</span>
+                  <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Ko-fi</a>
+                </div>
               </div>
             </div>
           )}
