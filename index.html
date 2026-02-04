@@ -133,7 +133,7 @@
                   <RoadmapItem done={true}>Event type colour-coding</RoadmapItem>
                   <RoadmapItem done={true}>Event type icons for colour-blind</RoadmapItem>
                   <RoadmapItem done={true}>Dark mode</RoadmapItem>
-                  <RoadmapItem done={false}>List view option</RoadmapItem>
+                  <RoadmapItem done={true}>List view option</RoadmapItem>
                   <RoadmapItem done={false}>Save favourite events</RoadmapItem>
                 </ul>
               </div>
@@ -157,7 +157,7 @@
     // SETTINGS MODAL
     // ============================================
     
-    const SettingsModal = ({ isOpen, onClose, colors, darkMode, setDarkMode, onOpenRoadmap, lastUpdated, formatLastUpdated }) => {
+    const SettingsModal = ({ isOpen, onClose, colors, darkMode, setDarkMode, viewMode, setViewMode, onOpenRoadmap, lastUpdated, formatLastUpdated }) => {
       if (!isOpen) return null;
       
       const FEATURE_REQUEST_URL = 'https://forms.gle/62psP8V9JF88Kdnz8';
@@ -185,6 +185,30 @@
                   >
                     <span className="toggle-slider"></span>
                   </button>
+                </div>
+              </div>
+              
+              {/* View Mode Selector */}
+              <div className="settings-section">
+                <div className="settings-row">
+                  <div className="settings-label">
+                    <span className="settings-icon">📅</span>
+                    <span>View</span>
+                  </div>
+                  <div className="view-toggle">
+                    <button 
+                      className={`view-toggle-btn ${viewMode === 'calendar' ? 'active' : ''}`}
+                      onClick={() => setViewMode('calendar')}
+                    >
+                      📅 Calendar
+                    </button>
+                    <button 
+                      className={`view-toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
+                      onClick={() => setViewMode('list')}
+                    >
+                      📋 List
+                    </button>
+                  </div>
                 </div>
               </div>
               
@@ -244,6 +268,14 @@
         }
         return false;
       });
+      const [viewMode, setViewMode] = useState(() => {
+        // Check localStorage for saved preference
+        if (typeof window !== 'undefined') {
+          const saved = localStorage.getItem('bristolImprovViewMode');
+          return saved === 'list' ? 'list' : 'calendar';
+        }
+        return 'calendar';
+      });
       const [lastUpdated, setLastUpdated] = useState(null);
       const [viewYear, setViewYear] = useState(new Date().getFullYear());
       const [viewMonth, setViewMonth] = useState(new Date().getMonth());
@@ -257,6 +289,11 @@
       useEffect(() => {
         localStorage.setItem('bristolImprovDarkMode', darkMode.toString());
       }, [darkMode]);
+      
+      // Save view mode preference
+      useEffect(() => {
+        localStorage.setItem('bristolImprovViewMode', viewMode);
+      }, [viewMode]);
       
       // Light and dark mode color schemes
       const lightColors = {
@@ -563,6 +600,49 @@
         ).slice(0, 8);
       }, [searchQuery, events]);
       
+      // Get all events with filters applied (for list view)
+      const getAllFilteredEvents = useMemo(() => {
+        const now = new Date();
+        now.setHours(0, 0, 0, 0);
+        
+        return events.filter(e => {
+          const eventDate = new Date(e.date);
+          eventDate.setHours(0, 0, 0, 0);
+          
+          // Only show future events (from today onwards)
+          if (eventDate < now) return false;
+          
+          const group = getVenueGroup(e.venue);
+          const matchVenue = venueFilter === 'all' || group === venueFilter;
+          
+          const normalizedType = normalizeEventType(e.type);
+          
+          let matchType = true;
+          if (typeFilter === 'daytime') {
+            matchType = !isEveningEvent(e.time);
+          } else if (typeFilter === 'evening') {
+            matchType = isEveningEvent(e.time);
+          } else if (typeFilter !== 'all') {
+            matchType = normalizedType === typeFilter;
+          }
+          
+          return matchVenue && matchType;
+        }).sort((a, b) => new Date(a.date) - new Date(b.date));
+      }, [events, venueFilter, typeFilter]);
+      
+      // Group filtered events by date for list view
+      const groupedEvents = useMemo(() => {
+        const groups = {};
+        getAllFilteredEvents.forEach(e => {
+          const dateKey = e.date;
+          if (!groups[dateKey]) {
+            groups[dateKey] = [];
+          }
+          groups[dateKey].push(e);
+        });
+        return groups;
+      }, [getAllFilteredEvents]);
+      
       const handleSearchSelect = (event) => {
         const d = new Date(event.date);
         
@@ -828,6 +908,111 @@
                 <span className="key-text">{style.label}</span>
               </div>
             ))}
+          </div>
+        );
+      };
+      
+      // Format date for list view headers
+      const formatListDate = (dateStr) => {
+        const d = new Date(dateStr);
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const eventDate = new Date(dateStr);
+        eventDate.setHours(0, 0, 0, 0);
+        
+        if (eventDate.getTime() === today.getTime()) {
+          return `Today, ${d.getDate()} ${months[d.getMonth()]}`;
+        }
+        if (eventDate.getTime() === tomorrow.getTime()) {
+          return `Tomorrow, ${d.getDate()} ${months[d.getMonth()]}`;
+        }
+        return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]}`;
+      };
+      
+      // List view component
+      const ListView = () => {
+        const dateKeys = Object.keys(groupedEvents).sort((a, b) => new Date(a) - new Date(b));
+        
+        if (dateKeys.length === 0) {
+          return (
+            <div className="list-view">
+              <div className="list-empty">
+                <span>🎭</span>
+                <p>No upcoming events match your filters</p>
+                <button onClick={() => { setTypeFilter('all'); setVenueFilter('all'); }}>Clear filters</button>
+              </div>
+            </div>
+          );
+        }
+        
+        // Format date for header - "Wednesday" on left, "12 February 2026" on right
+        const formatDateParts = (dateStr) => {
+          const d = new Date(dateStr);
+          const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+          const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const tomorrow = new Date(today);
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          const eventDate = new Date(dateStr);
+          eventDate.setHours(0, 0, 0, 0);
+          
+          let dayPart = days[d.getDay()];
+          if (eventDate.getTime() === today.getTime()) {
+            dayPart = 'Today';
+          } else if (eventDate.getTime() === tomorrow.getTime()) {
+            dayPart = 'Tomorrow';
+          }
+          
+          const datePart = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+          return { dayPart, datePart };
+        };
+        
+        return (
+          <div className="list-view">
+            <div className="list-container">
+              {dateKeys.map(dateKey => {
+                const { dayPart, datePart } = formatDateParts(dateKey);
+                return (
+                  <div key={dateKey} className="list-date-group">
+                    <div className="list-date-header">
+                      <span className="list-date-day">{dayPart}</span>
+                      <span className="list-date-full">{datePart}</span>
+                    </div>
+                    <div className="list-events">
+                      {groupedEvents[dateKey].map((e, i) => {
+                        const normalizedType = normalizeEventType(e.type);
+                        const typeStyle = eventTypeStyles[normalizedType] || eventTypeStyles.show;
+                        return (
+                          <a key={i} href={e.url} target="_blank" rel="noopener noreferrer" className="list-event-card">
+                            <div className="list-event-time">{e.time}</div>
+                            <div className="list-event-indicator" style={{ background: typeStyle.color }}></div>
+                            <div className="list-event-details">
+                              <div className="list-event-title">{e.title}</div>
+                              <div className="list-event-venue">📍 {e.venue}</div>
+                            </div>
+                            <div className="list-event-type">{typeStyle.icon}</div>
+                          </a>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="list-footer">
+              <div className="kofi-bar">
+                <span className="kofi-text">☕ Find this useful? Buy Ste a brew! (...or a pint...)</span>
+                <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
+              </div>
+              <div className="footer">
+                <span className="footer-text">Missing a show? Got corrections?</span> <a href="https://forms.gle/62psP8V9JF88Kdnz8" target="_blank" rel="noopener noreferrer">Let us know</a>
+              </div>
+            </div>
           </div>
         );
       };
@@ -1479,6 +1664,126 @@
             }
             .clash { background: ${colors.sand}40; border: 2px solid ${colors.sand}; border-radius: 8px; padding: 0.55rem 0.7rem; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.7rem; }
             
+            /* LIST VIEW */
+            .list-view {
+              flex: 1;
+              overflow-y: auto;
+              display: flex;
+              flex-direction: column;
+              background: ${colors.cardBg};
+            }
+            .list-container {
+              flex: 1;
+              max-width: 900px;
+              width: 100%;
+              margin: 0 auto;
+              padding: 0;
+            }
+            .list-date-group {
+              border-bottom: 1px solid ${colors.border};
+            }
+            .list-date-header {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding: 0.75rem 1.25rem;
+              background: ${colors.cream};
+              font-weight: 700;
+            }
+            .list-date-day {
+              font-size: 1rem;
+              color: ${colors.text};
+            }
+            .list-date-full {
+              font-size: 0.9rem;
+              color: ${colors.textMuted};
+            }
+            .list-events {
+              background: ${colors.cardBg};
+            }
+            .list-event-card {
+              display: flex;
+              align-items: center;
+              gap: 1rem;
+              padding: 0.9rem 1.25rem;
+              text-decoration: none;
+              color: inherit;
+              border-bottom: 1px solid ${colors.border};
+              transition: background 0.15s;
+            }
+            .list-event-card:last-child {
+              border-bottom: none;
+            }
+            .list-event-card:hover {
+              background: ${colors.cream};
+            }
+            .list-event-time {
+              font-size: 0.85rem;
+              font-weight: 600;
+              color: ${colors.textMuted};
+              min-width: 110px;
+              flex-shrink: 0;
+            }
+            .list-event-indicator {
+              width: 10px;
+              height: 10px;
+              border-radius: 50%;
+              flex-shrink: 0;
+            }
+            .list-event-details {
+              flex: 1;
+              min-width: 0;
+            }
+            .list-event-title {
+              font-size: 0.95rem;
+              font-weight: 600;
+              color: ${colors.text};
+              margin-bottom: 0.2rem;
+            }
+            .list-event-venue {
+              font-size: 0.8rem;
+              color: ${colors.textMuted};
+            }
+            .list-event-type {
+              font-size: 1.3rem;
+              flex-shrink: 0;
+              opacity: 0.8;
+            }
+            .list-empty {
+              flex: 1;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              text-align: center;
+              color: ${colors.textMuted};
+              padding: 2rem;
+            }
+            .list-empty span {
+              font-size: 3rem;
+              margin-bottom: 1rem;
+            }
+            .list-empty p {
+              font-size: 1rem;
+              margin-bottom: 1rem;
+            }
+            .list-empty button {
+              background: ${colors.terracotta};
+              color: white;
+              border: none;
+              padding: 0.5rem 1rem;
+              border-radius: 6px;
+              font-size: 0.85rem;
+              font-weight: 600;
+              cursor: pointer;
+            }
+            .list-empty button:hover {
+              transform: scale(1.03);
+            }
+            .list-footer {
+              flex-shrink: 0;
+            }
+            
             /* FOOTER */
             .kofi-bar {
               background: linear-gradient(135deg, ${colors.sage}20, ${colors.sand}30);
@@ -1636,6 +1941,34 @@
             }
             .toggle-btn.active .toggle-slider { transform: translateX(24px); }
             
+            /* View Mode Toggle */
+            .view-toggle {
+              display: flex;
+              gap: 0.25rem;
+              background: ${colors.border};
+              border-radius: 8px;
+              padding: 3px;
+            }
+            .view-toggle-btn {
+              padding: 0.4rem 0.7rem;
+              font-size: 0.8rem;
+              font-weight: 600;
+              border: none;
+              border-radius: 6px;
+              cursor: pointer;
+              background: transparent;
+              color: ${colors.textMuted};
+              transition: all 0.15s;
+            }
+            .view-toggle-btn.active {
+              background: ${colors.cardBg};
+              color: ${colors.text};
+              box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            }
+            .view-toggle-btn:hover:not(.active) {
+              color: ${colors.text};
+            }
+            
             /* Settings Link Button */
             .settings-link-btn {
               width: 100%;
@@ -1753,6 +2086,56 @@
               
               /* Hide desktop footer on mobile */
               .desktop-footer { display: none; }
+              
+              /* List view mobile styles */
+              .list-view {
+                padding: 0;
+              }
+              .list-container {
+                padding: 0;
+              }
+              .list-date-header {
+                padding: 0.6rem 0.9rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.15rem;
+              }
+              .list-date-day {
+                font-size: 0.9rem;
+              }
+              .list-date-full {
+                font-size: 0.75rem;
+              }
+              .list-event-card {
+                padding: 0.75rem 0.9rem;
+                gap: 0.75rem;
+              }
+              .list-event-time {
+                font-size: 0.75rem;
+                min-width: 85px;
+              }
+              .list-event-indicator {
+                width: 8px;
+                height: 8px;
+              }
+              .list-event-title {
+                font-size: 0.85rem;
+              }
+              .list-event-venue {
+                font-size: 0.7rem;
+              }
+              .list-event-type {
+                font-size: 1.1rem;
+              }
+              .list-footer .kofi-bar {
+                padding: 0.4rem 0.6rem;
+                gap: 0.4rem;
+                flex-wrap: wrap;
+              }
+              .list-footer .kofi-text { font-size: 0.7rem; }
+              .list-footer .kofi-btn { font-size: 0.65rem; padding: 0.3rem 0.55rem; }
+              .list-footer .footer { font-size: 0.8rem; padding: 0.6rem 0.5rem; }
+              .list-footer .footer a { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
               
               /* Header adjustments */
               .header {
@@ -1875,15 +2258,24 @@
               <h1>Bristol Improv Calendar</h1>
               <span className="beta">Beta</span>
             </div>
-            <div className="header-center">
-              <button className="nav-btn" onClick={goToPrevMonth} disabled={!canGoBack}>←</button>
-              <span className="month-label">
-                <span className="month-full">{monthNames[viewMonth]} {viewYear}</span>
-                <span className="month-short">{monthShort[viewMonth]} {viewYear}</span>
-              </span>
-              <button className="nav-btn" onClick={goToNextMonth} disabled={!canGoForward}>→</button>
-              <button className="today-btn" onClick={goToToday} disabled={isCurrentMonth}>Today</button>
-            </div>
+            {viewMode === 'calendar' ? (
+              <div className="header-center">
+                <button className="nav-btn" onClick={goToPrevMonth} disabled={!canGoBack}>←</button>
+                <span className="month-label">
+                  <span className="month-full">{monthNames[viewMonth]} {viewYear}</span>
+                  <span className="month-short">{monthShort[viewMonth]} {viewYear}</span>
+                </span>
+                <button className="nav-btn" onClick={goToNextMonth} disabled={!canGoForward}>→</button>
+                <button className="today-btn" onClick={goToToday} disabled={isCurrentMonth}>Today</button>
+              </div>
+            ) : (
+              <div className="header-center">
+                <span className="month-label" style={{ minWidth: 'auto' }}>
+                  <span className="month-full">Upcoming Events</span>
+                  <span className="month-short">Upcoming</span>
+                </span>
+              </div>
+            )}
             <button className="settings-btn" onClick={() => setShowSettings(true)}>
               ⚙️ <span>Settings</span>
             </button>
@@ -1948,92 +2340,98 @@
                 </div>
               </div>
               
-              <ColorKey />
+              {viewMode === 'calendar' && <ColorKey />}
               
-              <div className="main">
-                <div 
-                  className={`calendar ${weeksNeeded >= 6 ? 'six-weeks' : ''}`}
-                  ref={calendarRef}
-                  onTouchStart={handleTouchStart}
-                  onTouchEnd={handleTouchEnd}
-                >
-                  <div className={`cal-grid weeks-${weeksNeeded}`}>
-                    {dayNames.map(d => <div key={d} className="day-hdr">{d}</div>)}
-                    {renderDays()}
+              {viewMode === 'calendar' ? (
+                <div className="main">
+                  <div 
+                    className={`calendar ${weeksNeeded >= 6 ? 'six-weeks' : ''}`}
+                    ref={calendarRef}
+                    onTouchStart={handleTouchStart}
+                    onTouchEnd={handleTouchEnd}
+                  >
+                    <div className={`cal-grid weeks-${weeksNeeded}`}>
+                      {dayNames.map(d => <div key={d} className="day-hdr">{d}</div>)}
+                      {renderDays()}
+                    </div>
+                  </div>
+                  
+                  <div className={`detail ${selectedDate ? 'has-selection' : 'no-selection'}`}>
+                    {selectedDate ? (
+                      <>
+                        <div className="detail-inner">
+                          <h3 className="detail-hdr">{getDayName(selectedDate)} {selectedDate} {monthShort[viewMonth]}</h3>
+                          {selectedEvents.length > 1 && hasOverlappingEvents(selectedEvents) && (
+                            <div className="clash">🎭 {selectedEvents.length} events — choose your favourite!</div>
+                          )}
+                          {selectedEvents.map((e, i) => {
+                            const venueInfo = getVenueInfo(e.venue);
+                            const normalizedType = normalizeEventType(e.type);
+                            const typeStyle = eventTypeStyles[normalizedType] || eventTypeStyles.show;
+                            return (
+                              <a key={i} href={e.url} target="_blank" rel="noopener noreferrer" className="event-card" style={{ borderColor: typeStyle.color }}>
+                                <div className="event-row">
+                                  <span className="event-icon">{typeStyle.icon}</span>
+                                  <div className="event-info">
+                                    <div className="event-title">{e.title}</div>
+                                    <div className="event-meta">
+                                      <span>📍 {e.venue}</span>
+                                      <span>🕖 {e.time}</span>
+                                    </div>
+                                    <div className="event-cta">View details / Book tickets →</div>
+                                  </div>
+                                </div>
+                              </a>
+                            );
+                          })}
+                        </div>
+                        <div className="mobile-footer">
+                          <div className="kofi-bar">
+                            <span className="kofi-text">☕ Find this useful? Buy Ste a brew! (...or a pint...)</span>
+                            <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
+                          </div>
+                          <div className="footer">
+                            <span className="footer-text">Missing a show? Got corrections?</span> <a href="https://forms.gle/62psP8V9JF88Kdnz8" target="_blank" rel="noopener noreferrer">Let us know</a>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="no-select">
+                          👈 Click a date to see event details
+                        </div>
+                        <div className="mobile-footer">
+                          <div className="kofi-bar">
+                            <span className="kofi-text">☕ Find this useful? Buy Ste a brew! (...or a pint...)</span>
+                            <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
+                          </div>
+                          <div className="footer">
+                            <span className="footer-text">Missing a show? Got corrections?</span> <a href="https://forms.gle/62psP8V9JF88Kdnz8" target="_blank" rel="noopener noreferrer">Let us know</a>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
-                
-                <div className={`detail ${selectedDate ? 'has-selection' : 'no-selection'}`}>
-                  {selectedDate ? (
-                    <>
-                      <div className="detail-inner">
-                        <h3 className="detail-hdr">{getDayName(selectedDate)} {selectedDate} {monthShort[viewMonth]}</h3>
-                        {selectedEvents.length > 1 && hasOverlappingEvents(selectedEvents) && (
-                          <div className="clash">🎭 {selectedEvents.length} events — choose your favourite!</div>
-                        )}
-                        {selectedEvents.map((e, i) => {
-                          const venueInfo = getVenueInfo(e.venue);
-                          const normalizedType = normalizeEventType(e.type);
-                          const typeStyle = eventTypeStyles[normalizedType] || eventTypeStyles.show;
-                          return (
-                            <a key={i} href={e.url} target="_blank" rel="noopener noreferrer" className="event-card" style={{ borderColor: typeStyle.color }}>
-                              <div className="event-row">
-                                <span className="event-icon">{typeStyle.icon}</span>
-                                <div className="event-info">
-                                  <div className="event-title">{e.title}</div>
-                                  <div className="event-meta">
-                                    <span>📍 {e.venue}</span>
-                                    <span>🕖 {e.time}</span>
-                                  </div>
-                                  <div className="event-cta">View details / Book tickets →</div>
-                                </div>
-                              </div>
-                            </a>
-                          );
-                        })}
-                      </div>
-                      <div className="mobile-footer">
-                        <div className="kofi-bar">
-                          <span className="kofi-text">☕ Find this useful? Buy Ste a brew! (...or a pint...)</span>
-                          <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
-                        </div>
-                        <div className="footer">
-                          <span className="footer-text">Missing a show? Got corrections?</span> <a href="https://forms.gle/62psP8V9JF88Kdnz8" target="_blank" rel="noopener noreferrer">Let us know</a>
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="no-select">
-                        👈 Click a date to see event details
-                      </div>
-                      <div className="mobile-footer">
-                        <div className="kofi-bar">
-                          <span className="kofi-text">☕ Find this useful? Buy Ste a brew! (...or a pint...)</span>
-                          <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
-                        </div>
-                        <div className="footer">
-                          <span className="footer-text">Missing a show? Got corrections?</span> <a href="https://forms.gle/62psP8V9JF88Kdnz8" target="_blank" rel="noopener noreferrer">Let us know</a>
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
+              ) : (
+                <ListView />
+              )}
             </>
           )}
           
-          {/* Desktop footer */}
-          <div className="desktop-footer">
-            <div className="kofi-bar">
-              <span className="kofi-text">☕ Find this useful? Buy Ste a brew! (...or a pint...)</span>
-              <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
+          {/* Desktop footer - only shown in calendar view */}
+          {viewMode === 'calendar' && (
+            <div className="desktop-footer">
+              <div className="kofi-bar">
+                <span className="kofi-text">☕ Find this useful? Buy Ste a brew! (...or a pint...)</span>
+                <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
+              </div>
+              <div className="footer">
+                <span className="footer-text">Missing a show? Got corrections?</span> <a href="https://forms.gle/62psP8V9JF88Kdnz8" target="_blank" rel="noopener noreferrer">Let us know</a>
+                {lastUpdated && <span className="footer-updated">• Updated {formatLastUpdated(lastUpdated)}</span>}
+              </div>
             </div>
-            <div className="footer">
-              <span className="footer-text">Missing a show? Got corrections?</span> <a href="https://forms.gle/62psP8V9JF88Kdnz8" target="_blank" rel="noopener noreferrer">Let us know</a>
-              {lastUpdated && <span className="footer-updated">• Updated {formatLastUpdated(lastUpdated)}</span>}
-            </div>
-          </div>
+          )}
           
           <RoadmapModal isOpen={showRoadmap} onClose={() => setShowRoadmap(false)} colors={colors} />
           <SettingsModal 
@@ -2042,6 +2440,8 @@
             colors={colors}
             darkMode={darkMode}
             setDarkMode={setDarkMode}
+            viewMode={viewMode}
+            setViewMode={setViewMode}
             onOpenRoadmap={() => setShowRoadmap(true)}
             lastUpdated={lastUpdated}
             formatLastUpdated={formatLastUpdated}
