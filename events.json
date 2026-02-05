@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-04T06:45:49.543Z",
+  "lastUpdated": "2026-02-05T06:55:09.842Z",
   "events": [
     {
       "date": "2026-02-05",
@@ -732,6 +732,15 @@
     },
     {
       "date": "2026-04-13",
+      "title": "Performing Improv Level 3: Making a Scene",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–22:00",
+      "type": "workshop",
+      "url": "https://improvtheatre.co.uk/upcoming-show/performing-improv-level-1-making-a-scene-2/",
+      "description": ""
+    },
+    {
+      "date": "2026-04-13",
       "title": "Improv Drop-ins",
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
@@ -949,6 +958,15 @@
     {
       "date": "2026-05-26",
       "title": "Performing L2: Scenes and Songs Student Showcase",
+      "venue": "Bristol Improv Theatre",
+      "time": "20:30–22:00",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/performing-l2-scenes-and-songs-student-showcase-2/",
+      "description": ""
+    },
+    {
+      "date": "2026-05-26",
+      "title": "Performing Improv Level 4: Scenes and Songs Student Showcase",
       "venue": "Bristol Improv Theatre",
       "time": "20:30–22:00",
       "type": "show",
