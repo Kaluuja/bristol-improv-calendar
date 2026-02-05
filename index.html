@@ -212,6 +212,17 @@
                 </div>
               </div>
               
+              {/* Account Signup CTA */}
+              <div className="settings-section settings-signup">
+                <div className="signup-box">
+                  <div className="signup-header">🎭 Sign up for a Calendar Account</div>
+                  <p className="signup-text">Sign up to get updates, save favourites, and help shape this calendar.</p>
+                  <a href="https://forms.gle/DhSfkbWL2uGEGu1r9" target="_blank" rel="noopener noreferrer" className="signup-btn">
+                    ✍️ Sign up here
+                  </a>
+                </div>
+              </div>
+              
               {/* Roadmap Link */}
               <div className="settings-section">
                 <button 
@@ -225,10 +236,17 @@
               </div>
               
               {/* Feature Request */}
-              <div className="settings-section settings-cta">
-                <p className="settings-cta-text">Got suggestions? Ideas for new features?</p>
-                <a href={FEATURE_REQUEST_URL} target="_blank" rel="noopener noreferrer" className="cta-button">
-                  💡 Submit your ideas
+              <div className="settings-section">
+                <a 
+                  href={FEATURE_REQUEST_URL} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="settings-link-btn"
+                  style={{ textDecoration: 'none' }}
+                >
+                  <span className="settings-icon">💡</span>
+                  <span>Submit an idea</span>
+                  <span className="settings-arrow">→</span>
                 </a>
               </div>
               
@@ -2030,16 +2048,41 @@
             .settings-link-btn:hover { background: ${colors.cream}; }
             .settings-arrow { margin-left: auto; color: ${colors.textMuted}; }
             
-            /* Settings CTA */
-            .settings-cta {
-              text-align: center;
-              padding-top: 1rem !important;
+            /* Settings Signup Box */
+            .settings-signup {
+              padding-top: 0.5rem !important;
             }
-            .settings-cta-text {
-              font-size: 0.9rem;
+            .signup-box {
+              background: ${colors.sage}15;
+              border: 1.5px solid ${colors.sage}40;
+              border-radius: 10px;
+              padding: 1rem;
+              text-align: center;
+            }
+            .signup-header {
+              font-size: 0.95rem;
+              font-weight: 700;
+              color: ${colors.text};
+              margin-bottom: 0.35rem;
+            }
+            .signup-text {
+              font-size: 0.8rem;
               color: ${colors.textMuted};
               margin-bottom: 0.75rem;
+              line-height: 1.4;
             }
+            .signup-btn {
+              display: inline-block;
+              background: ${colors.sage};
+              color: white;
+              padding: 0.5rem 1.2rem;
+              border-radius: 6px;
+              font-size: 0.85rem;
+              font-weight: 700;
+              text-decoration: none;
+              transition: transform 0.15s, opacity 0.15s;
+            }
+            .signup-btn:hover { transform: scale(1.03); opacity: 0.9; }
             
             /* Settings Footer */
             .settings-footer {
