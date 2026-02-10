@@ -1,33 +1,6 @@
 {
-  "lastUpdated": "2026-02-09T07:00:49.694Z",
+  "lastUpdated": "2026-02-10T07:00:30.051Z",
   "events": [
-    {
-      "date": "2026-02-09",
-      "title": "Lunchtime Improv with Rebecca MacMillan",
-      "venue": "Bristol Improv Theatre",
-      "time": "13:00–14:30",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/lunchtime-improv-with-rebecca-macmillan-2-2/2026-02-09/",
-      "description": ""
-    },
-    {
-      "date": "2026-02-09",
-      "title": "Improv Drop-ins",
-      "venue": "Bristol Improv Theatre",
-      "time": "19:00–21:00",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-02-09/",
-      "description": ""
-    },
-    {
-      "date": "2026-02-09",
-      "title": "Closer Each Day: The Improvised Soap Opera",
-      "venue": "Wardrobe Theatre",
-      "time": "19:30",
-      "type": "show",
-      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
-      "description": ""
-    },
     {
       "date": "2026-02-11",
       "title": "Being a Difficult Woman*: Taster Workshop & Networking",
@@ -1556,6 +1529,15 @@
       "time": "19:00–21:00",
       "type": "drop-in",
       "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-12-28/",
+      "description": ""
+    },
+    {
+      "date": "2027-02-09",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
       "description": ""
     },
     {
