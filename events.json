@@ -1,24 +1,6 @@
 {
-  "lastUpdated": "2026-02-21T06:37:39.136Z",
+  "lastUpdated": "2026-02-22T06:42:44.051Z",
   "events": [
-    {
-      "date": "2026-02-21",
-      "title": "Acting Technique and Stagecraft with Imogen Palmer",
-      "venue": "Bristol Improv Theatre",
-      "time": "10:00–17:00",
-      "type": "workshop",
-      "url": "https://improvtheatre.co.uk/upcoming-show/acting-technique-and-stagecraft-with-imogen-palmer-2/",
-      "description": ""
-    },
-    {
-      "date": "2026-02-21",
-      "title": "Improv Taster Session",
-      "venue": "Bristol Improv Theatre",
-      "time": "14:00–16:00",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2-5/",
-      "description": ""
-    },
     {
       "date": "2026-02-22",
       "title": "Grounding In Game",
@@ -386,6 +368,15 @@
       "time": "18:00–19:30",
       "type": "show",
       "url": "https://improvtheatre.co.uk/upcoming-show/breathwork-for-stress-release-free-session/",
+      "description": ""
+    },
+    {
+      "date": "2026-03-20",
+      "title": "Blame of Thrones",
+      "venue": "PRSC",
+      "time": "19:00–22:00",
+      "type": "show",
+      "url": "https://prsc.org.uk/event/blame-of-thrones-2/",
       "description": ""
     },
     {
