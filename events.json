@@ -1,51 +1,6 @@
 {
-  "lastUpdated": "2026-02-23T07:00:39.336Z",
+  "lastUpdated": "2026-02-24T06:56:34.041Z",
   "events": [
-    {
-      "date": "2026-02-23",
-      "title": "Lunchtime Improv with Rebecca MacMillan",
-      "venue": "Bristol Improv Theatre",
-      "time": "13:00–14:30",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/lunchtime-improv-with-rebecca-macmillan-2-2/2026-02-23/",
-      "description": ""
-    },
-    {
-      "date": "2026-02-23",
-      "title": "Level 3: Performing Improv – Telling Stories",
-      "venue": "Bristol Improv Theatre",
-      "time": "18:30–21:00",
-      "type": "workshop",
-      "url": "https://improvtheatre.co.uk/upcoming-show/level-3-performing-improv-telling-stories-2/",
-      "description": ""
-    },
-    {
-      "date": "2026-02-23",
-      "title": "Level 1: Discovering Improv",
-      "venue": "Bristol Improv Theatre",
-      "time": "18:30–21:00",
-      "type": "workshop",
-      "url": "https://improvtheatre.co.uk/upcoming-show/level-1-discovering-improv-4/",
-      "description": ""
-    },
-    {
-      "date": "2026-02-23",
-      "title": "Improv Drop-ins",
-      "venue": "Bristol Improv Theatre",
-      "time": "19:00–21:00",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-02-23/",
-      "description": ""
-    },
-    {
-      "date": "2026-02-23",
-      "title": "Closer Each Day: The Improvised Soap Opera",
-      "venue": "Wardrobe Theatre",
-      "time": "19:30",
-      "type": "show",
-      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
-      "description": ""
-    },
     {
       "date": "2026-02-24",
       "title": "Level 2: Intro to Performing Improv",
@@ -1709,6 +1664,15 @@
       "time": "19:30–21:30",
       "type": "show",
       "url": "https://improvtheatre.co.uk/upcoming-show/the-bish-bosh-bash-the-improvised-game-show-2026/2027-02-11/",
+      "description": ""
+    },
+    {
+      "date": "2027-02-23",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
       "description": ""
     }
   ]
