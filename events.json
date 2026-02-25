@@ -1,24 +1,6 @@
 {
-  "lastUpdated": "2026-02-24T06:56:34.041Z",
+  "lastUpdated": "2026-02-25T06:58:31.106Z",
   "events": [
-    {
-      "date": "2026-02-24",
-      "title": "Level 2: Intro to Performing Improv",
-      "venue": "Bristol Improv Theatre",
-      "time": "18:30–21:00",
-      "type": "workshop",
-      "url": "https://improvtheatre.co.uk/upcoming-show/level-2-intro-to-performing-improv-4/",
-      "description": ""
-    },
-    {
-      "date": "2026-02-24",
-      "title": "Performing Improv Level 4: Developing Characters",
-      "venue": "Bristol Improv Theatre",
-      "time": "18:30–21:00",
-      "type": "workshop",
-      "url": "https://improvtheatre.co.uk/upcoming-show/performing-improv-level-4-developing-characters/",
-      "description": ""
-    },
     {
       "date": "2026-02-25",
       "title": "Level 1: Discovering Improv",
@@ -41,7 +23,7 @@
       "date": "2026-02-25",
       "title": "Tales From The Wasteland: Post-Apocalyptic Improv",
       "venue": "Hen & Chicken",
-      "time": "20:00",
+      "time": "20:00–22:00",
       "type": "show",
       "url": "https://www.headfirstbristol.co.uk/whats-on/hen-and-chicken/wed-25-feb-tales-from-the-wasteland-post-apocalyptic-improv-142254",
       "description": ""
@@ -59,7 +41,7 @@
       "date": "2026-02-26",
       "title": "My Date with Pierce Brosnan feat. The Brothers Grin",
       "venue": "PRSC",
-      "time": "19:30",
+      "time": "19:30–21:30",
       "type": "show",
       "url": "https://www.headfirstbristol.co.uk/whats-on/prsc/thu-26-feb-my-date-with-pierce-brosnan-feat-the-brothers-grin-144634",
       "description": ""
@@ -133,7 +115,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "19:30–21:30",
       "type": "jam",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-jam-social-2026/2026-03-05/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-jam-social-2026-2/2026-03-05/",
       "description": ""
     },
     {
@@ -212,7 +194,7 @@
       "date": "2026-03-11",
       "title": "Wednesday Night Improv: March Triple Bill",
       "venue": "Hen & Chicken",
-      "time": "19:30",
+      "time": "19:30–22:30",
       "type": "show",
       "url": "https://www.headfirstbristol.co.uk/whats-on/hen-and-chicken/wed-11-mar-wednesday-night-improv-march-triple-bill-146295",
       "description": ""
@@ -266,9 +248,9 @@
       "date": "2026-03-15",
       "title": "Stand up Comedy in broken English • Victor Patrascan in Bristol",
       "venue": "The Bristol Improv Theatre",
-      "time": "17:00–18:30",
+      "time": "19:00–21:00",
       "type": "show",
-      "url": "https://www.eventbrite.com/checkout-external?eid=1980871509007",
+      "url": "https://www.eventbrite.com/checkout-external?eid=1964570835253",
       "description": ""
     },
     {
@@ -457,7 +439,7 @@
       "venue": "Bristol Improv Theatre",
       "time": "20:30–22:30",
       "type": "jam",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-jam-social-2026/2026-04-02/",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-jam-social-2026-2/2026-04-02/",
       "description": ""
     },
     {
@@ -506,6 +488,24 @@
       "description": ""
     },
     {
+      "date": "2026-04-06",
+      "title": "Performing Improv Level 3: Telling Stories Student Showcase",
+      "venue": "Bristol Improv Theatre",
+      "time": "20:30–22:00",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/performing-level-1-telling-stories-student-showcase-3/",
+      "description": ""
+    },
+    {
+      "date": "2026-04-07",
+      "title": "Performing Improv Level 4: Developing Characters Student Showcase",
+      "venue": "Bristol Improv Theatre",
+      "time": "20:30–22:00",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/performing-l2-developing-characters-student-showcase/",
+      "description": ""
+    },
+    {
       "date": "2026-04-08",
       "title": "Wednesday Night Improv: April Triple Bill",
       "venue": "Hen & Chicken",
@@ -530,6 +530,15 @@
       "time": "20:30–22:30",
       "type": "show",
       "url": "https://improvtheatre.co.uk/upcoming-show/do-the-right-scene-apr-2026/",
+      "description": ""
+    },
+    {
+      "date": "2026-04-11",
+      "title": "Just For A Moment – Live Improv Comedy",
+      "venue": "The Folk House",
+      "time": "19:00–23:00",
+      "type": "show",
+      "url": "https://www.bristolfolkhouse.co.uk/live-music/event/just-for-a-moment-live-improv-comedy-11-04-2026",
       "description": ""
     },
     {
@@ -647,6 +656,15 @@
       "time": "20:30",
       "type": "show",
       "url": "https://thewardrobetheatre.com/shows/impromptu-shakespeare/",
+      "description": ""
+    },
+    {
+      "date": "2026-04-18",
+      "title": "IN DA HIVE presents: The Improv Gauntlet",
+      "venue": "PRSC",
+      "time": "20:30",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/prsc/sat-18-apr-live-in-da-hive-presents-the-improv-gauntlet-149115",
       "description": ""
     },
     {
@@ -1103,7 +1121,7 @@
       "date": "2026-07-10",
       "title": "Tales From The Wasteland: Pride Special",
       "venue": "The Folk House",
-      "time": "21:00",
+      "time": "21:00–22:00",
       "type": "show",
       "url": "https://www.headfirstbristol.co.uk/whats-on/the-folk-house/fri-10-jul-tales-from-the-wasteland-pride-special--147438",
       "description": ""
