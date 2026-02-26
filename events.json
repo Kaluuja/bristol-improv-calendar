@@ -1,33 +1,6 @@
 {
-  "lastUpdated": "2026-02-25T06:58:31.106Z",
+  "lastUpdated": "2026-02-26T06:56:26.771Z",
   "events": [
-    {
-      "date": "2026-02-25",
-      "title": "Level 1: Discovering Improv",
-      "venue": "Bristol Improv Theatre",
-      "time": "18:30–21:00",
-      "type": "workshop",
-      "url": "https://improvtheatre.co.uk/upcoming-show/level-1-discovering-improv-5/",
-      "description": ""
-    },
-    {
-      "date": "2026-02-25",
-      "title": "Improv to Sketch with Maria Peters",
-      "venue": "Bristol Improv Theatre",
-      "time": "18:30–21:30",
-      "type": "workshop",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-to-sketch-with-maria-peters/",
-      "description": ""
-    },
-    {
-      "date": "2026-02-25",
-      "title": "Tales From The Wasteland: Post-Apocalyptic Improv",
-      "venue": "Hen & Chicken",
-      "time": "20:00–22:00",
-      "type": "show",
-      "url": "https://www.headfirstbristol.co.uk/whats-on/hen-and-chicken/wed-25-feb-tales-from-the-wasteland-post-apocalyptic-improv-142254",
-      "description": ""
-    },
     {
       "date": "2026-02-26",
       "title": "Bristol Longform Takeover",
@@ -818,6 +791,15 @@
       "time": "20:00–22:00",
       "type": "drop-in",
       "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-05-11/",
+      "description": ""
+    },
+    {
+      "date": "2026-05-13",
+      "title": "Wednesday Night Improv: Anniversary Special",
+      "venue": "Hen & Chicken",
+      "time": "20:30",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/hen-and-chicken/wed-13-may-wednesday-night-improv-anniversary-special--149220",
       "description": ""
     },
     {
