@@ -1,6 +1,321 @@
 {
-  "lastUpdated": "2026-02-27T06:49:37.431Z",
+  "lastUpdated": "2026-02-27T16:56:02.293Z",
   "events": [
+    {
+      "date": "2026-02-01",
+      "title": "CSI: Crime Scene Improvisation",
+      "venue": "Tobacco Factory",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://tobaccofactorytheatres.com/shows/csi-crime-scene-improvisation/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-02",
+      "title": "Lunchtime Improv with Rebecca MacMillan",
+      "venue": "Bristol Improv Theatre",
+      "time": "13:00–14:30",
+      "type": "drop-in",
+      "url": "https://improvtheatre.co.uk/upcoming-show/lunchtime-improv-with-rebecca-macmillan-2-2/2026-02-02/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-02",
+      "title": "Improv Drop-ins",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:00–21:00",
+      "type": "drop-in",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3/2026-02-02/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-05",
+      "title": "Live in da Hive: The Improv Gauntlet",
+      "venue": "PRSC",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/peoples-republic-of-stokes-croft/thu-5-feb-live-in-da-hive-the-improv-gauntlet-144325",
+      "description": ""
+    },
+    {
+      "date": "2026-02-06",
+      "title": "The Bish Bosh Bash: The Improvised Game Show",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–21:30",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/the-bish-bosh-bash-the-improvised-game-show-2026/2026-02-06/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-07",
+      "title": "Working the Room: Hosting and MC Skills with Imogen Palmer",
+      "venue": "Bristol Improv Theatre",
+      "time": "10:00–17:00",
+      "type": "workshop",
+      "url": "https://improvtheatre.co.uk/upcoming-show/working-the-room-hosting-and-mc-skills/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-07",
+      "title": "Rainbow Roadies: Mario Kart With A Live Band",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:00–22:00",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/rainbow-roadies-mario-kart-with-a-live-band-2026/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-07",
+      "title": "Instant Wit!",
+      "venue": "Alma Tavern Theatre",
+      "time": "20:00–22:00",
+      "type": "show",
+      "url": "https://www.tickettailor.com/events/almatheatrecompany/1988758",
+      "description": ""
+    },
+    {
+      "date": "2026-02-08",
+      "title": "Improv Jam & Social",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–21:30",
+      "type": "jam",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-jam-social-2026/2026-02-08/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-09",
+      "title": "Lunchtime Improv with Rebecca MacMillan",
+      "venue": "Bristol Improv Theatre",
+      "time": "13:00–14:30",
+      "type": "drop-in",
+      "url": "https://improvtheatre.co.uk/upcoming-show/lunchtime-improv-with-rebecca-macmillan-2-2/2026-02-09/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-09",
+      "title": "Improv Drop-ins",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:00–21:00",
+      "type": "drop-in",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-02-09/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-09",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-11",
+      "title": "Being a Difficult Woman*: Taster Workshop & Networking",
+      "venue": "Bristol Improv Theatre",
+      "time": "08:30–10:30",
+      "type": "workshop",
+      "url": "https://improvtheatre.co.uk/upcoming-show/being-a-difficult-woman-taster-workshop-networking-2/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-11",
+      "title": "Wednesday Night Improv: February Triple Bill",
+      "venue": "Hen & Chicken",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/hen-and-chicken/wed-11-feb-wednesday-night-improv-february-triple-bill-143832",
+      "description": ""
+    },
+    {
+      "date": "2026-02-12",
+      "title": "The Drag Dungeoneers",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–22:00",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/the-drag-dungeoneers-feb26/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-14",
+      "title": "From HELL YEAH! with love",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–21:30",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/hell-yeah-valentines-day/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-16",
+      "title": "Lunchtime Improv with Rebecca MacMillan",
+      "venue": "Bristol Improv Theatre",
+      "time": "13:00–14:30",
+      "type": "drop-in",
+      "url": "https://improvtheatre.co.uk/upcoming-show/lunchtime-improv-with-rebecca-macmillan-2-2/2026-02-16/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-16",
+      "title": "Improv Drop-ins",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:00–21:00",
+      "type": "drop-in",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-02-16/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-16",
+      "title": "Performing Improv Level 4: Approaches to Scenework Student Showcase",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–20:30",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/performing-l2-approaches-to-scenework-student-showcase-3/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-17",
+      "title": "Performing Improv L3: Singing Songs Student Showcase",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–20:30",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/performing-improv-l1-singing-songs-student-showcase/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-21",
+      "title": "Acting Technique and Stagecraft with Imogen Palmer",
+      "venue": "Bristol Improv Theatre",
+      "time": "10:00–17:00",
+      "type": "workshop",
+      "url": "https://improvtheatre.co.uk/upcoming-show/acting-technique-and-stagecraft-with-imogen-palmer-2/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-21",
+      "title": "Improv Taster Session",
+      "venue": "Bristol Improv Theatre",
+      "time": "14:00–16:00",
+      "type": "drop-in",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2-5/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-22",
+      "title": "Grounding In Game",
+      "venue": "The Stag & Hounds",
+      "time": "12:00–15:00",
+      "type": "workshop",
+      "url": "https://www.eventbrite.com/checkout-external?eid=1981162485325",
+      "description": ""
+    },
+    {
+      "date": "2026-02-23",
+      "title": "Lunchtime Improv with Rebecca MacMillan",
+      "venue": "Bristol Improv Theatre",
+      "time": "13:00–14:30",
+      "type": "drop-in",
+      "url": "https://improvtheatre.co.uk/upcoming-show/lunchtime-improv-with-rebecca-macmillan-2-2/2026-02-23/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-23",
+      "title": "Level 3: Performing Improv – Telling Stories",
+      "venue": "Bristol Improv Theatre",
+      "time": "18:30–21:00",
+      "type": "workshop",
+      "url": "https://improvtheatre.co.uk/upcoming-show/level-3-performing-improv-telling-stories-2/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-23",
+      "title": "Level 1: Discovering Improv",
+      "venue": "Bristol Improv Theatre",
+      "time": "18:30–21:00",
+      "type": "workshop",
+      "url": "https://improvtheatre.co.uk/upcoming-show/level-1-discovering-improv-4/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-23",
+      "title": "Improv Drop-ins",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:00–21:00",
+      "type": "drop-in",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-02-23/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-23",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-24",
+      "title": "Level 2: Intro to Performing Improv",
+      "venue": "Bristol Improv Theatre",
+      "time": "18:30–21:00",
+      "type": "workshop",
+      "url": "https://improvtheatre.co.uk/upcoming-show/level-2-intro-to-performing-improv-4/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-24",
+      "title": "Performing Improv Level 4: Developing Characters",
+      "venue": "Bristol Improv Theatre",
+      "time": "18:30–21:00",
+      "type": "workshop",
+      "url": "https://improvtheatre.co.uk/upcoming-show/performing-improv-level-4-developing-characters/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-25",
+      "title": "Level 1: Discovering Improv",
+      "venue": "Bristol Improv Theatre",
+      "time": "18:30–21:00",
+      "type": "workshop",
+      "url": "https://improvtheatre.co.uk/upcoming-show/level-1-discovering-improv-5/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-25",
+      "title": "Improv to Sketch with Maria Peters",
+      "venue": "Bristol Improv Theatre",
+      "time": "18:30–21:30",
+      "type": "workshop",
+      "url": "https://improvtheatre.co.uk/upcoming-show/improv-to-sketch-with-maria-peters/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-25",
+      "title": "Tales From The Wasteland: Post-Apocalyptic Improv",
+      "venue": "Hen & Chicken",
+      "time": "20:00–22:00",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/hen-and-chicken/wed-25-feb-tales-from-the-wasteland-post-apocalyptic-improv-142254",
+      "description": ""
+    },
+    {
+      "date": "2026-02-26",
+      "title": "Bristol Longform Takeover",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–21:30",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/bristol-longform-takeover-feb-2026/",
+      "description": ""
+    },
+    {
+      "date": "2026-02-26",
+      "title": "My Date with Pierce Brosnan feat. The Brothers Grin",
+      "venue": "PRSC",
+      "time": "19:30–21:30",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/prsc/thu-26-feb-my-date-with-pierce-brosnan-feat-the-brothers-grin-144634",
+      "description": ""
+    },
     {
       "date": "2026-02-27",
       "title": "This Is Your Musical",
