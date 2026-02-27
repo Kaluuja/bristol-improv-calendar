@@ -83,12 +83,18 @@ async function main() {
   const events = records.map(transformEvent);
 
   const today = new Date().toISOString().split('T')[0];
-  const futureEvents = events.filter((e) => e.date >= today);
-  console.log(`${futureEvents.length} events are today or in the future`);
+  console.log(`Today: ${today}`);
+
+  // Keep events from the start of the previous month onwards (current + previous month history)
+  const now = new Date();
+  const prevMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+    .toLocaleDateString('en-CA', { timeZone: 'Europe/London' });
+  const recentAndFutureEvents = events.filter((e) => e.date >= prevMonthStart);
+  console.log(`${recentAndFutureEvents.length} events from ${prevMonthStart} onwards (including past events this month and last month)`);
 
   const output = {
     lastUpdated: new Date().toISOString(),
-    events: futureEvents,
+    events: recentAndFutureEvents,
   };
 
   const fs = await import('fs');

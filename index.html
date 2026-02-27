@@ -498,7 +498,10 @@
         return { year: maxY, month: maxM };
       }, [events]);
       
-      const canGoBack = viewYear > MIN_YEAR || (viewYear === MIN_YEAR && viewMonth > MIN_MONTH);
+      // Dynamic: allow navigating back to the previous month, no further
+      const prevMonthYear = todayMonth === 0 ? todayYear - 1 : todayYear;
+      const prevMonthIdx = todayMonth === 0 ? 11 : todayMonth - 1;
+      const canGoBack = viewYear > prevMonthYear || (viewYear === prevMonthYear && viewMonth > prevMonthIdx);
       const canGoForward = viewYear < maxEventDate.year || (viewYear === maxEventDate.year && viewMonth < maxEventDate.month);
       const isCurrentMonth = viewYear === todayYear && viewMonth === todayMonth;
       
@@ -833,7 +836,10 @@
           const dayIdx = (startDay + date - 1) % 7;
           const isWeekend = dayIdx >= 5;
           const isToday = viewYear === todayYear && viewMonth === todayMonth && date === todayDate;
-          
+          const isPast = viewYear < todayYear ||
+            (viewYear === todayYear && viewMonth < todayMonth) ||
+            (viewYear === todayYear && viewMonth === todayMonth && date < todayDate);
+
           // Get shapes for daytime and evening separately
           const daytimeCounts = getEventTypeCountsByTime(dateEvents, false);
           const eveningCounts = getEventTypeCountsByTime(dateEvents, true);
@@ -859,7 +865,7 @@
           days.push(
             <div
               key={date}
-              className={`cal-day ${hasEvents ? 'has-events' : ''} ${isSelected ? 'selected' : ''} ${isWeekend ? 'weekend' : ''} ${isToday ? 'today' : ''}`}
+              className={`cal-day ${hasEvents ? 'has-events' : ''} ${isSelected ? 'selected' : ''} ${isWeekend ? 'weekend' : ''} ${isToday ? 'today' : ''} ${isPast ? 'past' : ''}`}
               onClick={() => hasEvents && setSelectedDate(isSelected ? null : date)}
             >
               <span className={`date-num ${isToday ? 'today-num' : ''}`}>{date}</span>
@@ -1399,6 +1405,8 @@
             .cal-day.empty { background: transparent; border: none; }
             .cal-day.weekend { background: ${darkMode ? '#2F3244' : '#fffdf8'}; }
             .cal-day.today { border-color: ${colors.terracotta}50; background: ${colors.terracotta}15; }
+            .cal-day.past .event-previews { opacity: 0.45; filter: grayscale(35%); }
+            .cal-day.past.has-events .date-num { color: ${colors.textMuted}; }
             .cal-day.has-events { cursor: pointer; }
             .cal-day.has-events:hover { border-color: ${colors.sage}; transform: scale(1.02); z-index: 1; }
             .cal-day.selected { border-color: ${colors.terracotta}; box-shadow: 0 2px 8px ${colors.terracotta}30; z-index: 2; }
