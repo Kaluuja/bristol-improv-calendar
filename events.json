@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-27T16:56:02.293Z",
+  "lastUpdated": "2026-02-28T06:33:36.268Z",
   "events": [
     {
       "date": "2026-02-01",
@@ -1970,6 +1970,15 @@
       "time": "19:30",
       "type": "show",
       "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2027-02-26",
+      "title": "My Date with Pierce Brosnan feat. The Brothers Grin",
+      "venue": "PRSC",
+      "time": "18:45",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/prsc/thu-26-feb-my-date-with-pierce-brosnan-feat-the-brothers-grin-144634",
       "description": ""
     }
   ]
