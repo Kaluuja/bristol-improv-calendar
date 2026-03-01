@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-28T06:33:36.268Z",
+  "lastUpdated": "2026-03-01T06:41:18.810Z",
   "events": [
     {
       "date": "2026-02-01",
@@ -804,20 +804,20 @@
     },
     {
       "date": "2026-04-11",
-      "title": "Just For A Moment – Live Improv Comedy",
-      "venue": "The Folk House",
-      "time": "19:00–23:00",
-      "type": "show",
-      "url": "https://www.bristolfolkhouse.co.uk/live-music/event/just-for-a-moment-live-improv-comedy-11-04-2026",
-      "description": ""
-    },
-    {
-      "date": "2026-04-11",
       "title": "Instant Wit!",
       "venue": "Alma Tavern Theatre",
       "time": "20:00–22:00",
       "type": "show",
       "url": "https://www.tickettailor.com/events/almatheatrecompany/1988765",
+      "description": ""
+    },
+    {
+      "date": "2026-04-11",
+      "title": "Just For A Moment – Live Improv Comedy",
+      "venue": "The Folk House",
+      "time": "20:00–00:00",
+      "type": "show",
+      "url": "https://www.bristolfolkhouse.co.uk/live-music/event/just-for-a-moment-live-improv-comedy-11-04-2026",
       "description": ""
     },
     {
@@ -1398,11 +1398,11 @@
     },
     {
       "date": "2026-07-10",
-      "title": "Tales From The Wasteland: Pride Special",
+      "title": "Tales From The Wasteland: Pride Special!",
       "venue": "The Folk House",
-      "time": "21:00–22:00",
+      "time": "20:00–23:00",
       "type": "show",
-      "url": "https://www.headfirstbristol.co.uk/whats-on/the-folk-house/fri-10-jul-tales-from-the-wasteland-pride-special--147438",
+      "url": "https://www.bristolfolkhouse.co.uk/live-music/event/tales-from-the-wasteland-pride-special-10-07-2026",
       "description": ""
     },
     {
