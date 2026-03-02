@@ -1177,6 +1177,26 @@
             }
             .settings-btn:hover { background: #F4F1DE15; border-color: #F4F1DE; }
             
+            .header-right {
+              display: flex;
+              align-items: center;
+              gap: 1rem;
+            }
+            .hub-link {
+              color: #F4F1DE;
+              text-decoration: none;
+              font-size: 0.85rem;
+              font-weight: 700;
+              display: flex;
+              align-items: center;
+              gap: 0.25rem;
+              opacity: 0.9;
+              transition: opacity 0.15s;
+              white-space: nowrap;
+            }
+            .hub-link:hover { opacity: 1; text-decoration: underline; }
+            .hub-link-text-mobile { display: none; }
+            
             /* CONTROLS */
             .controls {
               background: ${colors.cardBg};
@@ -2310,6 +2330,11 @@
               .settings-btn { padding: 0.3rem 0.45rem; font-size: 0.65rem; }
               .settings-btn span { display: none; }
               
+              .header-right { gap: 0.5rem; }
+              .hub-link { font-size: 0.75rem; }
+              .hub-link-text-desktop { display: none; }
+              .hub-link-text-mobile { display: inline; }
+              
               /* Controls */
               .controls { padding: 0.45rem 0.5rem; }
               .controls-inner { gap: 0.4rem; flex-wrap: nowrap; }
@@ -2371,6 +2396,7 @@
             
             @media (max-width: 380px) {
               .header h1 { font-size: 0.9rem; }
+              .hub-link { font-size: 0.65rem; }
               .filter-select { font-size: 0.7rem; padding: 0.3rem 1.3rem 0.3rem 0.4rem; }
               .mobile-shape-wrap { width: 10px; height: 10px; }
               .mobile-circle { width: 10px; height: 10px; }
@@ -2429,9 +2455,16 @@
                 </span>
               </div>
             )}
-            <button className="settings-btn" onClick={() => setShowSettings(true)}>
-              ⚙️ <span>Settings</span>
-            </button>
+            <div className="header-right">
+              <a href="https://www.technicallyimprov.com/" target="_blank" rel="noopener noreferrer" className="hub-link">
+                <span className="hub-link-text-desktop">Technically Improv</span>
+                <span className="hub-link-text-mobile">Hub</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+              <button className="settings-btn" onClick={() => setShowSettings(true)}>
+                ⚙️ <span>Settings</span>
+              </button>
+            </div>
           </header>
           
           {error && <div style={{ background: `${colors.sand}30`, textAlign: 'center', fontSize: '0.65rem', padding: '0.3rem', color: colors.text }}>⚠️ {error}</div>}
