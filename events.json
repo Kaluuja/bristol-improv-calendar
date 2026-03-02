@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-01T06:41:18.810Z",
+  "lastUpdated": "2026-03-02T06:53:32.059Z",
   "events": [
     {
       "date": "2026-02-01",
@@ -377,6 +377,15 @@
       "time": "09:30–16:00",
       "type": "workshop",
       "url": "https://improvtheatre.co.uk/upcoming-show/being-a-difficult-woman-at-work-full-day-workshop/",
+      "description": ""
+    },
+    {
+      "date": "2026-03-05",
+      "title": "Dynamite Improv",
+      "venue": "The Folk House",
+      "time": "19:00–21:30",
+      "type": "show",
+      "url": "https://www.bristolfolkhouse.co.uk/live-music/event/dynamite-improv-05-03-2026",
       "description": ""
     },
     {
