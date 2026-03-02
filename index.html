@@ -1,45 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bristol Improv Calendar — Beta</title>
   <meta name="description" content="What's on in Bristol improv. Shows, workshops, and jams across the city.">
-  
+
   <meta property="og:title" content="Bristol Improv Calendar — Beta">
   <meta property="og:description" content="What's on in Bristol improv. Shows, workshops, and jams across the city.">
   <meta property="og:type" content="website">
-  
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-  
+
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  
+
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body, #root { height: 100%; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body,
+    #root {
+      height: 100%;
+    }
   </style>
 </head>
+
 <body>
   <div id="root"></div>
-  
+
   <script type="text/babel">
     const { useState, useEffect, useMemo, useRef } = React;
 
     // ============================================
     // CONFIGURATION
     // ============================================
-    
+
     const EVENTS_JSON_URL = './events.json';
     const USE_SAMPLE_DATA = false;
     const MIN_YEAR = 2026;
     const MIN_MONTH = 0;
     const KOFI_URL = 'https://ko-fi.com/kaluuja';
     const FEATURE_REQUEST_URL = 'https://forms.gle/J8AJqsfRbz6m1Gbf7';
-    
+
     const SAMPLE_EVENTS = [
       { date: '2026-01-25', title: 'The BLANK who BLANKED me', venue: 'Bristol Improv Theatre', time: '19:00–20:00', type: 'show', url: '#' },
       { date: '2026-01-28', title: 'Lily Maryon', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
@@ -54,22 +65,22 @@
       { date: '2026-02-14', title: 'From HELL YEAH! with love', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
       { date: '2026-02-25', title: 'Tales From The Wasteland', venue: 'Hen & Chicken', time: '19:30–22:00', type: 'show', url: '#' },
     ];
-    
+
     // ============================================
     // ROADMAP MODAL
     // ============================================
-    
+
     const RoadmapModal = ({ isOpen, onClose, colors }) => {
       if (!isOpen) return null;
-      
+
       const RoadmapItem = ({ done, children }) => (
-        <li style={{ 
+        <li style={{
           marginBottom: '0.6rem',
           display: 'flex',
           alignItems: 'flex-start',
           gap: '0.6rem'
         }}>
-          <span style={{ 
+          <span style={{
             flexShrink: 0,
             width: '22px',
             height: '22px',
@@ -85,7 +96,7 @@
           }}>
             {done && '✓'}
           </span>
-          <span style={{ 
+          <span style={{
             textDecoration: done ? 'line-through' : 'none',
             color: done ? colors.textMuted : colors.text,
             fontSize: '0.9rem',
@@ -95,7 +106,7 @@
           </span>
         </li>
       );
-      
+
       return (
         <div className="modal-overlay" onClick={onClose}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
@@ -107,7 +118,7 @@
               <p className="roadmap-intro">
                 This calendar is a work in progress! Here's what's been done and what's coming next.
               </p>
-              
+
               <div className="roadmap-section">
                 <h3>⚡ Core Functionality</h3>
                 <ul>
@@ -118,7 +129,7 @@
                   <RoadmapItem done={false}>Email newsletter for weekly updates</RoadmapItem>
                 </ul>
               </div>
-              
+
               <div className="roadmap-section">
                 <h3>🎭 Events</h3>
                 <ul>
@@ -126,7 +137,7 @@
                   <RoadmapItem done={true}>Added additional ticket websites</RoadmapItem>
                 </ul>
               </div>
-              
+
               <div className="roadmap-section">
                 <h3>🎨 Design & Experience</h3>
                 <ul>
@@ -137,7 +148,7 @@
                   <RoadmapItem done={false}>Save favourite events</RoadmapItem>
                 </ul>
               </div>
-              
+
               <div className="roadmap-section">
                 <h3>🔮 Future Ideas</h3>
                 <ul>
@@ -156,12 +167,12 @@
     // ============================================
     // SETTINGS MODAL
     // ============================================
-    
+
     const SettingsModal = ({ isOpen, onClose, colors, darkMode, setDarkMode, viewMode, setViewMode, onOpenRoadmap, lastUpdated, formatLastUpdated }) => {
       if (!isOpen) return null;
-      
+
       const FEATURE_REQUEST_URL = 'https://forms.gle/62psP8V9JF88Kdnz8';
-      
+
       return (
         <div className="modal-overlay" onClick={onClose}>
           <div className="modal-content settings-modal" onClick={e => e.stopPropagation()}>
@@ -170,7 +181,7 @@
               <button className="modal-close" onClick={onClose}>✕</button>
             </div>
             <div className="modal-body">
-              
+
               {/* Dark Mode Toggle */}
               <div className="settings-section">
                 <div className="settings-row">
@@ -178,7 +189,7 @@
                     <span className="settings-icon">{darkMode ? '🌙' : '☀️'}</span>
                     <span>{darkMode ? 'Dark Mode' : 'Light Mode'}</span>
                   </div>
-                  <button 
+                  <button
                     className={`toggle-btn ${darkMode ? 'active' : ''}`}
                     onClick={() => setDarkMode(!darkMode)}
                     aria-label="Toggle dark mode"
@@ -187,7 +198,7 @@
                   </button>
                 </div>
               </div>
-              
+
               {/* View Mode Selector */}
               <div className="settings-section">
                 <div className="settings-row">
@@ -196,13 +207,13 @@
                     <span>View</span>
                   </div>
                   <div className="view-toggle">
-                    <button 
+                    <button
                       className={`view-toggle-btn ${viewMode === 'calendar' ? 'active' : ''}`}
                       onClick={() => setViewMode('calendar')}
                     >
                       📅 Calendar
                     </button>
-                    <button 
+                    <button
                       className={`view-toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
                       onClick={() => setViewMode('list')}
                     >
@@ -211,7 +222,7 @@
                   </div>
                 </div>
               </div>
-              
+
               {/* Account Signup CTA */}
               <div className="settings-section settings-signup">
                 <div className="signup-box">
@@ -222,10 +233,10 @@
                   </a>
                 </div>
               </div>
-              
+
               {/* Roadmap Link */}
               <div className="settings-section">
-                <button 
+                <button
                   className="settings-link-btn"
                   onClick={() => { onClose(); onOpenRoadmap(); }}
                 >
@@ -234,13 +245,28 @@
                   <span className="settings-arrow">→</span>
                 </button>
               </div>
-              
+
+              {/* Bristol Improv Hub Link */}
+              <div className="settings-section">
+                <a
+                  href="https://www.technicallyimprov.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="settings-link-btn"
+                  style={{ textDecoration: 'none' }}
+                >
+                  <span className="settings-icon">🎭</span>
+                  <span>Bristol Improv Hub</span>
+                  <span className="settings-arrow">→</span>
+                </a>
+              </div>
+
               {/* Feature Request */}
               <div className="settings-section">
-                <a 
-                  href={FEATURE_REQUEST_URL} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href={FEATURE_REQUEST_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="settings-link-btn"
                   style={{ textDecoration: 'none' }}
                 >
@@ -249,14 +275,14 @@
                   <span className="settings-arrow">→</span>
                 </a>
               </div>
-              
+
               {/* Last Updated */}
               {lastUpdated && (
                 <div className="settings-footer">
                   <span className="settings-updated">Calendar last updated: {formatLastUpdated(lastUpdated)}</span>
                 </div>
               )}
-              
+
             </div>
           </div>
         </div>
@@ -297,22 +323,22 @@
       const [lastUpdated, setLastUpdated] = useState(null);
       const [viewYear, setViewYear] = useState(new Date().getFullYear());
       const [viewMonth, setViewMonth] = useState(new Date().getMonth());
-      
+
       const controlsRef = useRef(null);
       const calendarRef = useRef(null);
       const touchStartX = useRef(null);
       const touchStartY = useRef(null);
-      
+
       // Save dark mode preference
       useEffect(() => {
         localStorage.setItem('bristolImprovDarkMode', darkMode.toString());
       }, [darkMode]);
-      
+
       // Save view mode preference
       useEffect(() => {
         localStorage.setItem('bristolImprovViewMode', viewMode);
       }, [viewMode]);
-      
+
       // Light and dark mode color schemes
       const lightColors = {
         cream: '#F4F1DE',
@@ -326,7 +352,7 @@
         textMuted: '#3D405B80',
         border: '#F4F1DE',
       };
-      
+
       const darkColors = {
         cream: '#2A2D3E',
         terracotta: '#E07A5F',
@@ -339,9 +365,9 @@
         textMuted: '#E8E8E880',
         border: '#3D405B',
       };
-      
+
       const colors = darkMode ? darkColors : lightColors;
-      
+
       // Normalize event type to handle variations like 'drop-in', 'Drop-in', 'dropin', etc.
       const normalizeEventType = (type) => {
         if (!type) return 'show';
@@ -352,7 +378,7 @@
         if (t === 'show' || t === 'shows') return 'show';
         return 'show'; // default
       };
-      
+
       // Event type styles with colors and emoji circles for dropdown
       const eventTypeStyles = {
         'show': { color: colors.terracotta, label: 'Shows', icon: '🎭', dot: '🔴' },
@@ -360,7 +386,7 @@
         'jam': { color: colors.sand, label: 'Jams', icon: '🎲', dot: '🟡' },
         'dropin': { color: '#7B68A6', label: 'Drop-ins', icon: '🚪', dot: '🟣' },
       };
-      
+
       const venueStyles = {
         'Bristol Improv Theatre': { color: colors.terracotta, bg: `${colors.terracotta}18`, group: 'Bristol Improv Theatre', order: 1 },
         'Hen & Chicken': { color: colors.sand, bg: `${colors.sand}25`, group: 'Hen & Chicken', order: 2 },
@@ -372,7 +398,7 @@
         'Tobacco Factory': { color: '#8B6F47', bg: '#8B6F4715', group: 'Other', order: 5 },
         'Bristol Beacon': { color: '#C4A35A', bg: '#C4A35A15', group: 'Other', order: 5 },
       };
-      
+
       // Venue groups for filter dropdown (in display order)
       const venueGroups = [
         { key: 'Bristol Improv Theatre', label: 'Bristol Improv Theatre' },
@@ -381,7 +407,7 @@
         { key: 'Wardrobe Theatre', label: 'Wardrobe Theatre' },
         { key: 'Other', label: 'Other' },
       ];
-      
+
       const isEveningEvent = (timeStr) => {
         if (!timeStr) return true;
         const match = timeStr.match(/^(\d{1,2}):?(\d{2})?/);
@@ -391,13 +417,13 @@
         }
         return true;
       };
-      
+
       // Parse time string to get start and end times in minutes from midnight
       const parseEventTimes = (timeStr) => {
         if (!timeStr) return null;
         // Handle formats like "19:00–21:00", "19:00-21:00", "7pm - 9pm", "19:00"
         const timeRange = timeStr.replace(/\s/g, '').split(/[–\-]/);
-        
+
         const parseTime = (t) => {
           if (!t) return null;
           // Handle "7pm", "19:00", "7:30pm" formats
@@ -407,34 +433,34 @@
           const parts = cleaned.split(':');
           let hour = parseInt(parts[0], 10);
           const mins = parts[1] ? parseInt(parts[1], 10) : 0;
-          
+
           if (pmMatch && hour < 12) hour += 12;
           if (amMatch && hour === 12) hour = 0;
-          
+
           return hour * 60 + mins;
         };
-        
+
         const start = parseTime(timeRange[0]);
         const end = timeRange[1] ? parseTime(timeRange[1]) : (start ? start + 120 : null); // Default 2 hour duration
-        
+
         return start !== null ? { start, end } : null;
       };
-      
+
       // Check if two events overlap in time
       const eventsOverlap = (event1, event2) => {
         const times1 = parseEventTimes(event1.time);
         const times2 = parseEventTimes(event2.time);
-        
+
         if (!times1 || !times2) return false; // Can't determine, assume no overlap
-        
+
         // Events overlap if one starts before the other ends
         return times1.start < times2.end && times2.start < times1.end;
       };
-      
+
       // Check if any events in a list have overlapping times
       const hasOverlappingEvents = (eventsList) => {
         if (eventsList.length < 2) return false;
-        
+
         for (let i = 0; i < eventsList.length; i++) {
           for (let j = i + 1; j < eventsList.length; j++) {
             if (eventsOverlap(eventsList[i], eventsList[j])) {
@@ -444,7 +470,7 @@
         }
         return false;
       };
-      
+
       useEffect(() => {
         const fetchEvents = async () => {
           if (USE_SAMPLE_DATA) {
@@ -469,7 +495,7 @@
         };
         fetchEvents();
       }, []);
-      
+
       useEffect(() => {
         const handleClick = (e) => {
           if (controlsRef.current && !controlsRef.current.contains(e.target)) {
@@ -479,12 +505,12 @@
         document.addEventListener('mousedown', handleClick);
         return () => document.removeEventListener('mousedown', handleClick);
       }, []);
-      
+
       const today = new Date();
       const todayYear = today.getFullYear();
       const todayMonth = today.getMonth();
       const todayDate = today.getDate();
-      
+
       const maxEventDate = useMemo(() => {
         if (events.length === 0) return { year: todayYear, month: todayMonth };
         let maxY = MIN_YEAR, maxM = MIN_MONTH;
@@ -497,57 +523,57 @@
         });
         return { year: maxY, month: maxM };
       }, [events]);
-      
+
       // Dynamic: allow navigating back to the previous month, no further
       const prevMonthYear = todayMonth === 0 ? todayYear - 1 : todayYear;
       const prevMonthIdx = todayMonth === 0 ? 11 : todayMonth - 1;
       const canGoBack = viewYear > prevMonthYear || (viewYear === prevMonthYear && viewMonth > prevMonthIdx);
       const canGoForward = viewYear < maxEventDate.year || (viewYear === maxEventDate.year && viewMonth < maxEventDate.month);
       const isCurrentMonth = viewYear === todayYear && viewMonth === todayMonth;
-      
+
       const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
       const firstDay = new Date(viewYear, viewMonth, 1).getDay();
       const startDay = firstDay === 0 ? 6 : firstDay - 1;
-      
+
       const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
       const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-      
+
       const goToPrevMonth = () => {
         if (!canGoBack) return;
         setSelectedDate(null);
         setViewMonth(viewMonth === 0 ? 11 : viewMonth - 1);
         setViewYear(viewMonth === 0 ? viewYear - 1 : viewYear);
       };
-      
+
       const goToNextMonth = () => {
         if (!canGoForward) return;
         setSelectedDate(null);
         setViewMonth(viewMonth === 11 ? 0 : viewMonth + 1);
         setViewYear(viewMonth === 11 ? viewYear + 1 : viewYear);
       };
-      
+
       const goToToday = () => {
         setSelectedDate(null);
         setViewYear(todayYear);
         setViewMonth(todayMonth);
       };
-      
+
       // Touch handlers for swipe navigation on mobile
       const handleTouchStart = (e) => {
         touchStartX.current = e.touches[0].clientX;
         touchStartY.current = e.touches[0].clientY;
       };
-      
+
       const handleTouchEnd = (e) => {
         if (touchStartX.current === null || touchStartY.current === null) return;
-        
+
         const touchEndX = e.changedTouches[0].clientX;
         const touchEndY = e.changedTouches[0].clientY;
-        
+
         const deltaX = touchEndX - touchStartX.current;
         const deltaY = touchEndY - touchStartY.current;
-        
+
         // Only trigger swipe if horizontal movement is greater than vertical
         // and the swipe is at least 50px
         const minSwipeDistance = 50;
@@ -560,11 +586,11 @@
             goToNextMonth();
           }
         }
-        
+
         touchStartX.current = null;
         touchStartY.current = null;
       };
-      
+
       const getVenueGroup = (venue) => {
         const style = venueStyles[venue];
         if (style) return style.group;
@@ -574,19 +600,19 @@
         // Everything else is 'Other'
         return 'Other';
       };
-      
-      const getVenueInfo = (venue) => venueStyles[venue] || 
+
+      const getVenueInfo = (venue) => venueStyles[venue] ||
         { color: colors.navy, bg: `${colors.navy}15`, group: 'Other' };
-      
+
       const getEventsForDate = (date) => {
         return events.filter(e => {
           const d = new Date(e.date);
           if (d.getMonth() !== viewMonth || d.getFullYear() !== viewYear || d.getDate() !== date) return false;
           const group = getVenueGroup(e.venue);
           const matchVenue = venueFilter === 'all' || group === venueFilter;
-          
+
           const normalizedType = normalizeEventType(e.type);
-          
+
           let matchType = true;
           if (typeFilter === 'daytime') {
             matchType = !isEveningEvent(e.time);
@@ -595,11 +621,11 @@
           } else if (typeFilter !== 'all') {
             matchType = normalizedType === typeFilter;
           }
-          
+
           return matchVenue && matchType;
         });
       };
-      
+
       // Get event type counts for a date (for dot display)
       const getEventTypeCounts = (date) => {
         const dateEvents = getEventsForDate(date);
@@ -610,34 +636,34 @@
         });
         return counts;
       };
-      
+
       const searchResults = useMemo(() => {
         if (!searchQuery.trim()) return [];
         const q = searchQuery.toLowerCase();
-        return events.filter(e => 
-          e.title.toLowerCase().includes(q) || 
+        return events.filter(e =>
+          e.title.toLowerCase().includes(q) ||
           e.venue.toLowerCase().includes(q) ||
           (e.description?.toLowerCase().includes(q))
         ).slice(0, 8);
       }, [searchQuery, events]);
-      
+
       // Get all events with filters applied (for list view)
       const getAllFilteredEvents = useMemo(() => {
         const now = new Date();
         now.setHours(0, 0, 0, 0);
-        
+
         return events.filter(e => {
           const eventDate = new Date(e.date);
           eventDate.setHours(0, 0, 0, 0);
-          
+
           // Only show future events (from today onwards)
           if (eventDate < now) return false;
-          
+
           const group = getVenueGroup(e.venue);
           const matchVenue = venueFilter === 'all' || group === venueFilter;
-          
+
           const normalizedType = normalizeEventType(e.type);
-          
+
           let matchType = true;
           if (typeFilter === 'daytime') {
             matchType = !isEveningEvent(e.time);
@@ -646,11 +672,11 @@
           } else if (typeFilter !== 'all') {
             matchType = normalizedType === typeFilter;
           }
-          
+
           return matchVenue && matchType;
         }).sort((a, b) => new Date(a.date) - new Date(b.date));
       }, [events, venueFilter, typeFilter]);
-      
+
       // Group filtered events by date for list view
       const groupedEvents = useMemo(() => {
         const groups = {};
@@ -663,15 +689,15 @@
         });
         return groups;
       }, [getAllFilteredEvents]);
-      
+
       const handleSearchSelect = (event) => {
         const d = new Date(event.date);
-        
+
         // Check if selected event matches current filters
         const normalizedType = normalizeEventType(event.type);
         const venueGroup = getVenueGroup(event.venue);
         const isEvening = isEveningEvent(event.time);
-        
+
         // Check if event matches type filter
         let matchesTypeFilter = typeFilter === 'all';
         if (typeFilter === 'daytime') {
@@ -681,10 +707,10 @@
         } else if (typeFilter !== 'all') {
           matchesTypeFilter = normalizedType === typeFilter;
         }
-        
+
         // Check if event matches venue filter
         const matchesVenueFilter = venueFilter === 'all' || venueGroup === venueFilter;
-        
+
         // Reset filters if event doesn't match
         if (!matchesTypeFilter) {
           setTypeFilter('all');
@@ -692,21 +718,21 @@
         if (!matchesVenueFilter) {
           setVenueFilter('all');
         }
-        
+
         setViewYear(d.getFullYear());
         setViewMonth(d.getMonth());
         setSelectedDate(d.getDate());
         setSearchQuery('');
         setShowSearchResults(false);
       };
-      
+
       // Get active types using normalized types
       const activeVenueGroups = useMemo(() => {
         const s = new Set();
         events.forEach(e => s.add(getVenueGroup(e.venue)));
         return s;
       }, [events]);
-      
+
       const activeTypes = useMemo(() => {
         const s = new Set();
         events.forEach(e => {
@@ -715,10 +741,10 @@
         });
         return s;
       }, [events]);
-      
+
       const hasDaytimeEvents = useMemo(() => events.some(e => !isEveningEvent(e.time)), [events]);
       const hasEveningEvents = useMemo(() => events.some(e => isEveningEvent(e.time)), [events]);
-      
+
       const formatLastUpdated = (str) => {
         if (!str) return null;
         const d = new Date(str);
@@ -728,21 +754,21 @@
         if (hrs < 24) return `${hrs}h ago`;
         return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
       };
-      
+
       const formatEventDate = (str) => {
         const d = new Date(str);
         return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
       };
-      
-      const getDayName = (date) => ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(viewYear, viewMonth, date).getDay()];
-      
+
+      const getDayName = (date) => ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][new Date(viewYear, viewMonth, date).getDay()];
+
       const getShortTitle = (title, maxLen = 16) => {
         const short = title.replace(/^The\s+/i, '').replace(/[:|].*$/, '').trim();
         return short.length > maxLen ? short.substring(0, maxLen - 1) + '…' : short;
       };
-      
+
       const weeksNeeded = Math.ceil((startDay + daysInMonth) / 7);
-      
+
       // Get event type counts for a specific time period (daytime or evening)
       const getEventTypeCountsByTime = (dateEvents, isEvening) => {
         const counts = {};
@@ -755,12 +781,12 @@
         });
         return counts;
       };
-      
+
       // Render event type shapes from counts
       const renderEventShapes = (typeCounts) => {
         const typeOrder = ['show', 'workshop', 'jam', 'dropin'];
         const shapes = [];
-        
+
         typeOrder.forEach(type => {
           if (typeCounts[type]) {
             const count = typeCounts[type];
@@ -772,16 +798,16 @@
             });
           }
         });
-        
+
         // Max 4 shapes
         return shapes.slice(0, 4);
       };
-      
+
       // Render a single shape for mobile
       const renderMobileShape = (shape, index) => {
         const { type, count, color } = shape;
-        
-        switch(type) {
+
+        switch (type) {
           case 'show':
             return (
               <div key={index} className="mobile-shape-wrap">
@@ -823,7 +849,7 @@
             );
         }
       };
-      
+
       const renderDays = () => {
         const days = [];
         for (let i = 0; i < startDay; i++) {
@@ -845,10 +871,10 @@
           const eveningCounts = getEventTypeCountsByTime(dateEvents, true);
           const daytimeShapes = renderEventShapes(daytimeCounts);
           const eveningShapes = renderEventShapes(eveningCounts);
-          
+
           // Render chip shape for desktop view
           const renderChipShape = (type, color) => {
-            switch(type) {
+            switch (type) {
               case 'show':
                 return <div className="chip-shape-wrap"><div className="chip-circle" style={{ background: color }}></div></div>;
               case 'workshop':
@@ -861,7 +887,7 @@
                 return <div className="chip-shape-wrap"><div className="chip-circle" style={{ background: color }}></div></div>;
             }
           };
-          
+
           days.push(
             <div
               key={date}
@@ -903,13 +929,13 @@
         }
         return days;
       };
-      
+
       const selectedEvents = selectedDate ? getEventsForDate(selectedDate) : [];
-      
+
       // Color key component with shapes
       const ColorKey = () => {
         const renderKeyShape = (type, color) => {
-          switch(type) {
+          switch (type) {
             case 'show':
               return <div className="key-shape"><div className="shape-circle" style={{ background: color }}></div></div>;
             case 'workshop':
@@ -922,7 +948,7 @@
               return <div className="key-shape"><div className="shape-circle" style={{ background: color }}></div></div>;
           }
         };
-        
+
         return (
           <div className="color-key">
             <span className="key-label">Key:</span>
@@ -935,7 +961,7 @@
           </div>
         );
       };
-      
+
       // Format date for list view headers
       const formatListDate = (dateStr) => {
         const d = new Date(dateStr);
@@ -947,7 +973,7 @@
         tomorrow.setDate(tomorrow.getDate() + 1);
         const eventDate = new Date(dateStr);
         eventDate.setHours(0, 0, 0, 0);
-        
+
         if (eventDate.getTime() === today.getTime()) {
           return `Today, ${d.getDate()} ${months[d.getMonth()]}`;
         }
@@ -956,11 +982,11 @@
         }
         return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]}`;
       };
-      
+
       // List view component
       const ListView = () => {
         const dateKeys = Object.keys(groupedEvents).sort((a, b) => new Date(a) - new Date(b));
-        
+
         if (dateKeys.length === 0) {
           return (
             <div className="list-view">
@@ -972,7 +998,7 @@
             </div>
           );
         }
-        
+
         // Format date for header - "Wednesday" on left, "12 February 2026" on right
         const formatDateParts = (dateStr) => {
           const d = new Date(dateStr);
@@ -984,18 +1010,18 @@
           tomorrow.setDate(tomorrow.getDate() + 1);
           const eventDate = new Date(dateStr);
           eventDate.setHours(0, 0, 0, 0);
-          
+
           let dayPart = days[d.getDay()];
           if (eventDate.getTime() === today.getTime()) {
             dayPart = 'Today';
           } else if (eventDate.getTime() === tomorrow.getTime()) {
             dayPart = 'Tomorrow';
           }
-          
+
           const datePart = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
           return { dayPart, datePart };
         };
-        
+
         return (
           <div className="list-view">
             <div className="list-container">
@@ -1040,7 +1066,7 @@
           </div>
         );
       };
-      
+
       return (
         <div className="app">
           <style>{`
@@ -1053,35 +1079,6 @@
               color: ${colors.text};
               overflow: hidden;
               position: relative;
-            }
-            
-            /* BETA CORNER RIBBON */
-            .beta-ribbon {
-              position: absolute;
-              top: 0;
-              left: 0;
-              width: 85px;
-              height: 85px;
-              overflow: hidden;
-              z-index: 100;
-              pointer-events: none;
-            }
-            .beta-ribbon span {
-              position: absolute;
-              display: block;
-              width: 120px;
-              padding: 4px 0;
-              background: ${colors.terracotta};
-              color: white;
-              font-size: 0.55rem;
-              font-weight: 800;
-              text-transform: uppercase;
-              text-align: center;
-              letter-spacing: 0.1em;
-              left: -35px;
-              top: 22px;
-              transform: rotate(-45deg);
-              box-shadow: 0 2px 8px rgba(0,0,0,0.2);
             }
             
             /* HEADER - Always uses light mode colors */
@@ -1106,16 +1103,6 @@
               color: #F4F1DE;
               white-space: nowrap;
               line-height: 1.1;
-            }
-            .beta {
-              background: ${colors.terracotta};
-              color: white;
-              font-size: 0.6rem;
-              font-weight: 700;
-              padding: 0.2rem 0.45rem;
-              border-radius: 4px;
-              text-transform: uppercase;
-              flex-shrink: 0;
             }
             .header-center {
               display: flex;
@@ -2331,7 +2318,7 @@
               .settings-btn span { display: none; }
               
               .header-right { gap: 0.5rem; }
-              .hub-link { font-size: 0.75rem; }
+              .hub-link { display: none; }
               .hub-link-text-desktop { display: none; }
               .hub-link-text-mobile { display: inline; }
               
@@ -2396,7 +2383,6 @@
             
             @media (max-width: 380px) {
               .header h1 { font-size: 0.9rem; }
-              .hub-link { font-size: 0.65rem; }
               .filter-select { font-size: 0.7rem; padding: 0.3rem 1.3rem 0.3rem 0.4rem; }
               .mobile-shape-wrap { width: 10px; height: 10px; }
               .mobile-circle { width: 10px; height: 10px; }
@@ -2426,16 +2412,10 @@
               .beta-ribbon { display: none; }
             }
           `}</style>
-          
-          {/* Beta corner ribbon - mobile only */}
-          <div className="beta-ribbon">
-            <span>Beta</span>
-          </div>
-          
+
           <header className="header">
             <div className="header-left">
               <h1>Bristol Improv Calendar</h1>
-              <span className="beta">Beta</span>
             </div>
             {viewMode === 'calendar' ? (
               <div className="header-center">
@@ -2466,9 +2446,9 @@
               </button>
             </div>
           </header>
-          
+
           {error && <div style={{ background: `${colors.sand}30`, textAlign: 'center', fontSize: '0.65rem', padding: '0.3rem', color: colors.text }}>⚠️ {error}</div>}
-          
+
           {loading ? (
             <div className="loading">
               <div className="spinner"></div>
@@ -2489,7 +2469,7 @@
                       onFocus={() => setShowSearchResults(true)}
                     />
                   </div>
-                  <select 
+                  <select
                     className={`filter-select ${typeFilter !== 'all' ? 'active' : ''}`}
                     value={typeFilter}
                     onChange={e => setTypeFilter(e.target.value)}
@@ -2503,7 +2483,7 @@
                     <option value="daytime" disabled={!hasDaytimeEvents}>☀️ Daytime</option>
                     <option value="evening" disabled={!hasEveningEvents}>🌙 Evening</option>
                   </select>
-                  <select 
+                  <select
                     className={`filter-select ${venueFilter !== 'all' ? 'active' : ''}`}
                     value={venueFilter}
                     onChange={e => setVenueFilter(e.target.value)}
@@ -2525,12 +2505,12 @@
                   )}
                 </div>
               </div>
-              
+
               {viewMode === 'calendar' && <ColorKey />}
-              
+
               {viewMode === 'calendar' ? (
                 <div className="main">
-                  <div 
+                  <div
                     className={`calendar ${weeksNeeded >= 6 ? 'six-weeks' : ''}`}
                     ref={calendarRef}
                     onTouchStart={handleTouchStart}
@@ -2541,7 +2521,7 @@
                       {renderDays()}
                     </div>
                   </div>
-                  
+
                   <div className={`detail ${selectedDate ? 'has-selection' : 'no-selection'}`}>
                     {selectedDate ? (
                       <>
@@ -2604,7 +2584,7 @@
               )}
             </>
           )}
-          
+
           {/* Desktop footer - only shown in calendar view */}
           {viewMode === 'calendar' && (
             <div className="desktop-footer">
@@ -2621,11 +2601,11 @@
               </div>
             </div>
           )}
-          
+
           <RoadmapModal isOpen={showRoadmap} onClose={() => setShowRoadmap(false)} colors={colors} />
-          <SettingsModal 
-            isOpen={showSettings} 
-            onClose={() => setShowSettings(false)} 
+          <SettingsModal
+            isOpen={showSettings}
+            onClose={() => setShowSettings(false)}
             colors={colors}
             darkMode={darkMode}
             setDarkMode={setDarkMode}
@@ -2642,4 +2622,5 @@
     ReactDOM.createRoot(document.getElementById('root')).render(<BristolImprovCalendar />);
   </script>
 </body>
+
 </html>
