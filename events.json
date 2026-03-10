@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-09T06:57:49.380Z",
+  "lastUpdated": "2026-03-10T06:43:14.469Z",
   "events": [
     {
       "date": "2026-02-01",
@@ -566,6 +566,15 @@
       "time": "18:00–19:30",
       "type": "show",
       "url": "https://improvtheatre.co.uk/upcoming-show/breathwork-for-stress-release-free-session/",
+      "description": ""
+    },
+    {
+      "date": "2026-03-19",
+      "title": "A Star Wars Improv Show: The One-Man Made-Up Movie",
+      "venue": "Sidney And Eden",
+      "time": "20:00",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/sidney-and-eden/thu-19-mar-a-star-wars-improv-show-the-one-man-made-up-movie-149605",
       "description": ""
     },
     {
@@ -1970,6 +1979,15 @@
       "time": "18:45",
       "type": "show",
       "url": "https://www.headfirstbristol.co.uk/whats-on/prsc/thu-26-feb-my-date-with-pierce-brosnan-feat-the-brothers-grin-144634",
+      "description": ""
+    },
+    {
+      "date": "2027-03-09",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
       "description": ""
     }
   ]
