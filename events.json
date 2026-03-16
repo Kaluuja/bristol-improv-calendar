@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-15T06:52:45.054Z",
+  "lastUpdated": "2026-03-16T07:12:10.417Z",
   "events": [
     {
       "date": "2026-02-01",
@@ -701,6 +701,15 @@
       "time": "20:00–22:00",
       "type": "drop-in",
       "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-03-30/",
+      "description": ""
+    },
+    {
+      "date": "2026-04-01",
+      "title": "La La Bar",
+      "venue": "Bristol Improv Theatre",
+      "time": "20:30–23:30",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/la-la-bar-april/",
       "description": ""
     },
     {
