@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-03T07:03:23.921Z",
+  "lastUpdated": "2026-04-04T06:56:43.938Z",
   "events": [
     {
       "date": "2026-03-01",
@@ -434,8 +434,26 @@
       "description": ""
     },
     {
+      "date": "2026-04-06",
+      "title": "Student Showcase: Telling Stories (Level 3)",
+      "venue": "Bristol Improv Theatre",
+      "time": "20:30–22:00",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/performing-level-1-telling-stories-student-showcase-3/",
+      "description": ""
+    },
+    {
       "date": "2026-04-07",
       "title": "Performing Improv Level 4: Developing Characters Student Showcase",
+      "venue": "Bristol Improv Theatre",
+      "time": "20:30–22:00",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/performing-l2-developing-characters-student-showcase/",
+      "description": ""
+    },
+    {
+      "date": "2026-04-07",
+      "title": "Student Showcase: Developing Characters (Level 4)",
       "venue": "Bristol Improv Theatre",
       "time": "20:30–22:00",
       "type": "show",
@@ -848,6 +866,15 @@
       "description": ""
     },
     {
+      "date": "2026-05-25",
+      "title": "Student Showcase: Making a Scene (Level 3)",
+      "venue": "Bristol Improv Theatre",
+      "time": "20:30–22:00",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/performing-improv-level1-making-a-scene-student-showcase-2/",
+      "description": ""
+    },
+    {
       "date": "2026-05-26",
       "title": "Performing L2: Scenes and Songs Student Showcase",
       "venue": "Bristol Improv Theatre",
@@ -859,6 +886,15 @@
     {
       "date": "2026-05-26",
       "title": "Performing Improv Level 4: Scenes and Songs Student Showcase",
+      "venue": "Bristol Improv Theatre",
+      "time": "20:30–22:00",
+      "type": "show",
+      "url": "https://improvtheatre.co.uk/upcoming-show/performing-level4-scenes-and-songs-student-showcase-2/",
+      "description": ""
+    },
+    {
+      "date": "2026-05-26",
+      "title": "Student Showcase: Scenes and Songs (Level 4)",
       "venue": "Bristol Improv Theatre",
       "time": "20:30–22:00",
       "type": "show",
