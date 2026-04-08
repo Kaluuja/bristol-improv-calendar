@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-07T07:11:12.432Z",
+  "lastUpdated": "2026-04-08T07:13:24.137Z",
   "events": [
     {
       "date": "2026-03-01",
@@ -782,6 +782,15 @@
       "time": "20:30",
       "type": "show",
       "url": "https://www.headfirstbristol.co.uk/whats-on/hen-and-chicken/wed-13-may-wednesday-night-improv-anniversary-special--149220",
+      "description": ""
+    },
+    {
+      "date": "2026-05-13",
+      "title": "The Improv Variety Show",
+      "venue": "Loco Klub",
+      "time": "20:30",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/loco-klub/wed-13-may-the-improv-variety-show-151747",
       "description": ""
     },
     {
@@ -1761,6 +1770,15 @@
       "title": "Closer Each Day: The Improvised Soap Opera",
       "venue": "Wardrobe Theatre",
       "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2027-04-06",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Wardrobe Theatre",
+      "time": "20:30",
       "type": "show",
       "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
       "description": ""
