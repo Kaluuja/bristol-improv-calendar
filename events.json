@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-11T06:57:19.887Z",
+  "lastUpdated": "2026-04-12T07:09:41.452Z",
   "events": [
     {
       "date": "2026-03-01",
@@ -1331,6 +1331,15 @@
       "time": "20:00–22:00",
       "type": "drop-in",
       "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-08-31/",
+      "description": ""
+    },
+    {
+      "date": "2026-09-03",
+      "title": "Tales From The Wasteland: Post-Apocalyptic Improv",
+      "venue": "Loco Klub",
+      "time": "20:30",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/loco-klub/thu-3-sep-tales-from-the-wasteland-post-apocalyptic-improv-152139",
       "description": ""
     },
     {
