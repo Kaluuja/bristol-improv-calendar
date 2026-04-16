@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-15T07:26:24.926Z",
+  "lastUpdated": "2026-04-16T07:26:59.282Z",
   "events": [
     {
       "date": "2026-03-01",
@@ -1601,6 +1601,15 @@
       "time": "14:00–16:00",
       "type": "drop-in",
       "url": "https://improvtheatre.co.uk/upcoming-show/improv-taster-session-3-2/2026-11-14/",
+      "description": ""
+    },
+    {
+      "date": "2026-11-14",
+      "title": "Tales From The Wasteland: Post-Apocalyptic Improv",
+      "venue": "Tobacco Factory",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://tobaccofactorytheatres.com/shows/tales-from-the-wasteland-post-apocalyptic-improv-2/",
       "description": ""
     },
     {
