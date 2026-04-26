@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-25T07:10:16.539Z",
+  "lastUpdated": "2026-04-26T07:24:05.524Z",
   "events": [
     {
       "date": "2026-03-01",
@@ -1010,6 +1010,15 @@
       "description": ""
     },
     {
+      "date": "2026-06-18",
+      "title": "Bristol Improv Theatre Breathwork for Stress Release",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:15–20:45",
+      "type": "show",
+      "url": "https://www.eventbrite.com/checkout-external?eid=1987326116913",
+      "description": ""
+    },
+    {
       "date": "2026-06-19",
       "title": "This Is Your Musical",
       "venue": "Bristol Improv Theatre",
@@ -1835,6 +1844,15 @@
       "time": "20:00",
       "type": "show",
       "url": "https://thewardrobetheatre.com/shows/impromptu-shakespeare/",
+      "description": ""
+    },
+    {
+      "date": "2027-04-20",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Wardrobe Theatre",
+      "time": "20:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
       "description": ""
     }
   ]
