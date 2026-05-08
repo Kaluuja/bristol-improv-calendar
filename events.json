@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-07T08:28:42.889Z",
+  "lastUpdated": "2026-05-08T07:25:08.121Z",
   "events": [
     {
       "date": "2026-04-01",
@@ -480,6 +480,15 @@
     },
     {
       "date": "2026-05-13",
+      "title": "Bristol Improv Theatre Games Night",
+      "venue": "Bristol Improv Theatre",
+      "time": "20:00–00:00",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/bristol-improv-theatre-games-night-8001",
+      "description": ""
+    },
+    {
+      "date": "2026-05-13",
       "title": "Wednesday Night Improv: Anniversary Special",
       "venue": "Hen & Chicken",
       "time": "20:30",
@@ -845,6 +854,15 @@
       "time": "19:30–22:00",
       "type": "workshop",
       "url": "https://events.improvtheatre.co.uk/event/level-1-discovering-improv-1001",
+      "description": ""
+    },
+    {
+      "date": "2026-06-05",
+      "title": "Two Much Fun",
+      "venue": "Spitfire Hangar at Brabazon",
+      "time": "20:30–22:00",
+      "type": "show",
+      "url": "https://www.eventbrite.com/checkout-external?eid=1988817206803",
       "description": ""
     },
     {
