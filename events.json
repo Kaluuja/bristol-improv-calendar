@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-14T08:33:13.410Z",
+  "lastUpdated": "2026-05-15T08:44:58.420Z",
   "events": [
     {
       "date": "2026-04-01",
@@ -543,29 +543,11 @@
     },
     {
       "date": "2026-05-18",
-      "title": "Lunchtime Improv with Rebecca MacMillan",
-      "venue": "Bristol Improv Theatre",
-      "time": "14:00–15:30",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/lunchtime-improv-with-rebecca-macmillan-2-2/2026-05-18/",
-      "description": ""
-    },
-    {
-      "date": "2026-05-18",
       "title": "Lunchtime Improv Drop-In with Rebecca MacMillan",
       "venue": "Bristol Improv Theatre",
       "time": "14:00–15:30",
       "type": "drop-in",
       "url": "https://events.improvtheatre.co.uk/event/lunchtime-improv-drop-in-with-rebecca-macmillan-4068",
-      "description": ""
-    },
-    {
-      "date": "2026-05-18",
-      "title": "Improv Drop-ins",
-      "venue": "Bristol Improv Theatre",
-      "time": "20:00–22:00",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-05-18/",
       "description": ""
     },
     {
@@ -597,15 +579,6 @@
     },
     {
       "date": "2026-05-25",
-      "title": "Lunchtime Improv with Rebecca MacMillan",
-      "venue": "Bristol Improv Theatre",
-      "time": "14:00–15:30",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/lunchtime-improv-with-rebecca-macmillan-2-2/2026-05-25/",
-      "description": ""
-    },
-    {
-      "date": "2026-05-25",
       "title": "Lunchtime Improv Drop-In with Rebecca MacMillan",
       "venue": "Bristol Improv Theatre",
       "time": "14:00–15:30",
@@ -615,29 +588,11 @@
     },
     {
       "date": "2026-05-25",
-      "title": "Improv Drop-ins",
-      "venue": "Bristol Improv Theatre",
-      "time": "20:00–22:00",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-05-25/",
-      "description": ""
-    },
-    {
-      "date": "2026-05-25",
       "title": "Improv Drop-In - Monday Evening",
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "drop-in",
       "url": "https://events.improvtheatre.co.uk/event/improv-drop-ins-3817",
-      "description": ""
-    },
-    {
-      "date": "2026-05-25",
-      "title": "Performing Improv Level1: Making a Scene Student Showcase",
-      "venue": "Bristol Improv Theatre",
-      "time": "20:30–22:00",
-      "type": "show",
-      "url": "https://improvtheatre.co.uk/upcoming-show/performing-improv-level1-making-a-scene-student-showcase-2/",
       "description": ""
     },
     {
@@ -656,24 +611,6 @@
       "time": "12:00–13:00",
       "type": "show",
       "url": "https://events.improvtheatre.co.uk/event/imaginary-adventure-club-1201",
-      "description": ""
-    },
-    {
-      "date": "2026-05-26",
-      "title": "Performing L2: Scenes and Songs Student Showcase",
-      "venue": "Bristol Improv Theatre",
-      "time": "20:30–22:00",
-      "type": "show",
-      "url": "https://improvtheatre.co.uk/upcoming-show/performing-l2-scenes-and-songs-student-showcase-2/",
-      "description": ""
-    },
-    {
-      "date": "2026-05-26",
-      "title": "Performing Improv Level 4: Scenes and Songs Student Showcase",
-      "venue": "Bristol Improv Theatre",
-      "time": "20:30–22:00",
-      "type": "show",
-      "url": "https://improvtheatre.co.uk/upcoming-show/performing-level4-scenes-and-songs-student-showcase-2/",
       "description": ""
     },
     {
@@ -768,15 +705,6 @@
     },
     {
       "date": "2026-06-01",
-      "title": "Lunchtime Improv with Rebecca MacMillan",
-      "venue": "Bristol Improv Theatre",
-      "time": "14:00–15:30",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/lunchtime-improv-with-rebecca-macmillan-2-2/2026-06-01/",
-      "description": ""
-    },
-    {
-      "date": "2026-06-01",
       "title": "Lunchtime Improv Drop-In with Rebecca MacMillan",
       "venue": "Bristol Improv Theatre",
       "time": "14:00–15:30",
@@ -800,15 +728,6 @@
       "time": "19:30–22:00",
       "type": "workshop",
       "url": "https://events.improvtheatre.co.uk/event/level-4-exploring-narrative-2601",
-      "description": ""
-    },
-    {
-      "date": "2026-06-01",
-      "title": "Improv Drop-ins",
-      "venue": "Bristol Improv Theatre",
-      "time": "20:00–22:00",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-06-01/",
       "description": ""
     },
     {
@@ -885,15 +804,6 @@
     },
     {
       "date": "2026-06-08",
-      "title": "Lunchtime Improv with Rebecca MacMillan",
-      "venue": "Bristol Improv Theatre",
-      "time": "14:00–15:30",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/lunchtime-improv-with-rebecca-macmillan-2-2/2026-06-08/",
-      "description": ""
-    },
-    {
-      "date": "2026-06-08",
       "title": "Lunchtime Improv Drop-In with Rebecca MacMillan",
       "venue": "Bristol Improv Theatre",
       "time": "14:00–15:30",
@@ -944,15 +854,6 @@
       "time": "20:30–22:30",
       "type": "show",
       "url": "https://events.improvtheatre.co.uk/event/story-smash-summer-of-love-6001",
-      "description": ""
-    },
-    {
-      "date": "2026-06-15",
-      "title": "Lunchtime Improv with Rebecca MacMillan",
-      "venue": "Bristol Improv Theatre",
-      "time": "14:00–15:30",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/lunchtime-improv-with-rebecca-macmillan-2-2/2026-06-15/",
       "description": ""
     },
     {
@@ -1029,15 +930,6 @@
     },
     {
       "date": "2026-06-22",
-      "title": "Lunchtime Improv with Rebecca MacMillan",
-      "venue": "Bristol Improv Theatre",
-      "time": "14:00–15:30",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/lunchtime-improv-with-rebecca-macmillan-2-2/2026-06-22/",
-      "description": ""
-    },
-    {
-      "date": "2026-06-22",
       "title": "Lunchtime Improv Drop-In with Rebecca MacMillan",
       "venue": "Bristol Improv Theatre",
       "time": "14:00–15:30",
@@ -1110,29 +1002,11 @@
     },
     {
       "date": "2026-06-29",
-      "title": "Lunchtime Improv with Rebecca MacMillan",
-      "venue": "Bristol Improv Theatre",
-      "time": "14:00–15:30",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/lunchtime-improv-with-rebecca-macmillan-2-2/2026-06-29/",
-      "description": ""
-    },
-    {
-      "date": "2026-06-29",
       "title": "Lunchtime Improv Drop-In with Rebecca MacMillan",
       "venue": "Bristol Improv Theatre",
       "time": "14:00–15:30",
       "type": "drop-in",
       "url": "https://events.improvtheatre.co.uk/event/lunchtime-improv-drop-in-with-rebecca-macmillan-4068",
-      "description": ""
-    },
-    {
-      "date": "2026-06-29",
-      "title": "Improv Drop-ins",
-      "venue": "Bristol Improv Theatre",
-      "time": "20:00–22:00",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-06-29/",
       "description": ""
     },
     {
