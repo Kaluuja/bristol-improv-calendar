@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-05-21T09:34:19.686Z",
+  "lastUpdated": "2026-05-22T08:56:06.573Z",
   "events": [
     {
       "date": "2026-04-01",
@@ -926,6 +926,15 @@
       "time": "20:30–22:30",
       "type": "show",
       "url": "https://events.improvtheatre.co.uk/event/goss-6401",
+      "description": ""
+    },
+    {
+      "date": "2026-06-21",
+      "title": "Death Match Improv",
+      "venue": "PRSC",
+      "time": "19:00–21:00",
+      "type": "workshop",
+      "url": "https://prsc.org.uk/event/death-match-improv/",
       "description": ""
     },
     {
