@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-08T10:46:11.940Z",
+  "lastUpdated": "2026-06-09T09:35:51.027Z",
   "events": [
     {
       "date": "2026-05-01",
@@ -548,6 +548,15 @@
       "time": "19:15–20:45",
       "type": "show",
       "url": "https://www.eventbrite.com/checkout-external?eid=1987326116913",
+      "description": ""
+    },
+    {
+      "date": "2026-06-18",
+      "title": "The Improv Gauntlet Round 4",
+      "venue": "PRSC",
+      "time": "20:30",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/prsc/thu-18-jun-the-improv-gauntlet-round-4-156506",
       "description": ""
     },
     {
