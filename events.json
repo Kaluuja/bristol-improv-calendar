@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-11T10:17:26.758Z",
+  "lastUpdated": "2026-06-12T10:04:53.945Z",
   "events": [
     {
       "date": "2026-05-01",
@@ -539,6 +539,15 @@
       "time": "20:30",
       "type": "show",
       "url": "https://www.headfirstbristol.co.uk/whats-on/loco-klub/wed-17-jun-the-improv-variety-show-155553",
+      "description": ""
+    },
+    {
+      "date": "2026-06-17",
+      "title": "Buster Keaton Shorts with Improv Soundtrack performed by David Bednall",
+      "venue": "The Bristol Fringe",
+      "time": "21:00",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/the-bristol-fringe/wed-17-jun-buster-keaton-shorts-with-live-improv-soundtrack-performed-by-david-bednall-156182",
       "description": ""
     },
     {
