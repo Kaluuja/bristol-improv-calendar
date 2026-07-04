@@ -1,0 +1,11 @@
+{
+  "name": "bristol-improv-calendar",
+  "private": true,
+  "description": "What's on in Bristol improv — static site, events exported daily from Airtable",
+  "scripts": {
+    "build": "esbuild src/app.jsx --outfile=assets/app.js --minify --target=es2018"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}

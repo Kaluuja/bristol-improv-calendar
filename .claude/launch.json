@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "static-site",
+      "runtimeExecutable": "cmd.exe",
+      "runtimeArgs": ["/c", "npx --yes http-server -p 8472 -c-1 ."],
+      "port": 8472
+    }
+  ]
+}

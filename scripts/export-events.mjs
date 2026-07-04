@@ -1,18 +1,14 @@
 /**
- * Export approved events from Airtable to events.json
+ * Export approved events from Airtable to events.json and events.ics
  * Runs in GitHub Actions - no dependencies needed (uses built-in fetch)
  */
 
-const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY;
-const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
+import fs from 'fs';
+import { pathToFileURL } from 'url';
+
 const TABLE_NAME = 'Events';
 
-if (!AIRTABLE_API_KEY || !AIRTABLE_BASE_ID) {
-  console.error('Missing AIRTABLE_API_KEY or AIRTABLE_BASE_ID');
-  process.exit(1);
-}
-
-async function fetchApprovedEvents() {
+async function fetchApprovedEvents(apiKey, baseId) {
   const events = [];
   let offset = null;
 
@@ -25,8 +21,8 @@ async function fetchApprovedEvents() {
     if (offset) params.set('offset', offset);
 
     const response = await fetch(
-      `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(TABLE_NAME)}?${params}`,
-      { headers: { Authorization: `Bearer ${AIRTABLE_API_KEY}` } }
+      `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(TABLE_NAME)}?${params}`,
+      { headers: { Authorization: `Bearer ${apiKey}` } }
     );
 
     if (!response.ok) {
@@ -62,7 +58,7 @@ function formatDate(isoString) {
   return date.toLocaleDateString('en-CA', { timeZone: 'Europe/London' });
 }
 
-function transformEvent(record) {
+export function transformEvent(record) {
   const fields = record.fields;
   return {
     date: formatDate(fields.Start),
@@ -75,34 +71,105 @@ function transformEvent(record) {
   };
 }
 
+// --- iCalendar feed ---
+
+function escapeICSText(value) {
+  return String(value)
+    .replace(/\\/g, '\\\\')
+    .replace(/;/g, '\\;')
+    .replace(/,/g, '\\,')
+    .replace(/\r?\n/g, '\\n');
+}
+
+// UTC basic format: 20260401T193000Z
+function formatICSDate(iso) {
+  return new Date(iso).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+}
+
+// RFC 5545: content lines should stay within 75 octets; continuation lines start with a space
+function foldLine(line) {
+  if (line.length <= 74) return line;
+  const parts = [line.slice(0, 74)];
+  let rest = line.slice(74);
+  while (rest.length > 0) {
+    parts.push(' ' + rest.slice(0, 73));
+    rest = rest.slice(73);
+  }
+  return parts.join('\r\n');
+}
+
+export function buildICS(records, now = new Date()) {
+  const dtstamp = formatICSDate(now.toISOString());
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Bristol Improv Calendar//Events//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'X-WR-CALNAME:Bristol Improv Calendar',
+    'X-WR-TIMEZONE:Europe/London',
+  ];
+
+  for (const record of records) {
+    const f = record.fields;
+    if (!f.Start) continue;
+
+    // No end time in Airtable: assume 2 hours, same as the site does
+    const end = f.End || new Date(new Date(f.Start).getTime() + 2 * 60 * 60 * 1000).toISOString();
+    const url = f['Tickets URL'] || f['Event URL'] || '';
+
+    lines.push(
+      'BEGIN:VEVENT',
+      `UID:${record.id}@bristol-improv-calendar`,
+      `DTSTAMP:${dtstamp}`,
+      `DTSTART:${formatICSDate(f.Start)}`,
+      `DTEND:${formatICSDate(end)}`,
+      `SUMMARY:${escapeICSText(f.Title || 'Improv event')}`
+    );
+    if (f.Venue) lines.push(`LOCATION:${escapeICSText(f.Venue)}`);
+    if (url) lines.push(`URL:${url}`, `DESCRIPTION:${escapeICSText(`Details and tickets: ${url}`)}`);
+    lines.push('END:VEVENT');
+  }
+
+  lines.push('END:VCALENDAR');
+  return lines.map(foldLine).join('\r\n') + '\r\n';
+}
+
 async function main() {
+  const apiKey = process.env.AIRTABLE_API_KEY;
+  const baseId = process.env.AIRTABLE_BASE_ID;
+  if (!apiKey || !baseId) {
+    console.error('Missing AIRTABLE_API_KEY or AIRTABLE_BASE_ID');
+    process.exit(1);
+  }
+
   console.log('Fetching approved events from Airtable...');
-  const records = await fetchApprovedEvents();
+  const records = await fetchApprovedEvents(apiKey, baseId);
   console.log(`Found ${records.length} approved events`);
-
-  const events = records.map(transformEvent);
-
-  const today = new Date().toISOString().split('T')[0];
-  console.log(`Today: ${today}`);
 
   // Keep events from the start of the previous month onwards (current + previous month history)
   const now = new Date();
   const prevMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1)
     .toLocaleDateString('en-CA', { timeZone: 'Europe/London' });
-  const recentAndFutureEvents = events.filter((e) => e.date >= prevMonthStart);
-  console.log(`${recentAndFutureEvents.length} events from ${prevMonthStart} onwards (including past events this month and last month)`);
+  const keptRecords = records.filter((r) => r.fields.Start && formatDate(r.fields.Start) >= prevMonthStart);
+  console.log(`${keptRecords.length} events from ${prevMonthStart} onwards (including past events this month and last month)`);
 
   const output = {
-    lastUpdated: new Date().toISOString(),
-    events: recentAndFutureEvents,
+    lastUpdated: now.toISOString(),
+    events: keptRecords.map(transformEvent),
   };
 
-  const fs = await import('fs');
   fs.writeFileSync('events.json', JSON.stringify(output, null, 2));
   console.log('Written to events.json');
+
+  fs.writeFileSync('events.ics', buildICS(keptRecords, now));
+  console.log('Written to events.ics');
 }
 
-main().catch((err) => {
-  console.error('Export failed:', err);
-  process.exit(1);
-});
+// Only run when executed directly (allows importing buildICS/transformEvent in tests)
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((err) => {
+    console.error('Export failed:', err);
+    process.exit(1);
+  });
+}
