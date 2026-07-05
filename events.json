@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-04T08:31:34.400Z",
+  "lastUpdated": "2026-07-05T08:47:44.409Z",
   "events": [
     {
       "date": "2026-06-01",
@@ -623,6 +623,15 @@
       "description": ""
     },
     {
+      "date": "2026-07-22",
+      "title": "La La Bar",
+      "venue": "Bristol Improv Theatre",
+      "time": "20:30–23:30",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/la-la-bar-3829",
+      "description": ""
+    },
+    {
       "date": "2026-07-23",
       "title": "My Date with Pierce Brosnan",
       "venue": "Bristol Improv Theatre",
@@ -800,6 +809,15 @@
       "time": "20:00–22:00",
       "type": "drop-in",
       "url": "https://events.improvtheatre.co.uk/event/improv-drop-ins-3817",
+      "description": ""
+    },
+    {
+      "date": "2026-08-12",
+      "title": "Wednesday Night Improv: August Show",
+      "venue": "Hen & Chicken",
+      "time": "20:30",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/hen-and-chicken/wed-12-aug-wednesday-night-improv-august-show-157547",
       "description": ""
     },
     {
@@ -1142,6 +1160,15 @@
       "time": "20:00–22:00",
       "type": "drop-in",
       "url": "https://events.improvtheatre.co.uk/event/improv-drop-ins-3817",
+      "description": ""
+    },
+    {
+      "date": "2026-09-24",
+      "title": "Fire & Dice",
+      "venue": "Bristol Improv Theatre",
+      "time": "20:30–22:30",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/fire-dice-601",
       "description": ""
     },
     {
@@ -1514,6 +1541,33 @@
       "description": ""
     },
     {
+      "date": "2026-12-04",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
+      "date": "2026-12-05",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
+      "date": "2026-12-06",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
       "date": "2026-12-07",
       "title": "Improv Drop-ins",
       "venue": "Bristol Improv Theatre",
@@ -1529,6 +1583,51 @@
       "time": "19:30",
       "type": "show",
       "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2026-12-07",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
+      "date": "2026-12-08",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
+      "date": "2026-12-09",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
+      "date": "2026-12-10",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
+      "date": "2026-12-11",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
       "description": ""
     },
     {
@@ -1551,11 +1650,29 @@
     },
     {
       "date": "2026-12-12",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
+      "date": "2026-12-12",
       "title": "This Is Your Musical",
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
       "type": "show",
       "url": "https://improvtheatre.co.uk/upcoming-show/this-is-your-musical-2026/2026-12-12/",
+      "description": ""
+    },
+    {
+      "date": "2026-12-13",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
       "description": ""
     },
     {
@@ -1565,6 +1682,60 @@
       "time": "19:00–21:00",
       "type": "drop-in",
       "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-12-14/",
+      "description": ""
+    },
+    {
+      "date": "2026-12-14",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
+      "date": "2026-12-15",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
+      "date": "2026-12-16",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
+      "date": "2026-12-17",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
+      "date": "2026-12-18",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
+      "date": "2026-12-19",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
       "description": ""
     },
     {
@@ -1592,6 +1763,51 @@
       "time": "19:00–21:00",
       "type": "drop-in",
       "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-12-28/",
+      "description": ""
+    },
+    {
+      "date": "2027-01-12",
+      "title": "Showstopper! The Improvised Musical",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/showstopper-the-improvised-musical-2027",
+      "description": ""
+    },
+    {
+      "date": "2027-01-13",
+      "title": "Showstopper! The Improvised Musical",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/showstopper-the-improvised-musical-2027",
+      "description": ""
+    },
+    {
+      "date": "2027-01-14",
+      "title": "Showstopper! The Improvised Musical",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/showstopper-the-improvised-musical-2027",
+      "description": ""
+    },
+    {
+      "date": "2027-01-15",
+      "title": "Showstopper! The Improvised Musical",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/showstopper-the-improvised-musical-2027",
+      "description": ""
+    },
+    {
+      "date": "2027-01-16",
+      "title": "Showstopper! The Improvised Musical",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/showstopper-the-improvised-musical-2027",
       "description": ""
     },
     {
