@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-10T09:28:19.793Z",
+  "lastUpdated": "2026-07-11T07:48:43.639Z",
   "events": [
     {
       "date": "2026-06-01",
@@ -453,20 +453,20 @@
     },
     {
       "date": "2026-07-10",
-      "title": "Tales From The Wasteland: Pride Special!",
-      "venue": "The Folk House",
-      "time": "20:00–23:00",
-      "type": "show",
-      "url": "https://www.bristolfolkhouse.co.uk/live-music/event/tales-from-the-wasteland-pride-special-10-07-2026",
-      "description": ""
-    },
-    {
-      "date": "2026-07-10",
       "title": "Dragprov Revue",
       "venue": "Bristol Improv Theatre",
       "time": "20:30–22:30",
       "type": "show",
       "url": "https://events.improvtheatre.co.uk/event/dragprov-revue-4108",
+      "description": ""
+    },
+    {
+      "date": "2026-07-10",
+      "title": "Tales From The Wasteland: Pride Special",
+      "venue": "The Folk House",
+      "time": "21:00–23:00",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/the-folk-house/fri-10-jul-tales-from-the-wasteland-pride-special--147438",
       "description": ""
     },
     {
