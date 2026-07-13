@@ -91,11 +91,11 @@ Actions secrets.
 | D1 | **Silent per-source failure.** `runPipeline` catches each adapter's errors, logs them to the Actions console, and the workflow still exits green. If the BIT Spektrix API (73% of all listings) broke tomorrow, nothing would alert anyone — the site would just quietly thin out over weeks. Fix: fail the workflow (or send a Telegram alert via the existing n8n bot) when any adapter errors or returns 0 events, and track a per-source expected-minimum. | improv-calendar-sync `src/pipeline.ts:48-61` | **High** |
 | D1b | **Classifier recall risk.** A non-BIT event without an improv keyword in title/description is dropped as "no improv signals" — a hypothetical new "Open Jam Night" at a pub would be invisible unless its blurb says "improv". Options: (a) weekly digest of *dropped* events at known comedy venues for a human eyeball; (b) an LLM pass (Haiku-class) on the ambiguous middle — cheap at ~50 events/run; (c) keep growing `ALWAYS_INCLUDE`. | improv-calendar-sync `src/classifier.ts:144-184` | Medium |
 | D1c | `docs/sources.md` in the sync repo is stale: says BIT uses the ICS feed (moved to Spektrix API — the ICS feed now returns 0 VEVENTs); Folk House adapter missing from the list; Alma Tavern adapter was removed from `src/` but lingers in `dist/`. | improv-calendar-sync `docs/sources.md` | Low |
-| D2 | No empty-feed guard: if the Airtable "Approved" filter ever returns 0 rows (view renamed, token scope change), the export happily publishes an empty calendar. | [export-events.mjs:147-165](../scripts/export-events.mjs) | Medium |
+| D2 | ~~No empty-feed guard.~~ **Fixed in PR #2**: export now refuses to publish a >50% shrink vs the current `events.json` (override with `ALLOW_SHRINK=1`). | [export-events.mjs](../scripts/export-events.mjs) | Done |
 | D3 | `lastUpdated` is rewritten every run, so the Action commits and triggers a Netlify build **every day even when nothing changed** (~365 noise commits/year + build minutes). | [export-events.mjs:157-162](../scripts/export-events.mjs) | Low |
 | D4 | No failure alerting beyond GitHub's default email. If the export silently starts failing, staleness only shows via the "last updated" footer. | export-events.yml | Low |
-| D5 | ICS `URL:` values aren't escaped (a comma in a URL would corrupt the line). Low likelihood, one-line fix via `escapeICSText`. | [export-events.mjs:130](../scripts/export-events.mjs) | Low |
-| D6 | `.ics` MIME type depends on Netlify defaults. Add a `_headers` file setting `text/calendar; charset=utf-8` for `/events.ics` to be safe across calendar clients. | repo root | Low |
+| D5 | ~~ICS `URL:` values aren't escaped.~~ **Withdrawn on closer reading of RFC 5545**: `URL` is a URI value type where commas/semicolons are legal and TEXT escaping would be wrong. Current code is correct (`SUMMARY`/`LOCATION`/`DESCRIPTION` are TEXT and already escaped). No action. | [export-events.mjs:130](../scripts/export-events.mjs) | — |
+| D6 | ~~`.ics` MIME type depends on Netlify defaults.~~ **Fixed in PR #2**: `_headers` file serves `/events.ics` as `text/calendar; charset=utf-8`. | repo root | Done |
 
 ### 4.2 Frontend correctness & code health
 
@@ -209,10 +209,9 @@ clicks (the number venues will eventually care about).
 
 ## 6. Quick wins (under an hour each, any order)
 
-1. D5 — escape ICS URLs.
-2. D6 — `_headers` file with `text/calendar` for `/events.ics`.
-3. D2 — export guard: abort (exit 1, no commit) if fetched events < 50% of the count
-   currently in `events.json`, with an override env var.
+1. ~~D5 — escape ICS URLs.~~ Withdrawn — see D5; current behaviour is RFC-correct.
+2. ~~D6 — `_headers` file.~~ Done in PR #2.
+3. ~~D2 — export guard.~~ Done in PR #2.
 4. D3 — skip the commit when only `lastUpdated` changed (compare `events` arrays).
 5. F2 — add Bristol Old Vic to `venueStyles`/`venueGroups` (or derive groups from data).
 6. F1 — safe date parsing helper replacing `new Date('YYYY-MM-DD')`.
@@ -228,6 +227,44 @@ clicks (the number venues will eventually care about).
 3. Custom domain: worth ~£10/year now, and which name?
 4. What did the "account interest" Google Form actually collect so far? That's the
    closest thing to demand evidence for P3/P4 ordering.
-5. Did Hen & Chicken's "Open Jam Night" actually end, or does it just no longer appear
-   in listings? (It's absent from the venue's own feed — verified 12 July — so if it
-   still runs, it's invisible to *any* scraper and needs a manual Airtable entry.)
+5. ~~Did "Open Jam Night" actually end?~~ **Answered 13 July**: yes, it ended (it was
+   the PRSC/Stokes Croft one). BIT's jams ("Improv Jam & Social" monthly, "The Improv
+   Lab") are confirmed captured via the Spektrix adapter. No action.
+
+## 8. Alma Tavern / Ticket Tailor investigation (added 13 July 2026)
+
+The Alma Tavern & Theatre lists exclusively on Ticket Tailor
+(`tickettailor.com/events/almatheatrecompany`). Verified findings:
+
+- **Every Ticket Tailor path is behind a Cloudflare JS challenge** — the box office
+  page, the `buytickets.at` alias (redirects to the same page), and the embed-widget
+  iframe path all return 403 "Just a moment" even from a residential IP with browser
+  headers. It fingerprints the client, so plain `fetch`/curl can never pass; only a
+  real browser engine can.
+- **The venue's own Wix site has no listings** — `/theatre` is a static info page
+  linking out to Ticket Tailor.
+- **Headfirst does not list the Alma.** **Ents24's** venue page exists but the event
+  list is JS-rendered (empty HTML). Ste has no route to a Ticket Tailor API key.
+
+Options, in recommended order:
+
+1. **Ask the Alma Theatre Company to list on Headfirst** (free for venues, extra reach
+   for them, and the existing Headfirst adapter picks everything up automatically).
+   Zero code, zero maintenance. Ste knows the Bristol theatre scene — one friendly email.
+2. **Headless-browser fetch from Dockhead**: a small scheduled Playwright script (Docker
+   container on the home server, which already runs n8n) loads the Ticket Tailor page
+   with real Chromium — residential IP + genuine browser fingerprint passes the
+   challenge in the common case — parses events, and POSTs them to Airtable as Pending
+   (or to an n8n webhook). Moderate effort; some fragility if Cloudflare escalates.
+   Running Playwright inside the GitHub Action instead is possible but less reliable
+   (data-centre IPs get challenged harder).
+3. **Skiddle public API** (free key, easy signup) — worth checking whether the Alma's
+   events appear on Skiddle; unverified as of 13 July.
+4. **Manual-lite fallback**: monthly n8n Telegram reminder linking the Ticket Tailor
+   page + an Airtable quick-add form. ~5 minutes/month for one venue.
+
+Related "search for improv more widely" levers (from D1b): broaden the Eventbrite
+search terms ("improvised", "impro", named organisers), an LLM classification pass on
+ambiguous events, and — cheapest of all — a public **"Add your show" submission form**
+on the site feeding Airtable as Pending, which reuses the existing Telegram approval
+flow and catches everything scrapers can't see.
