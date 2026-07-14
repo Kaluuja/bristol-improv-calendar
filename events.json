@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-13T09:18:21.775Z",
+  "lastUpdated": "2026-07-14T07:56:35.279Z",
   "events": [
     {
       "date": "2026-06-01",
@@ -686,6 +686,15 @@
       "description": ""
     },
     {
+      "date": "2026-07-29",
+      "title": "Whose Play is it Anyway?",
+      "venue": "Alma Tavern & Theatre",
+      "time": "20:00–21:00",
+      "type": "show",
+      "url": "https://www.tickettailor.com/events/almatheatrecompany/2155109",
+      "description": ""
+    },
+    {
       "date": "2026-07-30",
       "title": "Fire & Dice",
       "venue": "Bristol Improv Theatre",
@@ -1064,6 +1073,15 @@
       "description": ""
     },
     {
+      "date": "2026-09-09",
+      "title": "Wednesday Night Improv: September Show",
+      "venue": "Hen & Chicken",
+      "time": "20:30",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/hen-and-chicken/wed-9-sep-wednesday-night-improv-september-show-158464",
+      "description": ""
+    },
+    {
       "date": "2026-09-12",
       "title": "Improv Taster Session",
       "venue": "Bristol Improv Theatre",
@@ -1223,6 +1241,15 @@
       "time": "20:30–22:30",
       "type": "show",
       "url": "https://events.improvtheatre.co.uk/event/the-bish-bosh-bash-the-improvised-game-show-3819",
+      "description": ""
+    },
+    {
+      "date": "2026-10-03",
+      "title": "Instant Wit! The Best in Improvised Comedy",
+      "venue": "Alma Tavern & Theatre",
+      "time": "20:00–22:00",
+      "type": "show",
+      "url": "https://www.tickettailor.com/events/almatheatrecompany/2250031",
       "description": ""
     },
     {
@@ -1583,6 +1610,15 @@
       "time": "19:30",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
+      "date": "2026-12-05",
+      "title": "Instant Wit! The Best in Improvised Comedy",
+      "venue": "Alma Tavern & Theatre",
+      "time": "20:00–22:00",
+      "type": "show",
+      "url": "https://www.tickettailor.com/events/almatheatrecompany/2250042",
       "description": ""
     },
     {
