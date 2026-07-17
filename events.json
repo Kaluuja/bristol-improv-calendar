@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-16T08:06:33.358Z",
+  "lastUpdated": "2026-07-17T08:03:01.789Z",
   "events": [
     {
       "date": "2026-06-01",
@@ -767,6 +767,24 @@
       "description": ""
     },
     {
+      "date": "2026-08-05",
+      "title": "Bleak Expectations",
+      "venue": "Bristol Improv Theatre",
+      "time": "20:30–23:30",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/bleak-expectations-8401",
+      "description": ""
+    },
+    {
+      "date": "2026-08-06",
+      "title": "Bleak Expectations",
+      "venue": "Bristol Improv Theatre",
+      "time": "20:30–23:30",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/bleak-expectations-8401",
+      "description": ""
+    },
+    {
       "date": "2026-08-07",
       "title": "The Bish Bosh Bash: The Improvised Game Show",
       "venue": "Bristol Improv Theatre",
@@ -776,12 +794,30 @@
       "description": ""
     },
     {
+      "date": "2026-08-07",
+      "title": "Bleak Expectations",
+      "venue": "Bristol Improv Theatre",
+      "time": "20:30–23:30",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/bleak-expectations-8401",
+      "description": ""
+    },
+    {
       "date": "2026-08-08",
       "title": "Improv Taster Session",
       "venue": "Bristol Improv Theatre",
       "time": "15:00–17:00",
       "type": "drop-in",
       "url": "https://events.improvtheatre.co.uk/event/improv-taster-session-3809",
+      "description": ""
+    },
+    {
+      "date": "2026-08-08",
+      "title": "Bleak Expectations: Matinee",
+      "venue": "Bristol Improv Theatre",
+      "time": "15:00–18:00",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/bleak-expectations-8401",
       "description": ""
     },
     {
@@ -1047,6 +1083,15 @@
     },
     {
       "date": "2026-09-07",
+      "title": "Level 3: Telling Stories",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–22:00",
+      "type": "workshop",
+      "url": "https://events.improvtheatre.co.uk/event/level-3-telling-stories-7401",
+      "description": ""
+    },
+    {
+      "date": "2026-09-07",
       "title": "Improv Drop-ins",
       "venue": "Bristol Improv Theatre",
       "time": "20:00–22:00",
@@ -1160,6 +1205,15 @@
       "time": "20:30",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/murder-she-didnt-write-2026",
+      "description": ""
+    },
+    {
+      "date": "2026-09-19",
+      "title": "Rainbow Roadies: Mario Kart With A Live Band",
+      "venue": "Bristol Improv Theatre",
+      "time": "20:30–23:00",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/rainbow-roadies-mario-kart-with-a-live-band-4120",
       "description": ""
     },
     {
@@ -1380,6 +1434,15 @@
     },
     {
       "date": "2026-10-26",
+      "title": "Level 4: Scenes and Songs",
+      "venue": "Bristol Improv Theatre",
+      "time": "18:30–21:00",
+      "type": "workshop",
+      "url": "https://events.improvtheatre.co.uk/event/level-4-scenes-and-songs-4532",
+      "description": ""
+    },
+    {
+      "date": "2026-10-26",
       "title": "Improv Drop-In - Monday Evening",
       "venue": "Bristol Improv Theatre",
       "time": "19:00–21:00",
@@ -1403,6 +1466,15 @@
       "time": "18:30–21:00",
       "type": "workshop",
       "url": "https://events.improvtheatre.co.uk/event/level-1-discovering-improv-1001",
+      "description": ""
+    },
+    {
+      "date": "2026-10-27",
+      "title": "Level 3: Making a Scene",
+      "venue": "Bristol Improv Theatre",
+      "time": "18:30–21:00",
+      "type": "workshop",
+      "url": "https://events.improvtheatre.co.uk/event/level-3-making-a-scene-4533",
       "description": ""
     },
     {
