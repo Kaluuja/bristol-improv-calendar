@@ -156,12 +156,13 @@ async function main() {
 
   // Guard: a renamed Airtable view or changed token scope returns few/no events;
   // refuse to publish a >50% shrink rather than silently wiping the calendar.
-  let previousCount = 0;
+  let previousEvents = null;
   try {
-    previousCount = JSON.parse(fs.readFileSync('events.json', 'utf8')).events.length;
+    previousEvents = JSON.parse(fs.readFileSync('events.json', 'utf8')).events;
   } catch {
     // no previous events.json - nothing to compare against
   }
+  const previousCount = previousEvents ? previousEvents.length : 0;
   if (previousCount >= 20 && keptRecords.length < previousCount / 2 && process.env.ALLOW_SHRINK !== '1') {
     console.error(
       `Refusing to publish: ${keptRecords.length} events vs ${previousCount} previously (>50% drop). ` +
@@ -170,9 +171,18 @@ async function main() {
     process.exit(1);
   }
 
+  const newEvents = keptRecords.map(transformEvent);
+
+  // Skip the write (and downstream commit) when only the timestamp would change -
+  // avoids a no-op commit + Netlify rebuild every single day.
+  if (previousEvents && JSON.stringify(previousEvents) === JSON.stringify(newEvents)) {
+    console.log('No change in events since last run - skipping write');
+    return;
+  }
+
   const output = {
     lastUpdated: now.toISOString(),
-    events: keptRecords.map(transformEvent),
+    events: newEvents,
   };
 
   fs.writeFileSync('events.json', JSON.stringify(output, null, 2));

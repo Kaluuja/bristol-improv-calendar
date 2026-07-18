@@ -366,8 +366,9 @@
         'PRSC': { color: colors.sage, bg: `${colors.sage}20`, group: 'PRSC', order: 3 },
         'SPACE at PRSC': { color: colors.sage, bg: `${colors.sage}20`, group: 'PRSC', order: 3 },
         'Wardrobe Theatre': { color: '#7B68A6', bg: '#7B68A618', group: 'Wardrobe Theatre', order: 4 },
-        'Tobacco Factory': { color: '#8B6F47', bg: '#8B6F4715', group: 'Other', order: 5 },
-        'Bristol Beacon': { color: '#C4A35A', bg: '#C4A35A15', group: 'Other', order: 5 },
+        'Bristol Old Vic': { color: '#4A6FA5', bg: '#4A6FA518', group: 'Bristol Old Vic', order: 5 },
+        'Tobacco Factory': { color: '#8B6F47', bg: '#8B6F4715', group: 'Other', order: 6 },
+        'Bristol Beacon': { color: '#C4A35A', bg: '#C4A35A15', group: 'Other', order: 6 },
       };
 
       // Venue groups for filter dropdown (in display order)
@@ -376,6 +377,7 @@
         { key: 'Hen & Chicken', label: 'Hen & Chicken' },
         { key: 'PRSC', label: 'PRSC' },
         { key: 'Wardrobe Theatre', label: 'Wardrobe Theatre' },
+        { key: 'Bristol Old Vic', label: 'Bristol Old Vic' },
         { key: 'Other', label: 'Other' },
       ];
 
