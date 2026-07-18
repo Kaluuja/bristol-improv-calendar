@@ -154,6 +154,22 @@ async function main() {
   const keptRecords = records.filter((r) => r.fields.Start && formatDate(r.fields.Start) >= prevMonthStart);
   console.log(`${keptRecords.length} events from ${prevMonthStart} onwards (including past events this month and last month)`);
 
+  // Guard: a renamed Airtable view or changed token scope returns few/no events;
+  // refuse to publish a >50% shrink rather than silently wiping the calendar.
+  let previousCount = 0;
+  try {
+    previousCount = JSON.parse(fs.readFileSync('events.json', 'utf8')).events.length;
+  } catch {
+    // no previous events.json - nothing to compare against
+  }
+  if (previousCount >= 20 && keptRecords.length < previousCount / 2 && process.env.ALLOW_SHRINK !== '1') {
+    console.error(
+      `Refusing to publish: ${keptRecords.length} events vs ${previousCount} previously (>50% drop). ` +
+      'If this shrink is genuine, re-run with ALLOW_SHRINK=1.'
+    );
+    process.exit(1);
+  }
+
   const output = {
     lastUpdated: now.toISOString(),
     events: keptRecords.map(transformEvent),
