@@ -180,12 +180,14 @@
                     <button
                       className={`view-toggle-btn ${viewMode === 'calendar' ? 'active' : ''}`}
                       onClick={() => setViewMode('calendar')}
+                      data-goatcounter-click="view-toggle-calendar"
                     >
                       📅 Calendar
                     </button>
                     <button
                       className={`view-toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
                       onClick={() => setViewMode('list')}
+                      data-goatcounter-click="view-toggle-list"
                     >
                       📋 List
                     </button>
@@ -193,14 +195,30 @@
                 </div>
               </div>
 
-              {/* Account Signup CTA */}
+              {/* Newsletter Signup */}
               <div className="settings-section settings-signup">
                 <div className="signup-box">
-                  <div className="signup-header">🎭 Sign up for a Calendar Account</div>
-                  <p className="signup-text">Sign up to get updates, save favourites, and help shape this calendar.</p>
-                  <a href="https://forms.gle/DhSfkbWL2uGEGu1r9" target="_blank" rel="noopener noreferrer" className="signup-btn">
-                    ✍️ Sign up here
-                  </a>
+                  <div className="signup-header">📰 Get the newsletter</div>
+                  <p className="signup-text">What's on in Bristol improv, straight to your inbox. No spam, unsubscribe any time.</p>
+                  <form
+                    action="https://buttondown.com/api/emails/embed-subscribe/Kaluuja"
+                    method="post"
+                    target="popupwindow"
+                    onSubmit={() => { window.open('https://buttondown.com/Kaluuja', 'popupwindow'); }}
+                    className="signup-form"
+                  >
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      placeholder="you@example.com"
+                      aria-label="Email address"
+                      className="signup-input"
+                    />
+                    <button type="submit" className="signup-btn" data-goatcounter-click="newsletter-signup">
+                      Subscribe
+                    </button>
+                  </form>
                 </div>
               </div>
 
@@ -1012,7 +1030,7 @@
                         const normalizedType = normalizeEventType(e.type);
                         const typeStyle = eventTypeStyles[normalizedType] || eventTypeStyles.show;
                         return (
-                          <a key={i} href={e.url} target="_blank" rel="noopener noreferrer" className="list-event-card">
+                          <a key={i} href={e.url} target="_blank" rel="noopener noreferrer" className="list-event-card" data-goatcounter-click="ticket-link">
                             <div className="list-event-time">{e.time}</div>
                             <div className="list-event-indicator" style={{ background: typeStyle.color }}></div>
                             <div className="list-event-details">
@@ -2060,15 +2078,35 @@
               margin-bottom: 0.75rem;
               line-height: 1.4;
             }
+            .signup-form {
+              display: flex;
+              gap: 0.5rem;
+              justify-content: center;
+              flex-wrap: wrap;
+            }
+            .signup-input {
+              flex: 1;
+              min-width: 160px;
+              padding: 0.5rem 0.75rem;
+              border-radius: 6px;
+              border: 1.5px solid ${colors.sage}40;
+              background: ${colors.cardBg};
+              color: ${colors.text};
+              font-size: 0.85rem;
+              font-family: inherit;
+            }
             .signup-btn {
               display: inline-block;
               background: ${colors.sage};
               color: white;
               padding: 0.5rem 1.2rem;
               border-radius: 6px;
+              border: none;
               font-size: 0.85rem;
               font-weight: 700;
+              font-family: inherit;
               text-decoration: none;
+              cursor: pointer;
               transition: transform 0.15s, opacity 0.15s;
             }
             .signup-btn:hover { transform: scale(1.03); opacity: 0.9; }
@@ -2532,7 +2570,7 @@
                             const normalizedType = normalizeEventType(e.type);
                             const typeStyle = eventTypeStyles[normalizedType] || eventTypeStyles.show;
                             return (
-                              <a key={i} href={e.url} target="_blank" rel="noopener noreferrer" className="event-card" style={{ borderColor: typeStyle.color }}>
+                              <a key={i} href={e.url} target="_blank" rel="noopener noreferrer" className="event-card" style={{ borderColor: typeStyle.color }} data-goatcounter-click="ticket-link">
                                 <div className="event-row">
                                   <span className="event-icon">{typeStyle.icon}</span>
                                   <div className="event-info">
