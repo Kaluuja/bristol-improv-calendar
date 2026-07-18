@@ -78,9 +78,11 @@ Actions secrets.
 - Type mix (future): 85 shows, 77 drop-ins, 12 workshops, 3 jams.
 - `events.ics` feed exists and works but is deliberately **not linked from the UI** —
   Ste is soak-testing it on his own phone first.
-- No analytics of any kind. No way to know visits, repeat usage, or which features get used.
-- Feedback form (Google Form) and an "account interest" signup form (Google Form) exist
-  in the UI; response volume unknown.
+- ~~No analytics of any kind.~~ **Done 18 July**: GoatCounter live (see P5).
+- ~~Feedback form (Google Form) and an "account interest" signup form (Google Form) exist
+  in the UI; response volume unknown.~~ **Updated 18 July**: the account-interest form
+  has been replaced with a real Buttondown newsletter signup embedded in Settings (see P3
+  and Q4). The feedback form is unchanged.
 
 ## 4. Findings
 
@@ -92,7 +94,7 @@ Actions secrets.
 | D1b | **Classifier recall risk.** A non-BIT event without an improv keyword in title/description is dropped as "no improv signals" — a hypothetical new "Open Jam Night" at a pub would be invisible unless its blurb says "improv". Options: (a) weekly digest of *dropped* events at known comedy venues for a human eyeball; (b) an LLM pass (Haiku-class) on the ambiguous middle — cheap at ~50 events/run; (c) keep growing `ALWAYS_INCLUDE`. | improv-calendar-sync `src/classifier.ts:144-184` | Medium |
 | D1c | `docs/sources.md` in the sync repo is stale: says BIT uses the ICS feed (moved to Spektrix API — the ICS feed now returns 0 VEVENTs); Folk House adapter missing from the list; Alma Tavern adapter was removed from `src/` but lingers in `dist/`. | improv-calendar-sync `docs/sources.md` | Low |
 | D2 | ~~No empty-feed guard.~~ **Fixed in PR #2**: export now refuses to publish a >50% shrink vs the current `events.json` (override with `ALLOW_SHRINK=1`). | [export-events.mjs](../scripts/export-events.mjs) | Done |
-| D3 | `lastUpdated` is rewritten every run, so the Action commits and triggers a Netlify build **every day even when nothing changed** (~365 noise commits/year + build minutes). | [export-events.mjs:157-162](../scripts/export-events.mjs) | Low |
+| D3 | ~~`lastUpdated` is rewritten every run, so the Action commits and triggers a Netlify build every day even when nothing changed.~~ **Fixed 18 July**: export now skips the write entirely when the new `events` array matches the previous one, so no commit/deploy fires on a no-op run. | [export-events.mjs](../scripts/export-events.mjs) | Done |
 | D4 | No failure alerting beyond GitHub's default email. If the export silently starts failing, staleness only shows via the "last updated" footer. | export-events.yml | Low |
 | D5 | ~~ICS `URL:` values aren't escaped.~~ **Withdrawn on closer reading of RFC 5545**: `URL` is a URI value type where commas/semicolons are legal and TEXT escaping would be wrong. Current code is correct (`SUMMARY`/`LOCATION`/`DESCRIPTION` are TEXT and already escaped). No action. | [export-events.mjs:130](../scripts/export-events.mjs) | — |
 | D6 | ~~`.ics` MIME type depends on Netlify defaults.~~ **Fixed in PR #2**: `_headers` file serves `/events.ics` as `text/calendar; charset=utf-8`. | repo root | Done |
@@ -102,7 +104,7 @@ Actions secrets.
 | # | Finding | Where | Severity |
 |---|---------|-------|----------|
 | F1 | `new Date('YYYY-MM-DD')` parses as **UTC midnight**, then local date methods are used. Fine in the UK (UTC/UTC+1), but any visitor west of UTC sees every event one day early. Fix: parse components manually (`const [y,m,d] = str.split('-')`). Affects `getEventsForDate`, `getAllFilteredEvents`, `formatListDate`, `maxEventDate`, `handleSearchSelect`. | [src/app.jsx:582](../src/app.jsx), 490, 629, 946, 983 | Medium |
-| F2 | Hardcoded venue list: `venueStyles`/`venueGroups` don't include Bristol Old Vic — the **second-biggest venue** (25 events) is lumped into "Other" with no colour or filter entry. Venue groups should be derived from the data (or at minimum BOV added). | [src/app.jsx:361-380](../src/app.jsx) | Medium |
+| F2 | ~~Hardcoded venue list: `venueStyles`/`venueGroups` don't include Bristol Old Vic — the second-biggest venue (25 events) is lumped into "Other" with no colour or filter entry.~~ **Fixed 18 July**: Bristol Old Vic added as its own venue group/colour. | [src/app.jsx](../src/app.jsx) | Done |
 | F3 | Accessibility (already on the agreed backlog): day cells are `div onClick` — no `tabIndex`, `role="button"`, keyboard handler, or `aria-label`; modals have no focus trap; `textMuted` is 50%-alpha text that likely fails WCAG AA contrast; search input has no accessible label; search results have no keyboard navigation. | src/app.jsx throughout | **High** (owner priority) |
 | F4 | ~1,300 lines of CSS live in a template literal *inside* the React component, re-evaluated every render and interpolating theme colours as strings. Works, but it's the main source of bundle bloat and edit-pain. Refactor: static stylesheet + CSS custom properties (`--bg`, `--text`…), dark mode by toggling a class on the root. Pure refactor, no visual change. | [src/app.jsx:1044-2386](../src/app.jsx) | Medium (maintainability) |
 | F5 | No deep linking: you can't share a link to a specific day or event. Hash-based state (`#2026-07-15`) is cheap and unlocks social sharing. | src/app.jsx | Medium |
@@ -171,15 +173,22 @@ Small effort, visible payoff, feeds social sharing.
 
 High strategic value: it's the audience asset, the habit-former, and the thing venues will
 care about. But it's a **commitment**, so automate hard:
-- **Composition**: n8n (already running on Dockhead) queries Airtable every Monday morning,
-  builds the week's listing grouped by day, highlights anything new since last week.
-- **Review**: n8n sends the draft to Ste on Telegram for one-tap approve (this pattern
-  already exists in his n8n setup) — human tone-check without human drafting.
-- **Sending**: Buttondown (free ≤100 subscribers, ~£9/month after; has an API n8n can call)
-  or Kit. Double opt-in, unsubscribe link, one-line privacy note — GDPR basics.
-- **Signup**: replace/augment the current Google-Form "account interest" box with a real
-  email capture in the Settings modal and list footer.
-Do this *after* P0 — a newsletter built on a silently-broken pipeline is worse than none.
+- **Signup — done 18 July.** The Google-Form "account interest" box in Settings has been
+  replaced with a real Buttondown embed (`buttondown.com/Kaluuja`) — email capture is live
+  and building a list now, ahead of any automated send.
+- **Composition (not yet built)**: n8n (already running on Dockhead) queries Airtable every
+  Monday morning, builds the week's listing grouped by day, highlights anything new since
+  last week.
+- **Review (not yet built)**: n8n sends the draft to Ste on Telegram for one-tap approve
+  (this pattern already exists in his n8n setup) — human tone-check without human drafting.
+- **Sending (not yet built)**: Buttondown's API (already signed up, free tier ≤100
+  subscribers, ~£9/month after) or Kit. Double opt-in, unsubscribe link, one-line privacy
+  note — GDPR basics.
+- **Sponsorship (proposed, not built)**: a `Featured` checkbox on the Airtable Events
+  table; one paid slot per issue, sold manually (bank transfer/Ko-fi) before building any
+  payment flow — test demand before automating it.
+Do the automated send *after* P0 — a newsletter built on a silently-broken pipeline is worse
+than none. Sponsorship waits until a few issues have gone out cleanly.
 
 ### P4 — Favourites (localStorage, no accounts)
 
@@ -191,13 +200,13 @@ Do this *after* P0 — a newsletter built on a silently-broken pipeline is worse
 Deliberately **not** user accounts: auth, GDPR, and backend hosting are disproportionate
 until there's evidence of demand (see P5). localStorage covers ~90% of the value.
 
-### P5 — Analytics (do alongside P1, not after)
+### P5 — Analytics — done 18 July 2026
 
-Currently flying blind — feature ranking is guesswork without usage data.
-**GoatCounter** (free, no cookies, no consent banner needed, one `<script>` tag) or
-Netlify Analytics ($9/month, server-side). GoatCounter recommended: free and fits the
-privacy posture. Track: visits, calendar-vs-list usage, .ics link clicks, outbound ticket
-clicks (the number venues will eventually care about).
+**GoatCounter** is live (`wednightimprov.goatcounter.com`), script tag in `index.html`.
+Beyond raw pageviews, click tracking (`data-goatcounter-click`) is wired up on the
+calendar/list view toggle, outbound ticket links, and the newsletter subscribe button —
+so feature-ranking decisions can now be evidence-based instead of guesswork. Give it a
+few weeks of real traffic before drawing conclusions from it.
 
 ### Explicitly deferred (agreed low value right now)
 
@@ -212,8 +221,8 @@ clicks (the number venues will eventually care about).
 1. ~~D5 — escape ICS URLs.~~ Withdrawn — see D5; current behaviour is RFC-correct.
 2. ~~D6 — `_headers` file.~~ Done in PR #2.
 3. ~~D2 — export guard.~~ Done in PR #2.
-4. D3 — skip the commit when only `lastUpdated` changed (compare `events` arrays).
-5. F2 — add Bristol Old Vic to `venueStyles`/`venueGroups` (or derive groups from data).
+4. ~~D3 — skip the commit when only `lastUpdated` changed.~~ Done 18 July.
+5. ~~F2 — add Bristol Old Vic to `venueStyles`/`venueGroups`.~~ Done 18 July.
 6. F1 — safe date parsing helper replacing `new Date('YYYY-MM-DD')`.
 7. F8 — strip `SAMPLE_EVENTS` from the production path.
 8. Add `record.id` to `transformEvent` output (P4 prerequisite, backwards compatible).
@@ -225,8 +234,9 @@ clicks (the number venues will eventually care about).
    P1 is unblocked.
 2. Drop "Beta" from the title when P1 ships? (Suggested: yes — feed launch is a good moment.)
 3. Custom domain: worth ~£10/year now, and which name?
-4. What did the "account interest" Google Form actually collect so far? That's the
-   closest thing to demand evidence for P3/P4 ordering.
+4. ~~What did the "account interest" Google Form actually collect so far?~~ **Superseded
+   18 July**: the form's been replaced with a real Buttondown newsletter signup, which is a
+   cleaner demand signal going forward than the old interest count ever was.
 5. ~~Did "Open Jam Night" actually end?~~ **Answered 13 July**: yes, it ended (it was
    the PRSC/Stokes Croft one). BIT's jams ("Improv Jam & Social" monthly, "The Improv
    Lab") are confirmed captured via the Spektrix adapter. No action.
@@ -268,3 +278,20 @@ search terms ("improvised", "impro", named organisers), an LLM classification pa
 ambiguous events, and — cheapest of all — a public **"Add your show" submission form**
 on the site feeding Airtable as Pending, which reuses the existing Telegram approval
 flow and catches everything scrapers can't see.
+
+## 9. Shipped — 18 July 2026
+
+- **This document merged to `main`** via PR #1 (`docs/product-review-2026-07`), alongside
+  PR #2 (`fix/ics-hardening` — D2 export guard, D6 `_headers` MIME fix). Both had sat open
+  and unmerged since 12–13 July; neither was actually live until this date, despite
+  earlier notes to the contrary.
+- **D3** (no-op export commits) and **F2** (Bristol Old Vic venue styling) fixed — see
+  §4.1/§4.2.
+- **P5 (analytics)** shipped: GoatCounter live with click tracking on view toggle, ticket
+  links, and newsletter signup.
+- **P3 (newsletter) signup step** shipped: Buttondown embed replaces the old
+  account-interest Google Form in Settings. Composition/send automation and sponsorship
+  are still open (see P3).
+- Still outstanding from this review: P0 (ingest observability — improv-calendar-sync
+  repo), P1 (ICS feed UI launch), P2 (add-to-calendar/share), P4 (favourites), F1/F8/F3/F4
+  and the rest of §6's quick wins, and the "Beta" / custom-domain open questions (§7 Q2–3).
