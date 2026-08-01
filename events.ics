@@ -6,435 +6,8 @@ METHOD:PUBLISH
 X-WR-CALNAME:Bristol Improv Calendar
 X-WR-TIMEZONE:Europe/London
 BEGIN:VEVENT
-UID:recRGujbjLj4tZWxf@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260601T130000Z
-DTEND:20260601T143000Z
-SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/lunchtime-improv-drop-in-with
- -rebecca-macmillan-4068
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- lunchtime-improv-drop-in-with-rebecca-macmillan-4068
-END:VEVENT
-BEGIN:VEVENT
-UID:recKCohRNQ2SlEW0A@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260601T183000Z
-DTEND:20260601T210000Z
-SUMMARY:Level 1: Discovering Improv
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/level-1-discovering-improv-10
- 01
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- level-1-discovering-improv-1001
-END:VEVENT
-BEGIN:VEVENT
-UID:reclTrbfTcS6vPiri@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260601T183000Z
-DTEND:20260601T210000Z
-SUMMARY:Level 4: Exploring Narrative
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/level-4-exploring-narrative-2
- 601
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- level-4-exploring-narrative-2601
-END:VEVENT
-BEGIN:VEVENT
-UID:recBWMWsISX7y54HA@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260601T190000Z
-DTEND:20260601T210000Z
-SUMMARY:Improv Drop-In - Monday Evening
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/improv-drop-ins-3817
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- improv-drop-ins-3817
-END:VEVENT
-BEGIN:VEVENT
-UID:recFxgeNm7YlVr60z@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260601T193000Z
-DTEND:20260601T213000Z
-SUMMARY:Closer Each Day: The Improvised Soap Opera
-LOCATION:Wardrobe Theatre
-URL:https://thewardrobetheatre.com/shows/closer-each-day/
-DESCRIPTION:Details and tickets: https://thewardrobetheatre.com/shows/clos
- er-each-day/
-END:VEVENT
-BEGIN:VEVENT
-UID:rec97nlItJhtORKbA@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260602T183000Z
-DTEND:20260602T210000Z
-SUMMARY:Level 3: Creating Characters
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/level-3-creating-characters-2
- 401
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- level-3-creating-characters-2401
-END:VEVENT
-BEGIN:VEVENT
-UID:recHr2VTIkxvfH2cB@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260602T183000Z
-DTEND:20260602T210000Z
-SUMMARY:Level 2: Intro to Performing Improv
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/level-2-intro-to-performing-i
- mprov-2201
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- level-2-intro-to-performing-improv-2201
-END:VEVENT
-BEGIN:VEVENT
-UID:rec7nFBXBKBiG62tF@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260603T183000Z
-DTEND:20260603T210000Z
-SUMMARY:Level 1: Discovering Improv
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/level-1-discovering-improv-10
- 01
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- level-1-discovering-improv-1001
-END:VEVENT
-BEGIN:VEVENT
-UID:recLRGabqGanXn1ND@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260605T193000Z
-DTEND:20260605T210000Z
-SUMMARY:Two Much Fun
-LOCATION:Spitfire Hangar at Brabazon
-URL:https://www.eventbrite.com/checkout-external?eid=1988817206803
-DESCRIPTION:Details and tickets: https://www.eventbrite.com/checkout-exter
- nal?eid=1988817206803
-END:VEVENT
-BEGIN:VEVENT
-UID:recACYDdBoVWdHnCb@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260606T140000Z
-DTEND:20260606T160000Z
-SUMMARY:Improv Taster Session
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/improv-taster-session-3809
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- improv-taster-session-3809
-END:VEVENT
-BEGIN:VEVENT
-UID:recyaniBSq6eECxZX@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260607T193000Z
-DTEND:20260607T213000Z
-SUMMARY:Improv Jam & Social
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/improv-jam-social-3816
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- improv-jam-social-3816
-END:VEVENT
-BEGIN:VEVENT
-UID:rec9rxq4xYvLeobTg@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260608T130000Z
-DTEND:20260608T143000Z
-SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/lunchtime-improv-drop-in-with
- -rebecca-macmillan-4068
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- lunchtime-improv-drop-in-with-rebecca-macmillan-4068
-END:VEVENT
-BEGIN:VEVENT
-UID:recjgmhNmjfQoh38z@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260608T190000Z
-DTEND:20260608T210000Z
-SUMMARY:Improv Drop-In - Monday Evening
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/improv-drop-ins-3817
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- improv-drop-ins-3817
-END:VEVENT
-BEGIN:VEVENT
-UID:recC3pwFC1iolDDSg@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260610T193000Z
-DTEND:20260610T213000Z
-SUMMARY:Dropout Improv
-LOCATION:Bristol Beacon
-URL:https://bristolbeacon.org/whats-on/dropout-improv-plus-special-guests/
-DESCRIPTION:Details and tickets: https://bristolbeacon.org/whats-on/dropou
- t-improv-plus-special-guests/
-END:VEVENT
-BEGIN:VEVENT
-UID:reclvy0pRpQWadiXE@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260611T193000Z
-DTEND:20260611T220000Z
-SUMMARY:The Drag Dungeoneers
-LOCATION:Bristol Improv Theatre
-URL:https://improvtheatre.co.uk/upcoming-show/the-drag-dungeoneers-jun26/
-DESCRIPTION:Details and tickets: https://improvtheatre.co.uk/upcoming-show
- /the-drag-dungeoneers-jun26/
-END:VEVENT
-BEGIN:VEVENT
-UID:recglpVYNUJPcAsO1@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260612T193000Z
-DTEND:20260612T213000Z
-SUMMARY:Story Smash Summer of Love
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/story-smash-summer-of-love-60
- 01
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- story-smash-summer-of-love-6001
-END:VEVENT
-BEGIN:VEVENT
-UID:reczWNWdHPVDy9JH0@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260615T130000Z
-DTEND:20260615T143000Z
-SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/lunchtime-improv-drop-in-with
- -rebecca-macmillan-4068
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- lunchtime-improv-drop-in-with-rebecca-macmillan-4068
-END:VEVENT
-BEGIN:VEVENT
-UID:recclSjG7Isu7BVEp@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260615T190000Z
-DTEND:20260615T210000Z
-SUMMARY:Improv Drop-In - Monday Evening
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/improv-drop-ins-3817
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- improv-drop-ins-3817
-END:VEVENT
-BEGIN:VEVENT
-UID:rec6ZOPXZyDdWnHdr@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260616T093000Z
-DTEND:20260616T113000Z
-SUMMARY:Effective Feedback & Reflective Practice at Work
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/effective-feedback-reflective
- -practice-at-work-2602
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- effective-feedback-reflective-practice-at-work-2602
-END:VEVENT
-BEGIN:VEVENT
-UID:recxxFww1v3jR7i4y@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260617T193000Z
-DTEND:20260617T213000Z
-SUMMARY:The Improv Variety Show
-LOCATION:Loco Klub
-URL:https://www.headfirstbristol.co.uk/whats-on/loco-klub/wed-17-jun-the-i
- mprov-variety-show-155553
-DESCRIPTION:Details and tickets: https://www.headfirstbristol.co.uk/whats-
- on/loco-klub/wed-17-jun-the-improv-variety-show-155553
-END:VEVENT
-BEGIN:VEVENT
-UID:reccWCjifNSD0AiPf@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260617T200000Z
-DTEND:20260617T220000Z
-SUMMARY:Buster Keaton Shorts with Improv Soundtrack performed by David Bed
- nall
-LOCATION:The Bristol Fringe
-URL:https://www.headfirstbristol.co.uk/whats-on/the-bristol-fringe/wed-17-
- jun-buster-keaton-shorts-with-live-improv-soundtrack-performed-by-david-b
- ednall-156182
-DESCRIPTION:Details and tickets: https://www.headfirstbristol.co.uk/whats-
- on/the-bristol-fringe/wed-17-jun-buster-keaton-shorts-with-live-improv-so
- undtrack-performed-by-david-bednall-156182
-END:VEVENT
-BEGIN:VEVENT
-UID:recOhgWW4olsFnBpQ@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260618T181500Z
-DTEND:20260618T194500Z
-SUMMARY:Bristol Improv Theatre Breathwork for Stress Release
-LOCATION:Bristol Improv Theatre
-URL:https://www.eventbrite.com/checkout-external?eid=1987326116913
-DESCRIPTION:Details and tickets: https://www.eventbrite.com/checkout-exter
- nal?eid=1987326116913
-END:VEVENT
-BEGIN:VEVENT
-UID:recKBViVgBd0c7SBZ@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260618T193000Z
-DTEND:20260618T210000Z
-SUMMARY:The Improv Gauntlet Round 4
-LOCATION:PRSC
-URL:https://www.headfirstbristol.co.uk/whats-on/prsc/thu-18-jun-the-improv
- -gauntlet-round-4-156506
-DESCRIPTION:Details and tickets: https://www.headfirstbristol.co.uk/whats-
- on/prsc/thu-18-jun-the-improv-gauntlet-round-4-156506
-END:VEVENT
-BEGIN:VEVENT
-UID:recMqLj1raHz5E2js@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260619T200000Z
-DTEND:20260619T220000Z
-SUMMARY:This Is Your Musical
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/this-is-your-musical-3823
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- this-is-your-musical-3823
-END:VEVENT
-BEGIN:VEVENT
-UID:recMnnpdc8WzSiZro@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260620T140000Z
-DTEND:20260620T160000Z
-SUMMARY:Improv Taster Session
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/improv-taster-session-3809
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- improv-taster-session-3809
-END:VEVENT
-BEGIN:VEVENT
-UID:recHDabptL7546vJE@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260620T193000Z
-DTEND:20260620T213000Z
-SUMMARY:GOSS
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/goss-6401
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- goss-6401
-END:VEVENT
-BEGIN:VEVENT
-UID:recp9Hn07wR1ywWvr@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260621T180000Z
-DTEND:20260621T200000Z
-SUMMARY:Death Match Improv
-LOCATION:PRSC
-URL:https://prsc.org.uk/event/death-match-improv/
-DESCRIPTION:Details and tickets: https://prsc.org.uk/event/death-match-imp
- rov/
-END:VEVENT
-BEGIN:VEVENT
-UID:rec8z5pk8Yuybxlln@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260622T130000Z
-DTEND:20260622T143000Z
-SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/lunchtime-improv-drop-in-with
- -rebecca-macmillan-4068
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- lunchtime-improv-drop-in-with-rebecca-macmillan-4068
-END:VEVENT
-BEGIN:VEVENT
-UID:recQCLOnU1E10v1mU@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260622T190000Z
-DTEND:20260622T210000Z
-SUMMARY:Improv Drop-In - Monday Evening
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/improv-drop-ins-3817
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- improv-drop-ins-3817
-END:VEVENT
-BEGIN:VEVENT
-UID:rectnBJRVEkS1FcQL@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260624T193000Z
-DTEND:20260624T213000Z
-SUMMARY:Wednesday Night Improv: June Show
-LOCATION:Hen & Chicken
-URL:https://www.headfirstbristol.co.uk/whats-on/hen-and-chicken/wed-24-jun
- -wednesday-night-improv-june-show-152029
-DESCRIPTION:Details and tickets: https://www.headfirstbristol.co.uk/whats-
- on/hen-and-chicken/wed-24-jun-wednesday-night-improv-june-show-152029
-END:VEVENT
-BEGIN:VEVENT
-UID:recKnHqndaMpkMA3N@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260624T193000Z
-DTEND:20260624T223000Z
-SUMMARY:La La Bar
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/la-la-bar-3829
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- la-la-bar-3829
-END:VEVENT
-BEGIN:VEVENT
-UID:reclBI6VuW5aVbhXK@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260625T193000Z
-DTEND:20260625T213000Z
-SUMMARY:Fire & Dice
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/fire-dice-601
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- fire-dice-601
-END:VEVENT
-BEGIN:VEVENT
-UID:recfKaZiQbYKUrKmK@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260626T193000Z
-DTEND:20260626T213000Z
-SUMMARY:The Saboteur
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/the-saboteur-4601
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- the-saboteur-4601
-END:VEVENT
-BEGIN:VEVENT
-UID:recqCE0oSWkCNJmgb@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260627T100000Z
-DTEND:20260627T170000Z
-SUMMARY:‘Improv and Intimacy’ with Lucy Fennell
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/improv-and-intimacy-with-lucy
- -fennell-3201
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- improv-and-intimacy-with-lucy-fennell-3201
-END:VEVENT
-BEGIN:VEVENT
-UID:rec3yhmefNWFh51HG@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260627T193000Z
-DTEND:20260627T213000Z
-SUMMARY:The Improv Spotlight
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/the-improv-spotlight-3601
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- the-improv-spotlight-3601
-END:VEVENT
-BEGIN:VEVENT
-UID:recjgiB6ZFcR631sl@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260629T130000Z
-DTEND:20260629T143000Z
-SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/lunchtime-improv-drop-in-with
- -rebecca-macmillan-4068
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- lunchtime-improv-drop-in-with-rebecca-macmillan-4068
-END:VEVENT
-BEGIN:VEVENT
-UID:recjn6eHg9sEeTxDm@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
-DTSTART:20260629T190000Z
-DTEND:20260629T210000Z
-SUMMARY:Improv Drop-In - Monday Evening
-LOCATION:Bristol Improv Theatre
-URL:https://events.improvtheatre.co.uk/event/improv-drop-ins-3817
-DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
- improv-drop-ins-3817
-END:VEVENT
-BEGIN:VEVENT
 UID:recv9wdBhL2qALfu1@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260702T193000Z
 DTEND:20260702T213000Z
 SUMMARY:Pride Games Night
@@ -445,7 +18,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec4DVtyPVEhtJLkp@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260703T193000Z
 DTEND:20260703T213000Z
 SUMMARY:The Bish Bosh Bash: The Improvised Game Show
@@ -457,7 +30,7 @@ DESCRIPTION:Details and tickets: https://improvtheatre.co.uk/upcoming-show
 END:VEVENT
 BEGIN:VEVENT
 UID:recXiPe8LSfNKx25S@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260703T193000Z
 DTEND:20260703T213000Z
 SUMMARY:The Bish Bosh Bash & Friends
@@ -469,7 +42,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recodvQ1jq2z5IFA1@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260704T110000Z
 DTEND:20260704T120000Z
 SUMMARY:Imaginary Adventure Club
@@ -480,7 +53,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recfIPamKFUvC613M@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260704T140000Z
 DTEND:20260704T160000Z
 SUMMARY:Improv Taster Session
@@ -492,7 +65,7 @@ DESCRIPTION:Details and tickets: https://improvtheatre.co.uk/upcoming-show
 END:VEVENT
 BEGIN:VEVENT
 UID:rec1ckrjRD18UY7iS@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260704T140000Z
 DTEND:20260704T160000Z
 SUMMARY:LGBTQ+ Improv Drop-in
@@ -503,7 +76,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:reck2QqlfeyFyif7l@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260704T140000Z
 DTEND:20260704T170000Z
 SUMMARY:From Scene\, to Game\, to Sketch
@@ -515,7 +88,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec8GTeWV10dEqkUH@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260704T193000Z
 DTEND:20260704T213000Z
 SUMMARY:Mind Canyon Podcast: Live-ish!
@@ -527,7 +100,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec8T7g8tpt6uP6Wv@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260705T193000Z
 DTEND:20260705T213000Z
 SUMMARY:Improv Jam & Social
@@ -538,7 +111,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec0XppxSYEjjuyVt@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260706T130000Z
 DTEND:20260706T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -550,7 +123,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recy8U3E1S1NsIAfT@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260706T190000Z
 DTEND:20260706T210000Z
 SUMMARY:Improv Drop-ins
@@ -562,7 +135,7 @@ DESCRIPTION:Details and tickets: https://improvtheatre.co.uk/upcoming-show
 END:VEVENT
 BEGIN:VEVENT
 UID:recjTCi9RBcfS8P5L@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260706T190000Z
 DTEND:20260706T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -573,7 +146,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recRZdb4P6thRf0xN@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260708T193000Z
 DTEND:20260708T213000Z
 SUMMARY:Wednesday Night Improv: July Show
@@ -585,7 +158,7 @@ DESCRIPTION:Details and tickets: https://www.headfirstbristol.co.uk/whats-
 END:VEVENT
 BEGIN:VEVENT
 UID:recszpiexyH3Sy1Pj@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260710T193000Z
 DTEND:20260710T213000Z
 SUMMARY:Dragprov Revue
@@ -596,7 +169,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recjYd5uQ0oMB5IKR@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260710T200000Z
 DTEND:20260710T220000Z
 SUMMARY:Tales From The Wasteland: Pride Special
@@ -609,7 +182,7 @@ DESCRIPTION:Details and tickets: https://www.headfirstbristol.co.uk/whats-
 END:VEVENT
 BEGIN:VEVENT
 UID:rec12Mje648JosoZ8@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260711T193000Z
 DTEND:20260711T212500Z
 SUMMARY:Black Box Cinema Club: The Mummy (1999)
@@ -621,7 +194,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recGH8bzGelEvMghN@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260713T130000Z
 DTEND:20260713T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -633,7 +206,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec8vICUdNN6Z4Xef@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260713T190000Z
 DTEND:20260713T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -644,7 +217,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recsyDYSxglPtboiu@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260713T193000Z
 DTEND:20260713T203000Z
 SUMMARY:Student Showcase: Exploring Narrative (Level 4)
@@ -656,7 +229,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recTfdyINnESj8UgO@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260714T140000Z
 DTEND:20260714T160000Z
 SUMMARY:Voice & Presence for Work with Aisha Ali
@@ -668,7 +241,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recEaNBSV1PXg3zf3@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260714T193000Z
 DTEND:20260714T203000Z
 SUMMARY:Student Showcase: Creating Characters (Level 3)
@@ -680,7 +253,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recfIAawYzv9np9DH@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260717T200000Z
 DTEND:20260717T220000Z
 SUMMARY:This Is Your Musical
@@ -691,7 +264,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recpyNmNQ4CQvmUkr@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260718T183000Z
 DTEND:20260718T213000Z
 SUMMARY:Under The Hammer
@@ -702,7 +275,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec1DZbguTjcO7KzO@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260720T100000Z
 DTEND:20260720T170000Z
 SUMMARY:Horror\, Ghosts and Folklore with Katy Schutte
@@ -714,7 +287,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recC4l9rrvs8AMh5w@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260720T130000Z
 DTEND:20260720T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -726,7 +299,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recRdLXGC5HnllKDC@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260720T183000Z
 DTEND:20260720T210000Z
 SUMMARY:Level 4: Approaches to Scenework
@@ -738,7 +311,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recZy3dNg2nJos9Sl@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260720T183000Z
 DTEND:20260720T210000Z
 SUMMARY:Level 2: Intro to Performing Improv
@@ -750,7 +323,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recyaVjxl9C4YCKVl@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260720T190000Z
 DTEND:20260720T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -761,7 +334,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec4H5vkCfyv7XqYR@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260721T183000Z
 DTEND:20260721T210000Z
 SUMMARY:Level 3: Singing Songs
@@ -772,7 +345,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recs8Z2XbMwUJovSS@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260721T183000Z
 DTEND:20260721T210000Z
 SUMMARY:Level 1: Discovering Improv
@@ -784,7 +357,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recgcZDR5ReoXooEr@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260722T183000Z
 DTEND:20260722T210000Z
 SUMMARY:Level 1: Discovering Improv
@@ -796,7 +369,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recswpqwwJCua9UEX@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260722T193000Z
 DTEND:20260722T223000Z
 SUMMARY:La La Bar
@@ -807,7 +380,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rechq0168B0tJoB5S@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260723T193000Z
 DTEND:20260723T202000Z
 SUMMARY:My Date with Pierce Brosnan
@@ -819,7 +392,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recMqSlCWzW023BEQ@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260724T193000Z
 DTEND:20260724T213000Z
 SUMMARY:The Saboteur
@@ -830,7 +403,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rece6ssBpQ0FxVudO@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260725T140000Z
 DTEND:20260725T160000Z
 SUMMARY:Improv Taster Session
@@ -841,7 +414,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recVXqlzDxVDkCGx5@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260725T140000Z
 DTEND:20260725T170000Z
 SUMMARY:The Improv Lab
@@ -852,7 +425,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recsz2P17uYvPemJt@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260725T193000Z
 DTEND:20260725T213000Z
 SUMMARY:Up The Antics Summer Fundraiser
@@ -864,7 +437,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recsF7gnOOQeREXSg@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260727T130000Z
 DTEND:20260727T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -876,7 +449,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recmv9oJStVyAhYdh@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260727T190000Z
 DTEND:20260727T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -887,7 +460,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recKlc66qV4516SfM@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260729T190000Z
 DTEND:20260729T200000Z
 SUMMARY:Whose Play is it Anyway?
@@ -898,7 +471,7 @@ DESCRIPTION:Details and tickets: https://www.tickettailor.com/events/almat
 END:VEVENT
 BEGIN:VEVENT
 UID:recCDnewyxsChs8d5@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260730T193000Z
 DTEND:20260730T213000Z
 SUMMARY:Fire & Dice
@@ -909,7 +482,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec6r6kwfg5uAwhZ8@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260731T193000Z
 DTEND:20260731T213000Z
 SUMMARY:Bristol Longform Takeover
@@ -921,7 +494,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recHAiCUotcIQYGH0@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260801T110000Z
 DTEND:20260801T120000Z
 SUMMARY:Imaginary Adventure Club
@@ -932,7 +505,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec4WAI4SeXKedHrY@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260801T140000Z
 DTEND:20260801T170000Z
 SUMMARY:Characters That Care with Monica Gaga
@@ -944,7 +517,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recrzUMkj68snkPLG@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260802T100000Z
 DTEND:20260802T170000Z
 SUMMARY:Working the Room: Stage Presence & Hosting with Monica Gaga
@@ -956,7 +529,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recJcvLKIWUVWhY7L@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260802T193000Z
 DTEND:20260802T213000Z
 SUMMARY:Improv Jam & Social
@@ -967,7 +540,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec2xyETUr0ycyZnC@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260803T130000Z
 DTEND:20260803T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -979,7 +552,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recQEC37Y0w4imNLM@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260803T190000Z
 DTEND:20260803T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -990,7 +563,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recTNaatGJN4q3VGo@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260805T193000Z
 DTEND:20260805T223000Z
 SUMMARY:Bleak Expectations
@@ -1001,7 +574,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recyc6PxKLiMq3wk7@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260806T193000Z
 DTEND:20260806T223000Z
 SUMMARY:Bleak Expectations
@@ -1012,7 +585,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recUWE7vt3TNImtIM@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260807T193000Z
 DTEND:20260807T223000Z
 SUMMARY:Bleak Expectations
@@ -1023,7 +596,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:reccnV74Wo2r7QREc@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260808T140000Z
 DTEND:20260808T160000Z
 SUMMARY:Improv Taster Session
@@ -1034,7 +607,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recyCPHJJwzxcMx6f@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260808T140000Z
 DTEND:20260808T170000Z
 SUMMARY:Bleak Expectations: Matinee
@@ -1045,7 +618,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recc82eUWVUynJfQe@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260808T180000Z
 DTEND:20260808T200000Z
 SUMMARY:Full Body Improv: Moving from a place of Joy
@@ -1057,7 +630,7 @@ DESCRIPTION:Details and tickets: https://www.headfirstbristol.co.uk/whats-
 END:VEVENT
 BEGIN:VEVENT
 UID:recPdrP0Wpvzpr2Pu@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260810T100000Z
 DTEND:20260810T160000Z
 SUMMARY:Improvised Theatre: 5-day Intensive with Chris Mead
@@ -1069,7 +642,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recpRxMbrGylDbqjb@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260810T130000Z
 DTEND:20260810T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -1081,7 +654,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recyV3ggsslVNoG2r@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260810T190000Z
 DTEND:20260810T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -1092,7 +665,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec1EF6SyUB1zEYWl@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260812T193000Z
 DTEND:20260812T213000Z
 SUMMARY:Wednesday Night Improv: August Show
@@ -1104,7 +677,7 @@ DESCRIPTION:Details and tickets: https://www.headfirstbristol.co.uk/whats-
 END:VEVENT
 BEGIN:VEVENT
 UID:recfoXdL1XVPJ5KYb@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260814T193000Z
 DTEND:20260814T213000Z
 SUMMARY:Dead Ends
@@ -1115,7 +688,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recrfINvPCV1dRZkN@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260814T200000Z
 DTEND:20260814T220000Z
 SUMMARY:This Is Your Musical
@@ -1126,7 +699,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec244lyjZg6Sufiv@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260815T193000Z
 DTEND:20260815T213000Z
 SUMMARY:Silent Movie Improv
@@ -1137,7 +710,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec0xUUR81z7Pg30M@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260817T130000Z
 DTEND:20260817T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -1149,7 +722,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recNhW9EJIfrDmdM5@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260817T190000Z
 DTEND:20260817T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -1160,7 +733,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recFJ0n06A0g2oS04@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260820T193000Z
 DTEND:20260820T213000Z
 SUMMARY:Unscripted Players' Big Summer Show
@@ -1172,7 +745,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recdDeM2jHyM4zw4h@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260821T193000Z
 DTEND:20260821T213000Z
 SUMMARY:Unscripted Players' Big Summer Show
@@ -1184,7 +757,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recYFZfjjefVX8JgT@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260822T140000Z
 DTEND:20260822T160000Z
 SUMMARY:Improv Taster Session
@@ -1195,7 +768,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec8YR1SAegijjos3@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260822T140000Z
 DTEND:20260822T160000Z
 SUMMARY:LGBTQ+ Improv Drop-in
@@ -1206,7 +779,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recEJNQqIqwgMl7cD@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260822T193000Z
 DTEND:20260822T213000Z
 SUMMARY:Unscripted Players' Big Summer Show
@@ -1218,7 +791,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recdnCRHYHpnYoClf@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260824T130000Z
 DTEND:20260824T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -1230,7 +803,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recW0MaLExa11HGF3@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260824T190000Z
 DTEND:20260824T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -1241,7 +814,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recNUGNziuMeldUgD@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260827T193000Z
 DTEND:20260827T213000Z
 SUMMARY:Fire & Dice
@@ -1252,7 +825,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recWu78Nk3wRxwAFh@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260828T193000Z
 DTEND:20260828T213000Z
 SUMMARY:The Improv Spotlight
@@ -1263,7 +836,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recE3DRegjflGK0Os@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260829T130000Z
 DTEND:20260829T160000Z
 SUMMARY:All the Paints in the Box with Jim Fishwick
@@ -1275,7 +848,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec2nQDusLCxARl5l@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260829T193000Z
 DTEND:20260829T213000Z
 SUMMARY:The Saboteur
@@ -1286,7 +859,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec1m215nN34lNXAH@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260831T130000Z
 DTEND:20260831T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -1298,7 +871,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec2iRMozWabVU9en@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260831T190000Z
 DTEND:20260831T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -1309,7 +882,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recraMxweYNEbGkRp@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260831T193000Z
 DTEND:20260831T203000Z
 SUMMARY:Student Showcase: Approaches to Scenework (Level 4)
@@ -1321,7 +894,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recZSywJF4vzMKcwB@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260901T193000Z
 DTEND:20260901T203000Z
 SUMMARY:Student Showcase: Singing Songs (Level 3)
@@ -1333,7 +906,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recZgYx3dWEA8SPyg@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260903T193000Z
 DTEND:20260903T213000Z
 SUMMARY:Tales From The Wasteland: Post-Apocalyptic Improv
@@ -1346,7 +919,7 @@ DESCRIPTION:Details and tickets: https://www.headfirstbristol.co.uk/whats-
 END:VEVENT
 BEGIN:VEVENT
 UID:recgmEqCE2bEgDo2i@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260904T193000Z
 DTEND:20260904T213000Z
 SUMMARY:The Bish Bosh Bash: The Improvised Game Show
@@ -1358,7 +931,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recI7KmJP912g7GJ5@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260906T193000Z
 DTEND:20260906T213000Z
 SUMMARY:Improv Jam & Social
@@ -1369,7 +942,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recPHUP9HzduI9NSl@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260907T130000Z
 DTEND:20260907T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -1381,7 +954,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec58hK8yYuNcES0i@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260907T183000Z
 DTEND:20260907T210000Z
 SUMMARY:Level 1: Discovering Improv
@@ -1393,7 +966,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recgh0nLg8lnzPAFF@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260907T183000Z
 DTEND:20260907T210000Z
 SUMMARY:Level 3: Telling Stories
@@ -1404,7 +977,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recRD6gVc5QYqSKex@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260907T190000Z
 DTEND:20260907T210000Z
 SUMMARY:Improv Drop-ins
@@ -1416,7 +989,7 @@ DESCRIPTION:Details and tickets: https://improvtheatre.co.uk/upcoming-show
 END:VEVENT
 BEGIN:VEVENT
 UID:recS7ERxXGH9IyyBX@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260907T190000Z
 DTEND:20260907T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -1427,7 +1000,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recpYWWI2rODcwACK@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260908T183000Z
 DTEND:20260908T210000Z
 SUMMARY:Level 2: Intro to Performing Improv
@@ -1439,7 +1012,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recqbeFe9wCxUBt4f@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260909T193000Z
 DTEND:20260909T213000Z
 SUMMARY:Wednesday Night Improv: September Show
@@ -1451,7 +1024,7 @@ DESCRIPTION:Details and tickets: https://www.headfirstbristol.co.uk/whats-
 END:VEVENT
 BEGIN:VEVENT
 UID:rec44UhSgLmosLHBU@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260912T140000Z
 DTEND:20260912T160000Z
 SUMMARY:Improv Taster Session
@@ -1462,7 +1035,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recknVLA6M7UxHN8F@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260914T130000Z
 DTEND:20260914T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -1474,7 +1047,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recgf3LR4L9PzU4Ee@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260914T190000Z
 DTEND:20260914T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -1485,7 +1058,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recdvz7vldiWRmf0o@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260914T193000Z
 DTEND:20260914T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -1496,7 +1069,7 @@ DESCRIPTION:Details and tickets: https://thewardrobetheatre.com/shows/clos
 END:VEVENT
 BEGIN:VEVENT
 UID:reckEkhqAh2O50jLV@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260916T193000Z
 DTEND:20260916T213000Z
 SUMMARY:Murder\, She Didn’t Write
@@ -1507,7 +1080,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/mur
 END:VEVENT
 BEGIN:VEVENT
 UID:recebctdKRzlEzckE@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260917T193000Z
 DTEND:20260917T213000Z
 SUMMARY:Murder\, She Didn’t Write
@@ -1518,7 +1091,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/mur
 END:VEVENT
 BEGIN:VEVENT
 UID:rectHPs9r2QBOTcv4@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260918T193000Z
 DTEND:20260918T213000Z
 SUMMARY:Murder\, She Didn’t Write
@@ -1529,7 +1102,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/mur
 END:VEVENT
 BEGIN:VEVENT
 UID:rec8nxEmhka5U4iwj@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260918T200000Z
 DTEND:20260918T220000Z
 SUMMARY:This Is Your Musical
@@ -1540,7 +1113,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recK6GlWSfpCgAtDY@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260919T193000Z
 DTEND:20260919T213000Z
 SUMMARY:Murder\, She Didn’t Write
@@ -1551,7 +1124,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/mur
 END:VEVENT
 BEGIN:VEVENT
 UID:recIQrJHnLbNjGrfR@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260919T193000Z
 DTEND:20260919T220000Z
 SUMMARY:Rainbow Roadies: Mario Kart With A Live Band
@@ -1563,7 +1136,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recoIyxX7EL3qOgnK@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260921T130000Z
 DTEND:20260921T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -1575,7 +1148,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec7mnRDpCmKEgde8@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260921T190000Z
 DTEND:20260921T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -1586,7 +1159,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recSKQJJFTzsX9SKk@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260924T193000Z
 DTEND:20260924T213000Z
 SUMMARY:Fire & Dice
@@ -1597,7 +1170,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec4Nw0ife1nPAVyA@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260926T140000Z
 DTEND:20260926T160000Z
 SUMMARY:Improv Taster Session
@@ -1608,7 +1181,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recVaD2mOW0zxrpEQ@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260928T130000Z
 DTEND:20260928T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -1620,7 +1193,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recfe1ig9j8IZMEDW@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260928T190000Z
 DTEND:20260928T210000Z
 SUMMARY:Improv Drop-ins
@@ -1632,7 +1205,7 @@ DESCRIPTION:Details and tickets: https://improvtheatre.co.uk/upcoming-show
 END:VEVENT
 BEGIN:VEVENT
 UID:rec0dVmewkllLPZyg@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260928T190000Z
 DTEND:20260928T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -1643,7 +1216,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recTgvXW7kQ3b6uHf@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20260928T193000Z
 DTEND:20260928T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -1654,7 +1227,7 @@ DESCRIPTION:Details and tickets: https://thewardrobetheatre.com/shows/clos
 END:VEVENT
 BEGIN:VEVENT
 UID:recBaCUnyg0kxE2tw@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261002T193000Z
 DTEND:20261002T213000Z
 SUMMARY:The Bish Bosh Bash: The Improvised Game Show
@@ -1666,7 +1239,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recyqx56FGNRLknEZ@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261003T190000Z
 DTEND:20261003T210000Z
 SUMMARY:Instant Wit! The Best in Improvised Comedy
@@ -1677,7 +1250,7 @@ DESCRIPTION:Details and tickets: https://www.tickettailor.com/events/almat
 END:VEVENT
 BEGIN:VEVENT
 UID:recu7q0LAeYCLowNZ@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261005T130000Z
 DTEND:20261005T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -1689,7 +1262,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recjliEhVjsbCSk4d@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261005T190000Z
 DTEND:20261005T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -1700,7 +1273,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recNYpU56Bent0RSi@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261010T140000Z
 DTEND:20261010T160000Z
 SUMMARY:Improv Taster Session
@@ -1711,7 +1284,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recWpG4SvTgzGOTJe@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261012T130000Z
 DTEND:20261012T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -1723,7 +1296,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recWzMKjVQTsY333f@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261012T190000Z
 DTEND:20261012T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -1734,7 +1307,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recLdLhE40PFNqCZJ@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261012T193000Z
 DTEND:20261012T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -1745,7 +1318,7 @@ DESCRIPTION:Details and tickets: https://thewardrobetheatre.com/shows/clos
 END:VEVENT
 BEGIN:VEVENT
 UID:recpiiX2tMFj9Hcdd@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261015T193000Z
 DTEND:20261015T213000Z
 SUMMARY:The Improv Spotlight
@@ -1756,7 +1329,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recYuTXYQxeIqTJPL@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261016T200000Z
 DTEND:20261016T220000Z
 SUMMARY:This Is Your Musical
@@ -1767,7 +1340,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec5s7fgTshMioMct@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261019T130000Z
 DTEND:20261019T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -1779,7 +1352,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec9iIc6dvdWO20q6@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261019T190000Z
 DTEND:20261019T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -1790,7 +1363,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recOhYCWC4xoUJAER@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261023T193000Z
 DTEND:20261023T213000Z
 SUMMARY:The Noise Next Door: Comedy\, Improvised
@@ -1802,7 +1375,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recjRsRzfMH5wma9D@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261024T193000Z
 DTEND:20261024T213000Z
 SUMMARY:The Noise Next Door: Comedy\, Improvised
@@ -1814,7 +1387,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recKyHrDWbMIwTiJN@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261026T130000Z
 DTEND:20261026T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -1826,7 +1399,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rect63zz7G3FZuYD7@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261026T183000Z
 DTEND:20261026T210000Z
 SUMMARY:Level 2: Intro to Performing Improv
@@ -1838,7 +1411,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec0RmJhyDPLvUwMp@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261026T183000Z
 DTEND:20261026T210000Z
 SUMMARY:Level 4: Scenes and Songs
@@ -1849,7 +1422,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:reci6dooXcSfzlWD0@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261026T190000Z
 DTEND:20261026T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -1860,7 +1433,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec8vA2yQcFnVIPqT@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261026T193000Z
 DTEND:20261026T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -1871,7 +1444,7 @@ DESCRIPTION:Details and tickets: https://thewardrobetheatre.com/shows/clos
 END:VEVENT
 BEGIN:VEVENT
 UID:recHVQ44ymUkoHtEw@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261027T183000Z
 DTEND:20261027T210000Z
 SUMMARY:Level 1: Discovering Improv
@@ -1883,7 +1456,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec5ffWiYZAidrCe6@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261027T183000Z
 DTEND:20261027T210000Z
 SUMMARY:Level 3: Making a Scene
@@ -1894,7 +1467,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:reclWlyxy5QkO393J@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261031T140000Z
 DTEND:20261031T160000Z
 SUMMARY:Improv Taster Session
@@ -1905,7 +1478,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recdH0JzIC615j0VC@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261102T130000Z
 DTEND:20261102T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -1917,7 +1490,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec5x5a1UC8b0NrPU@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261102T190000Z
 DTEND:20261102T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -1928,7 +1501,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recpFjnluFXB6sNSX@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261109T130000Z
 DTEND:20261109T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -1940,7 +1513,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec3KYWXBEgETEu0a@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261109T190000Z
 DTEND:20261109T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -1951,7 +1524,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recFC3Ses1K5rKgI0@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261109T193000Z
 DTEND:20261109T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -1962,7 +1535,7 @@ DESCRIPTION:Details and tickets: https://thewardrobetheatre.com/shows/clos
 END:VEVENT
 BEGIN:VEVENT
 UID:rec29Px5AEVxQ7gNz@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261114T140000Z
 DTEND:20261114T160000Z
 SUMMARY:Improv Taster Session
@@ -1973,7 +1546,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recDpGxg03Z00opZB@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261114T193000Z
 DTEND:20261114T213000Z
 SUMMARY:Tales From The Wasteland: Post-Apocalyptic Improv
@@ -1985,7 +1558,7 @@ DESCRIPTION:Details and tickets: https://tobaccofactorytheatres.com/shows/
 END:VEVENT
 BEGIN:VEVENT
 UID:recebJEwv6Sx7DEPN@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261116T130000Z
 DTEND:20261116T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -1997,7 +1570,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recAKRuAyeUhq7x2T@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261116T190000Z
 DTEND:20261116T210000Z
 SUMMARY:Improv Drop-ins
@@ -2009,7 +1582,7 @@ DESCRIPTION:Details and tickets: https://improvtheatre.co.uk/upcoming-show
 END:VEVENT
 BEGIN:VEVENT
 UID:recWHfNSiK6l8s7an@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261116T190000Z
 DTEND:20261116T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -2020,7 +1593,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recJ1YeNqk74iitkE@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261120T200000Z
 DTEND:20261120T220000Z
 SUMMARY:This Is Your Musical
@@ -2032,7 +1605,7 @@ DESCRIPTION:Details and tickets: https://improvtheatre.co.uk/upcoming-show
 END:VEVENT
 BEGIN:VEVENT
 UID:recxpRtLC3qnCYZUo@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261123T130000Z
 DTEND:20261123T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -2044,7 +1617,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recETMQoTX72nvpeD@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261123T190000Z
 DTEND:20261123T210000Z
 SUMMARY:Improv Drop-ins
@@ -2056,7 +1629,7 @@ DESCRIPTION:Details and tickets: https://improvtheatre.co.uk/upcoming-show
 END:VEVENT
 BEGIN:VEVENT
 UID:rec8m8isVOKsms5DJ@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261123T190000Z
 DTEND:20261123T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -2067,7 +1640,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recIML0LsLrzgFcPL@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261123T193000Z
 DTEND:20261123T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2078,7 +1651,7 @@ DESCRIPTION:Details and tickets: https://thewardrobetheatre.com/shows/clos
 END:VEVENT
 BEGIN:VEVENT
 UID:recsZ0RsubZt3vRLh@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261128T140000Z
 DTEND:20261128T160000Z
 SUMMARY:Improv Taster Session
@@ -2089,7 +1662,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recq19F01rsRcANoX@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261130T130000Z
 DTEND:20261130T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -2101,7 +1674,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:reccmnP8VZuMgFBQ9@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261130T190000Z
 DTEND:20261130T210000Z
 SUMMARY:Improv Drop-ins
@@ -2113,7 +1686,7 @@ DESCRIPTION:Details and tickets: https://improvtheatre.co.uk/upcoming-show
 END:VEVENT
 BEGIN:VEVENT
 UID:recsD64ZxfcXveI2w@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261130T190000Z
 DTEND:20261130T210000Z
 SUMMARY:Improv Drop-In - Monday Evening
@@ -2124,7 +1697,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recJ5LdjylXpxVhtA@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261204T193000Z
 DTEND:20261204T213000Z
 SUMMARY:The Bish Bosh Bash: The Improvised Game Show
@@ -2136,7 +1709,7 @@ DESCRIPTION:Details and tickets: https://improvtheatre.co.uk/upcoming-show
 END:VEVENT
 BEGIN:VEVENT
 UID:recnOOMziy22keLzR@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261204T193000Z
 DTEND:20261204T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2147,7 +1720,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/clo
 END:VEVENT
 BEGIN:VEVENT
 UID:rec7rZnB5Mc3yOXUD@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261205T193000Z
 DTEND:20261205T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2158,7 +1731,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/clo
 END:VEVENT
 BEGIN:VEVENT
 UID:recF5YMbkzTf9ZTzb@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261205T200000Z
 DTEND:20261205T220000Z
 SUMMARY:Instant Wit! The Best in Improvised Comedy
@@ -2169,7 +1742,7 @@ DESCRIPTION:Details and tickets: https://www.tickettailor.com/events/almat
 END:VEVENT
 BEGIN:VEVENT
 UID:recgQraeNb7g18IPu@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261206T193000Z
 DTEND:20261206T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2180,7 +1753,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/clo
 END:VEVENT
 BEGIN:VEVENT
 UID:recF02bA6wX9cJ6yq@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261207T130000Z
 DTEND:20261207T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -2192,7 +1765,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:rec1dfp6c5HrDndFF@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261207T190000Z
 DTEND:20261207T210000Z
 SUMMARY:Improv Drop-ins
@@ -2204,7 +1777,7 @@ DESCRIPTION:Details and tickets: https://improvtheatre.co.uk/upcoming-show
 END:VEVENT
 BEGIN:VEVENT
 UID:recFOVXB7oMGXPtc8@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261207T193000Z
 DTEND:20261207T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2215,7 +1788,7 @@ DESCRIPTION:Details and tickets: https://thewardrobetheatre.com/shows/clos
 END:VEVENT
 BEGIN:VEVENT
 UID:rec9iZUP185BQ8TEk@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261207T193000Z
 DTEND:20261207T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2226,7 +1799,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/clo
 END:VEVENT
 BEGIN:VEVENT
 UID:rec6L7gO0CDOcbCEP@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261208T193000Z
 DTEND:20261208T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2237,7 +1810,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/clo
 END:VEVENT
 BEGIN:VEVENT
 UID:recQKn7oVRw3Jnkfi@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261209T193000Z
 DTEND:20261209T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2248,7 +1821,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/clo
 END:VEVENT
 BEGIN:VEVENT
 UID:recjCKAuLEJVN5jx1@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261210T193000Z
 DTEND:20261210T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2259,7 +1832,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/clo
 END:VEVENT
 BEGIN:VEVENT
 UID:recswUn7rnPVzimqj@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261211T193000Z
 DTEND:20261211T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2270,7 +1843,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/clo
 END:VEVENT
 BEGIN:VEVENT
 UID:receE0otweC07x4ya@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261212T140000Z
 DTEND:20261212T160000Z
 SUMMARY:Improv Taster Session
@@ -2281,7 +1854,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recf5lyhTEmq2Exxs@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261212T140000Z
 DTEND:20261212T160000Z
 SUMMARY:LGBTQ+ Improv Drop-In
@@ -2293,7 +1866,7 @@ DESCRIPTION:Details and tickets: https://improvtheatre.co.uk/upcoming-show
 END:VEVENT
 BEGIN:VEVENT
 UID:rec3CcNUYEyuHs3Lr@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261212T193000Z
 DTEND:20261212T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2304,7 +1877,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/clo
 END:VEVENT
 BEGIN:VEVENT
 UID:rec6nMqhVrKyGFAtE@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261212T200000Z
 DTEND:20261212T220000Z
 SUMMARY:This Is Your Musical
@@ -2316,7 +1889,7 @@ DESCRIPTION:Details and tickets: https://improvtheatre.co.uk/upcoming-show
 END:VEVENT
 BEGIN:VEVENT
 UID:rec86w1Tpp9G6sXMa@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261213T193000Z
 DTEND:20261213T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2327,7 +1900,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/clo
 END:VEVENT
 BEGIN:VEVENT
 UID:reczaHBQWXZ9Dayuj@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261214T130000Z
 DTEND:20261214T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -2339,7 +1912,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recfBjUHjjdV9PJkm@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261214T190000Z
 DTEND:20261214T210000Z
 SUMMARY:Improv Drop-ins
@@ -2351,7 +1924,7 @@ DESCRIPTION:Details and tickets: https://improvtheatre.co.uk/upcoming-show
 END:VEVENT
 BEGIN:VEVENT
 UID:recWphsbngiyAWruE@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261214T193000Z
 DTEND:20261214T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2362,7 +1935,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/clo
 END:VEVENT
 BEGIN:VEVENT
 UID:recSNuQXvnv5iUH2E@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261215T193000Z
 DTEND:20261215T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2373,7 +1946,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/clo
 END:VEVENT
 BEGIN:VEVENT
 UID:recWPBAYfxui0NTLv@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261216T193000Z
 DTEND:20261216T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2384,7 +1957,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/clo
 END:VEVENT
 BEGIN:VEVENT
 UID:rec3NIG8DIsodzPjA@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261217T193000Z
 DTEND:20261217T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2395,7 +1968,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/clo
 END:VEVENT
 BEGIN:VEVENT
 UID:recj5MIvrC5OfYLIP@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261218T193000Z
 DTEND:20261218T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2406,7 +1979,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/clo
 END:VEVENT
 BEGIN:VEVENT
 UID:recT8gCihBNZ18WRw@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261219T193000Z
 DTEND:20261219T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2417,7 +1990,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/clo
 END:VEVENT
 BEGIN:VEVENT
 UID:recEBv7nDIk3sIvND@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261221T130000Z
 DTEND:20261221T143000Z
 SUMMARY:Lunchtime Improv Drop-In with Rebecca MacMillan
@@ -2429,7 +2002,7 @@ DESCRIPTION:Details and tickets: https://events.improvtheatre.co.uk/event/
 END:VEVENT
 BEGIN:VEVENT
 UID:recJyrfBB6mkg9zRU@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261221T190000Z
 DTEND:20261221T210000Z
 SUMMARY:Improv Drop-ins
@@ -2441,7 +2014,7 @@ DESCRIPTION:Details and tickets: https://improvtheatre.co.uk/upcoming-show
 END:VEVENT
 BEGIN:VEVENT
 UID:recyG5vYzQGx38EY9@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261221T193000Z
 DTEND:20261221T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2452,7 +2025,7 @@ DESCRIPTION:Details and tickets: https://thewardrobetheatre.com/shows/clos
 END:VEVENT
 BEGIN:VEVENT
 UID:reczuqZOc2WNfKJgz@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20261228T190000Z
 DTEND:20261228T210000Z
 SUMMARY:Improv Drop-ins
@@ -2464,7 +2037,7 @@ DESCRIPTION:Details and tickets: https://improvtheatre.co.uk/upcoming-show
 END:VEVENT
 BEGIN:VEVENT
 UID:recga8xFV1puvqYbz@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20270112T193000Z
 DTEND:20270112T213000Z
 SUMMARY:Showstopper! The Improvised Musical
@@ -2476,7 +2049,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/sho
 END:VEVENT
 BEGIN:VEVENT
 UID:recCIGOtz8yPbkaLA@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20270113T193000Z
 DTEND:20270113T213000Z
 SUMMARY:Showstopper! The Improvised Musical
@@ -2488,7 +2061,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/sho
 END:VEVENT
 BEGIN:VEVENT
 UID:receddeQwHGSLQHoM@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20270114T193000Z
 DTEND:20270114T213000Z
 SUMMARY:Showstopper! The Improvised Musical
@@ -2500,7 +2073,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/sho
 END:VEVENT
 BEGIN:VEVENT
 UID:recZC7UnEE8bxa4yr@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20270115T193000Z
 DTEND:20270115T213000Z
 SUMMARY:Showstopper! The Improvised Musical
@@ -2512,7 +2085,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/sho
 END:VEVENT
 BEGIN:VEVENT
 UID:recpvaWHzwUQWAvVQ@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20270116T193000Z
 DTEND:20270116T213000Z
 SUMMARY:Showstopper! The Improvised Musical
@@ -2524,7 +2097,7 @@ DESCRIPTION:Details and tickets: https://bristololdvic.org.uk/whats-on/sho
 END:VEVENT
 BEGIN:VEVENT
 UID:recqexmq3yKNQIG3b@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20270209T193000Z
 DTEND:20270209T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2535,7 +2108,7 @@ DESCRIPTION:Details and tickets: https://thewardrobetheatre.com/shows/clos
 END:VEVENT
 BEGIN:VEVENT
 UID:recl1n2YwpX4qG3YZ@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20270211T193000Z
 DTEND:20270211T213000Z
 SUMMARY:The Bish Bosh Bash: The Improvised Game Show
@@ -2547,7 +2120,7 @@ DESCRIPTION:Details and tickets: https://improvtheatre.co.uk/upcoming-show
 END:VEVENT
 BEGIN:VEVENT
 UID:reccjDRfha24K0HAH@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20270223T193000Z
 DTEND:20270223T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2558,7 +2131,7 @@ DESCRIPTION:Details and tickets: https://thewardrobetheatre.com/shows/clos
 END:VEVENT
 BEGIN:VEVENT
 UID:recsf4Af9sUVTK6tx@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20270226T184500Z
 DTEND:20270226T204500Z
 SUMMARY:My Date with Pierce Brosnan feat. The Brothers Grin
@@ -2571,7 +2144,7 @@ DESCRIPTION:Details and tickets: https://www.headfirstbristol.co.uk/whats-
 END:VEVENT
 BEGIN:VEVENT
 UID:rec0ezbmOas1cRdUl@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20270309T193000Z
 DTEND:20270309T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2582,7 +2155,7 @@ DESCRIPTION:Details and tickets: https://thewardrobetheatre.com/shows/clos
 END:VEVENT
 BEGIN:VEVENT
 UID:recddjGYW5IGPWWBI@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20270406T193000Z
 DTEND:20270406T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2593,7 +2166,7 @@ DESCRIPTION:Details and tickets: https://thewardrobetheatre.com/shows/clos
 END:VEVENT
 BEGIN:VEVENT
 UID:recGP0083sEFsHfRW@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20270417T193000Z
 DTEND:20270417T213000Z
 SUMMARY:Impromptu Shakespeare
@@ -2604,7 +2177,7 @@ DESCRIPTION:Details and tickets: https://thewardrobetheatre.com/shows/impr
 END:VEVENT
 BEGIN:VEVENT
 UID:recfY1UHrCOR1fVLG@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20270418T193000Z
 DTEND:20270418T213000Z
 SUMMARY:Impromptu Shakespeare
@@ -2615,7 +2188,7 @@ DESCRIPTION:Details and tickets: https://thewardrobetheatre.com/shows/impr
 END:VEVENT
 BEGIN:VEVENT
 UID:recUCvpJrcWI0KMwd@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20270419T190000Z
 DTEND:20270419T210000Z
 SUMMARY:Impromptu Shakespeare
@@ -2626,7 +2199,7 @@ DESCRIPTION:Details and tickets: https://thewardrobetheatre.com/shows/impr
 END:VEVENT
 BEGIN:VEVENT
 UID:receBRXsingaJhcpT@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20270420T193000Z
 DTEND:20270420T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2637,7 +2210,7 @@ DESCRIPTION:Details and tickets: https://thewardrobetheatre.com/shows/clos
 END:VEVENT
 BEGIN:VEVENT
 UID:recKSWDUGxdcEpKUp@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20270504T193000Z
 DTEND:20270504T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2648,7 +2221,7 @@ DESCRIPTION:Details and tickets: https://thewardrobetheatre.com/shows/clos
 END:VEVENT
 BEGIN:VEVENT
 UID:recBmODzmGZzoHl7o@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20270518T193000Z
 DTEND:20270518T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
@@ -2659,7 +2232,7 @@ DESCRIPTION:Details and tickets: https://thewardrobetheatre.com/shows/clos
 END:VEVENT
 BEGIN:VEVENT
 UID:recOT6Jb5VSgEZuak@bristol-improv-calendar
-DTSTAMP:20260726T082102Z
+DTSTAMP:20260801T081347Z
 DTSTART:20270601T193000Z
 DTEND:20270601T213000Z
 SUMMARY:Closer Each Day: The Improvised Soap Opera
