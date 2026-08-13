@@ -387,6 +387,8 @@
         'Bristol Old Vic': { color: '#4A6FA5', bg: '#4A6FA518', group: 'Bristol Old Vic', order: 5 },
         'Tobacco Factory': { color: '#8B6F47', bg: '#8B6F4715', group: 'Other', order: 6 },
         'Bristol Beacon': { color: '#C4A35A', bg: '#C4A35A15', group: 'Other', order: 6 },
+        // Outside Bristol - worth the trip, so grouped apart rather than hidden in "Other"
+        'Mission Theatre (Bath)': { color: '#5E8B7E', bg: '#5E8B7E18', group: 'Further afield', order: 7 },
       };
 
       // Venue groups for filter dropdown (in display order)
@@ -397,6 +399,7 @@
         { key: 'Wardrobe Theatre', label: 'Wardrobe Theatre' },
         { key: 'Bristol Old Vic', label: 'Bristol Old Vic' },
         { key: 'Other', label: 'Other' },
+        { key: 'Further afield', label: 'Further afield' },
       ];
 
       const isEveningEvent = (timeStr) => {

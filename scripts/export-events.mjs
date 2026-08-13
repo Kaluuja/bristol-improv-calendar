@@ -37,25 +37,92 @@ async function fetchApprovedEvents(apiKey, baseId) {
   return events;
 }
 
+/**
+ * Airtable hands back Start/End stamped as UTC (2026-09-16T19:30:00.000Z), but the
+ * clock reading inside is already Europe/London wall time - the sync writes the
+ * venue's advertised local time and Airtable labels it Z. Converting to
+ * Europe/London therefore applies the BST offset a SECOND time and pushes every
+ * summer event an hour late (Murder She Didn't Write showed 20:30 for a 19:30
+ * curtain). So we read the clock fields verbatim and treat them as London wall
+ * time, which is what every consumer actually wants.
+ *
+ * This is a compensating fix: the root cause is upstream in improv-calendar-sync,
+ * which should store a true instant. If that is ever corrected, this must be
+ * reverted in the same change or the times will swing an hour the other way.
+ */
+const WALL_CLOCK = /^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2}))?/;
+
+function parseWallClock(value) {
+  const match = WALL_CLOCK.exec(String(value));
+  if (!match) {
+    throw new Error(`Unrecognised date/time from Airtable: ${JSON.stringify(value)}`);
+  }
+  const [, year, month, day, hour, minute, second = '00'] = match;
+  return { year, month, day, hour, minute, second };
+}
+
 function formatTime(startISO, endISO) {
-  const start = new Date(startISO);
-  const startTime = start.toLocaleTimeString('en-GB', {
-    hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/London',
-  });
+  const start = parseWallClock(startISO);
+  const startTime = `${start.hour}:${start.minute}`;
 
   if (!endISO) return startTime;
 
-  const end = new Date(endISO);
-  const endTime = end.toLocaleTimeString('en-GB', {
-    hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/London',
-  });
-
-  return `${startTime}–${endTime}`;
+  const end = parseWallClock(endISO);
+  return `${startTime}–${end.hour}:${end.minute}`;
 }
 
 function formatDate(isoString) {
-  const date = new Date(isoString);
-  return date.toLocaleDateString('en-CA', { timeZone: 'Europe/London' });
+  const { year, month, day } = parseWallClock(isoString);
+  return `${year}-${month}-${day}`;
+}
+
+const MANUAL_EVENTS_PATH = 'data/manual-events.json';
+
+/**
+ * Merge hand-added events (data/manual-events.json) into the Airtable records.
+ * These cover what the scraper cannot see - out-of-area venues, word-of-mouth
+ * shows - and are dropped automatically once Airtable carries the same title on
+ * the same date, so a stale entry can never produce a duplicate.
+ */
+export function mergeManualEvents(records, manualEvents) {
+  const seen = new Set(
+    records
+      .filter((r) => r.fields.Start && r.fields.Title)
+      .map((r) => `${r.fields.Title.trim().toLowerCase()}@${formatDate(r.fields.Start)}`)
+  );
+
+  const added = manualEvents.filter((event) => {
+    if (!event.fields || !event.fields.Start || !event.fields.Title) return false;
+    const key = `${event.fields.Title.trim().toLowerCase()}@${formatDate(event.fields.Start)}`;
+    if (seen.has(key)) {
+      console.log(`Manual event already in Airtable, skipping: ${event.fields.Title} on ${formatDate(event.fields.Start)}`);
+      return false;
+    }
+    seen.add(key);
+    return true;
+  });
+
+  // Records with no Start are dropped further down the pipeline, not here - sort
+  // them last rather than letting parseWallClock throw on them.
+  const sortKey = (r) => (r.fields.Start ? formatICSDateTime(r.fields.Start) : '9999');
+
+  return [...records, ...added].sort((a, b) => {
+    const left = sortKey(a);
+    const right = sortKey(b);
+    return left < right ? -1 : left > right ? 1 : 0;
+  });
+}
+
+function readManualEvents() {
+  let raw;
+  try {
+    raw = fs.readFileSync(MANUAL_EVENTS_PATH, 'utf8');
+  } catch {
+    return []; // optional file
+  }
+  // A malformed supplement should fail the run rather than silently drop events
+  const parsed = JSON.parse(raw);
+  return parsed.events || [];
 }
 
 export function transformEvent(record) {
@@ -82,9 +149,53 @@ function escapeICSText(value) {
 }
 
 // UTC basic format: 20260401T193000Z
-function formatICSDate(iso) {
+function formatICSDateUTC(iso) {
   return new Date(iso).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
 }
+
+// Local date-time form (RFC 5545 3.3.5), paired with TZID=Europe/London.
+// Reads the wall clock verbatim - see parseWallClock above for why.
+function formatICSDateTime(iso) {
+  const { year, month, day, hour, minute, second } = parseWallClock(iso);
+  return `${year}${month}${day}T${hour}${minute}${second}`;
+}
+
+// Adds hours to a wall-clock reading, returning another wall-clock string.
+// Deliberately DST-naive: a 23:00 event running to 01:00 on a clock-change night
+// is not a case this calendar has, and keeping it naive means the end time always
+// matches what the venue would print on a ticket.
+function addHoursToDateTime(iso, hours) {
+  const { year, month, day, hour, minute, second } = parseWallClock(iso);
+  const date = new Date(Date.UTC(+year, +month - 1, +day, +hour, +minute, +second));
+  date.setUTCHours(date.getUTCHours() + hours);
+
+  const pad = (value) => String(value).padStart(2, '0');
+  return `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())}T${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}:${pad(date.getUTCSeconds())}`;
+}
+
+// RFC 5545 requires a VTIMEZONE for any TZID referenced in the calendar. Google and
+// Apple infer Europe/London without it; Outlook and several Android clients do not,
+// and fall back to UTC - which is exactly the "wrong time" symptom we are fixing.
+const VTIMEZONE_EUROPE_LONDON = [
+  'BEGIN:VTIMEZONE',
+  'TZID:Europe/London',
+  'X-LIC-LOCATION:Europe/London',
+  'BEGIN:DAYLIGHT',
+  'TZOFFSETFROM:+0000',
+  'TZOFFSETTO:+0100',
+  'TZNAME:BST',
+  'DTSTART:19700329T010000',
+  'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU',
+  'END:DAYLIGHT',
+  'BEGIN:STANDARD',
+  'TZOFFSETFROM:+0100',
+  'TZOFFSETTO:+0000',
+  'TZNAME:GMT',
+  'DTSTART:19701025T020000',
+  'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU',
+  'END:STANDARD',
+  'END:VTIMEZONE',
+];
 
 // RFC 5545: content lines should stay within 75 octets; continuation lines start with a space
 function foldLine(line) {
@@ -99,7 +210,7 @@ function foldLine(line) {
 }
 
 export function buildICS(records, now = new Date()) {
-  const dtstamp = formatICSDate(now.toISOString());
+  const dtstamp = formatICSDateUTC(now.toISOString());
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
@@ -108,6 +219,7 @@ export function buildICS(records, now = new Date()) {
     'METHOD:PUBLISH',
     'X-WR-CALNAME:Bristol Improv Calendar',
     'X-WR-TIMEZONE:Europe/London',
+    ...VTIMEZONE_EUROPE_LONDON,
   ];
 
   for (const record of records) {
@@ -115,15 +227,15 @@ export function buildICS(records, now = new Date()) {
     if (!f.Start) continue;
 
     // No end time in Airtable: assume 2 hours, same as the site does
-    const end = f.End || new Date(new Date(f.Start).getTime() + 2 * 60 * 60 * 1000).toISOString();
+    const end = f.End || addHoursToDateTime(f.Start, 2);
     const url = f['Tickets URL'] || f['Event URL'] || '';
 
     lines.push(
       'BEGIN:VEVENT',
       `UID:${record.id}@bristol-improv-calendar`,
       `DTSTAMP:${dtstamp}`,
-      `DTSTART:${formatICSDate(f.Start)}`,
-      `DTEND:${formatICSDate(end)}`,
+      `DTSTART;TZID=Europe/London:${formatICSDateTime(f.Start)}`,
+      `DTEND;TZID=Europe/London:${formatICSDateTime(end)}`,
       `SUMMARY:${escapeICSText(f.Title || 'Improv event')}`
     );
     if (f.Venue) lines.push(`LOCATION:${escapeICSText(f.Venue)}`);
@@ -144,8 +256,14 @@ async function main() {
   }
 
   console.log('Fetching approved events from Airtable...');
-  const records = await fetchApprovedEvents(apiKey, baseId);
-  console.log(`Found ${records.length} approved events`);
+  const airtableRecords = await fetchApprovedEvents(apiKey, baseId);
+  console.log(`Found ${airtableRecords.length} approved events`);
+
+  const manualEvents = readManualEvents();
+  const records = mergeManualEvents(airtableRecords, manualEvents);
+  if (records.length > airtableRecords.length) {
+    console.log(`Merged ${records.length - airtableRecords.length} manual event(s) from ${MANUAL_EVENTS_PATH}`);
+  }
 
   // Keep events from the start of the previous month onwards (current + previous month history)
   const now = new Date();
@@ -176,20 +294,33 @@ async function main() {
   // Skip the write (and downstream commit) when only the timestamp would change -
   // avoids a no-op commit + Netlify rebuild every single day.
   if (previousEvents && JSON.stringify(previousEvents) === JSON.stringify(newEvents)) {
-    console.log('No change in events since last run - skipping write');
-    return;
+    console.log('No change in events since last run - skipping events.json write');
+  } else {
+    const output = {
+      lastUpdated: now.toISOString(),
+      events: newEvents,
+    };
+    fs.writeFileSync('events.json', JSON.stringify(output, null, 2));
+    console.log('Written to events.json');
   }
 
-  const output = {
-    lastUpdated: now.toISOString(),
-    events: newEvents,
-  };
-
-  fs.writeFileSync('events.json', JSON.stringify(output, null, 2));
-  console.log('Written to events.json');
-
-  fs.writeFileSync('events.ics', buildICS(keptRecords, now));
-  console.log('Written to events.ics');
+  // Checked separately from events.json: a change to the ICS format alone (rather
+  // than to the events) must still ship. DTSTAMP moves every run, so compare
+  // without it or the file would rewrite daily and undo the no-op-commit guard.
+  const nextICS = buildICS(keptRecords, now);
+  let previousICS = null;
+  try {
+    previousICS = fs.readFileSync('events.ics', 'utf8');
+  } catch {
+    // no previous events.ics - first run
+  }
+  const withoutDtstamp = (ics) => ics.replace(/^DTSTAMP:.*$/gm, '');
+  if (previousICS !== null && withoutDtstamp(previousICS) === withoutDtstamp(nextICS)) {
+    console.log('No change in feed since last run - skipping events.ics write');
+  } else {
+    fs.writeFileSync('events.ics', nextICS);
+    console.log('Written to events.ics');
+  }
 }
 
 // Only run when executed directly (allows importing buildICS/transformEvent in tests)

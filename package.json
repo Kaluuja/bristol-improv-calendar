@@ -3,7 +3,8 @@
   "private": true,
   "description": "What's on in Bristol improv — static site, events exported daily from Airtable",
   "scripts": {
-    "build": "esbuild src/app.jsx --outfile=assets/app.js --minify --target=es2018"
+    "build": "esbuild src/app.jsx --outfile=assets/app.js --minify --target=es2018",
+    "test": "node --test scripts/export-events.test.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.25.0"

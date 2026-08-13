@@ -1,0 +1,37 @@
+{
+  "_comment": [
+    "Hand-added events merged into the daily Airtable export. Use this for one-offs the",
+    "scraper cannot see - out-of-area venues, word-of-mouth shows, late additions.",
+    "",
+    "Shape matches an Airtable record so these flow through the same transform and ICS",
+    "path as everything else. Start/End are Europe/London wall-clock times: write the",
+    "time the venue advertises, no Z suffix, no offset maths.",
+    "",
+    "Omit End to get the default 2-hour run time. Give each event a stable, unique id -",
+    "it becomes the calendar UID, so changing it makes subscribers see a new event.",
+    "An entry is dropped automatically if Airtable already has the same title on the",
+    "same date, so it is safe to leave one here after the scraper starts finding it."
+  ],
+  "events": [
+    {
+      "id": "manual-balls-mission-2026-09-16",
+      "fields": {
+        "Title": "Balls!",
+        "Venue": "Mission Theatre (Bath)",
+        "Start": "2026-09-16T19:30:00",
+        "Type": "show",
+        "Tickets URL": "https://www.ticketsource.com/balls"
+      }
+    },
+    {
+      "id": "manual-balls-mission-2026-09-17",
+      "fields": {
+        "Title": "Balls!",
+        "Venue": "Mission Theatre (Bath)",
+        "Start": "2026-09-17T20:30:00",
+        "Type": "show",
+        "Tickets URL": "https://www.ticketsource.com/balls"
+      }
+    }
+  ]
+}
