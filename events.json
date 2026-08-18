@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-17T06:45:07.995Z",
+  "lastUpdated": "2026-08-18T06:35:41.117Z",
   "events": [
     {
       "date": "2026-07-02",
@@ -581,7 +581,7 @@
       "date": "2026-08-17",
       "title": "Lunchtime Improv Drop-In with Rebecca MacMillan",
       "venue": "Bristol Improv Theatre",
-      "time": "13:00–14:30",
+      "time": "12:00–14:30",
       "type": "drop-in",
       "url": "https://events.improvtheatre.co.uk/event/lunchtime-improv-drop-in-with-rebecca-macmillan-4068",
       "description": ""
@@ -839,12 +839,30 @@
       "description": ""
     },
     {
+      "date": "2026-09-11",
+      "title": "Adventures of the Improvised Sherlock Holmes",
+      "venue": "Bristol Improv Theatre",
+      "time": "18:30–21:10",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/adventures-of-the-improvised-sherlock-holmes-3877",
+      "description": ""
+    },
+    {
       "date": "2026-09-12",
       "title": "Improv Taster Session",
       "venue": "Bristol Improv Theatre",
       "time": "14:00–16:00",
       "type": "drop-in",
       "url": "https://events.improvtheatre.co.uk/event/improv-taster-session-3809",
+      "description": ""
+    },
+    {
+      "date": "2026-09-12",
+      "title": "Adventures of the Improvised Sherlock Holmes",
+      "venue": "Bristol Improv Theatre",
+      "time": "18:30–21:10",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/adventures-of-the-improvised-sherlock-holmes-3877",
       "description": ""
     },
     {
@@ -1313,6 +1331,15 @@
       "time": "19:00–21:00",
       "type": "drop-in",
       "url": "https://events.improvtheatre.co.uk/event/improv-drop-ins-3817",
+      "description": ""
+    },
+    {
+      "date": "2026-11-06",
+      "title": "The Bish Bosh Bash: The Improvised Game Show",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–21:30",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/the-bish-bosh-bash-the-improvised-game-show-3819",
       "description": ""
     },
     {
