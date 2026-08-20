@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-19T06:36:32.146Z",
+  "lastUpdated": "2026-08-20T06:38:17.294Z",
   "events": [
     {
       "date": "2026-07-02",
@@ -524,6 +524,15 @@
       "description": ""
     },
     {
+      "date": "2026-08-12",
+      "title": "The Drag Dungeoneers",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–22:00",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/the-drag-dungeoneers-1401",
+      "description": ""
+    },
+    {
       "date": "2026-08-13",
       "title": "The Drag Dungeoneers - August 2026",
       "venue": "The Bristol Improv Theatre",
@@ -795,15 +804,6 @@
     },
     {
       "date": "2026-09-07",
-      "title": "Improv Drop-ins",
-      "venue": "Bristol Improv Theatre",
-      "time": "19:00–21:00",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-09-07/",
-      "description": ""
-    },
-    {
-      "date": "2026-09-07",
       "title": "Improv Drop-In - Monday Evening",
       "venue": "Bristol Improv Theatre",
       "time": "19:00–21:00",
@@ -836,6 +836,15 @@
       "time": "19:30",
       "type": "show",
       "url": "https://www.headfirstbristol.co.uk/whats-on/hen-and-chicken/wed-9-sep-wednesday-night-improv-september-show-158464",
+      "description": ""
+    },
+    {
+      "date": "2026-09-10",
+      "title": "The Drag Dungeoneers",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–22:00",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/the-drag-dungeoneers-1401",
       "description": ""
     },
     {
@@ -1016,15 +1025,6 @@
       "time": "13:00–14:30",
       "type": "drop-in",
       "url": "https://events.improvtheatre.co.uk/event/lunchtime-improv-drop-in-with-rebecca-macmillan-4068",
-      "description": ""
-    },
-    {
-      "date": "2026-09-28",
-      "title": "Improv Drop-ins",
-      "venue": "Bristol Improv Theatre",
-      "time": "19:00–21:00",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-09-28/",
       "description": ""
     },
     {
@@ -1394,15 +1394,6 @@
       "time": "13:00–14:30",
       "type": "drop-in",
       "url": "https://events.improvtheatre.co.uk/event/lunchtime-improv-drop-in-with-rebecca-macmillan-4068",
-      "description": ""
-    },
-    {
-      "date": "2026-11-16",
-      "title": "Improv Drop-ins",
-      "venue": "Bristol Improv Theatre",
-      "time": "19:00–21:00",
-      "type": "drop-in",
-      "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-11-16/",
       "description": ""
     },
     {
