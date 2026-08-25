@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-21T06:38:28.838Z",
+  "lastUpdated": "2026-08-25T06:38:50.588Z",
   "events": [
     {
       "date": "2026-07-02",
@@ -1889,6 +1889,33 @@
       "time": "19:30",
       "type": "show",
       "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2027-04-23",
+      "title": "Impromptu Shakespeare",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/impromptu-shakespeare/",
+      "description": ""
+    },
+    {
+      "date": "2027-04-24",
+      "title": "Impromptu Shakespeare",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/impromptu-shakespeare/",
+      "description": ""
+    },
+    {
+      "date": "2027-04-25",
+      "title": "Impromptu Shakespeare",
+      "venue": "Wardrobe Theatre",
+      "time": "19:00",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/impromptu-shakespeare/",
       "description": ""
     },
     {
