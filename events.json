@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-25T06:38:50.588Z",
+  "lastUpdated": "2026-08-28T18:08:51.147Z",
   "events": [
     {
       "date": "2026-07-02",
@@ -1277,6 +1277,15 @@
       "time": "20:00–21:15",
       "type": "show",
       "url": "https://www.tickettailor.com/events/almatheatrecompany/2326896",
+      "description": ""
+    },
+    {
+      "date": "2026-10-29",
+      "title": "Halloween Games Night",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–21:30",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/halloween-games-night-9801",
       "description": ""
     },
     {
