@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-01T11:01:13.737Z",
+  "lastUpdated": "2026-09-05T09:54:15.110Z",
   "events": [
     {
       "date": "2026-08-01",
@@ -1001,6 +1001,15 @@
       "description": ""
     },
     {
+      "date": "2026-11-13",
+      "title": "Rock the Tots: MAGIC",
+      "venue": "Bristol Improv Theatre",
+      "time": "11:00–12:00",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/rock-the-tots-4602",
+      "description": ""
+    },
+    {
       "date": "2026-11-14",
       "title": "Improv Taster Session",
       "venue": "Bristol Improv Theatre",
@@ -1223,6 +1232,15 @@
       "time": "19:30",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
+      "date": "2026-12-11",
+      "title": "Rock the Tots: Christmas",
+      "venue": "Bristol Improv Theatre",
+      "time": "11:00–12:00",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/rock-the-tots-4602",
       "description": ""
     },
     {
@@ -1574,6 +1592,15 @@
       "time": "19:30",
       "type": "show",
       "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2027-06-01",
+      "title": "Denouement An Improvised Mystery",
+      "venue": "Bristol Beacon",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristolbeacon.org/whats-on/denouement-an-improvised-mystery/",
       "description": ""
     }
   ]
