@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-09T10:41:56.987Z",
+  "lastUpdated": "2026-09-14T11:40:29.913Z",
   "events": [
     {
       "date": "2026-08-01",
@@ -632,6 +632,15 @@
       "description": ""
     },
     {
+      "date": "2026-09-25",
+      "title": "Burn The Script Improv Comedy",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–21:30",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/burn-the-script-improv-comedy-10801",
+      "description": ""
+    },
+    {
       "date": "2026-09-26",
       "title": "Improv Taster Session",
       "venue": "Bristol Improv Theatre",
@@ -899,6 +908,15 @@
       "time": "20:00–21:15",
       "type": "show",
       "url": "https://www.tickettailor.com/events/almatheatrecompany/2326896",
+      "description": ""
+    },
+    {
+      "date": "2026-10-28",
+      "title": "Death at the Flower Show",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:00–21:00",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/death-at-the-flower-show-10401",
       "description": ""
     },
     {
