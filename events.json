@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-17T10:53:45.469Z",
+  "lastUpdated": "2026-09-19T10:14:25.298Z",
   "events": [
     {
       "date": "2026-08-01",
@@ -1016,6 +1016,15 @@
       "time": "19:30",
       "type": "show",
       "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2026-11-11",
+      "title": "Wednesday Night Improv: November Show",
+      "venue": "Hen & Chicken",
+      "time": "19:00",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/hen-and-chicken/wed-11-nov-wednesday-night-improv-november-show-162526",
       "description": ""
     },
     {
