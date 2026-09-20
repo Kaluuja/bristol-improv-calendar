@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-19T10:14:25.298Z",
+  "lastUpdated": "2026-09-20T10:32:57.366Z",
   "events": [
     {
       "date": "2026-08-01",
@@ -731,6 +731,15 @@
       "description": ""
     },
     {
+      "date": "2026-10-11",
+      "title": "What Ever Happened to Baby Jane?  12 7.00pm at Bristol Improv Theatre",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:00",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/bristol-improv-theatre/sun-11-oct-what-ever-happened-to-baby-jane-1962-12-7-00pm-160457",
+      "description": ""
+    },
+    {
       "date": "2026-10-12",
       "title": "Lunchtime Improv Drop-In with Rebecca MacMillan",
       "venue": "Bristol Improv Theatre",
@@ -1299,6 +1308,15 @@
     },
     {
       "date": "2026-12-12",
+      "title": "This Is Your Panto! - Matinee Show",
+      "venue": "Bristol Improv Theatre",
+      "time": "14:00–16:00",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/this-is-your-panto-4116",
+      "description": ""
+    },
+    {
+      "date": "2026-12-12",
       "title": "Closer Each Day: The Improvised Soap Opera",
       "venue": "Bristol Old Vic",
       "time": "19:30",
@@ -1322,6 +1340,15 @@
       "time": "19:30",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
+      "date": "2026-12-13",
+      "title": "This Is Your Panto!",
+      "venue": "Bristol Improv Theatre",
+      "time": "20:00–22:00",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/this-is-your-panto-4116",
       "description": ""
     },
     {
@@ -1352,12 +1379,30 @@
       "description": ""
     },
     {
+      "date": "2026-12-14",
+      "title": "This Is Your Panto!",
+      "venue": "Bristol Improv Theatre",
+      "time": "20:00–22:00",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/this-is-your-panto-4116",
+      "description": ""
+    },
+    {
       "date": "2026-12-15",
       "title": "Closer Each Day: The Improvised Soap Opera",
       "venue": "Bristol Old Vic",
       "time": "19:30",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
+      "date": "2026-12-15",
+      "title": "This Is Your Panto!",
+      "venue": "Bristol Improv Theatre",
+      "time": "20:00–22:00",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/this-is-your-panto-4116",
       "description": ""
     },
     {
@@ -1370,12 +1415,30 @@
       "description": ""
     },
     {
+      "date": "2026-12-16",
+      "title": "This Is Your Panto!",
+      "venue": "Bristol Improv Theatre",
+      "time": "20:00–22:00",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/this-is-your-panto-4116",
+      "description": ""
+    },
+    {
       "date": "2026-12-17",
       "title": "Closer Each Day: The Improvised Soap Opera",
       "venue": "Bristol Old Vic",
       "time": "19:30",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
+      "date": "2026-12-17",
+      "title": "Lush Actually",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–21:30",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/lush-actually-11401",
       "description": ""
     },
     {
@@ -1388,12 +1451,39 @@
       "description": ""
     },
     {
+      "date": "2026-12-18",
+      "title": "Lush Actually",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–21:30",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/lush-actually-11401",
+      "description": ""
+    },
+    {
       "date": "2026-12-19",
       "title": "Closer Each Day: The Improvised Soap Opera",
       "venue": "Bristol Old Vic",
       "time": "19:30",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
+      "date": "2026-12-19",
+      "title": "Lush Actually",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–21:30",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/lush-actually-11401",
+      "description": ""
+    },
+    {
+      "date": "2026-12-20",
+      "title": "Lush Actually",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–21:30",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/lush-actually-11401",
       "description": ""
     },
     {
@@ -1424,12 +1514,57 @@
       "description": ""
     },
     {
+      "date": "2026-12-22",
+      "title": "Lush Actually",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–21:30",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/lush-actually-11401",
+      "description": ""
+    },
+    {
+      "date": "2026-12-23",
+      "title": "Lush Actually",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–21:30",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/lush-actually-11401",
+      "description": ""
+    },
+    {
+      "date": "2026-12-24",
+      "title": "Lush Actually - Matinee",
+      "venue": "Bristol Improv Theatre",
+      "time": "14:30–16:30",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/lush-actually-11401",
+      "description": ""
+    },
+    {
       "date": "2026-12-28",
       "title": "Improv Drop-ins",
       "venue": "Bristol Improv Theatre",
       "time": "19:00–21:00",
       "type": "drop-in",
       "url": "https://improvtheatre.co.uk/upcoming-show/improv-drop-ins-3-2-2-3-3-2/2026-12-28/",
+      "description": ""
+    },
+    {
+      "date": "2026-12-29",
+      "title": "Lush Actually",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–21:30",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/lush-actually-11401",
+      "description": ""
+    },
+    {
+      "date": "2026-12-30",
+      "title": "Lush Actually",
+      "venue": "Bristol Improv Theatre",
+      "time": "19:30–21:30",
+      "type": "show",
+      "url": "https://events.improvtheatre.co.uk/event/lush-actually-11401",
       "description": ""
     },
     {
