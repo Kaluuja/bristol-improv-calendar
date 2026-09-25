@@ -40,7 +40,8 @@ def load_env(path):
 def fetch_pending(key, base):
     records, offset = [], None
     while True:
-        params = {"pageSize": "100", "filterByFormula": "{Status} = 'Pending'"}
+        # Upcoming only: approving a show that's already happened changes nothing
+        params = {"pageSize": "100", "filterByFormula": "AND({Status} = 'Pending', IS_AFTER({Start}, NOW()))"}
         if offset:
             params["offset"] = offset
         url = f"https://api.airtable.com/v0/{base}/Events?" + urllib.parse.urlencode(params)
