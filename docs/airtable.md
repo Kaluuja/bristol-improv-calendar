@@ -14,20 +14,20 @@ Airtable is the hub between the scrapers and the site. Base **Improv Calendar**,
 | `Event URL` | url | sync | |
 | `Tickets URL` | url | sync | |
 | `Type` | single select | sync on **create only** | Show, Workshop, Jam, Drop-in, Other. Protected once it exists, so fix it by hand in Airtable and it stays fixed. |
-| `Status` | single select | sync on **create only** (`Pending`), then n8n or you | Pending, Approved, Rejected, Needs review (set by the sync when an event stops being listed; see below). Protected from overwrite on refresh. |
+| `Status` | single select | sync on **create only** (`Pending`), then you | Pending, Approved, Rejected, Needs review (set by the sync when an event stops being listed; see below). Protected from overwrite on refresh. |
 | `Source` | text | sync | `Sync` for scraped records. `manual` means the sync never updates or deletes the record. |
 | `Fingerprint` | text | sync | The dedupe key (below) |
 | `Source Event ID` | text | sync | ID from the source (ICS UID, Spektrix instance, URL…) |
 | `First Seen` | date/time | sync on create | |
 | `Last Seen` | date/time | sync every run | A stale `Last Seen` on a future event means the source stopped listing it |
-| `Telegram Notified` | checkbox | n8n | Stops the same event being pinged twice |
+| `Telegram Notified` | checkbox | nobody | Left over from the retired n8n Telegram workflow. Unused; safe to delete from the base. |
 | `Notes (internal)` | long text | you | Never published |
 
 ## Lifecycle of a record
 
 1. **Created** by the sync (or the Alma scraper) as `Status = Pending`, `Source = Sync`.
-2. **Notified**: the hourly n8n workflow sends a Telegram message with Approve / Reject / Keep pending buttons and ticks `Telegram Notified`.
-3. **Decided**: the button press sets `Status` (the n8n handler workflow PATCHes Airtable).
+2. **Listed** in Echo's morning brief under "Waiting for approval" (written at 06:45 by [sync/dockhead/morning_brief.py](../sync/dockhead/morning_brief.py)).
+3. **Decided** by you in Airtable: set `Status` to `Approved` or `Rejected`.
 4. **Refreshed** on every later sync that still finds it. Everything except `Type` and `Status` gets overwritten with the source's latest data, and `Last Seen` is bumped.
 5. **Retired** if it's a future event that no source has listed for **14 days**. The sync flips `Approved`/`Pending` to `Needs review`, so it drops off the site but isn't deleted. This catches cancelled or delisted shows, records left behind when a venue changes website, and phantom next-year dates. The run log lists every record it retires. To restore one, set it back to `Approved`. It's skipped if more than half the sources failed that run, so an outage can't empty the calendar.
 6. **Published**: the daily export ([scripts/export-events.mjs](../scripts/export-events.mjs)) takes every `Status = Approved` record and writes `events.json` / `events.ics`.
@@ -57,13 +57,6 @@ The sync upserts to Airtable by fingerprint. A matching fingerprint updates the 
 
 The export does one more dedupe of its own: manual events are dropped if an Airtable event has the same title and date.
 
-## n8n Telegram workflows (Dockhead)
+## Approvals
 
-Exports are in [docs/n8n/](n8n/). The IDs, tokens and chat ID in them are placeholders (`YOUR_AIRTABLE_BASE_ID`, `YOUR_CALENDAR_BOT_TOKEN`, `YOUR_TELEGRAM_CHAT_ID`, `REPLACE_CREDENTIAL`). Keep it that way when you re-export, because **this repo is public**.
-
-- **Calendar Event Notifier** (`n8n-calendar-notifier-workflow.json`): hourly. Fetches `Pending` records where `Telegram Notified` isn't ticked, sends each one to Telegram with inline buttons, then ticks `Telegram Notified`.
-- **Calendar Approval Handler** (`n8n-calendar-handler-workflow.json`): Telegram `callback_query` trigger. Parses `approve|reject|pending:<recordId>`, PATCHes `Status`, and confirms in the chat.
-
-The bot token is stored in n8n credentials as "Telegram Calendar Bot". The webhook points at Dockhead's Tailscale URL.
-
-The **morning brief** also reads from here: `pending_brief.py` (in `sync/alma-scraper/`) runs at 06:45 daily on Dockhead and writes the pending list to `/home/hermes/vault/context/improv-pending.md`.
+There's no approval bot any more. The n8n Telegram workflows (Calendar Event Notifier / Approval Handler) are switched off on Dockhead, and their exports were removed from this repo in September 2026 (they're in git history). Echo's morning brief lists what's Pending each day, and you approve in Airtable. See [sync/dockhead/README.md](../sync/dockhead/README.md).

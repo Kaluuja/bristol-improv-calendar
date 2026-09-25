@@ -19,7 +19,7 @@ This repo holds the whole pipeline: the scrapers that find events, and the site 
                          ▼
                  Airtable "Events" table   ← new events land as Status = Pending
                          │
-         n8n on Dockhead: Telegram message with Approve / Reject buttons (hourly)
+     Echo's morning brief lists what's Pending (06:45) → you approve in Airtable
                          │
                          ▼  Status = Approved
         scripts/export-events.mjs  (GitHub Action, daily 06:00 UTC)
@@ -53,7 +53,7 @@ This repo holds the whole pipeline: the scrapers that find events, and the site 
 ## Docs
 
 - [docs/sources.md](docs/sources.md): every event source, how it's fetched, and how to add one
-- [docs/airtable.md](docs/airtable.md): Airtable schema, the approval flow, dedupe rules, the n8n Telegram workflows
+- [docs/airtable.md](docs/airtable.md): Airtable schema, the approval flow, dedupe rules
 - [docs/known-issues.md](docs/known-issues.md): known bugs and sharp edges (**read the timezone section before touching dates**)
 - [docs/product-review-2026-07.md](docs/product-review-2026-07.md): July 2026 product review and the phase-2 backlog
 
@@ -93,9 +93,9 @@ The export refuses to publish if the event count drops by more than half (a guar
 
 - **Netlify** deploys `main` as-is, with no build command. Every file in the repo is publicly served, `sync/` included, so never commit a secret.
 - **GitHub Actions secrets:** `AIRTABLE_API_KEY`, `AIRTABLE_BASE_ID` (used by the export).
-- **Dockhead** secrets: `/home/ste/improv-calendar.env` (Airtable + Telegram). See the [Dockhead runbook](sync/dockhead/README.md).
-- **Alerts:** Telegram when a source breaks or returns nothing, when events are taken off the calendar, or when either scraper crashes. A GitHub email if Dockhead stops syncing altogether. Sources already known to be broken are listed in `sync/src/health.ts` and don't trigger alerts.
-- **Dockhead** (home server): the daily sync, the Alma scraper at `/home/ste/improv-alma/`, and the n8n Telegram approval workflows.
+- **Dockhead** secrets: `/home/ste/improv-calendar.env` (Airtable, shared by the sync, the Alma scraper and the morning brief). See the [Dockhead runbook](sync/dockhead/README.md).
+- **Alerts:** in Echo's morning brief, when a source breaks or returns nothing, events are taken off the calendar, either scraper crashes, or the sync hasn't run. A GitHub email if Dockhead stops syncing altogether. Sources already known to be broken are listed in `sync/src/health.ts` and are left out.
+- **Dockhead** (home server): the daily sync, the Alma scraper, and the 06:45 script that feeds Echo's morning brief.
 - **GoatCounter** analytics: `wednightimprov.goatcounter.com`.
 - **Buttondown** newsletter signup: `buttondown.com/Kaluuja`.
 

@@ -56,7 +56,7 @@ Run `npm run sync:dry` to see what gets filtered and why (each rejection prints 
 
 **Dates:** build them with the local-time constructor (`new Date(y, m, d, 19, 30)`). The sync runs in London time, so that gives the right instant. If the listing has no year, use `inferYear(month, day, weekday)` from `helpers/dates.ts`, and pass the weekday if the listing shows it.
 
-**Health:** the source is now covered by the alerts automatically. If it errors or returns 0 events, the run fails and Telegram tells you.
+**Health:** the source is now covered by the alerts automatically. If it errors or returns 0 events, it shows up under "Problems" in Echo's morning brief.
 
 ## Ideas not yet built
 

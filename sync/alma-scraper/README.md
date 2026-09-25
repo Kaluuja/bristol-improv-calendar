@@ -3,7 +3,7 @@
 The Alma Tavern & Theatre lists exclusively on Ticket Tailor, which sits behind a
 Cloudflare JS challenge that blocks plain HTTP (including GitHub Actions runners).
 A real headed Chromium from a residential IP passes it, so this scraper runs on
-Dockhead (same home IP) in Docker. It's a separate job from the main sync (which also runs on Dockhead; see [../dockhead/](../dockhead/README.md)). Its cron line is wrapped in `alert-on-failure.sh`, so two failures in a row send a Telegram alert.
+Dockhead (same home IP) in Docker. It's a separate job from the main sync (which also runs on Dockhead; see [../dockhead/](../dockhead/README.md)). Its cron line is wrapped in `alert-on-failure.sh`, so two failures in a row show up in Echo's morning brief.
 
 ## How it works
 
@@ -15,25 +15,29 @@ Dockhead (same home IP) in Docker. It's a separate job from the main sync (which
 3. Improv events are upserted to the same Airtable base using the same
    `Fingerprint` scheme as `../src/dedupe.ts` (create as `Status: Pending` /
    `Source: Sync`, refresh `Last Seen` on re-sighting, never touch
-   `Source: manual` records). Pending events then flow through the existing
-   n8n Telegram approve/reject loop.
+   `Source: manual` records). Pending events then appear in Echo's morning
+   brief for approval in Airtable, like everything else.
 
 Multi-day runs (e.g. a three-night play) become one record on the opening night.
 
 ## Failure behaviour
 
 Exit 2 (without touching Airtable) if the challenge never clears or zero cards
-parse — cron logs to `~/improv-alma/scrape.log` on Dockhead.
+parse. Cron logs to `~/improv-alma/scrape.log` on Dockhead. Cloudflare fails it
+now and then, so `alert-on-failure.sh` only raises an alert (in the morning
+brief) after **two failures in a row**.
 
-## Deployed setup on Dockhead (installed 13 July 2026)
+## Deployed setup on Dockhead
 
-- Files at `/home/ste/improv-alma/` (this folder + `.env` with
-  `AIRTABLE_API_KEY` / `AIRTABLE_BASE_ID`, mode 600)
-- Image: `docker build -t alma-scraper /home/ste/improv-alma`
-- Cron (ste): Mon & Thu 07:15 —
-  `docker run --rm --ipc=host --env-file /home/ste/improv-alma/.env alma-scraper >> /home/ste/improv-alma/scrape.log 2>&1`
-- Dry run: add `-e DRY_RUN=1` to the docker command.
-- **`--ipc=host` is required** — without it Chromium hangs silently on the
+- Runs from the repo checkout: `/home/ste/improv-calendar/sync/alma-scraper/`
+  (since Sept 2026; before that, a hand-copied folder in `~/improv-alma/`, which
+  now only holds the logs).
+- Secrets: `/home/ste/improv-calendar.env`, shared with the main sync.
+- **Changes need an image rebuild** (the daily `git pull` doesn't rebuild it):
+  `docker build -t alma-scraper ~/improv-calendar/sync/alma-scraper`
+- Cron (ste): Mon & Thu 07:15. The full line is in [../dockhead/README.md](../dockhead/README.md).
+- Dry run: `docker run --rm --ipc=host --env-file ~/improv-calendar.env -e DRY_RUN=1 alma-scraper`
+- **`--ipc=host` is required**: without it Chromium hangs silently on the
   default 64MB `/dev/shm` (observed on first deploy). A 12-minute in-process
   watchdog also aborts any hung run with exit 2.
 

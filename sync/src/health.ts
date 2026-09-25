@@ -1,4 +1,4 @@
-import { appendFileSync } from 'node:fs';
+import { appendFileSync, writeFileSync } from 'node:fs';
 import type { SyncResult } from './types.js';
 
 /**
@@ -92,12 +92,27 @@ export function formatReport(report: HealthReport, full = false): string | null 
 }
 
 /**
- * Send the report to Telegram (if TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID are
- * set) and to the GitHub Actions run summary. Never throws: a failed alert
- * mustn't hide the sync result.
+ * Publish the report. Never throws: a failed alert mustn't hide the sync result.
+ *
+ * - HEALTH_FILE (set on Dockhead): JSON status file. The 06:45 morning-brief
+ *   script reads it, so problems reach Ste via Echo's morning brief.
+ * - TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID: optional instant message. Unused
+ *   for now (Sept 2026 choice: morning brief only); kept in case that changes.
+ * - GITHUB_STEP_SUMMARY: the run summary page when run on GitHub Actions.
  */
 export async function publishReport(report: HealthReport): Promise<void> {
   const text = formatReport(report);
+
+  if (process.env.HEALTH_FILE) {
+    try {
+      writeFileSync(
+        process.env.HEALTH_FILE,
+        JSON.stringify({ checkedAt: new Date().toISOString(), alert: text, ...report }, null, 2)
+      );
+    } catch (error) {
+      console.log(`\n⚠️ Could not write health file: ${(error as Error).message}`);
+    }
+  }
 
   if (process.env.GITHUB_STEP_SUMMARY) {
     try {
@@ -108,10 +123,7 @@ export async function publishReport(report: HealthReport): Promise<void> {
   if (!text) return;
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
-  if (!token || !chatId) {
-    console.log('\n(Telegram alert skipped: TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID not set)');
-    return;
-  }
+  if (!token || !chatId) return;
 
   try {
     const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {

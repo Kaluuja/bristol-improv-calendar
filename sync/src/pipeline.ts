@@ -1,5 +1,5 @@
 import type { Event, SourceAdapter, SyncResult } from './types.js';
-import { dedupeEvents, fuzzyDedupeByPrefix, getVenueDisplayName } from './dedupe.js';
+import { dedupeEvents, fuzzyDedupeByPrefix, getDateOnly, getVenueDisplayName } from './dedupe.js';
 import { filterAndClassifyEvents } from './classifier.js';
 import { AirtableAdapter } from './adapters/airtable.js';
 
@@ -96,7 +96,7 @@ export async function runPipeline(
     if (verbose) {
       console.log('\nEvents that would be synced:');
       for (const event of classifiedEvents.slice(0, 20)) {
-        console.log(`  [${event.type}] ${event.title} @ ${event.venue} (${event.start.toISOString().split('T')[0]})`);
+        console.log(`  [${event.type}] ${event.title} @ ${event.venue} (${getDateOnly(event.start)})`);
       }
       if (classifiedEvents.length > 20) {
         console.log(`  ... and ${classifiedEvents.length - 20} more`);

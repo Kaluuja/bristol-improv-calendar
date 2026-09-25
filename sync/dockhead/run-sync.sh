@@ -10,6 +10,7 @@ set -uo pipefail
 REPO=/home/ste/improv-calendar
 ENV_FILE=/home/ste/improv-calendar.env
 LOG=/home/ste/improv-calendar-sync.log
+STATE_DIR=/home/ste/.local/state/improv-alerts   # sync-health.json lands here for morning_brief.py
 
 main() {
   # Keep the log to ~5MB. Rewrite in place (not mv) so cron's open >> handle stays valid.
@@ -21,10 +22,12 @@ main() {
   git pull -q --ff-only || { echo "git pull failed"; return 1; }
   echo "code: $(git log --oneline -1)"
 
+  mkdir -p "$STATE_DIR"
   docker run --rm --user "$(id -u):$(id -g)" \
     -e HOME=/tmp -e TZ=Europe/London -e NPM_CONFIG_UPDATE_NOTIFIER=false \
+    -e HEALTH_FILE=/state/sync-health.json \
     --env-file "$ENV_FILE" \
-    -v "$REPO/sync:/app" -w /app \
+    -v "$REPO/sync:/app" -v "$STATE_DIR:/state" -w /app \
     node:24-slim \
     sh -c 'npm ci --no-audit --no-fund --loglevel=error && npm test && npm run sync -- --verbose'
 }

@@ -12,7 +12,7 @@ Bristol Old Vic, Hen & Chicken and Eventbrite all refuse requests from GitHub Ac
 
 ## Junk titles slip through
 
-A September 2026 run produced an event titled "Book Tickets" (a scraper reading a button as a title) and "What Ever Happened to Baby Jane? 12 7.00pm at Bristol Improv Theatre" (Headfirst title with the date glued on). They land as Pending, so you'll see them in Telegram. Reject them there, and fix the adapter if they recur.
+A September 2026 run produced an event titled "Book Tickets" (a scraper reading a button as a title) and "What Ever Happened to Baby Jane? 12 7.00pm at Bristol Improv Theatre" (Headfirst title with the date glued on). They land as Pending, so they show up in the morning brief. Reject them in Airtable, and fix the adapter if they recur.
 
 ## The classifier misses improv that doesn't say "improv"
 
@@ -26,9 +26,9 @@ The Wardrobe adapter scrapes a hardcoded `RECURRING_SHOWS` list. Anything else a
 
 See [airtable.md](airtable.md#deduplication). Fix by adding to `VENUE_ALIASES`.
 
-## Alma scraper is deployed by hand
+## Alma scraper needs a manual rebuild
 
-It runs from a copy at `/home/ste/improv-alma/` on Dockhead, not from this repo, so edits here do nothing until you copy them over and rebuild the image. Its classifier signals and fingerprint function are copies of `classifier.ts` / `dedupe.ts` rather than shared imports, so they drift apart if you only update one. (Its fingerprint still uses the UTC date, which only differs from the main sync for shows starting between midnight and 1am.)
+It runs from a Docker image built from `sync/alma-scraper/`. The daily `git pull` updates the files but not the image, so after changing the scraper run `docker build -t alma-scraper ~/improv-calendar/sync/alma-scraper` on Dockhead. Its classifier signals and fingerprint function are copies of `classifier.ts` / `dedupe.ts` rather than shared imports, so they drift apart if you only update one. (Its fingerprint still uses the UTC date, which only differs from the main sync for shows starting between midnight and 1am.)
 
 ## Past events from before 25 Sept 2026 may show an hour late
 
