@@ -1,0 +1,25 @@
+{
+  "name": "improv-calendar-sync",
+  "version": "1.0.0",
+  "description": "Sync improv events from multiple sources to Airtable",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "sync": "tsx src/cli.ts sync",
+    "dev": "tsx watch src/cli.ts sync"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "airtable": "^0.12.2",
+    "dotenv": "^16.3.1",
+    "ical.js": "^2.0.0",
+    "node-html-parser": "^6.1.12"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

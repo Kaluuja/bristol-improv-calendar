@@ -1,5 +1,7 @@
 # Bristol Improv Calendar — Product Review & Phase 2 Brief (12 July 2026)
 
+> **Historical snapshot, kept for the backlog.** Since September 2026 the scraper lives in this repo under `sync/` (it was the separate `improv-calendar-sync` repo), so read "the sync repo" below as `sync/`. For current architecture see the [README](../README.md); for open defects see [known-issues.md](known-issues.md).
+
 Self-contained handover document. An LLM (or human) with access to this repo should be able
 to act on any item below without needing the conversation that produced it.
 

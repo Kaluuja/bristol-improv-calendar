@@ -1,0 +1,9 @@
+{
+  "name": "alma-scraper",
+  "private": true,
+  "type": "module",
+  "description": "Alma Tavern & Theatre (Ticket Tailor) scraper - runs on Dockhead in Docker, pushes improv events to Airtable as Pending",
+  "dependencies": {
+    "playwright": "1.61.1"
+  }
+}

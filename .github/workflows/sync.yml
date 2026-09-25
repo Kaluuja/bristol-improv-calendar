@@ -1,0 +1,46 @@
+name: Sync Events to Airtable
+
+# Scrapes venue/aggregator sites (sync/) and upserts improv events into
+# Airtable as Pending. Approval happens in Telegram via n8n; the separate
+# export-events workflow then publishes Approved events to the site.
+
+on:
+  # Run every 2 days at 6:00 AM UTC
+  schedule:
+    - cron: '0 6 */2 * *'
+  # Allow manual trigger
+  workflow_dispatch:
+
+concurrency:
+  group: sync-events
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sync
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+          cache-dependency-path: sync/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Run sync
+        run: npm run sync -- --verbose
+        env:
+          AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}

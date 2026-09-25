@@ -4,7 +4,9 @@
   "description": "What's on in Bristol improv — static site, events exported daily from Airtable",
   "scripts": {
     "build": "esbuild src/app.jsx --outfile=assets/app.js --minify --target=es2018",
-    "test": "node --test scripts/export-events.test.mjs"
+    "test": "node --test scripts/export-events.test.mjs",
+    "sync": "npm --prefix sync run sync -- --verbose",
+    "sync:dry": "npm --prefix sync run sync -- --dry-run --verbose"
   },
   "devDependencies": {
     "esbuild": "^0.25.0"
