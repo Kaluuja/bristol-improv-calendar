@@ -31,12 +31,19 @@ export interface PipelineOptions {
  * 2. Deduplicate across sources
  * 3. Sync to Airtable (respecting manual fields)
  */
+export interface PipelineOutcome {
+  results: SyncResult[];
+  /** Records moved to Needs review this run (labels for logging/alerts) */
+  retired: string[];
+}
+
 export async function runPipeline(
   sources: SourceAdapter[],
   options: PipelineOptions = {}
-): Promise<SyncResult[]> {
+): Promise<PipelineOutcome> {
   const { dryRun = false, verbose = false, minDate = getDefaultMinDate() } = options;
   const results: SyncResult[] = [];
+  let retired: string[] = [];
 
   // Step 1: Fetch from all sources
   console.log('📥 Fetching events from sources...');
@@ -95,7 +102,7 @@ export async function runPipeline(
         console.log(`  ... and ${classifiedEvents.length - 20} more`);
       }
     }
-    return results;
+    return { results, retired };
   }
 
   // Step 4: Sync to Airtable
@@ -114,7 +121,7 @@ export async function runPipeline(
     console.log(`\n⚠️  ${failedSources}/${sources.length} sources failed - skipping stale-event check`);
   } else {
     console.log(`\n🕰️  Retiring future events not seen for ${STALE_AFTER_DAYS}+ days...`);
-    const retired = await airtable.retireUnseen(STALE_AFTER_DAYS);
+    retired = await airtable.retireUnseen(STALE_AFTER_DAYS);
     console.log(`  Moved to Needs review: ${retired.length}`);
     for (const label of retired) console.log(`    ${label}`);
   }
@@ -124,5 +131,5 @@ export async function runPipeline(
   const deleted = await airtable.cleanup(minDate);
   console.log(`  Deleted: ${deleted} events before ${minDate.toISOString().split('T')[0]}`);
 
-  return results;
+  return { results, retired };
 }

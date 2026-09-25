@@ -1,6 +1,8 @@
+import './tz.js';
 import 'dotenv/config';
 
 import { runPipeline } from './pipeline.js';
+import { buildHealthReport, formatReport, hasNewProblems, publishReport } from './health.js';
 import {
   // Website scraper (BIT - covers 6+ months)
   BristolImprovTheatreScraperAdapter,
@@ -76,7 +78,7 @@ async function main() {
   ];
 
   try {
-    const results = await runPipeline(sources, { dryRun, verbose });
+    const { results, retired } = await runPipeline(sources, { dryRun, verbose });
 
     console.log('\n✅ Sync complete!\n');
 
@@ -89,6 +91,21 @@ async function main() {
     console.log(`  Events fetched: ${totalFetched}`);
     if (totalErrors > 0) {
       console.log(`  Errors: ${totalErrors}`);
+    }
+
+    // Report problems. Dry runs only print, so testing never pings Telegram.
+    const report = buildHealthReport(results, retired);
+    if (dryRun) {
+      console.log(`\n${formatReport(report, true)}`);
+    } else {
+      await publishReport(report);
+    }
+
+    // Fail the run on NEW breakage so GitHub marks it red and emails.
+    // Known-broken sources (health.ts) are reported but don't fail it.
+    if (hasNewProblems(report)) {
+      console.error('\n❌ New source problems - failing the run so it gets noticed');
+      process.exitCode = 1;
     }
   } catch (error) {
     console.error('\n❌ Sync failed:', error);

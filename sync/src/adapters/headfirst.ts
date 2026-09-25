@@ -1,6 +1,7 @@
 import { parse, HTMLElement } from 'node-html-parser';
 import type { Event, SourceAdapter } from '../types.js';
 import { generateFingerprint } from '../dedupe.js';
+import { inferYear } from './helpers/dates.js';
 
 const SOURCE_NAME = 'headfirst';
 const BASE_URL = 'https://www.headfirstbristol.co.uk';
@@ -209,16 +210,7 @@ export class HeadfirstAdapter implements SourceAdapter {
 
       const day = parseInt(match[2], 10);
       const month = months[match[3].toLowerCase()];
-      const year = new Date().getFullYear();
-
-      // If the date has already passed, assume next year only if it's more
-      // than 60 days in the past (avoids bumping recently-happened events)
-      const date = new Date(year, month, day, 20, 0);
-      const sixtyDaysAgo = new Date();
-      sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
-      if (date < sixtyDaysAgo) {
-        date.setFullYear(year + 1);
-      }
+      const date = new Date(inferYear(month, day, match[1]), month, day, 20, 0);
 
       return { start: date, end: null };
     }

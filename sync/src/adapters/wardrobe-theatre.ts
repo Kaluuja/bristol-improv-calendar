@@ -1,6 +1,7 @@
 import { parse } from 'node-html-parser';
 import type { Event, SourceAdapter } from '../types.js';
 import { generateFingerprint } from '../dedupe.js';
+import { inferYear } from './helpers/dates.js';
 
 const SOURCE_NAME = 'wardrobe-theatre';
 const VENUE_NAME = 'Wardrobe Theatre';
@@ -101,13 +102,14 @@ export class WardrobeTheatreAdapter implements SourceAdapter {
 
     // Extract date: "Mon 9th February" or "Mon 9th Feb"
     const dateMatch = text.match(
-      /(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(\d{1,2})(?:st|nd|rd|th)?\s+(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:t(?:ember)?)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)/i
+      /(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(\d{1,2})(?:st|nd|rd|th)?\s+(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:t(?:ember)?)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)/i
     );
 
     if (!dateMatch) return null;
 
-    const day = parseInt(dateMatch[1], 10);
-    const monthStr = dateMatch[2].toLowerCase();
+    const weekday = dateMatch[1];
+    const day = parseInt(dateMatch[2], 10);
+    const monthStr = dateMatch[3].toLowerCase();
 
     const months: Record<string, number> = {
       jan: 0, january: 0,
@@ -127,13 +129,7 @@ export class WardrobeTheatreAdapter implements SourceAdapter {
     const month = months[monthStr];
     if (month === undefined) return null;
 
-    // Determine year (assume current or next year)
-    const now = new Date();
-    let year = now.getFullYear();
-    const testDate = new Date(year, month, day);
-    if (testDate < now) {
-      year++;
-    }
+    const year = inferYear(month, day, weekday);
 
     // Extract time: "7:30 pm" or "7.30pm"
     const timeMatch = text.match(/(\d{1,2})[.:](\d{2})\s*(am|pm)?/i);

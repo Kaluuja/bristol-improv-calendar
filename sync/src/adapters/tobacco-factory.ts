@@ -1,6 +1,7 @@
 import { parse, HTMLElement } from 'node-html-parser';
 import type { Event, SourceAdapter } from '../types.js';
 import { generateFingerprint } from '../dedupe.js';
+import { inferYear } from './helpers/dates.js';
 
 const SOURCE_NAME = 'tobacco-factory';
 const VENUE_NAME = 'Tobacco Factory Theatres';
@@ -125,7 +126,7 @@ export class TobaccoFactoryAdapter implements SourceAdapter {
       const month = months[rangeDateMatch[3].toLowerCase()];
       const year = rangeDateMatch[4]
         ? parseInt(rangeDateMatch[4], 10)
-        : new Date().getFullYear();
+        : inferYear(month, startDay);
 
       return {
         start: new Date(year, month, startDay, 19, 30),
@@ -138,7 +139,7 @@ export class TobaccoFactoryAdapter implements SourceAdapter {
       const month = months[singleDateMatch[2].toLowerCase()];
       const year = singleDateMatch[3]
         ? parseInt(singleDateMatch[3], 10)
-        : new Date().getFullYear();
+        : inferYear(month, day);
 
       return {
         start: new Date(year, month, day, 19, 30),

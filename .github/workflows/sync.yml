@@ -39,8 +39,17 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Test
+        run: npm test
+
       - name: Run sync
         run: npm run sync -- --verbose
         env:
+          # Adapters build venue times with local-time Date constructors;
+          # must be Bristol time or BST events are stored an hour late.
+          TZ: Europe/London
           AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
           AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+          # Optional: problem alerts. Skipped quietly if unset.
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}

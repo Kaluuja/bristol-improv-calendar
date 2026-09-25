@@ -38,27 +38,42 @@ async function fetchApprovedEvents(apiKey, baseId) {
 }
 
 /**
- * Airtable hands back Start/End stamped as UTC (2026-09-16T19:30:00.000Z), but the
- * clock reading inside is already Europe/London wall time - the sync writes the
- * venue's advertised local time and Airtable labels it Z. Converting to
- * Europe/London therefore applies the BST offset a SECOND time and pushes every
- * summer event an hour late (Murder She Didn't Write showed 20:30 for a 19:30
- * curtain). So we read the clock fields verbatim and treat them as London wall
- * time, which is what every consumer actually wants.
+ * Turn a Start/End value into its Europe/London wall-clock reading.
  *
- * This is a compensating fix: the root cause is upstream in improv-calendar-sync,
- * which should store a true instant. If that is ever corrected, this must be
- * reverted in the same change or the times will swing an hour the other way.
+ * - With a zone (`2026-09-16T18:30:00.000Z`, `+01:00`): a true instant, which is
+ *   what Airtable holds now that the sync runs in London time. Convert it.
+ * - Without one (`2026-09-16T19:30:00`): already London wall time. That's the
+ *   convention for data/manual-events.json, and for values addHoursToDateTime
+ *   returns. Read it verbatim.
+ *
+ * History: until Sept 2026 the sync ran in UTC and stored wall-clock time
+ * labelled Z, so this function used to read every value verbatim. Records the
+ * sync hasn't refreshed since then (past events only) show an hour early in BST.
  */
-const WALL_CLOCK = /^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2}))?/;
+const WALL_CLOCK = /^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2}))?(?:\.\d+)?(Z|[+-]\d{2}:?\d{2})?$/;
+
+const LONDON_PARTS = new Intl.DateTimeFormat('en-GB', {
+  timeZone: 'Europe/London',
+  year: 'numeric', month: '2-digit', day: '2-digit',
+  hour: '2-digit', minute: '2-digit', second: '2-digit',
+  hourCycle: 'h23',
+});
 
 function parseWallClock(value) {
   const match = WALL_CLOCK.exec(String(value));
   if (!match) {
     throw new Error(`Unrecognised date/time from Airtable: ${JSON.stringify(value)}`);
   }
-  const [, year, month, day, hour, minute, second = '00'] = match;
-  return { year, month, day, hour, minute, second };
+  const [, year, month, day, hour, minute, second = '00', zone] = match;
+  if (!zone) return { year, month, day, hour, minute, second };
+
+  const parts = Object.fromEntries(
+    LONDON_PARTS.formatToParts(new Date(value)).map(({ type, value: v }) => [type, v])
+  );
+  return {
+    year: parts.year, month: parts.month, day: parts.day,
+    hour: parts.hour, minute: parts.minute, second: parts.second,
+  };
 }
 
 function formatTime(startISO, endISO) {
@@ -154,7 +169,7 @@ function formatICSDateUTC(iso) {
 }
 
 // Local date-time form (RFC 5545 3.3.5), paired with TZID=Europe/London.
-// Reads the wall clock verbatim - see parseWallClock above for why.
+// London wall clock - see parseWallClock above.
 function formatICSDateTime(iso) {
   const { year, month, day, hour, minute, second } = parseWallClock(iso);
   return `${year}${month}${day}T${hour}${minute}${second}`;

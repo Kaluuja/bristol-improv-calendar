@@ -121,12 +121,21 @@ export function normalizeVenue(venue: string): string {
   return normalized;
 }
 
+const LONDON_DATE = new Intl.DateTimeFormat('en-CA', {
+  timeZone: 'Europe/London',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+});
+
 /**
- * Get date-only string for deduplication (YYYY-MM-DD)
- * Using date-only because different sources may report slightly different times
+ * Get date-only string for deduplication (YYYY-MM-DD), as a Bristol calendar
+ * date. Using date-only because different sources may report slightly
+ * different times. London, not UTC: a 00:30 BST start is 23:30 UTC the
+ * previous day, and would otherwise fingerprint as the wrong day.
  */
 export function getDateOnly(date: Date): string {
-  return date.toISOString().split('T')[0];
+  return LONDON_DATE.format(date);
 }
 
 /**

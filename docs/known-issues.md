@@ -2,43 +2,22 @@
 
 Most important first. Delete an entry once it's fixed.
 
-## Timezones: events an hour out in BST
+## Four sources are broken on GitHub Actions
 
-**Status:** worked around in the export, not fixed. Found 13 August 2026.
+Found 25 September 2026. These are listed in `KNOWN_BROKEN` in [sync/src/health.ts](../sync/src/health.ts), so each alert reports them without failing the run. Remove an entry once it's fixed; the report says "working again" when one recovers.
 
-What goes wrong:
+| Source | Problem | Since | Impact |
+| --- | --- | --- | --- |
+| `bristol-old-vic` | 0 events from GitHub, 126 from home. Blocked without an error. | unknown | **Biggest gap.** Old Vic improv shows only arrive if Headfirst lists them. |
+| `hen-and-chicken` | ICS feed returns `403` to GitHub | ~29 June 2026 | Small: Headfirst's H&C page covers it |
+| `eventbrite` | `405` to GitHub, even with a browser User-Agent | ~29 June 2026 | Small: lowest-priority source |
+| `redgrave-theatre` | 0 events **everywhere**: the site moved `/events/` → `/whats-on`, so the scraper matches nothing | unknown | Small: Redgrave rarely has improv |
 
-- Most adapters build dates with the local-time constructor (`new Date(y, m, d, 19, 30)`, `.setHours()`), and `airtable.ts` stores `start.toISOString()`. The result depends on the **timezone of the machine running it**.
-- GitHub Actions runs in UTC. A 19:30 BST curtain is stored as `19:30Z`, which is an hour late as a true instant. That covers BIT, Old Vic, Wardrobe, Headfirst and Eventbrite: nearly every record.
-- The Alma scraper (Dockhead, Europe/London) and the ICS path (`helpers/ics-parser.ts`, H&C and PRSC) store **correct** instants.
+The first three all work from a home connection, so they're blocking GitHub's datacenter IPs. **The likely fix is to run the whole sync on Dockhead** (home IP, already London time, already runs the Alma scraper) on a cron that does `git pull && npm ci && npm run sync`, and turn the GitHub schedule off. Redgrave needs its scraper rewriting for the new page.
 
-How the export compensates: `parseWallClock()` in [scripts/export-events.mjs](../scripts/export-events.mjs) treats every `Start`/`End` as floating London wall-clock time. That fixes the majority, but makes the correctly-stored records an hour **early** in BST (e.g. Instant Wit at the Alma, Sat 3 Oct 2026, 20:00, published as 19:00).
+## Junk titles slip through
 
-**The real fix. It's one change now that both halves live in this repo:**
-
-1. Add `TZ: Europe/London` to the `Run sync` step env in [.github/workflows/sync.yml](../.github/workflows/sync.yml). Every adapter then builds correct instants, matching Dockhead and the ICS path.
-2. In the **same commit**, replace `parseWallClock` in the export with a normal UTC → Europe/London conversion, and update `export-events.test.mjs`.
-3. Run the sync once. The records correct themselves: `Start` isn't protected and the fingerprint has no time in it, so each record is updated in place with no duplicates.
-
-If you do only half of this, every summer event swings an hour the other way.
-
-A smaller wrinkle to check while you're in there: `getDateOnly()` in `dedupe.ts` takes the **UTC** date. Once instants are correct, an event starting between 00:00 and 01:00 BST would fingerprint as the previous day. That's rare for improv, but worth switching to the London date.
-
-## Source failures are silent
-
-`pipeline.ts` catches each adapter's error, logs `✗ source: message`, and carries on. The run still exits 0 and the workflow goes green. So a venue that redesigns its site quietly stops producing events, and you only notice when the calendar looks thin. This is the P0 in the [product review](product-review-2026-07.md).
-
-Cheap fix: exit non-zero (or post to Telegram) when any source errors, **or returns 0 events** where it used to return some.
-
-**This is already happening.** Found 25 September 2026: on GitHub Actions, **Hen & Chicken** (`403` on the ICS feed) and **Eventbrite** (`405`) have failed on every run since about 29 June 2026, three months of green ticks. Both work from a home connection, so they're blocking GitHub's datacenter IPs. Eventbrite already sends a browser User-Agent, so that one is IP-based. The ICS fetch in `helpers/ics-parser.ts` sends no User-Agent, so a browser UA *might* fix Hen & Chicken; worth one try.
-
-Impact so far is small. Hen & Chicken events still arrive via Headfirst's venue page, and Eventbrite is the lowest-priority source. Fix options: run these two from Dockhead like the Alma scraper, or accept Headfirst's coverage and remove them.
-
-## Phantom next-year dates
-
-Found 25 September 2026. Some scrapers see a date with no year ("Mon 9 Feb") and guess the year. On the day of the show the date counts as passed, so the scraper files it a year later, creating a phantom event. Examples: a dozen Wardrobe "Closer Each Day" / "Impromptu Shakespeare" records dated 2027, each "last seen" exactly a year earlier, and "My Date with Pierce Brosnan" via Headfirst.
-
-The stale-event step ([airtable.md](airtable.md#lifecycle-of-a-record)) now pulls these off the calendar after 14 days. The real fix is in each adapter's year inference: treat today as "this year", and only roll to next year when the date is well in the past (e.g. more than a month). Check `wardrobe-theatre.ts` and `headfirst.ts` first.
+A September 2026 run produced an event titled "Book Tickets" (a scraper reading a button as a title) and "What Ever Happened to Baby Jane? 12 7.00pm at Bristol Improv Theatre" (Headfirst title with the date glued on). They land as Pending, so you'll see them in Telegram. Reject them there, and fix the adapter if they recur.
 
 ## The classifier misses improv that doesn't say "improv"
 
@@ -54,7 +33,11 @@ See [airtable.md](airtable.md#deduplication). Fix by adding to `VENUE_ALIASES`.
 
 ## Alma scraper is deployed by hand
 
-It runs from a copy at `/home/ste/improv-alma/` on Dockhead, not from this repo, so edits here do nothing until you copy them over and rebuild the image. Its classifier signals are a copy of `classifier.ts` rather than a shared import, so they drift apart if you only update one.
+It runs from a copy at `/home/ste/improv-alma/` on Dockhead, not from this repo, so edits here do nothing until you copy them over and rebuild the image. Its classifier signals and fingerprint function are copies of `classifier.ts` / `dedupe.ts` rather than shared imports, so they drift apart if you only update one. (Its fingerprint still uses the UTC date, which only differs from the main sync for shows starting between midnight and 1am.)
+
+## Past events from before 25 Sept 2026 may show an hour early
+
+Until the timezone fix, the sync stored BST times an hour late and the export compensated. Now the sync stores true times and the export converts them normally. Every record the sync still sees got rewritten on the first fixed run. Past events it no longer sees kept the old values, so they show an hour early on the site's "past events" view. They drop off the calendar at the start of November.
 
 ## Netlify serves the whole repo
 

@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "sync": "tsx src/cli.ts sync",
-    "dev": "tsx watch src/cli.ts sync"
+    "dev": "tsx watch src/cli.ts sync",
+    "test": "tsx --test src/**/*.test.ts"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",

@@ -15,13 +15,12 @@ test('buildICS writes London local times with a TZID', () => {
   assert.match(ics, /DTEND;TZID=Europe\/London:20260601T160000/);
 });
 
-// The regression this file exists for: Airtable stamps Start as UTC, but the clock
-// reading is already London wall time. Converting it applied BST twice and put every
-// summer event an hour late - a 19:30 curtain published as 20:30.
-test('a UTC-stamped BST start keeps its wall-clock time', () => {
+// Airtable holds true instants (the sync runs in London time since Sept 2026),
+// so a 19:30 BST curtain arrives as 18:30Z and must publish as 19:30.
+test('a BST instant is shown in London time', () => {
   const fields = {
-    Start: '2026-09-16T19:30:00.000Z',
-    End: '2026-09-16T21:30:00.000Z',
+    Start: '2026-09-16T18:30:00.000Z',
+    End: '2026-09-16T20:30:00.000Z',
     Title: "Murder, She Didn't Write",
     Venue: 'Bristol Old Vic',
   };
@@ -48,17 +47,36 @@ test('a GMT start is unaffected', () => {
   assert.equal(transformEvent(record(fields)).time, '19:30');
 });
 
-// A late start must not roll into the next day, which is what converting a
-// UTC-stamped 23:30 to London used to do.
-test('a late start stays on its own date', () => {
-  const event = transformEvent(record({ Start: '2026-07-04T23:30:00.000Z', Title: 'Late one' }));
-  assert.equal(event.date, '2026-07-04');
-  assert.equal(event.time, '23:30');
+// 23:30 BST is 22:30Z; 00:30 BST is 23:30Z the day before. Both must land on
+// their London date.
+test('late and after-midnight starts land on their London date', () => {
+  const late = transformEvent(record({ Start: '2026-07-04T22:30:00.000Z', Title: 'Late one' }));
+  assert.equal(late.date, '2026-07-04');
+  assert.equal(late.time, '23:30');
+
+  const afterMidnight = transformEvent(record({ Start: '2026-07-04T23:30:00.000Z', Title: 'Very late' }));
+  assert.equal(afterMidnight.date, '2026-07-05');
+  assert.equal(afterMidnight.time, '00:30');
+});
+
+test('naive times (manual events) are read as London wall time', () => {
+  const event = transformEvent(record({ Start: '2026-09-16T19:30:00', Title: 'Manual' }));
+  assert.equal(event.time, '19:30');
+  assert.match(buildICS([record({ Start: '2026-09-16T19:30:00', Title: 'Manual' })], NOW),
+    /DTSTART;TZID=Europe\/London:20260916T193000/);
 });
 
 test('a missing end time defaults to two hours later', () => {
-  const ics = buildICS([record({ Start: '2026-09-16T19:30:00.000Z', Title: 'No end' })], NOW);
+  const ics = buildICS([record({ Start: '2026-09-16T18:30:00.000Z', Title: 'No end' })], NOW);
+  assert.match(ics, /DTSTART;TZID=Europe\/London:20260916T193000/);
   assert.match(ics, /DTEND;TZID=Europe\/London:20260916T213000/);
+});
+
+test('a missing end time across the October clock change', () => {
+  // Sat 24 Oct 2026 23:30 BST = 22:30Z; clocks go back at 02:00 BST on the 25th
+  const ics = buildICS([record({ Start: '2026-10-24T22:30:00.000Z', Title: 'Clock change' })], NOW);
+  assert.match(ics, /DTSTART;TZID=Europe\/London:20261024T233000/);
+  assert.match(ics, /DTEND;TZID=Europe\/London:20261025T013000/);
 });
 
 test('the calendar declares the Europe/London VTIMEZONE it references', () => {

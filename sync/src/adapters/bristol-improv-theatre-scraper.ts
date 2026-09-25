@@ -58,6 +58,8 @@ export class BristolImprovTheatreScraperAdapter implements SourceAdapter {
     if (isNaN(start.getTime())) return null;
 
     const title = instance.attribute_InstanceTitle?.trim() || spektrixEvent.name.trim();
+    // BIT's box office has internal test listings ("TEST ONLY - PLEASE DON'T BOOK")
+    if (/\btest only\b|don'?t book|^test event\b/i.test(title)) return null;
 
     const end = spektrixEvent.duration
       ? new Date(start.getTime() + spektrixEvent.duration * 60_000)

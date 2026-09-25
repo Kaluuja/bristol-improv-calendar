@@ -7,7 +7,7 @@ Airtable is the hub between the scrapers and the site. Base **Improv Calendar**,
 | Field | Type | Written by | Notes |
 | --- | --- | --- | --- |
 | `Title` | text | sync | |
-| `Start` | date/time | sync | See [known-issues.md](known-issues.md#timezones-events-an-hour-out-in-bst). The stored value isn't always a true instant. |
+| `Start` | date/time | sync | A true instant (UTC in the API; Airtable's UI shows it in your local time). Records not refreshed since 25 Sept 2026 may be an hour out; see [known-issues.md](known-issues.md). |
 | `End` | date/time | sync | Optional. If it's missing, the `.ics` feed assumes the event runs 2 hours. |
 | `Venue` | text | sync | Normalised display name (e.g. "Hen & Chicken", "PRSC") |
 | `Address` | text | nobody | Exists in the base; the sync doesn't write it |

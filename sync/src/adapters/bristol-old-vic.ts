@@ -1,6 +1,7 @@
 import { parse } from 'node-html-parser';
 import type { Event, SourceAdapter } from '../types.js';
 import { generateFingerprint } from '../dedupe.js';
+import { inferYear } from './helpers/dates.js';
 
 const SOURCE_NAME = 'bristol-old-vic';
 const VENUE_NAME = 'Bristol Old Vic';
@@ -98,10 +99,6 @@ export class BristolOldVicAdapter implements SourceAdapter {
       jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11,
     };
 
-    const now = new Date();
-    const currentYear = now.getFullYear();
-    const currentMonth = now.getMonth();
-
     // Pattern: "16–19 Sep" or "29–31 Jan"
     const rangeMatch = text.match(
       /(\d{1,2})[\s–-]+(\d{1,2})\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i
@@ -117,11 +114,7 @@ export class BristolOldVicAdapter implements SourceAdapter {
       const endDay = parseInt(rangeMatch[2], 10);
       const month = months[rangeMatch[3].toLowerCase()];
 
-      // Determine year (if month is in the past, assume next year)
-      let year = currentYear;
-      if (month < currentMonth || (month === currentMonth && endDay < now.getDate())) {
-        year = currentYear + 1;
-      }
+      const year = inferYear(month, startDay);
 
       // Generate all dates in the range
       const dates: Date[] = [];
@@ -135,11 +128,7 @@ export class BristolOldVicAdapter implements SourceAdapter {
       const day = parseInt(singleMatch[1], 10);
       const month = months[singleMatch[2].toLowerCase()];
 
-      // Determine year
-      let year = currentYear;
-      if (month < currentMonth || (month === currentMonth && day < now.getDate())) {
-        year = currentYear + 1;
-      }
+      const year = inferYear(month, day);
 
       return { dates: [new Date(year, month, day, 19, 30)] };
     }

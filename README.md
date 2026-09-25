@@ -91,7 +91,8 @@ The export refuses to publish if the event count drops by more than half (a guar
 ## Hosting and services
 
 - **Netlify** deploys `main` as-is, with no build command. Every file in the repo is publicly served, `sync/` included, so never commit a secret.
-- **GitHub Actions secrets:** `AIRTABLE_API_KEY`, `AIRTABLE_BASE_ID`.
+- **GitHub Actions secrets:** `AIRTABLE_API_KEY`, `AIRTABLE_BASE_ID`, plus optional `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` for sync alerts.
+- **Sync alerts:** if a source errors or returns nothing, the sync run fails (GitHub emails you) and sends a Telegram message, which also lists events taken off the calendar. Sources already known to be broken are listed in `sync/src/health.ts` and don't fail the run. Each run's report is also on its GitHub Actions summary page.
 - **Dockhead** (home server): n8n Telegram approval workflows, and the Alma scraper at `/home/ste/improv-alma/`.
 - **GoatCounter** analytics: `wednightimprov.goatcounter.com`.
 - **Buttondown** newsletter signup: `buttondown.com/Kaluuja`.

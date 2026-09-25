@@ -54,7 +54,9 @@ Run `npm run sync:dry` to see what gets filtered and why (each rejection prints 
 5. Add the venue to `venueStyles` in `src/app.jsx` (colour + `group`), or it'll show under "Other".
 6. `npm run sync:dry` and eyeball the output.
 
-**Dates:** read [known-issues.md](known-issues.md#timezones-events-an-hour-out-in-bst) before you construct a `Date`.
+**Dates:** build them with the local-time constructor (`new Date(y, m, d, 19, 30)`). The sync runs in London time, so that gives the right instant. If the listing has no year, use `inferYear(month, day, weekday)` from `helpers/dates.ts`, and pass the weekday if the listing shows it.
+
+**Health:** the source is now covered by the alerts automatically. If it errors or returns 0 events, the run fails and Telegram tells you.
 
 ## Ideas not yet built
 
