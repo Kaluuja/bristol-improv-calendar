@@ -20,7 +20,6 @@ Airtable is the hub between the scrapers and the site. Base **Improv Calendar**,
 | `Source Event ID` | text | sync | ID from the source (ICS UID, Spektrix instance, URL…) |
 | `First Seen` | date/time | sync on create | |
 | `Last Seen` | date/time | sync every run | A stale `Last Seen` on a future event means the source stopped listing it |
-| `Telegram Notified` | checkbox | nobody | Left over from the retired n8n Telegram workflow. Unused; safe to delete from the base. |
 | `Notes (internal)` | long text | you | Never published |
 
 ## Lifecycle of a record
