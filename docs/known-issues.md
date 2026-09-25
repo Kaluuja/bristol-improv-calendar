@@ -35,9 +35,9 @@ See [airtable.md](airtable.md#deduplication). Fix by adding to `VENUE_ALIASES`.
 
 It runs from a copy at `/home/ste/improv-alma/` on Dockhead, not from this repo, so edits here do nothing until you copy them over and rebuild the image. Its classifier signals and fingerprint function are copies of `classifier.ts` / `dedupe.ts` rather than shared imports, so they drift apart if you only update one. (Its fingerprint still uses the UTC date, which only differs from the main sync for shows starting between midnight and 1am.)
 
-## Past events from before 25 Sept 2026 may show an hour early
+## Past events from before 25 Sept 2026 may show an hour late
 
-Until the timezone fix, the sync stored BST times an hour late and the export compensated. Now the sync stores true times and the export converts them normally. Every record the sync still sees got rewritten on the first fixed run. Past events it no longer sees kept the old values, so they show an hour early on the site's "past events" view. They drop off the calendar at the start of November.
+Until the timezone fix, the sync stored BST times an hour late and the export compensated. Now the sync stores true times and the export converts them normally. Every record the sync still sees got rewritten on the first fixed run. Records it no longer sees kept the old values, so a BST one shows an hour **late**. That leaves only past events on the site's "past events" view, which drop off the calendar at the start of November. (The one future case, a delisted BIT showcase on 20 Oct, was moved to Needs review.)
 
 ## Netlify serves the whole repo
 

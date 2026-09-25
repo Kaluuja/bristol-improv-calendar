@@ -48,7 +48,7 @@ async function fetchApprovedEvents(apiKey, baseId) {
  *
  * History: until Sept 2026 the sync ran in UTC and stored wall-clock time
  * labelled Z, so this function used to read every value verbatim. Records the
- * sync hasn't refreshed since then (past events only) show an hour early in BST.
+ * sync hasn't refreshed since then (past events only) show an hour late in BST.
  */
 const WALL_CLOCK = /^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2}))?(?:\.\d+)?(Z|[+-]\d{2}:?\d{2})?$/;
 
