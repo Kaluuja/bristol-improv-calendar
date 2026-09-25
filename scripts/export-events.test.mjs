@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { buildICS, transformEvent, mergeManualEvents } from './export-events.mjs';
+import { buildICS, transformEvent, mergeManualEvents, syncAgeDays } from './export-events.mjs';
 
 const record = (fields, id = 'event-1') => ({ id, fields });
 const NOW = new Date('2026-06-01T00:00:00Z');
@@ -132,6 +132,17 @@ test('the real manual-events file is valid and parses', async () => {
     assert.ok(transformed.title, 'manual event needs a title');
     assert.ok(transformed.venue, 'manual event needs a venue');
   }
+});
+
+test('sync age comes from the newest Last Seen on synced records', () => {
+  const now = new Date('2026-09-25T12:00:00Z');
+  const records = [
+    record({ Source: 'Sync', 'Last Seen': '2026-09-20T05:30:00Z' }, 'a'),
+    record({ Source: 'Sync', 'Last Seen': '2026-09-24T12:00:00Z' }, 'b'),
+    record({ Source: 'manual', 'Last Seen': '2026-09-25T11:00:00Z' }, 'c'), // ignored
+  ];
+  assert.equal(syncAgeDays(records, now), 1);
+  assert.equal(syncAgeDays([record({ Source: 'manual' })], now), Infinity);
 });
 
 test('a record with no start does not break the merge', () => {

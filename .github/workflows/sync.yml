@@ -5,10 +5,10 @@ name: Sync Events to Airtable
 # export-events workflow then publishes Approved events to the site.
 
 on:
-  # Run every 2 days at 6:00 AM UTC
-  schedule:
-    - cron: '0 6 */2 * *'
-  # Allow manual trigger
+  # Manual fallback only. The scheduled sync runs daily on Dockhead
+  # (sync/dockhead/), because several venues block GitHub's servers.
+  # Don't re-add a schedule here without turning Dockhead's off: two syncs
+  # at once can create duplicate Airtable records.
   workflow_dispatch:
 
 concurrency:

@@ -2,7 +2,7 @@ import './tz.js';
 import 'dotenv/config';
 
 import { runPipeline } from './pipeline.js';
-import { buildHealthReport, formatReport, hasNewProblems, publishReport } from './health.js';
+import { buildHealthReport, EXIT_REPORTED_PROBLEMS, formatReport, hasNewProblems, publishReport } from './health.js';
 import {
   // Website scraper (BIT - covers 6+ months)
   BristolImprovTheatreScraperAdapter,
@@ -101,11 +101,11 @@ async function main() {
       await publishReport(report);
     }
 
-    // Fail the run on NEW breakage so GitHub marks it red and emails.
+    // Fail the run on NEW breakage so it gets noticed.
     // Known-broken sources (health.ts) are reported but don't fail it.
     if (hasNewProblems(report)) {
       console.error('\n❌ New source problems - failing the run so it gets noticed');
-      process.exitCode = 1;
+      process.exitCode = EXIT_REPORTED_PROBLEMS;
     }
   } catch (error) {
     console.error('\n❌ Sync failed:', error);

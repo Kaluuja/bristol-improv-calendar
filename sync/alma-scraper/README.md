@@ -3,7 +3,7 @@
 The Alma Tavern & Theatre lists exclusively on Ticket Tailor, which sits behind a
 Cloudflare JS challenge that blocks plain HTTP (including GitHub Actions runners).
 A real headed Chromium from a residential IP passes it, so this scraper runs on
-Dockhead (same home IP) in Docker, separate from the main GitHub Actions sync.
+Dockhead (same home IP) in Docker. It's a separate job from the main sync (which also runs on Dockhead; see [../dockhead/](../dockhead/README.md)). Its cron line is wrapped in `alert-on-failure.sh`, so two failures in a row send a Telegram alert.
 
 ## How it works
 

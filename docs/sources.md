@@ -2,7 +2,7 @@
 
 Checked against the code in September 2026. The list of sources in use lives in [sync/src/cli.ts](../sync/src/cli.ts). Adapters are in [sync/src/adapters/](../sync/src/adapters/).
 
-## Main sync (GitHub Actions, `sync/`)
+## Main sync (`sync/`, daily on Dockhead)
 
 | Source name | Venue | How it's fetched |
 | --- | --- | --- |

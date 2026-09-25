@@ -7,11 +7,15 @@ import type { SyncResult } from './types.js';
  * Remove an entry once the source is fixed. See docs/known-issues.md.
  */
 export const KNOWN_BROKEN: Record<string, string> = {
-  'hen-and-chicken': 'ICS feed 403s from GitHub (fine from home); events still arrive via Headfirst',
-  eventbrite: 'blocks GitHub (405) even with a browser User-Agent',
-  'bristol-old-vic': 'returns 0 events from GitHub (126 from home)',
   'redgrave-theatre': 'site moved /events/ -> /whats-on; scraper matches nothing',
 };
+
+/**
+ * Exit code for "sources had problems, and the alert has been sent".
+ * Dockhead's alert-on-failure.sh treats it as already reported; GitHub
+ * treats any non-zero as a failed run.
+ */
+export const EXIT_REPORTED_PROBLEMS = 3;
 
 export interface HealthReport {
   failed: { source: string; error: string }[];

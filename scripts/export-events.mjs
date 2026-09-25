@@ -262,6 +262,33 @@ export function buildICS(records, now = new Date()) {
   return lines.map(foldLine).join('\r\n') + '\r\n';
 }
 
+const SYNC_STALE_AFTER_DAYS = 3;
+
+/**
+ * Dead man's switch for the sync, which runs daily on Dockhead. If Dockhead
+ * is off or its cron has stopped, nothing there can raise the alarm, but the
+ * newest `Last Seen` in Airtable stops moving. Returns the age in days.
+ */
+export function syncAgeDays(records, now = new Date()) {
+  const seen = records
+    .filter((r) => r.fields.Source === 'Sync' && r.fields['Last Seen'])
+    .map((r) => Date.parse(r.fields['Last Seen']));
+  if (seen.length === 0) return Infinity;
+  return (now.getTime() - Math.max(...seen)) / 86_400_000;
+}
+
+// Flags a stale sync to the workflow (which fails a later step, so GitHub
+// emails) without stopping this export from publishing.
+function reportSyncFreshness(records, now) {
+  const age = syncAgeDays(records, now);
+  const stale = age > SYNC_STALE_AFTER_DAYS;
+  console.log(`Last sync sighting: ${Number.isFinite(age) ? `${age.toFixed(1)} days ago` : 'never'}`);
+  if (stale) {
+    console.error(`WARNING: no sync for ${SYNC_STALE_AFTER_DAYS}+ days - is Dockhead up? (sync/dockhead/README.md)`);
+  }
+  if (process.env.GITHUB_OUTPUT) fs.appendFileSync(process.env.GITHUB_OUTPUT, `sync_stale=${stale}\n`);
+}
+
 async function main() {
   const apiKey = process.env.AIRTABLE_API_KEY;
   const baseId = process.env.AIRTABLE_BASE_ID;
@@ -273,6 +300,9 @@ async function main() {
   console.log('Fetching approved events from Airtable...');
   const airtableRecords = await fetchApprovedEvents(apiKey, baseId);
   console.log(`Found ${airtableRecords.length} approved events`);
+  const now = new Date();
+
+  reportSyncFreshness(airtableRecords, now);
 
   const manualEvents = readManualEvents();
   const records = mergeManualEvents(airtableRecords, manualEvents);
@@ -281,7 +311,6 @@ async function main() {
   }
 
   // Keep events from the start of the previous month onwards (current + previous month history)
-  const now = new Date();
   const prevMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1)
     .toLocaleDateString('en-CA', { timeZone: 'Europe/London' });
   const keptRecords = records.filter((r) => r.fields.Start && formatDate(r.fields.Start) >= prevMonthStart);

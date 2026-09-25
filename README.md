@@ -13,7 +13,7 @@ This repo holds the whole pipeline: the scrapers that find events, and the site 
 ```
  venue sites / aggregators                     Ticket Tailor (Alma Tavern)
           │                                              │
-  sync/  (GitHub Action, every 2 days, 06:00 UTC)   sync/alma-scraper/  (Docker on Dockhead, Mon+Thu 07:15)
+  sync/  (Docker on Dockhead, daily 05:30)           sync/alma-scraper/  (Docker on Dockhead, Mon+Thu 07:15)
           │  fetch → dedupe → classify                   │  Playwright, gets past the Cloudflare check
           └──────────────┬───────────────────────────────┘
                          ▼
@@ -47,7 +47,8 @@ This repo holds the whole pipeline: the scrapers that find events, and the site 
 | `sync/` | The scraper: TypeScript, one adapter per source. It has its own `package.json`. |
 | `sync/alma-scraper/` | Separate Playwright scraper for the Alma Tavern, deployed on Dockhead. See its [README](sync/alma-scraper/README.md). |
 | `docs/` | Reference docs (below). |
-| `.github/workflows/` | `sync.yml` (scrape), `export-events.yml` (publish), `build-app.yml` (rebuild the app bundle on push). |
+| `sync/dockhead/` | How the sync runs on Dockhead: cron wrapper, failure alerts, runbook. See its [README](sync/dockhead/README.md). |
+| `.github/workflows/` | `export-events.yml` (publish, daily; also checks that the Dockhead sync is still running), `build-app.yml` (rebuild the app bundle on push), `sync.yml` (manual fallback sync only). |
 
 ## Docs
 
@@ -91,9 +92,10 @@ The export refuses to publish if the event count drops by more than half (a guar
 ## Hosting and services
 
 - **Netlify** deploys `main` as-is, with no build command. Every file in the repo is publicly served, `sync/` included, so never commit a secret.
-- **GitHub Actions secrets:** `AIRTABLE_API_KEY`, `AIRTABLE_BASE_ID`, plus optional `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` for sync alerts.
-- **Sync alerts:** if a source errors or returns nothing, the sync run fails (GitHub emails you) and sends a Telegram message, which also lists events taken off the calendar. Sources already known to be broken are listed in `sync/src/health.ts` and don't fail the run. Each run's report is also on its GitHub Actions summary page.
-- **Dockhead** (home server): n8n Telegram approval workflows, and the Alma scraper at `/home/ste/improv-alma/`.
+- **GitHub Actions secrets:** `AIRTABLE_API_KEY`, `AIRTABLE_BASE_ID` (used by the export).
+- **Dockhead** secrets: `/home/ste/improv-calendar.env` (Airtable + Telegram). See the [Dockhead runbook](sync/dockhead/README.md).
+- **Alerts:** Telegram when a source breaks or returns nothing, when events are taken off the calendar, or when either scraper crashes. A GitHub email if Dockhead stops syncing altogether. Sources already known to be broken are listed in `sync/src/health.ts` and don't trigger alerts.
+- **Dockhead** (home server): the daily sync, the Alma scraper at `/home/ste/improv-alma/`, and the n8n Telegram approval workflows.
 - **GoatCounter** analytics: `wednightimprov.goatcounter.com`.
 - **Buttondown** newsletter signup: `buttondown.com/Kaluuja`.
 

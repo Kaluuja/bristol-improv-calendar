@@ -2,18 +2,13 @@
 
 Most important first. Delete an entry once it's fixed.
 
-## Four sources are broken on GitHub Actions
+## Redgrave scraper matches nothing
 
-Found 25 September 2026. These are listed in `KNOWN_BROKEN` in [sync/src/health.ts](../sync/src/health.ts), so each alert reports them without failing the run. Remove an entry once it's fixed; the report says "working again" when one recovers.
+Found 25 September 2026. The Redgrave site moved its listings from `/events/` to `/whats-on`, and [redgrave-theatre.ts](../sync/src/adapters/redgrave-theatre.ts) still looks for `/event/YYYY/MM/slug/ID/` links, so it returns 0 events. It's listed in `KNOWN_BROKEN` in [sync/src/health.ts](../sync/src/health.ts), so it doesn't trigger alerts. Low impact, since Redgrave rarely has improv. Rewrite the scraper for the new page, then remove it from `KNOWN_BROKEN`.
 
-| Source | Problem | Since | Impact |
-| --- | --- | --- | --- |
-| `bristol-old-vic` | 0 events from GitHub, 126 from home. Blocked without an error. | unknown | **Biggest gap.** Old Vic improv shows only arrive if Headfirst lists them. |
-| `hen-and-chicken` | ICS feed returns `403` to GitHub | ~29 June 2026 | Small: Headfirst's H&C page covers it |
-| `eventbrite` | `405` to GitHub, even with a browser User-Agent | ~29 June 2026 | Small: lowest-priority source |
-| `redgrave-theatre` | 0 events **everywhere**: the site moved `/events/` → `/whats-on`, so the scraper matches nothing | unknown | Small: Redgrave rarely has improv |
+## Venues that block GitHub's servers
 
-The first three all work from a home connection, so they're blocking GitHub's datacenter IPs. **The likely fix is to run the whole sync on Dockhead** (home IP, already London time, already runs the Alma scraper) on a cron that does `git pull && npm ci && npm run sync`, and turn the GitHub schedule off. Redgrave needs its scraper rewriting for the new page.
+Bristol Old Vic, Hen & Chicken and Eventbrite all refuse requests from GitHub Actions (Old Vic silently returns nothing; the others give 403/405). They're fine from a home connection, which is why the sync runs on Dockhead. The GitHub `sync.yml` fallback will be missing all three.
 
 ## Junk titles slip through
 

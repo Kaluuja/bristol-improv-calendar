@@ -25,6 +25,7 @@ jobs:
           node-version: '24'
 
       - name: Export events from Airtable
+        id: export
         run: node scripts/export-events.mjs
         env:
           AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
@@ -37,3 +38,11 @@ jobs:
           git add events.json events.ics
           git diff --staged --quiet || git commit -m "Update events - $(date -u +'%Y-%m-%d %H:%M')"
           git push
+
+      # Runs after publishing, so a dead sync still gets today's export out,
+      # then fails the run so GitHub emails.
+      - name: Check the Dockhead sync is still running
+        if: steps.export.outputs.sync_stale == 'true'
+        run: |
+          echo "::error::No sync in Airtable for 3+ days. Check Dockhead: cron, Docker, /home/ste/improv-calendar-sync.log"
+          exit 1
