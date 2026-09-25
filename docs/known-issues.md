@@ -30,6 +30,10 @@ A smaller wrinkle to check while you're in there: `getDateOnly()` in `dedupe.ts`
 
 Cheap fix: exit non-zero (or post to Telegram) when any source errors, **or returns 0 events** where it used to return some.
 
+**This is already happening.** Found 25 September 2026: on GitHub Actions, **Hen & Chicken** (`403` on the ICS feed) and **Eventbrite** (`405`) have failed on every run since about 29 June 2026, three months of green ticks. Both work from a home connection, so they're blocking GitHub's datacenter IPs. Eventbrite already sends a browser User-Agent, so that one is IP-based. The ICS fetch in `helpers/ics-parser.ts` sends no User-Agent, so a browser UA *might* fix Hen & Chicken; worth one try.
+
+Impact so far is small. Hen & Chicken events still arrive via Headfirst's venue page, and Eventbrite is the lowest-priority source. Fix options: run these two from Dockhead like the Alma scraper, or accept Headfirst's coverage and remove them.
+
 ## The classifier misses improv that doesn't say "improv"
 
 Outside the Bristol Improv Theatre, an event needs an improv keyword or an `ALWAYS_INCLUDE` match. Real example from a September 2026 dry run: "Play It Back – Playback Theatre Workshop" (playback theatre is improvised) was filtered out. Add names to `ALWAYS_INCLUDE` (or signals to `IMPROV_SIGNALS`) in [sync/src/classifier.ts](../sync/src/classifier.ts) as you spot them.
