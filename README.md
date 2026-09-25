@@ -102,3 +102,8 @@ The export refuses to publish if the event count drops by more than half (a guar
 ## Calendar feed
 
 `events.ics` (`https://bristol-improv-calendar.netlify.app/events.ics`) is a subscribable iCalendar feed of the same events. It isn't linked from the UI yet.
+
+## History
+
+- **Sept 2026: consolidation.** The separate `improv-calendar-sync` repo was merged in as `sync/` (the old repo is archived on GitHub with its history). The sync moved from GitHub Actions to Dockhead, because some venues block GitHub. The n8n Telegram approve/reject bot was retired; approvals now happen in Airtable, prompted by Echo's morning brief, which also reports problems. Fixed: Bristol Improv Theatre ticket links, BST times an hour out, phantom next-year events, and silent source failures.
+- **July 2026:** product review ([docs/product-review-2026-07.md](docs/product-review-2026-07.md)), restructure to `src/app.jsx` + esbuild, `.ics` feed, analytics, newsletter signup.

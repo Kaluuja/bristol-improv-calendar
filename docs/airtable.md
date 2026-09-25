@@ -4,13 +4,14 @@ Airtable is the hub between the scrapers and the site. Base **Improv Calendar**,
 
 ## Fields
 
+Checked against the live base on 25 Sept 2026. (The retired `Telegram Notified` field was deleted that day; there's no `Address` field.)
+
 | Field | Type | Written by | Notes |
 | --- | --- | --- | --- |
 | `Title` | text | sync | |
 | `Start` | date/time | sync | A true instant (UTC in the API; Airtable's UI shows it in your local time). Records not refreshed since 25 Sept 2026 may be an hour out; see [known-issues.md](known-issues.md). |
 | `End` | date/time | sync | Optional. If it's missing, the `.ics` feed assumes the event runs 2 hours. |
 | `Venue` | text | sync | Normalised display name (e.g. "Hen & Chicken", "PRSC") |
-| `Address` | text | nobody | Exists in the base; the sync doesn't write it |
 | `Event URL` | url | sync | |
 | `Tickets URL` | url | sync | |
 | `Type` | single select | sync on **create only** | Show, Workshop, Jam, Drop-in, Other. Protected once it exists, so fix it by hand in Airtable and it stays fixed. |
