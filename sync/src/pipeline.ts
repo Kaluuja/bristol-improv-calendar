@@ -12,6 +12,13 @@ function getDefaultMinDate(): Date {
   return new Date(Date.UTC(now.getFullYear(), now.getMonth() - 1, 1));
 }
 
+/**
+ * A future event that no source has listed for this long is taken off the
+ * calendar (Status -> Needs review). The sync runs every 2 days, so 14 days
+ * is ~7 missed sightings; long enough to ride out a flaky source.
+ */
+const STALE_AFTER_DAYS = 14;
+
 export interface PipelineOptions {
   dryRun?: boolean;
   verbose?: boolean;
@@ -99,6 +106,18 @@ export async function runPipeline(
   console.log(`  Created: ${syncStats.created}`);
   console.log(`  Updated: ${syncStats.updated}`);
   console.log(`  Unchanged: ${syncStats.unchanged}`);
+
+  // Step 4.5: Retire future events no source has listed recently.
+  // Skipped when most sources failed, so an outage can't empty the calendar.
+  const failedSources = results.filter((r) => r.errors.length > 0).length;
+  if (failedSources > sources.length / 2) {
+    console.log(`\n⚠️  ${failedSources}/${sources.length} sources failed - skipping stale-event check`);
+  } else {
+    console.log(`\n🕰️  Retiring future events not seen for ${STALE_AFTER_DAYS}+ days...`);
+    const retired = await airtable.retireUnseen(STALE_AFTER_DAYS);
+    console.log(`  Moved to Needs review: ${retired.length}`);
+    for (const label of retired) console.log(`    ${label}`);
+  }
 
   // Step 5: Clean up old events past the retention window
   console.log('\n🧹 Cleaning up old events...');

@@ -6,7 +6,7 @@ Checked against the code in September 2026. The list of sources in use lives in 
 
 | Source name | Venue | How it's fetched |
 | --- | --- | --- |
-| `bristol-improv-theatre` | Bristol Improv Theatre | **Spektrix API** (`system.spektrix.com/bristolimprovtheatre/api/v3/events` + `/instances`). One record per performance. Covers 6+ months. The file is still called `bristol-improv-theatre-scraper.ts`, but it no longer scrapes HTML or reads the ICS feed. |
+| `bristol-improv-theatre` | Bristol Improv Theatre | **Spektrix API** (`system.spektrix.com/bristolimprovtheatre/api/v3/events` + `/instances`). One record per performance. Covers 6+ months. The file is still called `bristol-improv-theatre-scraper.ts`, but it no longer scrapes HTML or reads the ICS feed. Spektrix doesn't return a web link, so `eventPageUrl()` rebuilds the site's own slug rule, `improvtheatre.co.uk/event/<slug>-<first 4 chars of ID>`. **A wrong slug doesn't 404; it silently shows the homepage.** If BIT links break again, check that rule first. |
 | `prsc` | PRSC | ICS feed (`prsc.org.uk/?post_type=tribe_events&ical=1…`) via `helpers/ics-parser.ts` |
 | `hen-and-chicken` | Hen & Chicken | ICS feed (`henandchicken.com/?post_type=tribe_events&ical=1…`) via `helpers/ics-parser.ts` |
 | `wardrobe-theatre` | Wardrobe Theatre | Scrapes the pages of a **hardcoded list of recurring shows** (`RECURRING_SHOWS`: Closer Each Day, Impromptu Shakespeare). New Wardrobe shows only get picked up via Headfirst unless you add them to that list. |

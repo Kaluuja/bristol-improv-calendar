@@ -14,7 +14,7 @@ Airtable is the hub between the scrapers and the site. Base **Improv Calendar**,
 | `Event URL` | url | sync | |
 | `Tickets URL` | url | sync | |
 | `Type` | single select | sync on **create only** | Show, Workshop, Jam, Drop-in, Other. Protected once it exists, so fix it by hand in Airtable and it stays fixed. |
-| `Status` | single select | sync on **create only** (`Pending`), then n8n or you | Pending, Approved, Rejected, Needs review. Protected. |
+| `Status` | single select | sync on **create only** (`Pending`), then n8n or you | Pending, Approved, Rejected, Needs review (set by the sync when an event stops being listed; see below). Protected from overwrite on refresh. |
 | `Source` | text | sync | `Sync` for scraped records. `manual` means the sync never updates or deletes the record. |
 | `Fingerprint` | text | sync | The dedupe key (below) |
 | `Source Event ID` | text | sync | ID from the source (ICS UID, Spektrix instance, URL…) |
@@ -29,8 +29,9 @@ Airtable is the hub between the scrapers and the site. Base **Improv Calendar**,
 2. **Notified**: the hourly n8n workflow sends a Telegram message with Approve / Reject / Keep pending buttons and ticks `Telegram Notified`.
 3. **Decided**: the button press sets `Status` (the n8n handler workflow PATCHes Airtable).
 4. **Refreshed** on every later sync that still finds it. Everything except `Type` and `Status` gets overwritten with the source's latest data, and `Last Seen` is bumped.
-5. **Published**: the daily export ([scripts/export-events.mjs](../scripts/export-events.mjs)) takes every `Status = Approved` record and writes `events.json` / `events.ics`.
-6. **Deleted**: each sync run removes non-manual records whose `Start` is before the first day of the previous month.
+5. **Retired** if it's a future event that no source has listed for **14 days**. The sync flips `Approved`/`Pending` to `Needs review`, so it drops off the site but isn't deleted. This catches cancelled or delisted shows, records left behind when a venue changes website, and phantom next-year dates. The run log lists every record it retires. To restore one, set it back to `Approved`. It's skipped if more than half the sources failed that run, so an outage can't empty the calendar.
+6. **Published**: the daily export ([scripts/export-events.mjs](../scripts/export-events.mjs)) takes every `Status = Approved` record and writes `events.json` / `events.ics`.
+7. **Deleted**: each sync run removes non-manual records whose `Start` is before the first day of the previous month.
 
 ## Deduplication
 

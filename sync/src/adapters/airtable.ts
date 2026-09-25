@@ -201,6 +201,52 @@ export class AirtableAdapter {
   }
 
   /**
+   * Take future events off the calendar when no source has listed them for
+   * `maxAgeDays`: flips Approved/Pending to 'Needs review' (the export only
+   * publishes Approved, so they drop off the site but nothing is deleted).
+   * Catches events a venue has cancelled or delisted, records left behind
+   * when a venue changes website, and phantom next-year dates from year
+   * inference. Must run after sync(), which refreshes Last Seen.
+   * Returns the retired records' titles for logging.
+   */
+  async retireUnseen(maxAgeDays: number): Promise<string[]> {
+    const staleBefore = new Date(Date.now() - maxAgeDays * 86_400_000);
+    const now = new Date();
+    const toRetire: { id: string; label: string }[] = [];
+
+    await this.table
+      .select({ fields: ['Title', 'Start', 'Venue', 'Status', 'Source', 'Last Seen'] })
+      .eachPage((records, fetchNextPage) => {
+        for (const record of records) {
+          const source = record.get('Source') as string;
+          if (source?.toLowerCase() === MANUAL_SOURCE) continue;
+
+          const status = record.get('Status') as string;
+          if (status !== 'Approved' && status !== 'Pending') continue;
+
+          const start = record.get('Start') as string;
+          if (!start || new Date(start) < now) continue;
+
+          const lastSeen = record.get('Last Seen') as string;
+          if (lastSeen && new Date(lastSeen) >= staleBefore) continue;
+
+          toRetire.push({
+            id: record.id,
+            label: `${start.split('T')[0]} ${record.get('Title')} @ ${record.get('Venue')} (last seen ${lastSeen?.split('T')[0] ?? 'never'})`,
+          });
+        }
+        fetchNextPage();
+      });
+
+    for (let i = 0; i < toRetire.length; i += 10) {
+      const batch = toRetire.slice(i, i + 10);
+      await this.table.update(batch.map(({ id }) => ({ id, fields: { Status: 'Needs review' } })));
+    }
+
+    return toRetire.map((r) => r.label);
+  }
+
+  /**
    * Delete Airtable records whose Start date is before the cutoff.
    * Skips manually-added records (Source = 'manual').
    * Returns the number of deleted records.

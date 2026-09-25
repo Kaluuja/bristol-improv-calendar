@@ -34,6 +34,12 @@ Cheap fix: exit non-zero (or post to Telegram) when any source errors, **or retu
 
 Impact so far is small. Hen & Chicken events still arrive via Headfirst's venue page, and Eventbrite is the lowest-priority source. Fix options: run these two from Dockhead like the Alma scraper, or accept Headfirst's coverage and remove them.
 
+## Phantom next-year dates
+
+Found 25 September 2026. Some scrapers see a date with no year ("Mon 9 Feb") and guess the year. On the day of the show the date counts as passed, so the scraper files it a year later, creating a phantom event. Examples: a dozen Wardrobe "Closer Each Day" / "Impromptu Shakespeare" records dated 2027, each "last seen" exactly a year earlier, and "My Date with Pierce Brosnan" via Headfirst.
+
+The stale-event step ([airtable.md](airtable.md#lifecycle-of-a-record)) now pulls these off the calendar after 14 days. The real fix is in each adapter's year inference: treat today as "this year", and only roll to next year when the date is well in the past (e.g. more than a month). Check `wardrobe-theatre.ts` and `headfirst.ts` first.
+
 ## The classifier misses improv that doesn't say "improv"
 
 Outside the Bristol Improv Theatre, an event needs an improv keyword or an `ALWAYS_INCLUDE` match. Real example from a September 2026 dry run: "Play It Back – Playback Theatre Workshop" (playback theatre is improvised) was filtered out. Add names to `ALWAYS_INCLUDE` (or signals to `IMPROV_SIGNALS`) in [sync/src/classifier.ts](../sync/src/classifier.ts) as you spot them.

@@ -6,7 +6,7 @@ const VENUE_NAME = 'Bristol Improv Theatre';
 const VENUE_ADDRESS = '50 Saint Pauls Road, Bristol, BS8 1LP';
 const EVENTS_API = 'https://system.spektrix.com/bristolimprovtheatre/api/v3/events';
 const INSTANCES_API = 'https://system.spektrix.com/bristolimprovtheatre/api/v3/instances';
-const SITE_BASE = 'https://events.improvtheatre.co.uk';
+const SITE_BASE = 'https://improvtheatre.co.uk';
 
 interface SpektrixEvent {
   id: string;
@@ -63,10 +63,7 @@ export class BristolImprovTheatreScraperAdapter implements SourceAdapter {
       ? new Date(start.getTime() + spektrixEvent.duration * 60_000)
       : undefined;
 
-    // Spektrix IDs start with the numeric ID used in the site's URL slugs
-    const numericId = spektrixEvent.id.match(/^(\d+)/)?.[1] ?? spektrixEvent.id;
-    const slug = this.toSlug(spektrixEvent.name) + '-' + numericId;
-    const ticketsUrl = `${SITE_BASE}/event/${slug}`;
+    const ticketsUrl = eventPageUrl(spektrixEvent);
 
     const event: Event = {
       title,
@@ -86,11 +83,33 @@ export class BristolImprovTheatreScraperAdapter implements SourceAdapter {
     event.fingerprint = generateFingerprint(event);
     return event;
   }
+}
 
-  private toSlug(name: string): string {
-    return name
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-|-$/g, '');
-  }
+/**
+ * Build the event's page on the BIT website, where the date picker and
+ * basket live. Spektrix's `webUrl` is empty, so the URL has to be rebuilt
+ * the way the site (a Blazor app, launched Sept 2026) builds it:
+ *
+ *   /event/<slug>-<first 4 chars of the Spektrix event ID>
+ *
+ * - slug: lowercase, drop everything except letters, digits, spaces and
+ *   hyphens, squash runs of spaces, then spaces -> hyphens. Existing
+ *   hyphens are kept, so "School - Student Showcases!" becomes
+ *   "school---student-showcases", but "Presence & Hosting" becomes
+ *   "presence-hosting".
+ * - ID: literally the first 4 characters, not the leading digits, so
+ *   "11801AKPS…" -> "1180" and "601APNN…" -> "601a".
+ *
+ * A wrong slug doesn't 404: the site quietly shows its generic homepage,
+ * so any drift here fails silently. Verified against all 71 live events
+ * on 25 Sept 2026.
+ */
+export function eventPageUrl(spektrixEvent: Pick<SpektrixEvent, 'id' | 'name'>): string {
+  const slug = spektrixEvent.name
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-');
+  const shortId = spektrixEvent.id.slice(0, 4).toLowerCase();
+  return `${SITE_BASE}/event/${slug}-${shortId}`;
 }
