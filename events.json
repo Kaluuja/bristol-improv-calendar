@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-25T15:58:22.049Z",
+  "lastUpdated": "2026-09-29T12:03:05.212Z",
   "events": [
     {
       "date": "2026-08-01",
@@ -1658,6 +1658,15 @@
       "description": ""
     },
     {
+      "date": "2027-01-11",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
       "date": "2027-01-12",
       "title": "Showstopper! The Improvised Musical",
       "venue": "Bristol Old Vic",
@@ -1721,6 +1730,15 @@
       "description": ""
     },
     {
+      "date": "2027-01-25",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
       "date": "2027-01-29",
       "title": "Austentatious",
       "venue": "Bristol Old Vic",
@@ -1736,6 +1754,60 @@
       "time": "19:30",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/austentatious",
+      "description": ""
+    },
+    {
+      "date": "2027-02-08",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2027-02-22",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2027-03-08",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2027-03-22",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2027-04-05",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2027-04-19",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
       "description": ""
     },
     {
@@ -1766,12 +1838,48 @@
       "description": ""
     },
     {
+      "date": "2027-05-03",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2027-05-17",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2027-05-31",
+      "title": "Closer Each Day: The Improvised Soap Opera",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
       "date": "2027-06-01",
       "title": "Denouement An Improvised Mystery",
       "venue": "Bristol Beacon",
       "time": "19:30",
       "type": "show",
       "url": "https://bristolbeacon.org/whats-on/denouement-an-improvised-mystery/",
+      "description": ""
+    },
+    {
+      "date": "2027-06-01",
+      "title": "Denouement An Improvised Mystery",
+      "venue": "Bristol Beacon",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristolbeacon.org/whats-on/denouement-an-improvised-mystery/book/870201",
       "description": ""
     }
   ]
