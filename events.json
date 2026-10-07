@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-05T13:29:22.482Z",
+  "lastUpdated": "2026-10-07T12:34:34.972Z",
   "events": [
     {
       "date": "2026-09-01",
@@ -1511,6 +1511,15 @@
       "time": "19:30",
       "type": "show",
       "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2027-05-12",
+      "title": "Tales From The Wasteland: Post-Apocalyptic Improv",
+      "venue": "Loco Klub",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/loco-klub/wed-12-may-tales-from-the-wasteland-post-apocalyptic-improv-164209",
       "description": ""
     },
     {
