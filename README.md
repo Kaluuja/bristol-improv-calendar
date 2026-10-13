@@ -105,5 +105,6 @@ The export refuses to publish if the event count drops by more than half (a guar
 
 ## History
 
+- **Oct 2026: the Bristol Improv Theatre closed** (9 Oct, all events cancelled), taking over half the listings with it. Its Spektrix box office kept listing the dates, so the BIT source is switched off in `sync/src/cli.ts` and the export drops anything there from 9 Oct onwards (`CLOSED_VENUES` in `scripts/export-events.mjs`). A dismissible closure notice on the site links to the newsletter signup (`BIT_NOTICE_KEY` in `src/app.jsx`; take it down around mid-November).
 - **Sept 2026: consolidation.** The separate `improv-calendar-sync` repo was merged in as `sync/` (the old repo is archived on GitHub with its history). The sync moved from GitHub Actions to Dockhead, because some venues block GitHub. The n8n Telegram approve/reject bot was retired; approvals now happen in Airtable, prompted by Echo's morning brief, which also reports problems. Fixed: Bristol Improv Theatre ticket links, BST times an hour out, phantom next-year events, and silent source failures.
 - **July 2026:** product review ([docs/product-review-2026-07.md](docs/product-review-2026-07.md)), restructure to `src/app.jsx` + esbuild, `.ics` feed, analytics, newsletter signup.
