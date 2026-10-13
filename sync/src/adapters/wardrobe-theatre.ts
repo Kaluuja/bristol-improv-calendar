@@ -8,13 +8,36 @@ const VENUE_NAME = 'Wardrobe Theatre';
 const VENUE_ADDRESS = '25 West Street, Old Market, Bristol, BS2 0DF';
 const BASE_URL = 'https://thewardrobetheatre.com';
 
+// The site is WordPress: every show (past ones too) is in this endpoint, with
+// its genre tags, description and first/last dates.
+const SHOWS_API = `${BASE_URL}/wp-json/wp/v2/shows`;
+const SHOWS_API_FIELDS = 'slug,title,excerpt,content,class_list,acf';
+
 /**
- * Known recurring shows that need individual page scraping
+ * Used only if the shows API fails, so the source doesn't drop to zero.
  */
-const RECURRING_SHOWS = [
+const FALLBACK_SHOWS = [
   { slug: 'closer-each-day', title: 'Closer Each Day: The Improvised Soap Opera' },
   { slug: 'impromptu-shakespeare', title: 'Impromptu Shakespeare' },
 ];
+
+/**
+ * Wording that marks a show as improv even when the Wardrobe hasn't tagged it.
+ */
+const IMPROV_WORDING: { pattern: RegExp; label: string }[] = [
+  { pattern: /\bimprov(?:i[sz]ed|i[sz]ing|i[sz]ation)?\b/i, label: 'improv' },
+  { pattern: /\bunscripted\b/i, label: 'unscripted' },
+  { pattern: /\bmade\s+up\s+on\s+the\s+spot\b/i, label: 'made up on the spot' },
+];
+
+export interface WardrobeShow {
+  slug: string;
+  title?: { rendered?: string };
+  excerpt?: { rendered?: string };
+  content?: { rendered?: string };
+  class_list?: string[];
+  acf?: { event_end_date?: string; archived_show?: boolean };
+}
 
 interface PerformanceDate {
   date: Date;
@@ -22,29 +45,91 @@ interface PerformanceDate {
   bookingUrl?: string;
 }
 
+/** Strip tags and decode the entities WordPress uses (&#8217;, &amp;, ...). */
+export function htmlToText(html: string): string {
+  return html
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(parseInt(code, 16)))
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/**
+ * Why a show counts as improv: the Wardrobe's own "Improv" genre tag, or
+ * improv wording in its title or description. Undefined means it doesn't.
+ */
+export function wardrobeImprovReason(show: WardrobeShow): string | undefined {
+  if (show.class_list?.includes('shows_genre-improv')) return 'Wardrobe genre: improv';
+  const text = [show.title?.rendered, show.excerpt?.rendered, show.content?.rendered]
+    .map((html) => htmlToText(html || ''))
+    .join(' ');
+  const hit = IMPROV_WORDING.find(({ pattern }) => pattern.test(text));
+  return hit ? `Wardrobe listing says "${hit.label}"` : undefined;
+}
+
+/** Shows whose last date (acf.event_end_date, "YYYYMMDD") is today or later. */
+export function isCurrentShow(show: WardrobeShow, today: string): boolean {
+  const end = show.acf?.event_end_date;
+  return Boolean(end) && !show.acf?.archived_show && end! >= today;
+}
+
 /**
  * Wardrobe Theatre adapter
- * Scrapes individual show pages for recurring performance dates
+ * Finds improv shows through the site's shows API, then reads each show's page
+ * for its performance dates and times.
  */
 export class WardrobeTheatreAdapter implements SourceAdapter {
   readonly name = SOURCE_NAME;
 
   async fetch(): Promise<Event[]> {
-    const events: Event[] = [];
+    let shows: { slug: string; title: string; improvReason?: string }[];
+    try {
+      shows = await this.findImprovShows();
+    } catch (error) {
+      console.error(`Wardrobe shows API failed, checking known shows only: ${(error as Error).message}`);
+      shows = FALLBACK_SHOWS;
+    }
 
-    // Fetch recurring shows from their individual pages
-    for (const show of RECURRING_SHOWS) {
-      const showEvents = await this.fetchShowPage(show.slug, show.title);
+    const events: Event[] = [];
+    for (const show of shows) {
+      const showEvents = await this.fetchShowPage(show.slug, show.title, show.improvReason);
       events.push(...showEvents);
     }
 
     return events;
   }
 
+  private async findImprovShows(): Promise<{ slug: string; title: string; improvReason?: string }[]> {
+    const today = new Date().toLocaleDateString('en-CA').replace(/-/g, '');
+    const found: { slug: string; title: string; improvReason?: string }[] = [];
+
+    for (let page = 1, totalPages = 1; page <= totalPages; page++) {
+      const response = await fetch(`${SHOWS_API}?per_page=100&page=${page}&_fields=${SHOWS_API_FIELDS}`, {
+        headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' },
+      });
+      if (!response.ok) throw new Error(`${SHOWS_API} page ${page}: ${response.status}`);
+      totalPages = Number(response.headers.get('x-wp-totalpages')) || 1;
+
+      for (const show of (await response.json()) as WardrobeShow[]) {
+        if (!isCurrentShow(show, today)) continue;
+        const improvReason = wardrobeImprovReason(show);
+        if (improvReason) found.push({ slug: show.slug, title: htmlToText(show.title?.rendered || show.slug), improvReason });
+      }
+    }
+
+    return found;
+  }
+
   /**
    * Fetch all performance dates from a show's individual page
    */
-  private async fetchShowPage(slug: string, title: string): Promise<Event[]> {
+  private async fetchShowPage(slug: string, title: string, improvReason?: string): Promise<Event[]> {
     const url = `${BASE_URL}/shows/${slug}/`;
 
     const response = await fetch(url, {
@@ -84,6 +169,7 @@ export class WardrobeTheatreAdapter implements SourceAdapter {
         canonicalUrl: url,
         source: SOURCE_NAME,
         fingerprint: '',
+        improvReason,
       };
 
       event.fingerprint = generateFingerprint(event);

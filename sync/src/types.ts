@@ -21,6 +21,8 @@ export interface Event {
   canonicalUrl?: string;
   description?: string;
   source: string;
+  /** Set by an adapter when the venue's own listing marks the show as improv (e.g. a genre tag). Not written to Airtable. */
+  improvReason?: string;
 }
 
 /**

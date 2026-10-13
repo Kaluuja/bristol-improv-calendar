@@ -16,11 +16,7 @@ A September 2026 run produced an event titled "Book Tickets" (a scraper reading 
 
 ## The classifier misses improv that doesn't say "improv"
 
-Outside the Bristol Improv Theatre, an event needs an improv keyword or an `ALWAYS_INCLUDE` match. Real example from a September 2026 dry run: "Play It Back – Playback Theatre Workshop" (playback theatre is improvised) was filtered out. Add names to `ALWAYS_INCLUDE` (or signals to `IMPROV_SIGNALS`) in [sync/src/classifier.ts](../sync/src/classifier.ts) as you spot them.
-
-## Wardrobe only knows two shows
-
-The Wardrobe adapter scrapes a hardcoded `RECURRING_SHOWS` list. Anything else at the Wardrobe relies on Headfirst listing it.
+An event needs an improv keyword (now including "unscripted" and "made up on the spot"), an `ALWAYS_INCLUDE` match, or an adapter vouching for it (the Wardrobe's Improv genre tag). Real example from a September 2026 dry run: "Play It Back – Playback Theatre Workshop" (playback theatre is improvised) was filtered out. Add names to `ALWAYS_INCLUDE` (or signals to `IMPROV_SIGNALS`) in [sync/src/classifier.ts](../sync/src/classifier.ts) as you spot them.
 
 ## Venue name variants make duplicates
 

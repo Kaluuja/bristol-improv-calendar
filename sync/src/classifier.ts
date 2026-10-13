@@ -46,6 +46,9 @@ const IMPROV_SIGNALS = [
   /\bimprov\b/i,
   /\bimprovised\b/i,
   /\bimprovisation\b/i,
+  /\bimprovising\b/i,
+  /\bunscripted\b/i,
+  /\bmade\s+up\s+on\s+the\s+spot\b/i,
   /\btheatresports\b/i,
   /\bmaestro\b/i,
   /\blong\s*form\b/i,
@@ -155,6 +158,12 @@ export function isImprovRelated(event: Event): { isImprov: boolean; confidence: 
     return { isImprov: true, confidence: 'high', reason: 'known improv show' };
   }
 
+  // 2b. The venue's own listing says it's improv (adapter-set). Trusted over the
+  // exclusion list below: a missed show costs more than a Pending one Ste rejects.
+  if (event.improvReason) {
+    return { isImprov: true, confidence: 'high', reason: event.improvReason };
+  }
+
   // 3. Explicit non-improv signals (check first to exclude)
   if (matchesAny(text, NOT_IMPROV_SIGNALS)) {
     // But check if it also has strong improv signals
@@ -164,7 +173,9 @@ export function isImprovRelated(event: Event): { isImprov: boolean; confidence: 
       if (/\bimprov/i.test(title)) {
         return { isImprov: true, confidence: 'medium', reason: 'improv in title despite exclusion keywords' };
       }
-      return { isImprov: false, confidence: 'low', reason: 'conflicting signals' };
+      // Ste's rule: if in doubt, include it. It lands as Pending, and a reject in
+      // Airtable costs less than a missed show.
+      return { isImprov: true, confidence: 'low', reason: 'conflicting signals, included to check' };
     }
     return { isImprov: false, confidence: 'high', reason: 'non-improv keywords' };
   }
