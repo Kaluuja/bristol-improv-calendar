@@ -309,13 +309,15 @@
         }
         return 'calendar';
       });
-      // BIT closure notice (Oct 2026), hidden once dismissed
+      // BIT closure notice (Oct 2026), hidden once dismissed. Bump the key's
+      // version when the wording changes so it shows again.
+      const BIT_NOTICE_KEY = 'bristolImprovBitNoticeHidden-v2';
       const [bitNoticeHidden, setBitNoticeHidden] = useState(() => {
-        try { return localStorage.getItem('bristolImprovBitNoticeHidden') === 'true'; } catch { return false; }
+        try { return localStorage.getItem(BIT_NOTICE_KEY) === 'true'; } catch { return false; }
       });
       const hideBitNotice = () => {
         setBitNoticeHidden(true);
-        try { localStorage.setItem('bristolImprovBitNoticeHidden', 'true'); } catch {}
+        try { localStorage.setItem(BIT_NOTICE_KEY, 'true'); } catch {}
       };
       const [lastUpdated, setLastUpdated] = useState(null);
       const [viewYear, setViewYear] = useState(new Date().getFullYear());
@@ -2478,23 +2480,52 @@
                 display: 'flex',
                 alignItems: 'flex-start',
                 gap: '0.75rem',
-                padding: '0.6rem 1rem',
-                background: colors.cardBg,
-                borderLeft: `4px solid ${colors.terracotta}`,
-                borderBottom: `1px solid ${darkMode ? colors.border : '#3D405B20'}`,
+                padding: '0.85rem 1rem 0.9rem',
+                background: darkMode ? '#3A2E33' : '#FBE6DF',
+                borderLeft: `6px solid ${colors.terracotta}`,
+                borderBottom: `2px solid ${colors.terracotta}`,
                 color: colors.text,
-                fontSize: '0.875rem',
-                lineHeight: 1.45,
+                fontSize: '0.95rem',
+                lineHeight: 1.5,
               }}
             >
-              <p style={{ margin: 0, flex: 1 }}>
-                <strong>The Bristol Improv Theatre closed on 9 October</strong>, and everything booked there has been cancelled.
-                It's a real loss. But the BIT was always its people, and they're still here making shows: there's plenty on
-                below, with more on the way as acts find new homes.{' '}
-                <a href="https://improvtheatre.co.uk/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit' }}>
-                  Read the BIT's statement
-                </a>
-              </p>
+              <div style={{ flex: 1, maxWidth: '62rem' }}>
+                <p style={{ margin: 0 }}>
+                  <strong style={{ fontSize: '1.05rem' }}>The Bristol Improv Theatre closed on 9 October</strong>, and its
+                  shows, classes and courses have been cancelled. It’s a real loss, and a lot of people put years of work and
+                  heart into it. But Bristol improv has always been its people, and there’s plenty on below, with more
+                  appearing as acts and teachers find new homes.
+                </p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.5rem 0.75rem', marginTop: '0.6rem' }}>
+                  <a
+                    href="https://buttondown.com/Kaluuja"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-goatcounter-click="bit-notice-roundup"
+                    style={{
+                      display: 'inline-block',
+                      background: colors.terracotta,
+                      color: '#1A1C28',
+                      fontWeight: 700,
+                      textDecoration: 'none',
+                      padding: '0.45rem 0.95rem',
+                      borderRadius: '999px',
+                    }}
+                  >
+                    Get the roundup
+                  </a>
+                  <span aria-hidden="true">·</span>
+                  <a
+                    href="https://improvtheatre.co.uk/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-goatcounter-click="bit-notice-statement"
+                    style={{ color: 'inherit', fontWeight: 600 }}
+                  >
+                    BIT statement
+                  </a>
+                </div>
+              </div>
               <button
                 onClick={hideBitNotice}
                 aria-label="Dismiss notice"
@@ -2508,7 +2539,7 @@
                   padding: '0.1rem 0.3rem',
                   minWidth: '44px',
                   minHeight: '44px',
-                  margin: '-0.6rem -0.75rem -0.6rem 0',
+                  margin: '-0.6rem -0.75rem -0.6rem auto',
                 }}
               >
                 ×
