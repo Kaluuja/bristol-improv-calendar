@@ -4,8 +4,6 @@ import 'dotenv/config';
 import { runPipeline } from './pipeline.js';
 import { buildHealthReport, EXIT_REPORTED_PROBLEMS, formatReport, hasNewProblems, publishReport } from './health.js';
 import {
-  // Website scraper (BIT - covers 6+ months)
-  BristolImprovTheatreScraperAdapter,
   BristolFolkHouseAdapter,
   // ICS feeds
   PRSCAdapter,
@@ -57,8 +55,8 @@ async function main() {
 
   // Initialize all source adapters
   const sources = [
-    // BIT (Spektrix API)
-    new BristolImprovTheatreScraperAdapter(),
+    // BIT (Spektrix API) is switched off: the theatre closed on 9 Oct 2026 but
+    // its box office still lists the cancelled dates. Re-add it if it reopens.
     // Bristol Folk House website (for recurring improv shows like Just For A Moment)
     new BristolFolkHouseAdapter(),
     // ICS feeds

@@ -309,6 +309,14 @@
         }
         return 'calendar';
       });
+      // BIT closure notice (Oct 2026), hidden once dismissed
+      const [bitNoticeHidden, setBitNoticeHidden] = useState(() => {
+        try { return localStorage.getItem('bristolImprovBitNoticeHidden') === 'true'; } catch { return false; }
+      });
+      const hideBitNotice = () => {
+        setBitNoticeHidden(true);
+        try { localStorage.setItem('bristolImprovBitNoticeHidden', 'true'); } catch {}
+      };
       const [lastUpdated, setLastUpdated] = useState(null);
       const [viewYear, setViewYear] = useState(new Date().getFullYear());
       const [viewMonth, setViewMonth] = useState(new Date().getMonth());
@@ -2461,6 +2469,52 @@
               </button>
             </div>
           </header>
+
+          {!bitNoticeHidden && (
+            <aside
+              aria-label="Bristol Improv Theatre closure"
+              style={{
+                flexShrink: 0,
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '0.75rem',
+                padding: '0.6rem 1rem',
+                background: colors.cardBg,
+                borderLeft: `4px solid ${colors.terracotta}`,
+                borderBottom: `1px solid ${darkMode ? colors.border : '#3D405B20'}`,
+                color: colors.text,
+                fontSize: '0.875rem',
+                lineHeight: 1.45,
+              }}
+            >
+              <p style={{ margin: 0, flex: 1 }}>
+                <strong>The Bristol Improv Theatre closed on 9 October</strong>, and everything booked there has been cancelled.
+                It's a real loss. But the BIT was always its people, and they're still here making shows: there's plenty on
+                below, with more on the way as acts find new homes.{' '}
+                <a href="https://improvtheatre.co.uk/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit' }}>
+                  Read the BIT's statement
+                </a>
+              </p>
+              <button
+                onClick={hideBitNotice}
+                aria-label="Dismiss notice"
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: colors.text,
+                  fontSize: '1.25rem',
+                  lineHeight: 1,
+                  cursor: 'pointer',
+                  padding: '0.1rem 0.3rem',
+                  minWidth: '44px',
+                  minHeight: '44px',
+                  margin: '-0.6rem -0.75rem -0.6rem 0',
+                }}
+              >
+                ×
+              </button>
+            </aside>
+          )}
 
           {loading ? (
             <div className="loading">

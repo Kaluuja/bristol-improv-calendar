@@ -1,7 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { buildICS, transformEvent, mergeManualEvents, syncAgeDays } from './export-events.mjs';
+import { buildICS, transformEvent, mergeManualEvents, syncAgeDays, isAtClosedVenue } from './export-events.mjs';
+
+test('events at the Bristol Improv Theatre are dropped from its closing date', () => {
+  const at = (Venue, Start) => ({ id: 'x', fields: { Start, Title: 'Show', Venue } });
+  assert.equal(isAtClosedVenue(at('Bristol Improv Theatre', '2026-10-08T18:30:00.000Z')), false);
+  assert.equal(isAtClosedVenue(at('Bristol Improv Theatre', '2026-10-09T18:30:00.000Z')), true);
+  assert.equal(isAtClosedVenue(at('Bristol Improv Theatre', '2026-12-13T19:30:00.000Z')), true);
+  assert.equal(isAtClosedVenue(at('Hen & Chicken', '2026-12-13T19:30:00.000Z')), false);
+});
 
 const record = (fields, id = 'event-1') => ({ id, fields });
 const NOW = new Date('2026-06-01T00:00:00Z');

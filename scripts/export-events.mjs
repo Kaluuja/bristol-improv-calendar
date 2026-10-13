@@ -140,6 +140,18 @@ function readManualEvents() {
   return parsed.events || [];
 }
 
+// Venues that have shut, with the date they closed. Their box offices can keep
+// listing dates for weeks afterwards, so anything there on or after the closing
+// date is dropped even if it's still Approved in Airtable.
+const CLOSED_VENUES = {
+  'Bristol Improv Theatre': '2026-10-09', // closed with immediate effect, all events cancelled
+};
+
+export function isAtClosedVenue(record) {
+  const closedOn = CLOSED_VENUES[(record.fields.Venue || '').trim()];
+  return Boolean(closedOn && record.fields.Start && formatDate(record.fields.Start) >= closedOn);
+}
+
 export function transformEvent(record) {
   const fields = record.fields;
   return {
@@ -313,7 +325,11 @@ async function main() {
   // Keep events from the start of the previous month onwards (current + previous month history)
   const prevMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1)
     .toLocaleDateString('en-CA', { timeZone: 'Europe/London' });
-  const keptRecords = records.filter((r) => r.fields.Start && formatDate(r.fields.Start) >= prevMonthStart);
+  const closedVenueCount = records.filter(isAtClosedVenue).length;
+  if (closedVenueCount) console.log(`Dropped ${closedVenueCount} event(s) at closed venues`);
+  const keptRecords = records.filter(
+    (r) => r.fields.Start && formatDate(r.fields.Start) >= prevMonthStart && !isAtClosedVenue(r)
+  );
   console.log(`${keptRecords.length} events from ${prevMonthStart} onwards (including past events this month and last month)`);
 
   // Guard: a renamed Airtable view or changed token scope returns few/no events;
