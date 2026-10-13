@@ -57,6 +57,22 @@ test('if in doubt, include: improv wording beats exclusion words', () => {
   assert.equal(isImprovRelated(event).isImprov, true);
 });
 
+test('jazz and stand-up are out even with improv wording, unless the title says improv', () => {
+  const event = (title: string, description: string) => ({
+    title,
+    description,
+    start: new Date('2026-12-01T19:30:00Z'),
+    venue: 'Somewhere',
+    fingerprint: '',
+    sourceId: 'x',
+    source: 'headfirst',
+  });
+  assert.equal(isImprovRelated(event('Nat Evans Quartet', 'Jazz standards and improvisation')).isImprov, false);
+  assert.equal(isImprovRelated(event('Big Laughs', 'Stand-up who improvises with the crowd')).isImprov, false);
+  assert.equal(isImprovRelated(event('Improv vs Stand-Up', 'Two teams battle it out')).isImprov, true);
+  assert.equal(isImprovRelated(event('Showtime', 'A fully improvised musical')).isImprov, true);
+});
+
 test('unscripted and made-up-on-the-spot count as improv for every source', () => {
   const event = (description: string) => ({
     title: 'Some Show',

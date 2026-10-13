@@ -9,7 +9,7 @@ Checked against the code in September 2026. The list of sources in use lives in 
 | `bristol-improv-theatre` | Bristol Improv Theatre | **Switched off since the theatre closed on 9 Oct 2026** (the adapter is kept in case it reopens; re-add it in `sync/src/cli.ts` and remove it from `CLOSED_VENUES` in the export). **Spektrix API** (`system.spektrix.com/bristolimprovtheatre/api/v3/events` + `/instances`). One record per performance. Covers 6+ months. The file is still called `bristol-improv-theatre-scraper.ts`, but it no longer scrapes HTML or reads the ICS feed. Spektrix doesn't return a web link, so `eventPageUrl()` rebuilds the site's own slug rule, `improvtheatre.co.uk/event/<slug>-<first 4 chars of ID>`. **A wrong slug doesn't 404; it silently shows the homepage.** If BIT links break again, check that rule first. |
 | `prsc` | PRSC | ICS feed (`prsc.org.uk/?post_type=tribe_events&ical=1…`) via `helpers/ics-parser.ts` |
 | `hen-and-chicken` | Hen & Chicken | ICS feed (`henandchicken.com/?post_type=tribe_events&ical=1…`) via `helpers/ics-parser.ts` |
-| `wardrobe-theatre` | Wardrobe Theatre | **WordPress shows API** (`/wp-json/wp/v2/shows`) to find current shows the Wardrobe tags as "Improv", or that say improv / unscripted / made up on the spot. Then each show page's `.instance` rows for dates and times. These skip the exclusion list (see below). If the API fails it falls back to `FALLBACK_SHOWS` (Closer Each Day, Impromptu Shakespeare). |
+| `wardrobe-theatre` | Wardrobe Theatre | **WordPress shows API** (`/wp-json/wp/v2/shows`) to find current shows the Wardrobe tags as "Improv", or that say improv / unscripted / made up on the spot. Then each show page's `.instance` rows for dates and times. Shows the Wardrobe tags as Improv skip the exclusions below; ones matched on wording alone go through the classifier like any other event. If the API fails it falls back to `FALLBACK_SHOWS` (Closer Each Day, Impromptu Shakespeare). |
 | `bristol-folk-house` | The Folk House | HTML: `/live-music/?page=N`, up to 8 pages |
 | `tobacco-factory` | Tobacco Factory Theatres | HTML: `/whats-on/` |
 | `bristol-beacon` | Bristol Beacon | HTML: site search for "improv" |
@@ -42,7 +42,9 @@ Or add the record straight into Airtable with `Source = manual`. The sync never 
 - an adapter vouches for it (`improvReason`, e.g. the Wardrobe's own Improv genre tag), or
 - it has an improv signal (`improv`, `improvised`, `unscripted`, `made up on the spot`, `theatresports`, `long form`…).
 
-**If in doubt, it's included** (Ste's rule, Oct 2026). An improv signal alongside a non-improv one ("musical", "stand-up", "jazz"…) still gets in as Pending, because rejecting one in Airtable costs less than missing a show. Only events with non-improv signals and no improv signal are dropped.
+**If in doubt, it's included** (Ste's rule, Oct 2026). An improv signal alongside a non-improv one ("musical", "panto", "comedy night"…) still gets in as Pending, because rejecting one in Airtable costs less than missing a show. Musical improv is wanted.
+
+**Jazz and stand-up are always out** (`EXCLUDE_EVEN_IF_IMPROV`), even with improv wording, unless the title itself says improv ("Improv vs Stand-Up" stays in). A venue's own Improv tag (`improvReason`) overrides this too.
 
 It also assigns `Type` (Show / Workshop / Jam / Drop-in / Other). Events before the first day of the previous month are dropped.
 

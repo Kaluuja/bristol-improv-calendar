@@ -58,14 +58,21 @@ const IMPROV_SIGNALS = [
 ];
 
 /**
+ * Always out, even with improv wording (jazz improvisation, stand-ups who
+ * "improvise with the crowd"), unless the title itself says improv. Ste, Oct 2026.
+ */
+const EXCLUDE_EVEN_IF_IMPROV = [
+  /\bjazz\b/i,
+  /\bstand[- ]?up\b/i,
+];
+
+/**
  * Strong indicators of non-improv content
  */
 const NOT_IMPROV_SIGNALS = [
-  /\bjazz\b/i,
   /\blive\s*music\b/i,
   /\bgig\b/i,
   /\bopen\s*mic\b/i,
-  /\bstand[- ]?up\b/i,
   /\bcomedy\s*night\b/i,
   /\bquiz\b/i,
   /\bkaraoke\b/i,
@@ -158,10 +165,15 @@ export function isImprovRelated(event: Event): { isImprov: boolean; confidence: 
     return { isImprov: true, confidence: 'high', reason: 'known improv show' };
   }
 
-  // 2b. The venue's own listing says it's improv (adapter-set). Trusted over the
-  // exclusion list below: a missed show costs more than a Pending one Ste rejects.
+  // 2b. The venue itself tags it as improv (adapter-set, e.g. the Wardrobe's
+  // genre). Trusted over the exclusion lists below.
   if (event.improvReason) {
     return { isImprov: true, confidence: 'high', reason: event.improvReason };
+  }
+
+  // 3a. Jazz and stand-up are out, whatever else the listing says
+  if (matchesAny(text, EXCLUDE_EVEN_IF_IMPROV) && !/\bimprov/i.test(title)) {
+    return { isImprov: false, confidence: 'high', reason: 'jazz or stand-up' };
   }
 
   // 3. Explicit non-improv signals (check first to exclude)

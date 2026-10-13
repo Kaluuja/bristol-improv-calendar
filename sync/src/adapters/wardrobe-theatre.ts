@@ -30,6 +30,14 @@ const IMPROV_WORDING: { pattern: RegExp; label: string }[] = [
   { pattern: /\bmade\s+up\s+on\s+the\s+spot\b/i, label: 'made up on the spot' },
 ];
 
+interface WardrobeCandidate {
+  slug: string;
+  title: string;
+  /** Set only when the Wardrobe tags the show as Improv. */
+  improvReason?: string;
+  description?: string;
+}
+
 export interface WardrobeShow {
   slug: string;
   title?: { rendered?: string };
@@ -88,7 +96,7 @@ export class WardrobeTheatreAdapter implements SourceAdapter {
   readonly name = SOURCE_NAME;
 
   async fetch(): Promise<Event[]> {
-    let shows: { slug: string; title: string; improvReason?: string }[];
+    let shows: WardrobeCandidate[];
     try {
       shows = await this.findImprovShows();
     } catch (error) {
@@ -98,16 +106,16 @@ export class WardrobeTheatreAdapter implements SourceAdapter {
 
     const events: Event[] = [];
     for (const show of shows) {
-      const showEvents = await this.fetchShowPage(show.slug, show.title, show.improvReason);
+      const showEvents = await this.fetchShowPage(show);
       events.push(...showEvents);
     }
 
     return events;
   }
 
-  private async findImprovShows(): Promise<{ slug: string; title: string; improvReason?: string }[]> {
+  private async findImprovShows(): Promise<WardrobeCandidate[]> {
     const today = new Date().toLocaleDateString('en-CA').replace(/-/g, '');
-    const found: { slug: string; title: string; improvReason?: string }[] = [];
+    const found: WardrobeCandidate[] = [];
 
     for (let page = 1, totalPages = 1; page <= totalPages; page++) {
       const response = await fetch(`${SHOWS_API}?per_page=100&page=${page}&_fields=${SHOWS_API_FIELDS}`, {
@@ -118,8 +126,16 @@ export class WardrobeTheatreAdapter implements SourceAdapter {
 
       for (const show of (await response.json()) as WardrobeShow[]) {
         if (!isCurrentShow(show, today)) continue;
-        const improvReason = wardrobeImprovReason(show);
-        if (improvReason) found.push({ slug: show.slug, title: htmlToText(show.title?.rendered || show.slug), improvReason });
+        const reason = wardrobeImprovReason(show);
+        if (!reason) continue;
+        found.push({
+          slug: show.slug,
+          title: htmlToText(show.title?.rendered || show.slug),
+          // Only the Wardrobe's own Improv tag skips the classifier's exclusions;
+          // shows matched on wording alone are judged on their description.
+          improvReason: show.class_list?.includes('shows_genre-improv') ? reason : undefined,
+          description: htmlToText(show.content?.rendered || show.excerpt?.rendered || ''),
+        });
       }
     }
 
@@ -129,7 +145,7 @@ export class WardrobeTheatreAdapter implements SourceAdapter {
   /**
    * Fetch all performance dates from a show's individual page
    */
-  private async fetchShowPage(slug: string, title: string, improvReason?: string): Promise<Event[]> {
+  private async fetchShowPage({ slug, title, improvReason, description }: WardrobeCandidate): Promise<Event[]> {
     const url = `${BASE_URL}/shows/${slug}/`;
 
     const response = await fetch(url, {
@@ -170,6 +186,7 @@ export class WardrobeTheatreAdapter implements SourceAdapter {
         source: SOURCE_NAME,
         fingerprint: '',
         improvReason,
+        description,
       };
 
       event.fingerprint = generateFingerprint(event);
