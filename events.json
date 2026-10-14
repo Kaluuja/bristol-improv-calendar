@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-13T10:51:32.604Z",
+  "lastUpdated": "2026-10-14T11:05:39.767Z",
   "events": [
     {
       "date": "2026-09-01",
@@ -452,6 +452,15 @@
       "description": ""
     },
     {
+      "date": "2026-10-24",
+      "title": "Failing Forward: Fooling with Ed Rapley & Friends",
+      "venue": "Wardrobe Theatre",
+      "time": "14:00",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/failing-forward-fooling-with-ed-rapley-friends/",
+      "description": ""
+    },
+    {
       "date": "2026-10-26",
       "title": "Closer Each Day: The Improvised Soap Opera",
       "venue": "Wardrobe Theatre",
@@ -588,11 +597,29 @@
     },
     {
       "date": "2026-12-12",
+      "title": "Santa & Snowball",
+      "venue": "Wardrobe Theatre",
+      "time": "11:00",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/santa-sven/",
+      "description": ""
+    },
+    {
+      "date": "2026-12-12",
       "title": "Closer Each Day: The Improvised Soap Opera",
       "venue": "Bristol Old Vic",
       "time": "19:30",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
+      "date": "2026-12-13",
+      "title": "Santa & Snowball",
+      "venue": "Wardrobe Theatre",
+      "time": "11:00",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/santa-sven/",
       "description": ""
     },
     {
@@ -662,7 +689,7 @@
       "date": "2026-12-20",
       "title": "Up The Antics’ Christmas Playlist",
       "venue": "Wardrobe Theatre",
-      "time": "19:00–20:00",
+      "time": "19:00",
       "type": "show",
       "url": "https://thewardrobetheatre.com/shows/up-the-antics-christmas-playlist/",
       "description": ""
@@ -776,6 +803,15 @@
       "description": ""
     },
     {
+      "date": "2027-03-06",
+      "title": "David Elms Describes A Room",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/david-elms-describes-a-room/",
+      "description": ""
+    },
+    {
       "date": "2027-03-08",
       "title": "Closer Each Day: The Improvised Soap Opera",
       "venue": "Wardrobe Theatre",
@@ -818,6 +854,15 @@
       "time": "19:30",
       "type": "show",
       "url": "https://thewardrobetheatre.com/shows/impromptu-shakespeare/",
+      "description": ""
+    },
+    {
+      "date": "2027-04-24",
+      "title": "WORKSHOP: Clownprov Intensive with Carlos Sandin and Fred Newnes, The Supermalts",
+      "venue": "Wardrobe Theatre",
+      "time": "10:00",
+      "type": "workshop",
+      "url": "https://thewardrobetheatre.com/shows/workshop-clownprov-intensive-with-carlos-sandin-and-fred-newnes-the-supermalts/",
       "description": ""
     },
     {
