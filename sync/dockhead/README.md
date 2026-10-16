@@ -40,6 +40,7 @@ Everything comes through **Echo's morning brief**. `morning_brief.py` writes an 
 - **Problems**, only when there are any:
   - a source erroring or returning no events (from the sync's health report, `sync-health.json`)
   - events taken off the calendar because no source has listed them for 14 days
+  - events starting at midnight: no show does, so a scraper has misread the time (still synced; fix the adapter)
   - the sync or Alma scraper crashing (`*.alert` files from `alert-on-failure.sh`; the Alma one needs 2 failures in a row)
   - the sync not having reported for 36 hours
 

@@ -107,6 +107,13 @@ def problems_section():
             problems += [f"  - {r}" for r in retired[:10]]
             if len(retired) > 10:
                 problems.append(f"  - …and {len(retired) - 10} more")
+        midnight = health.get("midnight", [])
+        if midnight:
+            problems.append(
+                f"- {len(midnight)} event(s) starting at midnight, so a scraper probably misread the time "
+                "(check the listing; fix the adapter):"
+            )
+            problems += [f"  - {m}" for m in midnight]
     except FileNotFoundError:
         problems.append("- No sync report found yet. Check Dockhead: `tail -50 ~/improv-calendar-sync.log`.")
     except Exception as e:  # noqa: BLE001

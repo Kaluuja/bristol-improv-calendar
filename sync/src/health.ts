@@ -22,10 +22,23 @@ export interface HealthReport {
   empty: string[];
   known: { source: string; problem: string; why: string }[];
   retired: string[];
+  /** Events starting at midnight London time: no show does, so a scraper misread the time */
+  midnight: string[];
 }
 
-export function buildHealthReport(results: SyncResult[], retired: string[]): HealthReport {
-  const report: HealthReport = { failed: [], empty: [], known: [], retired };
+const LONDON_TIME = new Intl.DateTimeFormat('en-GB', {
+  timeZone: 'Europe/London',
+  hour: '2-digit',
+  minute: '2-digit',
+  hourCycle: 'h23',
+});
+
+export function startsAtMidnight(start: Date): boolean {
+  return LONDON_TIME.format(start) === '00:00';
+}
+
+export function buildHealthReport(results: SyncResult[], retired: string[], midnight: string[] = []): HealthReport {
+  const report: HealthReport = { failed: [], empty: [], known: [], retired, midnight };
 
   for (const r of results) {
     const problem = r.errors.length > 0 ? r.errors.join('; ') : r.fetched === 0 ? '0 events' : null;
@@ -76,6 +89,10 @@ export function formatReport(report: HealthReport, full = false): string | null 
     lines.push(`🗂 Taken off the calendar (not listed for 14+ days, now "Needs review"):`);
     for (const r of report.retired.slice(0, 15)) lines.push(`• ${r}`);
     if (report.retired.length > 15) lines.push(`…and ${report.retired.length - 15} more`);
+  }
+  if (report.midnight.length) {
+    lines.push('🕛 Starting at midnight (the scraper probably misread the time):');
+    for (const m of report.midnight) lines.push(`• ${m}`);
   }
   if (lines.length === 0 && !full) return null; // nothing new: stay quiet
   if (lines.length === 0) lines.push('✅ No new problems.');

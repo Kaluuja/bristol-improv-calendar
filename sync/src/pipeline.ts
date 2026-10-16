@@ -2,6 +2,7 @@ import type { Event, SourceAdapter, SyncResult } from './types.js';
 import { dedupeEvents, fuzzyDedupeByPrefix, getDateOnly, getVenueDisplayName } from './dedupe.js';
 import { filterAndClassifyEvents } from './classifier.js';
 import { pausedVenueOf } from './paused-venues.js';
+import { startsAtMidnight } from './health.js';
 import { AirtableAdapter } from './adapters/airtable.js';
 
 /**
@@ -36,6 +37,8 @@ export interface PipelineOutcome {
   results: SyncResult[];
   /** Records moved to Needs review this run (labels for logging/alerts) */
   retired: string[];
+  /** Events starting at midnight, almost certainly a misread time (labels for alerts) */
+  midnight: string[];
 }
 
 export async function runPipeline(
@@ -102,6 +105,13 @@ export async function runPipeline(
     event.venue = getVenueDisplayName(event.venue);
   }
 
+  // Step 3.6: No show starts at midnight, so one that does means a scraper
+  // misread the time. Still synced, but flagged in the morning brief.
+  const midnight = classifiedEvents
+    .filter((event) => startsAtMidnight(event.start))
+    .map((event) => `${getDateOnly(event.start)} ${event.title} @ ${event.venue} (${event.source})`);
+  for (const label of midnight) console.log(`  🕛 Midnight start: ${label}`);
+
   if (dryRun) {
     console.log('\n🏃 Dry run - skipping Airtable sync');
     if (verbose) {
@@ -113,7 +123,7 @@ export async function runPipeline(
         console.log(`  ... and ${classifiedEvents.length - 20} more`);
       }
     }
-    return { results, retired };
+    return { results, retired, midnight };
   }
 
   // Step 4: Sync to Airtable
@@ -142,5 +152,5 @@ export async function runPipeline(
   const deleted = await airtable.cleanup(minDate);
   console.log(`  Deleted: ${deleted} events before ${minDate.toISOString().split('T')[0]}`);
 
-  return { results, retired };
+  return { results, retired, midnight };
 }

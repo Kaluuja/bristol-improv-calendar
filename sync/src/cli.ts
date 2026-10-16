@@ -77,7 +77,7 @@ async function main() {
   ];
 
   try {
-    const { results, retired } = await runPipeline(sources, { dryRun, verbose });
+    const { results, retired, midnight } = await runPipeline(sources, { dryRun, verbose });
 
     console.log('\n✅ Sync complete!\n');
 
@@ -93,7 +93,7 @@ async function main() {
     }
 
     // Report problems. Dry runs only print, so testing never pings Telegram.
-    const report = buildHealthReport(results, retired);
+    const report = buildHealthReport(results, retired, midnight);
     if (dryRun) {
       console.log(`\n${formatReport(report, true)}`);
     } else {
