@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-15T10:47:20.889Z",
+  "lastUpdated": "2026-10-16T08:47:12.668Z",
   "events": [
     {
       "date": "2026-09-01",
@@ -452,6 +452,15 @@
       "description": ""
     },
     {
+      "date": "2026-10-20",
+      "title": "Improv Halloween Double Bill",
+      "venue": "Loco Klub",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/loco-klub/tue-20-oct-improv-halloween-double-bill-after-dusk-cult-of-the-unwritten--164463",
+      "description": ""
+    },
+    {
       "date": "2026-10-24",
       "title": "Failing Forward: Fooling with Ed Rapley & Friends",
       "venue": "Wardrobe Theatre",
@@ -491,7 +500,7 @@
       "date": "2026-11-11",
       "title": "Wednesday Night Improv: November Show",
       "venue": "Hen & Chicken",
-      "time": "19:00",
+      "time": "19:30",
       "type": "show",
       "url": "https://www.headfirstbristol.co.uk/whats-on/hen-and-chicken/wed-11-nov-wednesday-night-improv-november-show-162526",
       "description": ""
@@ -896,7 +905,7 @@
       "date": "2027-05-12",
       "title": "Tales From The Wasteland: Post-Apocalyptic Improv",
       "venue": "Loco Klub",
-      "time": "19:30",
+      "time": "20:30",
       "type": "show",
       "url": "https://www.headfirstbristol.co.uk/whats-on/loco-klub/wed-12-may-tales-from-the-wasteland-post-apocalyptic-improv-164209",
       "description": ""
