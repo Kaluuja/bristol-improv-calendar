@@ -56,7 +56,8 @@ async function main() {
   // Initialize all source adapters
   const sources = [
     // BIT (Spektrix API) is switched off: the theatre closed on 9 Oct 2026 but
-    // its box office still lists the cancelled dates. Re-add it if it reopens.
+    // its box office still lists the cancelled dates. Re-add it if it reopens,
+    // and take it out of PAUSED_VENUES in paused-venues.ts.
     // Bristol Folk House website (for recurring improv shows like Just For A Moment)
     new BristolFolkHouseAdapter(),
     // ICS feeds

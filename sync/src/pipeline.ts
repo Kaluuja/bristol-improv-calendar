@@ -1,6 +1,7 @@
 import type { Event, SourceAdapter, SyncResult } from './types.js';
 import { dedupeEvents, fuzzyDedupeByPrefix, getDateOnly, getVenueDisplayName } from './dedupe.js';
 import { filterAndClassifyEvents } from './classifier.js';
+import { pausedVenueOf } from './paused-venues.js';
 import { AirtableAdapter } from './adapters/airtable.js';
 
 /**
@@ -76,10 +77,20 @@ export async function runPipeline(
 
   console.log(`\n📊 Total fetched: ${allEvents.length} events`);
 
+  // Step 1.5: Drop events at paused venues (see paused-venues.ts)
+  const openEvents = allEvents.filter((event) => {
+    const paused = pausedVenueOf(event);
+    if (paused && verbose) console.log(`  ⊘ Paused venue (${paused}): "${event.title}"`);
+    return !paused;
+  });
+  if (openEvents.length < allEvents.length) {
+    console.log(`  Ignored ${allEvents.length - openEvents.length} at paused venues`);
+  }
+
   // Step 2: Deduplicate
   console.log('\n🔍 Deduplicating events...');
-  const dedupedEvents = fuzzyDedupeByPrefix(dedupeEvents(allEvents));
-  console.log(`  ${allEvents.length} → ${dedupedEvents.length} unique events`);
+  const dedupedEvents = fuzzyDedupeByPrefix(dedupeEvents(openEvents));
+  console.log(`  ${openEvents.length} → ${dedupedEvents.length} unique events`);
 
   // Step 3: Filter and classify
   console.log('\n🎭 Filtering improv events and classifying types...');
