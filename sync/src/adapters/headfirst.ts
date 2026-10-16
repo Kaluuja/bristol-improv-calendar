@@ -6,6 +6,22 @@ import { inferYear } from './helpers/dates.js';
 const SOURCE_NAME = 'headfirst';
 const BASE_URL = 'https://www.headfirstbristol.co.uk';
 
+interface ListedTime {
+  hours: number;
+  minutes: number;
+  /** The listing's time is really the doors time; the start is on the event page */
+  isDoors: boolean;
+}
+
+/** "The event starts at <span>19:30</span>." on a Headfirst event page */
+export function parseEventPageStart(html: string): { hours: number; minutes: number } | null {
+  const match = html.match(/event starts at\s*(?:<[^>]+>\s*)*(\d{1,2})[:.](\d{2})/i);
+  if (!match) return null;
+  const hours = parseInt(match[1], 10);
+  const minutes = parseInt(match[2], 10);
+  return hours <= 23 && minutes <= 59 ? { hours, minutes } : null;
+}
+
 /**
  * Headfirst Bristol event scraper
  * Scrapes event listings for comedy/theatre events at key improv venues
@@ -26,7 +42,7 @@ export class HeadfirstAdapter implements SourceAdapter {
 
     // Step 1: Fetch all pages and collect JSON-LD times into a combined map
     const pageHtmls: string[] = [];
-    const combinedTimeMap = new Map<string, { hours: number; minutes: number }>();
+    const combinedTimeMap = new Map<string, ListedTime>();
 
     for (const page of pages) {
       try {
@@ -49,9 +65,27 @@ export class HeadfirstAdapter implements SourceAdapter {
     const events: Event[] = [];
     const seenUrls = new Set<string>();
 
+    const doorsOnly: Event[] = [];
     for (const html of pageHtmls) {
-      const pageEvents = this.parseEventsFromHtml(html, seenUrls, combinedTimeMap);
+      const pageEvents = this.parseEventsFromHtml(html, seenUrls, combinedTimeMap, doorsOnly);
       events.push(...pageEvents);
+    }
+
+    // Step 3: Where the listing only gave the doors time, read the real start
+    // time from the event's own page. Keep the doors time if that fails.
+    for (let i = 0; i < doorsOnly.length; i += 5) {
+      await Promise.all(
+        doorsOnly.slice(i, i + 5).map(async (event) => {
+          try {
+            const response = await fetch(event.eventUrl!);
+            if (!response.ok) return;
+            const time = parseEventPageStart(await response.text());
+            if (time) event.start.setHours(time.hours, time.minutes, 0, 0);
+          } catch {
+            // Keep the doors time
+          }
+        })
+      );
     }
 
     return events;
@@ -60,7 +94,8 @@ export class HeadfirstAdapter implements SourceAdapter {
   private parseEventsFromHtml(
     html: string,
     seenUrls: Set<string>,
-    timeMap: Map<string, { hours: number; minutes: number }>
+    timeMap: Map<string, ListedTime>,
+    doorsOnly: Event[]
   ): Event[] {
     const root = parse(html);
     const events: Event[] = [];
@@ -81,8 +116,10 @@ export class HeadfirstAdapter implements SourceAdapter {
 
       const eventUrl = href.startsWith('http') ? href : `${BASE_URL}${href}`;
       const dateStr = dateInfo.start.toISOString().split('T')[0];
-      const timeKey = this.normalizeForTimeMatch(title) + '|' + dateStr;
-      const jsonLdTime = timeMap.get(timeKey);
+      // By URL first: the JSON-LD name is often longer than the link text
+      // ("Improv Halloween Double Bill (After Dusk / Cult of the Unwritten)").
+      const jsonLdTime =
+        timeMap.get(eventUrl) ?? timeMap.get(this.normalizeForTimeMatch(title) + '|' + dateStr);
 
       if (jsonLdTime) {
         dateInfo.start.setHours(jsonLdTime.hours, jsonLdTime.minutes);
@@ -110,13 +147,15 @@ export class HeadfirstAdapter implements SourceAdapter {
 
       event.fingerprint = generateFingerprint(event);
       events.push(event);
+      if (jsonLdTime?.isDoors) doorsOnly.push(event);
     }
 
     return events;
   }
 
-  private parseJsonLdTimes(html: string): Map<string, { hours: number; minutes: number }> {
-    const timeMap = new Map<string, { hours: number; minutes: number }>();
+  /** JSON-LD start times, keyed by event URL and by normalised name + date. */
+  private parseJsonLdTimes(html: string): Map<string, ListedTime> {
+    const timeMap = new Map<string, ListedTime>();
     const jsonLdMatches = html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi);
 
     for (const match of jsonLdMatches) {
@@ -128,11 +167,14 @@ export class HeadfirstAdapter implements SourceAdapter {
           if ((event['@type'] === 'Event' || event['@type'] === 'MusicEvent') && event.startDate && event.name) {
             const timeMatch = event.startDate.match(/(\d{4}-\d{2}-\d{2})T(\d{2}):(\d{2})/);
             if (timeMatch) {
-              const key = this.normalizeForTimeMatch(event.name) + '|' + timeMatch[1];
-              timeMap.set(key, {
+              const time: ListedTime = {
                 hours: parseInt(timeMatch[2], 10),
                 minutes: parseInt(timeMatch[3], 10),
-              });
+                // Headfirst gives the doors time as startDate when it has one
+                isDoors: event.doorTime === event.startDate,
+              };
+              timeMap.set(this.normalizeForTimeMatch(event.name) + '|' + timeMatch[1], time);
+              if (event.url) timeMap.set(event.url, time);
             }
           }
         }
@@ -156,8 +198,11 @@ export class HeadfirstAdapter implements SourceAdapter {
   private findTimeInParent(element: HTMLElement): { hours: number; minutes: number } | null {
     let current: HTMLElement | null = element;
 
-    for (let i = 0; i < 5 && current; i++) {
+    // Stay inside the event's own listing card. Climbing further reaches the
+    // page's JSON-LD, whose "+00:00" offsets read as a midnight start.
+    for (let i = 0; i < 5 && current && current.tagName !== 'BODY'; i++) {
       const text = current.text || '';
+      if (text.length > 1000) break;
 
       const time12Match = text.match(/(\d{1,2})[:.](\d{2})\s*(am|pm)/i);
       if (time12Match) {
