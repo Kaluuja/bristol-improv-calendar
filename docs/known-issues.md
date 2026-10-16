@@ -30,6 +30,10 @@ It runs from a Docker image built from `sync/alma-scraper/`. The daily `git pull
 
 Until the timezone fix, the sync stored BST times an hour late and the export compensated. Now the sync stores true times and the export converts them normally. Every record the sync still sees got rewritten on the first fixed run. Records it no longer sees kept the old values, so a BST one shows an hour **late**. That leaves only past events on the site's "past events" view, which drop off the calendar at the start of November. (The one future case, a delisted BIT showcase on 20 Oct, was moved to Needs review.)
 
+## Headfirst gives the doors time as the start time
+
+Found 16 October 2026. When a Headfirst event has a doors time, its JSON-LD `startDate` is the doors time, and the real start only appears on the event page ("The event starts at 19:30"). So [headfirst.ts](../sync/src/adapters/headfirst.ts) fetches the event page for those events. It also matches JSON-LD to links by URL, because the JSON-LD name is often longer than the link text. Before this, some events showed at midnight: the fallback climbed to the page root and read a JSON-LD "+00:00" timezone as the time. Any event starting at midnight is now listed under Problems in the morning brief, because no show does. If one appears, a scraper has misread the time.
+
 ## Netlify serves the whole repo
 
 There's no publish directory, so `sync/`, `scripts/`, `docs/` etc. are all fetchable from the live site. That's harmless while the repo is public anyway, and it's the reason **no secret may ever be committed**. If it starts to bother you, add a `netlify.toml` with a publish directory (bigger change) or a `_redirects` rule that 404s those paths (small change).
