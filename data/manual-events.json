@@ -34,6 +34,16 @@
       }
     },
     {
+      "id": "manual-instant-wit-kelvin-2026-11-14",
+      "fields": {
+        "Title": "Instant Wit",
+        "Venue": "Kelvin Players Theatre",
+        "Start": "2026-11-14T20:00:00",
+        "Type": "show",
+        "Tickets URL": "https://www.kelvinplayers.co.uk/book"
+      }
+    },
+    {
       "id": "manual-up-the-antics-christmas-wardrobe-2026-12-20",
       "fields": {
         "Title": "Up The Antics’ Christmas Playlist",
