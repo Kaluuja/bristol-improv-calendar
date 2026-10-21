@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-20T10:52:32.031Z",
+  "lastUpdated": "2026-10-21T11:05:09.256Z",
   "events": [
     {
       "date": "2026-09-01",
@@ -596,6 +596,15 @@
       "description": ""
     },
     {
+      "date": "2026-12-09",
+      "title": "Wednesday Night Improv: December Show Christmas Special",
+      "venue": "Hen & Chicken",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/hen-and-chicken/wed-9-dec-wednesday-night-improv-december-show-christmas-special--165201",
+      "description": ""
+    },
+    {
       "date": "2026-12-10",
       "title": "Closer Each Day: The Improvised Soap Opera",
       "venue": "Bristol Old Vic",
@@ -795,6 +804,15 @@
     },
     {
       "date": "2027-01-30",
+      "title": "Austentatious",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/austentatious",
+      "description": ""
+    },
+    {
+      "date": "2027-01-31",
       "title": "Austentatious",
       "venue": "Bristol Old Vic",
       "time": "19:30",
