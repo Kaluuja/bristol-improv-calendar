@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-23T10:57:08.442Z",
+  "lastUpdated": "2026-10-26T12:10:58.201Z",
   "events": [
     {
       "date": "2026-09-01",
@@ -533,6 +533,15 @@
       "description": ""
     },
     {
+      "date": "2026-11-20",
+      "title": "This Is Your Musical: The Improvised Musical",
+      "venue": "Hen & Chicken",
+      "time": "20:00",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/hen-and-chicken/fri-20-nov-this-is-your-musical-the-improvised-musical-165463",
+      "description": ""
+    },
+    {
       "date": "2026-11-23",
       "title": "Closer Each Day: The Improvised Soap Opera",
       "venue": "Wardrobe Theatre",
@@ -548,6 +557,15 @@
       "time": "19:30",
       "type": "show",
       "url": "https://www.headfirstbristol.co.uk/whats-on/prsc/thu-26-nov-unscripted-players-big-november-show-165170",
+      "description": ""
+    },
+    {
+      "date": "2026-11-27",
+      "title": "Unscripted Players Big November Show",
+      "venue": "acta Community Theatre",
+      "time": "19:00–22:00",
+      "type": "show",
+      "url": "https://www.eventbrite.com/checkout-external?eid=2003874832567",
       "description": ""
     },
     {
@@ -845,6 +863,15 @@
       "time": "19:30",
       "type": "show",
       "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2027-02-20",
+      "title": "The Antics Joke Show ft. Luke Rollason",
+      "venue": "Wardrobe Theatre",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://thewardrobetheatre.com/shows/the-antics-joke-show/",
       "description": ""
     },
     {
