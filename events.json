@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-27T11:31:59.743Z",
+  "lastUpdated": "2026-10-27T23:37:53.113Z",
   "events": [
     {
       "date": "2026-09-01",
@@ -485,6 +485,24 @@
       "time": "20:00–21:15",
       "type": "show",
       "url": "https://www.tickettailor.com/events/almatheatrecompany/2326896",
+      "description": ""
+    },
+    {
+      "date": "2026-11-03",
+      "title": "Lifegame",
+      "venue": "Bristol Old Vic",
+      "time": "19:00",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/lifegame",
+      "description": ""
+    },
+    {
+      "date": "2026-11-04",
+      "title": "Lifegame",
+      "venue": "Bristol Old Vic",
+      "time": "19:00",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/lifegame",
       "description": ""
     },
     {
