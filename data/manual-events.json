@@ -44,6 +44,26 @@
       }
     },
     {
+      "id": "manual-lifegame-old-vic-2026-11-03",
+      "fields": {
+        "Title": "Lifegame",
+        "Venue": "Bristol Old Vic",
+        "Start": "2026-11-03T19:00:00",
+        "Type": "show",
+        "Tickets URL": "https://bristololdvic.org.uk/whats-on/lifegame"
+      }
+    },
+    {
+      "id": "manual-lifegame-old-vic-2026-11-04",
+      "fields": {
+        "Title": "Lifegame",
+        "Venue": "Bristol Old Vic",
+        "Start": "2026-11-04T19:00:00",
+        "Type": "show",
+        "Tickets URL": "https://bristololdvic.org.uk/whats-on/lifegame"
+      }
+    },
+    {
       "id": "manual-up-the-antics-christmas-wardrobe-2026-12-20",
       "fields": {
         "Title": "Up The Antics’ Christmas Playlist",
