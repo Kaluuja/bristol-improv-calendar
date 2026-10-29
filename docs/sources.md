@@ -13,7 +13,7 @@ Checked against the code in September 2026. The list of sources in use lives in 
 | `bristol-folk-house` | The Folk House | HTML: `/live-music/?page=N`, up to 8 pages |
 | `tobacco-factory` | Tobacco Factory Theatres | HTML: `/whats-on/` |
 | `bristol-beacon` | Bristol Beacon | HTML: site search for "improv" |
-| `bristol-old-vic` | Bristol Old Vic | HTML: `/whats-on`, up to 6 pages; date ranges are expanded into individual performances |
+| `bristol-old-vic` | Bristol Old Vic | HTML: `/whats-on`, up to 6 pages, then each show page for its description (the classifier needs it: titles like "Kool Story Bro" say nothing) and performance times (latest per day) |
 | `redgrave-theatre` | Redgrave Theatre | HTML: `/events/` (date from the URL pattern) |
 | `st-georges-bristol` | St George's Bristol | HTML: `/whats-on/` |
 | `headfirst` | (aggregator) | HTML + JSON-LD times from: comedy and theatre listings, plus the venue pages for Hen & Chicken, PRSC, Wardrobe, Folk House and Loco Klub. Where the JSON-LD time is the doors time, the start comes from the event page ([known issues](known-issues.md#headfirst-gives-the-doors-time-as-the-start-time)) |
