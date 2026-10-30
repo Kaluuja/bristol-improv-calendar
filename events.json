@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-29T12:12:44.795Z",
+  "lastUpdated": "2026-10-30T12:03:04.455Z",
   "events": [
     {
       "date": "2026-09-01",
@@ -551,6 +551,24 @@
       "description": ""
     },
     {
+      "date": "2026-11-19",
+      "title": "Kiell Smith-Bynoe & Friends: Kool Story Bro",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/kiell-smith-bynoe-friends-kool-story-bro-26",
+      "description": ""
+    },
+    {
+      "date": "2026-11-20",
+      "title": "Kiell Smith-Bynoe & Friends: Kool Story Bro",
+      "venue": "Bristol Old Vic",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://bristololdvic.org.uk/whats-on/kiell-smith-bynoe-friends-kool-story-bro-26",
+      "description": ""
+    },
+    {
       "date": "2026-11-20",
       "title": "This Is Your Musical: The Improvised Musical",
       "venue": "Hen & Chicken",
@@ -590,7 +608,7 @@
       "date": "2026-12-04",
       "title": "Closer Each Day: The Improvised Soap Opera",
       "venue": "Bristol Old Vic",
-      "time": "19:30",
+      "time": "20:00",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
       "description": ""
@@ -608,7 +626,7 @@
       "date": "2026-12-05",
       "title": "Closer Each Day: The Improvised Soap Opera",
       "venue": "Bristol Old Vic",
-      "time": "19:30",
+      "time": "20:00",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
       "description": ""
@@ -671,7 +689,7 @@
       "date": "2026-12-10",
       "title": "Closer Each Day: The Improvised Soap Opera",
       "venue": "Bristol Old Vic",
-      "time": "19:30",
+      "time": "20:00",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
       "description": ""
@@ -680,7 +698,7 @@
       "date": "2026-12-11",
       "title": "Closer Each Day: The Improvised Soap Opera",
       "venue": "Bristol Old Vic",
-      "time": "19:30",
+      "time": "20:00",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
       "description": ""
@@ -698,7 +716,7 @@
       "date": "2026-12-12",
       "title": "Closer Each Day: The Improvised Soap Opera",
       "venue": "Bristol Old Vic",
-      "time": "19:30",
+      "time": "20:00",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
       "description": ""
@@ -752,16 +770,25 @@
       "date": "2026-12-17",
       "title": "Closer Each Day: The Improvised Soap Opera",
       "venue": "Bristol Old Vic",
-      "time": "19:30",
+      "time": "20:00",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
       "description": ""
     },
     {
       "date": "2026-12-18",
+      "title": "The Improv Spotlight: Holiday Special",
+      "venue": "PRSC",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/prsc/fri-18-dec-the-improv-spotlight-holiday-special--164974",
+      "description": ""
+    },
+    {
+      "date": "2026-12-18",
       "title": "Closer Each Day: The Improvised Soap Opera",
       "venue": "Bristol Old Vic",
-      "time": "19:30",
+      "time": "20:00",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
       "description": ""
@@ -770,7 +797,7 @@
       "date": "2026-12-19",
       "title": "Closer Each Day: The Improvised Soap Opera",
       "venue": "Bristol Old Vic",
-      "time": "19:30",
+      "time": "20:00",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
       "description": ""
@@ -887,7 +914,7 @@
       "date": "2027-01-31",
       "title": "Austentatious",
       "venue": "Bristol Old Vic",
-      "time": "19:30",
+      "time": "13:30",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/austentatious",
       "description": ""
@@ -917,6 +944,15 @@
       "time": "19:30",
       "type": "show",
       "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2027-03-06",
+      "title": "WORKSHOP: Improv Masterclass with David Elms",
+      "venue": "Wardrobe Theatre",
+      "time": "11:00",
+      "type": "workshop",
+      "url": "https://thewardrobetheatre.com/shows/workshop-improv-masterclass-with-david-elms/",
       "description": ""
     },
     {
