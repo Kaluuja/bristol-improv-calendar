@@ -73,6 +73,17 @@
         "Type": "show",
         "Tickets URL": "https://thewardrobetheatre.com/shows/up-the-antics-christmas-playlist/"
       }
+    },
+    {
+      "id": "manual-playing-with-yourself-old-vic-2026-11-20",
+      "fields": {
+        "Title": "Playing With Yourself: Solo Improv Workshop with David Elms",
+        "Venue": "Bristol Old Vic",
+        "Start": "2026-11-20T14:00:00",
+        "End": "2026-11-20T17:00:00",
+        "Type": "workshop",
+        "Tickets URL": "https://www.leap-day.co.uk/event-details/bristol-solo-improv-workshop-playing-with-yourself"
+      }
     }
   ]
 }
