@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-01T12:36:47.018Z",
+  "lastUpdated": "2026-11-02T14:39:55.264Z",
   "events": [
     {
       "date": "2026-10-01",
@@ -269,6 +269,15 @@
       "time": "19:00–22:00",
       "type": "show",
       "url": "https://www.eventbrite.com/checkout-external?eid=2003874832567",
+      "description": ""
+    },
+    {
+      "date": "2026-12-01",
+      "title": "In the Cards: a tarot and improv show",
+      "venue": "Loco Klub",
+      "time": "20:00",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/loco-klub/tue-1-dec-in-the-cards-a-tarot-and-improv-show-165535",
       "description": ""
     },
     {
