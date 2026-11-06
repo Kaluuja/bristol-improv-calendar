@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-05T13:55:25.031Z",
+  "lastUpdated": "2026-11-06T13:40:43.179Z",
   "events": [
     {
       "date": "2026-10-01",
@@ -173,12 +173,30 @@
       "description": ""
     },
     {
+      "date": "2026-11-07",
+      "title": "Kaleidoscope Fusion – Dance Night",
+      "venue": "PRSC",
+      "time": "19:30–23:00",
+      "type": "show",
+      "url": "https://prsc.org.uk/event/kaleidoscope-fusion-dance-night-5/",
+      "description": ""
+    },
+    {
       "date": "2026-11-09",
       "title": "Closer Each Day: The Improvised Soap Opera",
       "venue": "Wardrobe Theatre",
       "time": "19:30",
       "type": "show",
       "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2026-11-11",
+      "title": "Improv workshop with Will Gawned",
+      "venue": "St Georges Hall",
+      "time": "18:30",
+      "type": "workshop",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/st-georges-hall/wed-11-nov-improv-workshop-with-will-gawned-166229",
       "description": ""
     },
     {
@@ -278,6 +296,15 @@
       "time": "20:00",
       "type": "show",
       "url": "https://www.headfirstbristol.co.uk/whats-on/loco-klub/tue-1-dec-in-the-cards-a-tarot-and-improv-show-165535",
+      "description": ""
+    },
+    {
+      "date": "2026-12-02",
+      "title": "Festive Improv Double Bill: Cult of the Unwritten & What's Your Star Sign?",
+      "venue": "Alma Tavern & Theatre",
+      "time": "20:00–22:00",
+      "type": "show",
+      "url": "https://www.tickettailor.com/events/almatheatrecompany/2509814",
       "description": ""
     },
     {
@@ -515,6 +542,15 @@
       "description": ""
     },
     {
+      "date": "2027-01-12",
+      "title": "Beansville presents: Uncanny Manor (feat. Cult of the Unwritten)",
+      "venue": "Alma Tavern & Theatre",
+      "time": "20:00–21:45",
+      "type": "show",
+      "url": "https://www.tickettailor.com/events/almatheatrecompany/2513528",
+      "description": ""
+    },
+    {
       "date": "2027-01-13",
       "title": "SHOWSTOPPER! THE IMPROVISED MUSICAL",
       "venue": "Bristol Old Vic",
@@ -548,6 +584,15 @@
       "time": "19:30",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/showstopper-the-improvised-musical-2027-1",
+      "description": ""
+    },
+    {
+      "date": "2027-01-23",
+      "title": "Tales from the Wasteland: Post Apocalyptic Improv",
+      "venue": "Alma Tavern & Theatre",
+      "time": "20:00–21:45",
+      "type": "show",
+      "url": "https://www.tickettailor.com/events/almatheatrecompany/2513565",
       "description": ""
     },
     {
