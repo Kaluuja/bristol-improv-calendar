@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-09T15:01:33.000Z",
+  "lastUpdated": "2026-11-10T14:14:14.495Z",
   "events": [
     {
       "date": "2026-10-01",
@@ -201,11 +201,20 @@
     },
     {
       "date": "2026-11-11",
-      "title": "Wednesday Night Improv: November Show",
+      "title": "Wednesday Night Improv",
       "venue": "Hen & Chicken",
       "time": "19:30–21:30",
       "type": "show",
-      "url": "https://www.headfirstbristol.co.uk/whats-on/hen-and-chicken/wed-11-nov-wednesday-night-improv-november-show-162526",
+      "url": "https://www.henandchicken.com/event/comedy-wednesday-night-improv-5/",
+      "description": ""
+    },
+    {
+      "date": "2026-11-13",
+      "title": "En Masse 2026: Particles in Performance w/ Dan Johnson ++ (workshop)",
+      "venue": "PRSC",
+      "time": "18:00–21:00",
+      "type": "workshop",
+      "url": "https://prsc.org.uk/event/en-masse-2026-particles-in-performance-w-dan-johnson-workshop/",
       "description": ""
     },
     {
@@ -269,6 +278,15 @@
       "time": "19:30",
       "type": "show",
       "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2026-11-25",
+      "title": "Internal Journeys: Fooling & Theatrical IFS",
+      "venue": "PRSC",
+      "time": "18:30–20:30",
+      "type": "show",
+      "url": "https://prsc.org.uk/event/internal-journeys-fooling-theatrical-ifs/",
       "description": ""
     },
     {
@@ -440,6 +458,15 @@
       "time": "19:30",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/closer-each-day",
+      "description": ""
+    },
+    {
+      "date": "2026-12-14",
+      "title": "Sometimes We Wear Shirts present: Knock Knock",
+      "venue": "Alma Tavern & Theatre",
+      "time": "18:30–19:45",
+      "type": "show",
+      "url": "https://www.tickettailor.com/events/almatheatrecompany/2516534",
       "description": ""
     },
     {
