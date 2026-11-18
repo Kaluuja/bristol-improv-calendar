@@ -2,6 +2,7 @@ import { parse, HTMLElement } from 'node-html-parser';
 import type { Event, SourceAdapter } from '../types.js';
 import { generateFingerprint } from '../dedupe.js';
 import { inferYear } from './helpers/dates.js';
+import { isImprovRelated } from '../classifier.js';
 
 const SOURCE_NAME = 'headfirst';
 const BASE_URL = 'https://www.headfirstbristol.co.uk';
@@ -20,6 +21,21 @@ export function parseEventPageStart(html: string): { hours: number; minutes: num
   const hours = parseInt(match[1], 10);
   const minutes = parseInt(match[2], 10);
   return hours <= 23 && minutes <= 59 ? { hours, minutes } : null;
+}
+
+/** The event page's description (og:description), with entities decoded */
+export function parseEventPageDescription(html: string): string | null {
+  const match =
+    html.match(/<meta[^>]+property="og:description"[^>]+content="([^"]*)"/i) ??
+    html.match(/<meta[^>]+name="description"[^>]+content="([^"]*)"/i);
+  if (!match) return null;
+  const text = match[1]
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#0?39;|&rsquo;|&lsquo;/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+  return text || null;
 }
 
 /**
@@ -83,6 +99,28 @@ export class HeadfirstAdapter implements SourceAdapter {
             if (time) event.start.setHours(time.hours, time.minutes, 0, 0);
           } catch {
             // Keep the doors time
+          }
+        })
+      );
+    }
+
+    // Step 4: Listings only give a title. Where the title alone doesn't read as
+    // improv, fetch the event page and add its description, so shows like
+    // "After Dusk & The Y Files" (no "improv" in the title) aren't dropped.
+    // Past events are skipped: they'd only be filtered out anyway.
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const unclear = events.filter((e) => e.start >= today && !isImprovRelated(e).isImprov);
+    for (let i = 0; i < unclear.length; i += 5) {
+      await Promise.all(
+        unclear.slice(i, i + 5).map(async (event) => {
+          try {
+            const response = await fetch(event.eventUrl!);
+            if (!response.ok) return;
+            const description = parseEventPageDescription(await response.text());
+            if (description) event.description = description;
+          } catch {
+            // Classified on the title alone
           }
         })
       );

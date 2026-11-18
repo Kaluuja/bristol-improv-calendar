@@ -1,4 +1,5 @@
 import type { Event, EventType } from './types.js';
+import { IMPROV_ACT_PATTERNS } from './improv-acts.js';
 
 /**
  * Venues that are always improv-related
@@ -9,36 +10,18 @@ const IMPROV_VENUES = [
 ];
 
 /**
- * Shows/brands that are always included regardless of keywords
- * These are well-known improv shows that may not have obvious keywords
+ * Shows/brands that are always included regardless of keywords, where a plain
+ * name won't do. Most acts live in improv-acts.ts, which is easier to add to.
  */
 const ALWAYS_INCLUDE = [
-  // Local Bristol shows
-  /\bup\s*the\s*antics\b/i,
+  ...IMPROV_ACT_PATTERNS,
   /\bantics\b.*\bjoke\s*show\b/i,
   /\bjoke\s*show\b.*\bantics\b/i,
-  /\bcloser\s*each\s*day\b/i,
-  // UK touring improv shows
   /murder.*she.*didn.t.*write/i,
-  /\bshowstopper\b/i, // Showstopper! The Improvised Musical
-  /\baustentatious\b/i,
-  /\bcomedy\s*store\s*players\b/i,
-  /\bnoise\s*next\s*door\b/i,
   /\bpaul\s*merton.s\s*impro/i,
   /\bstephen\s*frost.s\s*impro/i,
   /\bmc\s*hammersmit/i,
-  /\binstant\s*noodling\b/i,
-  /\bracing\s*minds\b/i,
-  /\bshoot\s*from\s*the\s*hip\b/i,
-  /\bimpromptu\s*shakespeare\b/i,
-  // Local Bristol improv shows/groups
-  /\bbrothers\s*grin\b/i,
-  /\bbeansville\b/i,
-  /\bblame\s*of\s*thrones\b/i,
-  /\bwasteland\b/i, // Tales From The Wasteland
-  /\bjust\s*for\s*a\s*moment\b/i, // Recurring improv show at Folk House
-  /\breal\s*positive\s*poles\b/i, // Ste, Nov 2026: always watch for them
-  /\bthe\s*y\s*files\b/i, // Real Positive Poles show
+  /\bwasteland\b/i, // Tales From The Wasteland, often listed as just "Wasteland"
   /\bafter\s*dusk\b.*\b(improv|twilight|y\s*files|positive\s*poles)\b/i, // "After Dusk" alone is too generic
 ];
 
