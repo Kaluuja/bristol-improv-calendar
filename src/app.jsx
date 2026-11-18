@@ -12,18 +12,18 @@
     const FEEDBACK_FORM_URL = 'https://forms.gle/62psP8V9JF88Kdnz8';
 
     const SAMPLE_EVENTS = [
-      { date: '2026-01-25', title: 'The BLANK who BLANKED me', venue: 'Bristol Improv Theatre', time: '19:00–20:00', type: 'show', url: '#' },
-      { date: '2026-01-28', title: 'Lily Maryon', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
-      { date: '2026-01-28', title: 'Biscuit Barrel', venue: 'Bristol Improv Theatre', time: '14:00–15:00', type: 'show', url: '#' },
-      { date: '2026-01-28', title: 'Luke McQueen', venue: 'Bristol Improv Theatre', time: '21:00–22:00', type: 'show', url: '#' },
-      { date: '2026-01-28', title: 'Open Jam Night', venue: 'Hen & Chicken', time: '19:30–21:30', type: 'jam', url: '#' },
-      { date: '2026-01-30', title: 'Belltower', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
-      { date: '2026-01-31', title: 'Antics Joke Show', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
-      { date: '2026-02-05', title: 'Live in da Hive', venue: 'PRSC', time: '19:00–22:30', type: 'show', url: '#' },
-      { date: '2026-02-06', title: 'The Bish Bosh Bash', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
-      { date: '2026-02-11', title: 'Wednesday Night Improv', venue: 'Hen & Chicken', time: '19:30–21:30', type: 'show', url: '#' },
-      { date: '2026-02-14', title: 'From HELL YEAH! with love', venue: 'Bristol Improv Theatre', time: '19:30–21:30', type: 'show', url: '#' },
-      { date: '2026-02-25', title: 'Tales From The Wasteland', venue: 'Hen & Chicken', time: '19:30–22:00', type: 'show', url: '#' },
+      { date: '2026-01-25', title: 'The BLANK who BLANKED me', venue: 'Bristol Improv Theatre', time: '19:00-20:00', type: 'show', url: '#' },
+      { date: '2026-01-28', title: 'Lily Maryon', venue: 'Bristol Improv Theatre', time: '19:30-21:30', type: 'show', url: '#' },
+      { date: '2026-01-28', title: 'Biscuit Barrel', venue: 'Bristol Improv Theatre', time: '14:00-15:00', type: 'show', url: '#' },
+      { date: '2026-01-28', title: 'Luke McQueen', venue: 'Bristol Improv Theatre', time: '21:00-22:00', type: 'show', url: '#' },
+      { date: '2026-01-28', title: 'Open Jam Night', venue: 'Hen & Chicken', time: '19:30-21:30', type: 'jam', url: '#' },
+      { date: '2026-01-30', title: 'Belltower', venue: 'Bristol Improv Theatre', time: '19:30-21:30', type: 'show', url: '#' },
+      { date: '2026-01-31', title: 'Antics Joke Show', venue: 'Bristol Improv Theatre', time: '19:30-21:30', type: 'show', url: '#' },
+      { date: '2026-02-05', title: 'Live in da Hive', venue: 'PRSC', time: '19:00-22:30', type: 'show', url: '#' },
+      { date: '2026-02-06', title: 'The Bish Bosh Bash', venue: 'Bristol Improv Theatre', time: '19:30-21:30', type: 'show', url: '#' },
+      { date: '2026-02-11', title: 'Wednesday Night Improv', venue: 'Hen & Chicken', time: '19:30-21:30', type: 'show', url: '#' },
+      { date: '2026-02-14', title: 'From HELL YEAH! with love', venue: 'Bristol Improv Theatre', time: '19:30-21:30', type: 'show', url: '#' },
+      { date: '2026-02-25', title: 'Tales From The Wasteland', venue: 'Hen & Chicken', time: '19:30-22:00', type: 'show', url: '#' },
     ];
 
     // Close an open modal when Escape is pressed
@@ -96,7 +96,8 @@
                   <RoadmapItem done={true}>Add filters and search</RoadmapItem>
                   <RoadmapItem done={true}>'Swipe' between months on mobile</RoadmapItem>
                   <RoadmapItem done={true}>Shows, workshops, drop-ins, jams added</RoadmapItem>
-                  <RoadmapItem done={false}>Downloadable calendar feed</RoadmapItem>
+                  <RoadmapItem done={true}>Calendar feed you can subscribe to</RoadmapItem>
+                  <RoadmapItem done={true}>Add to calendar and share for each event</RoadmapItem>
                   <RoadmapItem done={false}>Email newsletter for weekly updates</RoadmapItem>
                 </ul>
               </div>
@@ -293,22 +294,22 @@
       const [showRoadmap, setShowRoadmap] = useState(false);
       const [showSettings, setShowSettings] = useState(false);
       const [darkMode, setDarkMode] = useState(() => {
-        // Saved preference wins; otherwise follow the system setting
-        if (typeof window !== 'undefined') {
-          const saved = localStorage.getItem('bristolImprovDarkMode');
-          if (saved !== null) return saved === 'true';
-          return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        }
-        return false;
+        // Dark (Tilt navy) by default; a saved choice wins. New key from Nov 2026,
+        // so earlier saved settings don't override the new default.
+        try { return localStorage.getItem('bristolImprovTheme') !== 'light'; } catch { return true; }
       });
-      const [viewMode, setViewMode] = useState(() => {
-        // Check localStorage for saved preference
-        if (typeof window !== 'undefined') {
-          const saved = localStorage.getItem('bristolImprovViewMode');
-          return saved === 'list' ? 'list' : 'calendar';
-        }
-        return 'calendar';
+      const [viewMode, setViewModeRaw] = useState(() => {
+        // A saved choice wins; otherwise the list on phones and the month on bigger screens
+        try {
+          const saved = localStorage.getItem('bristolImprovView');
+          if (saved === 'list' || saved === 'calendar') return saved;
+        } catch {}
+        return (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(max-width: 768px)').matches) ? 'list' : 'calendar';
       });
+      const setViewMode = (v) => {
+        setViewModeRaw(v);
+        try { localStorage.setItem('bristolImprovView', v); } catch {}
+      };
       // BIT closure notice (Oct 2026), hidden once dismissed. Bump the key's
       // version when the wording changes so it shows again.
       const BIT_NOTICE_KEY = 'bristolImprovBitNoticeHidden-v2';
@@ -330,39 +331,36 @@
 
       // Save dark mode preference
       useEffect(() => {
-        localStorage.setItem('bristolImprovDarkMode', darkMode.toString());
+        try { localStorage.setItem('bristolImprovTheme', darkMode ? 'dark' : 'light'); } catch {}
       }, [darkMode]);
 
-      // Save view mode preference
-      useEffect(() => {
-        localStorage.setItem('bristolImprovViewMode', viewMode);
-      }, [viewMode]);
 
       // Light and dark mode color schemes
       const lightColors = {
-        cream: '#F4F1DE',
-        terracotta: '#E07A5F',
-        navy: '#3D405B',
-        sage: '#81B29A',
-        sand: '#F2CC8F',
-        bg: '#F4F1DE',
+        cream: '#FAF8F3',
+        terracotta: '#F2542D',
+        navy: '#0E1734',
+        sage: '#1F9D74',
+        sand: '#F2B705',
+        bg: '#FAF8F3',
         cardBg: '#FFFFFF',
-        text: '#3D405B',
-        textMuted: '#3D405B80',
-        border: '#F4F1DE',
+        text: '#0E1734',
+        textMuted: '#4A5470',
+        border: '#E1E4EC',
       };
 
+      // Tilt navy. Dark is the default, to match tiltimprov.co.uk.
       const darkColors = {
-        cream: '#2A2D3E',
-        terracotta: '#E07A5F',
-        navy: '#E8E8E8',
-        sage: '#81B29A',
-        sand: '#F2CC8F',
-        bg: '#1A1C28',
-        cardBg: '#2A2D3E',
-        text: '#E8E8E8',
-        textMuted: '#E8E8E880',
-        border: '#3D405B',
+        cream: '#18234A',
+        terracotta: '#F2542D',
+        navy: '#F4F1EA',
+        sage: '#1F9D74',
+        sand: '#F2B705',
+        bg: '#0E1734',
+        cardBg: '#18234A',
+        text: '#F4F1EA',
+        textMuted: '#AEB6CC',
+        border: '#2A3560',
       };
 
       const colors = darkMode ? darkColors : lightColors;
@@ -383,7 +381,7 @@
         'show': { color: colors.terracotta, label: 'Shows', icon: '🎭', dot: '🔴' },
         'workshop': { color: colors.sage, label: 'Workshops', icon: '📚', dot: '🟢' },
         'jam': { color: colors.sand, label: 'Jams', icon: '🎲', dot: '🟡' },
-        'dropin': { color: '#7B68A6', label: 'Drop-ins', icon: '🚪', dot: '🟣' },
+        'dropin': { color: darkMode ? '#C9D0E3' : '#0E1734', label: 'Drop-ins', icon: '🚪', dot: '🟣' },
       };
 
       const venueStyles = {
@@ -425,8 +423,8 @@
       // Parse time string to get start and end times in minutes from midnight
       const parseEventTimes = (timeStr) => {
         if (!timeStr) return null;
-        // Handle formats like "19:00–21:00", "19:00-21:00", "7pm - 9pm", "19:00"
-        const timeRange = timeStr.replace(/\s/g, '').split(/[–\-]/);
+        // Handle formats like "19:00-21:00" (with an en dash or a hyphen), "7pm - 9pm", "19:00"
+        const timeRange = timeStr.replace(/\s/g, '').split(/[\u2013\u2014-]/);
 
         const parseTime = (t) => {
           if (!t) return null;
@@ -855,1067 +853,8 @@
         }
       };
 
-      const renderDays = () => {
-        const days = [];
-        for (let i = 0; i < startDay; i++) {
-          days.push(<div key={`e-${i}`} className="cal-day empty"></div>);
-        }
-        for (let date = 1; date <= daysInMonth; date++) {
-          const dateEvents = getEventsForDate(date);
-          const hasEvents = dateEvents.length > 0;
-          const isSelected = selectedDate === date;
-          const dayIdx = (startDay + date - 1) % 7;
-          const isWeekend = dayIdx >= 5;
-          const isToday = viewYear === todayYear && viewMonth === todayMonth && date === todayDate;
-          const isPast = viewYear < todayYear ||
-            (viewYear === todayYear && viewMonth < todayMonth) ||
-            (viewYear === todayYear && viewMonth === todayMonth && date < todayDate);
-
-          // Get shapes for daytime and evening separately
-          const daytimeCounts = getEventTypeCountsByTime(dateEvents, false);
-          const eveningCounts = getEventTypeCountsByTime(dateEvents, true);
-          const daytimeShapes = renderEventShapes(daytimeCounts);
-          const eveningShapes = renderEventShapes(eveningCounts);
-
-          // Render chip shape for desktop view
-          const renderChipShape = (type, color) => {
-            switch (type) {
-              case 'show':
-                return <div className="chip-shape-wrap"><div className="chip-circle" style={{ background: color }}></div></div>;
-              case 'workshop':
-                return <div className="chip-shape-wrap"><div className="chip-square" style={{ background: color }}></div></div>;
-              case 'jam':
-                return <div className="chip-shape-wrap"><div className="chip-diamond" style={{ background: color }}></div></div>;
-              case 'dropin':
-                return <div className="chip-triangle-wrap"><div className="chip-triangle" style={{ background: color }}></div></div>;
-              default:
-                return <div className="chip-shape-wrap"><div className="chip-circle" style={{ background: color }}></div></div>;
-            }
-          };
-
-          days.push(
-            <div
-              key={date}
-              className={`cal-day ${hasEvents ? 'has-events' : ''} ${isSelected ? 'selected' : ''} ${isWeekend ? 'weekend' : ''} ${isToday ? 'today' : ''} ${isPast ? 'past' : ''}`}
-              onClick={() => hasEvents && setSelectedDate(isSelected ? null : date)}
-            >
-              <span className={`date-num ${isToday ? 'today-num' : ''}`}>{date}</span>
-              {hasEvents && (
-                <div className="event-previews">
-                  {/* Desktop: show event titles with shapes */}
-                  <div className="desktop-events">
-                    {dateEvents.slice(0, 3).map((e, i) => {
-                      const normalizedType = normalizeEventType(e.type);
-                      const typeStyle = eventTypeStyles[normalizedType] || eventTypeStyles.show;
-                      return (
-                        <div key={i} className="event-chip" style={{ background: `${typeStyle.color}18`, borderColor: typeStyle.color }}>
-                          {renderChipShape(normalizedType, typeStyle.color)}
-                          <span className="chip-title">{getShortTitle(e.title)}</span>
-                        </div>
-                      );
-                    })}
-                    {dateEvents.length > 3 && <span className="more">+{dateEvents.length - 3} more</span>}
-                  </div>
-                  {/* Mobile: two-zone layout (daytime top, evening bottom) */}
-                  <div className="mobile-events">
-                    <div className="mobile-time-zone daytime">
-                      {daytimeShapes.slice(0, 2).map((shape, i) => renderMobileShape(shape, `day-${i}`))}
-                      {daytimeShapes.length > 2 && <span className="mobile-more">+</span>}
-                    </div>
-                    <div className="mobile-time-zone evening">
-                      {eveningShapes.slice(0, 2).map((shape, i) => renderMobileShape(shape, `eve-${i}`))}
-                      {eveningShapes.length > 2 && <span className="mobile-more">+</span>}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          );
-        }
-        return days;
-      };
-
-      const selectedEvents = selectedDate ? getEventsForDate(selectedDate) : [];
-
-      // Color key component with shapes
-      const ColorKey = () => {
-        const renderKeyShape = (type, color) => {
-          switch (type) {
-            case 'show':
-              return <div className="key-shape"><div className="shape-circle" style={{ background: color }}></div></div>;
-            case 'workshop':
-              return <div className="key-shape"><div className="shape-square" style={{ background: color }}></div></div>;
-            case 'jam':
-              return <div className="shape-diamond-wrap"><div className="shape-diamond" style={{ background: color }}></div></div>;
-            case 'dropin':
-              return <div className="shape-triangle-wrap"><div className="shape-triangle" style={{ background: color }}></div></div>;
-            default:
-              return <div className="key-shape"><div className="shape-circle" style={{ background: color }}></div></div>;
-          }
-        };
-
-        return (
-          <div className="color-key">
-            <span className="key-label">Key:</span>
-            {Object.entries(eventTypeStyles).map(([type, style]) => (
-              <div key={type} className="key-item">
-                {renderKeyShape(type, style.color)}
-                <span className="key-text">{style.label}</span>
-              </div>
-            ))}
-          </div>
-        );
-      };
-
-      // Format date for list view headers
-      const formatListDate = (dateStr) => {
-        const d = new Date(dateStr);
-        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const tomorrow = new Date(today);
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        const eventDate = new Date(dateStr);
-        eventDate.setHours(0, 0, 0, 0);
-
-        if (eventDate.getTime() === today.getTime()) {
-          return `Today, ${d.getDate()} ${months[d.getMonth()]}`;
-        }
-        if (eventDate.getTime() === tomorrow.getTime()) {
-          return `Tomorrow, ${d.getDate()} ${months[d.getMonth()]}`;
-        }
-        return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]}`;
-      };
-
-      // List view component
-      const ListView = () => {
-        const dateKeys = Object.keys(groupedEvents).sort((a, b) => new Date(a) - new Date(b));
-
-        if (dateKeys.length === 0) {
-          return (
-            <div className="list-view">
-              <div className="list-empty">
-                <span>🎭</span>
-                <p>No upcoming events match your filters</p>
-                <button onClick={() => { setTypeFilter('all'); setVenueFilter('all'); }}>Clear filters</button>
-              </div>
-            </div>
-          );
-        }
-
-        // Format date for header - "Wednesday" on left, "12 February 2026" on right
-        const formatDateParts = (dateStr) => {
-          const d = new Date(dateStr);
-          const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-          const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-          const today = new Date();
-          today.setHours(0, 0, 0, 0);
-          const tomorrow = new Date(today);
-          tomorrow.setDate(tomorrow.getDate() + 1);
-          const eventDate = new Date(dateStr);
-          eventDate.setHours(0, 0, 0, 0);
-
-          let dayPart = days[d.getDay()];
-          if (eventDate.getTime() === today.getTime()) {
-            dayPart = 'Today';
-          } else if (eventDate.getTime() === tomorrow.getTime()) {
-            dayPart = 'Tomorrow';
-          }
-
-          const datePart = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
-          return { dayPart, datePart };
-        };
-
-        return (
-          <div className="list-view">
-            <div className="list-container">
-              {dateKeys.map(dateKey => {
-                const { dayPart, datePart } = formatDateParts(dateKey);
-                return (
-                  <div key={dateKey} className="list-date-group">
-                    <div className="list-date-header">
-                      <span className="list-date-day">{dayPart}</span>
-                      <span className="list-date-full">{datePart}</span>
-                    </div>
-                    <div className="list-events">
-                      {groupedEvents[dateKey].map((e, i) => {
-                        const normalizedType = normalizeEventType(e.type);
-                        const typeStyle = eventTypeStyles[normalizedType] || eventTypeStyles.show;
-                        return (
-                          <a key={i} href={e.url} target="_blank" rel="noopener noreferrer" className="list-event-card" data-goatcounter-click="ticket-link">
-                            <div className="list-event-time">{e.time}</div>
-                            <div className="list-event-indicator" style={{ background: typeStyle.color }}></div>
-                            <div className="list-event-details">
-                              <div className="list-event-title">{e.title}</div>
-                              <div className="list-event-venue">📍 {e.venue}</div>
-                            </div>
-                            <div className="list-event-type">{typeStyle.icon}</div>
-                          </a>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="list-footer">
-              <div className="kofi-bar">
-                <span className="kofi-text">☕ Find this useful? Buy Ste a brew! (...or a pint...)</span>
-                <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
-              </div>
-              <div className="footer">
-                <span className="footer-text">Missing a show? Got corrections?</span> <a href={FEEDBACK_FORM_URL} target="_blank" rel="noopener noreferrer">Let us know</a>
-              </div>
-              <div className="footer credit">
-                <span className="footer-text">Run by Ste Brown of <a href="https://tiltimprov.co.uk/" target="_blank" rel="noopener noreferrer">Tilt Improv</a></span>
-              </div>
-            </div>
-          </div>
-        );
-      };
-
-      return (
-        <div className="app">
-          <style>{`
-            .app {
-              display: flex;
-              flex-direction: column;
-              height: 100vh;
-              background: ${colors.bg};
-              font-family: 'Nunito', sans-serif;
-              color: ${colors.text};
-              overflow: hidden;
-              position: relative;
-            }
-            
-            /* HEADER - Always uses light mode colors */
-            .header {
-              background: #3D405B;
-              padding: 0.6rem 1rem;
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-              gap: 0.75rem;
-              flex-shrink: 0;
-            }
-            .header-left {
-              display: flex;
-              align-items: center;
-              gap: 0.5rem;
-              min-width: 0;
-            }
-            .header h1 {
-              font-size: 1.4rem;
-              font-weight: 800;
-              color: #F4F1DE;
-              white-space: nowrap;
-              line-height: 1.1;
-            }
-            .header-center {
-              display: flex;
-              align-items: center;
-              gap: 0.5rem;
-            }
-            .nav-btn {
-              background: transparent;
-              border: 2px solid #F4F1DE40;
-              color: #F4F1DE;
-              width: 32px;
-              height: 32px;
-              border-radius: 6px;
-              cursor: pointer;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              font-size: 1rem;
-              transition: all 0.15s;
-            }
-            .nav-btn:hover:not(:disabled) { background: #F4F1DE15; border-color: #F4F1DE; }
-            .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-            .month-label {
-              font-size: 0.9rem;
-              font-weight: 600;
-              color: ${colors.sage};
-              text-transform: uppercase;
-              letter-spacing: 0.08em;
-              min-width: 110px;
-              text-align: center;
-            }
-            .month-full { display: inline; }
-            .month-short { display: none; }
-            .today-btn {
-              font-size: 0.65rem;
-              font-weight: 700;
-              padding: 0.35rem 0.6rem;
-              background: ${colors.sage};
-              color: white;
-              border: none;
-              border-radius: 5px;
-              cursor: pointer;
-              text-transform: uppercase;
-            }
-            .today-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-            .settings-btn {
-              font-size: 0.75rem;
-              font-weight: 600;
-              padding: 0.4rem 0.7rem;
-              background: transparent;
-              border: 2px solid #F4F1DE40;
-              color: #F4F1DE;
-              border-radius: 6px;
-              cursor: pointer;
-              display: flex;
-              align-items: center;
-              gap: 0.35rem;
-              white-space: nowrap;
-            }
-            .settings-btn:hover { background: #F4F1DE15; border-color: #F4F1DE; }
-            
-            .header-right {
-              display: flex;
-              align-items: center;
-              gap: 1rem;
-            }
-            .hub-link {
-              color: #F4F1DE;
-              text-decoration: none;
-              font-size: 0.85rem;
-              font-weight: 700;
-              display: flex;
-              align-items: center;
-              gap: 0.25rem;
-              opacity: 0.9;
-              transition: opacity 0.15s;
-              white-space: nowrap;
-            }
-            .hub-link:hover { opacity: 1; text-decoration: underline; }
-            .hub-link-text-mobile { display: none; }
-            
-            /* CONTROLS */
-            .controls {
-              background: ${colors.cardBg};
-              border-bottom: 2px solid ${colors.border};
-              padding: 0.6rem 0.75rem;
-              display: flex;
-              flex-wrap: wrap;
-              gap: 0.5rem;
-              align-items: center;
-              justify-content: center;
-              flex-shrink: 0;
-              position: relative;
-            }
-            .controls-inner {
-              display: flex;
-              gap: 0.5rem;
-              align-items: center;
-              justify-content: center;
-              position: relative;
-              width: 100%;
-              max-width: 650px;
-            }
-            .search-box {
-              position: static;
-              width: 200px;
-              flex-shrink: 0;
-            }
-            .search-input {
-              width: 100%;
-              padding: 0.45rem 0.6rem 0.45rem 2rem;
-              border: 2px solid ${colors.border};
-              border-radius: 18px;
-              font-size: 0.85rem;
-              font-family: inherit;
-              color: ${colors.text};
-              background: ${colors.cardBg};
-            }
-            .search-input:focus { outline: none; border-color: ${colors.terracotta}; }
-            .search-icon {
-              position: absolute;
-              left: 0.7rem;
-              top: 50%;
-              transform: translateY(-50%);
-              font-size: 0.8rem;
-              pointer-events: none;
-            }
-            .search-results {
-              position: absolute;
-              top: 100%;
-              left: 0;
-              right: 0;
-              background: ${colors.cardBg};
-              border-radius: 10px;
-              box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-              margin-top: 4px;
-              z-index: 100;
-              max-height: 320px;
-              overflow-y: auto;
-            }
-            .search-item {
-              padding: 0.75rem 0.9rem;
-              cursor: pointer;
-              border-bottom: 1px solid ${colors.border};
-            }
-            .search-item:hover { background: ${colors.cream}; }
-            .search-item:last-child { border-bottom: none; }
-            .search-title { font-size: 0.9rem; font-weight: 600; color: ${colors.text}; }
-            .search-meta { font-size: 0.8rem; color: ${colors.textMuted}; margin-top: 0.15rem; }
-            
-            .filter-select {
-              font-family: inherit;
-              font-size: 0.85rem;
-              font-weight: 600;
-              padding: 0.45rem 1.8rem 0.45rem 0.7rem;
-              border: 2px solid ${colors.border};
-              border-radius: 8px;
-              background: ${colors.cardBg} url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='${darkMode ? '%23E8E8E8' : '%233D405B'}' d='M2 4l4 4 4-4H2z'/%3E%3C/svg%3E") no-repeat right 0.6rem center;
-              color: ${colors.text};
-              cursor: pointer;
-              appearance: none;
-              flex: 1;
-              min-width: 0;
-            }
-            .filter-select:focus { outline: none; border-color: ${colors.terracotta}; }
-            .filter-select.active { border-color: ${colors.terracotta}; background-color: ${colors.terracotta}10; }
-            
-            /* COLOR KEY */
-            .color-key {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              gap: 1rem;
-              padding: 0.4rem 0.75rem;
-              background: ${colors.cardBg};
-              border-bottom: 2px solid ${colors.border};
-              flex-shrink: 0;
-            }
-            .key-label {
-              font-size: 0.75rem;
-              font-weight: 700;
-              color: ${colors.textMuted};
-              text-transform: uppercase;
-              letter-spacing: 0.05em;
-            }
-            .key-item {
-              display: flex;
-              align-items: center;
-              gap: 0.35rem;
-            }
-            .key-shape {
-              width: 14px;
-              height: 14px;
-              flex-shrink: 0;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-            }
-            .key-text {
-              font-size: 0.8rem;
-              font-weight: 600;
-              color: ${colors.text};
-            }
-            
-            /* Shape definitions for key */
-            .shape-circle {
-              width: 100%;
-              height: 100%;
-              border-radius: 50%;
-            }
-            .shape-square {
-              width: 100%;
-              height: 100%;
-              border-radius: 3px;
-            }
-            .shape-diamond-wrap {
-              width: 14px;
-              height: 14px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-            }
-            .shape-diamond {
-              width: 11px;
-              height: 11px;
-              border-radius: 2px;
-              transform: rotate(45deg);
-            }
-            /* Rounded Triangle CSS - Source: https://stackoverflow.com/a/14451916, License: CC BY-SA 3.0 */
-            .shape-triangle-wrap {
-              width: 14px;
-              height: 14px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              position: relative;
-            }
-            .shape-triangle {
-              position: relative;
-              text-align: left;
-            }
-            .shape-triangle:before,
-            .shape-triangle:after {
-              content: '';
-              position: absolute;
-              background-color: inherit;
-            }
-            .shape-triangle,
-            .shape-triangle:before,
-            .shape-triangle:after {
-              width: 8px;
-              height: 8px;
-              border-top-right-radius: 30%;
-            }
-            .shape-triangle {
-              transform: rotate(-60deg) skewX(-30deg) scale(1,.866);
-            }
-            .shape-triangle:before {
-              transform: rotate(-135deg) skewX(-45deg) scale(1.414,.707) translate(0,-50%);
-            }
-            .shape-triangle:after {
-              transform: rotate(135deg) skewY(-45deg) scale(.707,1.414) translate(50%);
-            }
-            
-            /* MAIN LAYOUT */
-            .main {
-              display: flex;
-              flex: 1;
-              overflow: hidden;
-              min-height: 0;
-            }
-            
-            /* CALENDAR */
-            .calendar {
-              flex: 1;
-              display: flex;
-              flex-direction: column;
-              overflow: hidden;
-            }
-            .cal-grid {
-              display: grid;
-              grid-template-columns: repeat(7, 1fr);
-              grid-template-rows: auto repeat(${weeksNeeded}, 1fr);
-              gap: 4px;
-              padding: 0.5rem;
-              flex: 1;
-              min-height: 0;
-            }
-            .day-hdr {
-              font-size: 0.8rem;
-              font-weight: 700;
-              text-align: center;
-              padding: 0.4rem 0;
-              color: ${colors.textMuted};
-              text-transform: uppercase;
-            }
-            .cal-day {
-              background: ${colors.cardBg};
-              border-radius: 6px;
-              padding: 0.35rem;
-              display: flex;
-              flex-direction: column;
-              border: 2px solid transparent;
-              overflow: visible;
-              min-height: 0;
-            }
-            .cal-day.empty { background: transparent; border: none; }
-            .cal-day.weekend { background: ${darkMode ? '#2F3244' : '#fffdf8'}; }
-            .cal-day.today { border-color: ${colors.terracotta}50; background: ${colors.terracotta}15; }
-            .cal-day.past .event-previews { opacity: 0.45; filter: grayscale(35%); }
-            .cal-day.past.has-events .date-num { color: ${colors.textMuted}; }
-            .cal-day.has-events { cursor: pointer; }
-            .cal-day.has-events:hover { border-color: ${colors.sage}; transform: scale(1.02); z-index: 1; }
-            .cal-day.selected { border-color: ${colors.terracotta}; box-shadow: 0 2px 8px ${colors.terracotta}30; z-index: 2; }
-            .date-num {
-              font-size: 0.9rem;
-              font-weight: 700;
-              color: ${colors.textMuted};
-              margin-bottom: 0.25rem;
-              flex-shrink: 0;
-            }
-            .has-events .date-num { color: ${colors.text}; }
-            .date-num.today-num { color: ${colors.terracotta}; }
-            
-            .event-previews {
-              flex: 1;
-              overflow: hidden;
-              display: flex;
-              flex-direction: column;
-              gap: 3px;
-            }
-            
-            /* Desktop events - show titles */
-            .desktop-events {
-              display: flex;
-              flex-direction: column;
-              gap: 3px;
-            }
-            .event-chip {
-              display: flex;
-              align-items: center;
-              gap: 4px;
-              padding: 3px 5px;
-              border-radius: 4px;
-              border-left: 3px solid;
-              overflow: hidden;
-            }
-            /* Desktop chip shapes */
-            .chip-shape-wrap {
-              width: 8px;
-              height: 8px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              flex-shrink: 0;
-            }
-            .chip-circle {
-              width: 8px;
-              height: 8px;
-              border-radius: 50%;
-            }
-            .chip-square {
-              width: 8px;
-              height: 8px;
-              border-radius: 2px;
-            }
-            .chip-diamond {
-              width: 6px;
-              height: 6px;
-              border-radius: 1px;
-              transform: rotate(45deg);
-            }
-            .chip-triangle-wrap {
-              width: 8px;
-              height: 8px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              position: relative;
-            }
-            .chip-triangle {
-              position: relative;
-              text-align: left;
-            }
-            .chip-triangle:before,
-            .chip-triangle:after {
-              content: '';
-              position: absolute;
-              background-color: inherit;
-            }
-            .chip-triangle,
-            .chip-triangle:before,
-            .chip-triangle:after {
-              width: 5px;
-              height: 5px;
-              border-top-right-radius: 30%;
-            }
-            .chip-triangle {
-              transform: rotate(-60deg) skewX(-30deg) scale(1,.866);
-            }
-            .chip-triangle:before {
-              transform: rotate(-135deg) skewX(-45deg) scale(1.414,.707) translate(0,-50%);
-            }
-            .chip-triangle:after {
-              transform: rotate(135deg) skewY(-45deg) scale(.707,1.414) translate(50%);
-            }
-            .chip-title {
-              font-size: 0.7rem;
-              font-weight: 600;
-              color: ${colors.text};
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            }
-            
-            /* Mobile events - two-zone layout (daytime top, evening bottom) */
-            .mobile-events {
-              display: none;
-              flex-direction: column;
-              flex: 1;
-              min-height: 24px;
-            }
-            .mobile-time-zone {
-              flex: 1;
-              display: flex;
-              flex-wrap: wrap;
-              gap: 2px;
-              align-items: flex-start;
-              align-content: flex-start;
-              min-height: 12px;
-            }
-            .mobile-time-zone.evening {
-              align-items: flex-end;
-              align-content: flex-end;
-            }
-            
-            /* Mobile "more" indicator when there are too many shapes */
-            .mobile-more {
-              font-size: 0.55rem;
-              font-weight: 700;
-              color: ${colors.textMuted};
-              line-height: 1;
-              padding: 0 1px;
-            }
-            
-            /* Mobile shape wrapper - consistent sizing */
-            .mobile-shape-wrap {
-              width: 12px;
-              height: 12px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              flex-shrink: 0;
-              position: relative;
-            }
-            
-            /* Mobile Circle (Shows) */
-            .mobile-circle {
-              width: 12px;
-              height: 12px;
-              border-radius: 50%;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-            }
-            
-            /* Mobile Rounded Square (Workshops) */
-            .mobile-square {
-              width: 12px;
-              height: 12px;
-              border-radius: 3px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-            }
-            
-            /* Mobile Rounded Diamond (Jams) */
-            .mobile-diamond {
-              width: 9px;
-              height: 9px;
-              border-radius: 2px;
-              transform: rotate(45deg);
-              display: flex;
-              align-items: center;
-              justify-content: center;
-            }
-            .mobile-diamond span {
-              transform: rotate(-45deg);
-            }
-            
-            /* Mobile Rounded Triangle (Drop-ins) - Source: https://stackoverflow.com/a/14451916, License: CC BY-SA 3.0 */
-            .mobile-triangle-wrap {
-              width: 12px;
-              height: 12px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              position: relative;
-            }
-            .mobile-triangle {
-              position: relative;
-              text-align: left;
-            }
-            .mobile-triangle:before,
-            .mobile-triangle:after {
-              content: '';
-              position: absolute;
-              background-color: inherit;
-            }
-            .mobile-triangle,
-            .mobile-triangle:before,
-            .mobile-triangle:after {
-              width: 7px;
-              height: 7px;
-              border-top-right-radius: 30%;
-            }
-            .mobile-triangle {
-              transform: rotate(-60deg) skewX(-30deg) scale(1,.866);
-            }
-            .mobile-triangle:before {
-              transform: rotate(-135deg) skewX(-45deg) scale(1.414,.707) translate(0,-50%);
-            }
-            .mobile-triangle:after {
-              transform: rotate(135deg) skewY(-45deg) scale(.707,1.414) translate(50%);
-            }
-            .mobile-triangle-num {
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -35%);
-              font-size: 0.4rem;
-              font-weight: 700;
-              color: white;
-              z-index: 10;
-            }
-            
-            .shape-count {
-              font-size: 0.4rem;
-              font-weight: 700;
-              color: white;
-              line-height: 1;
-            }
-            
-            .more { font-size: 0.65rem; color: ${colors.textMuted}; padding: 2px; }
-            
-            /* DETAIL PANEL - DESKTOP */
-            .detail {
-              width: 340px;
-              background: ${colors.cardBg};
-              border-left: 3px solid ${colors.border};
-              overflow-y: auto;
-              flex-shrink: 0;
-              display: flex;
-              flex-direction: column;
-            }
-            .detail-inner { padding: 1rem; flex: 1; }
-            .detail-hdr {
-              font-size: 1.15rem;
-              font-weight: 700;
-              color: ${colors.terracotta};
-              margin-bottom: 0.75rem;
-              padding-bottom: 0.5rem;
-              border-bottom: 2px solid ${colors.border};
-            }
-            .event-card {
-              display: block;
-              background: ${colors.cream};
-              border-radius: 10px;
-              padding: 0.9rem;
-              margin-bottom: 0.7rem;
-              text-decoration: none;
-              color: inherit;
-              border-left: 4px solid;
-              transition: transform 0.15s;
-            }
-            .event-card:hover { transform: translateX(3px); }
-            .event-row { display: flex; gap: 0.7rem; }
-            .event-icon { font-size: 1.5rem; }
-            .event-info { flex: 1; min-width: 0; }
-            .event-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
-            .event-meta { font-size: 0.85rem; color: ${colors.textMuted}; }
-            .event-meta span { display: block; }
-            .event-cta { font-size: 0.8rem; font-weight: 700; color: ${colors.terracotta}; margin-top: 0.5rem; }
-            .no-select {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              text-align: center;
-              padding: 1rem;
-              color: ${colors.textMuted};
-              font-size: 0.95rem;
-            }
-            .clash { background: ${colors.sand}40; border: 2px solid ${colors.sand}; border-radius: 8px; padding: 0.55rem 0.7rem; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.7rem; }
-            
-            /* LIST VIEW */
-            .list-view {
-              flex: 1;
-              overflow-y: auto;
-              display: flex;
-              flex-direction: column;
-              background: ${colors.cardBg};
-            }
-            .list-container {
-              flex: 1;
-              max-width: 900px;
-              width: 100%;
-              margin: 0 auto;
-              padding: 0;
-            }
-            .list-date-group {
-              border-bottom: 1px solid ${colors.border};
-            }
-            .list-date-header {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              padding: 0.75rem 1.25rem;
-              background: ${colors.cream};
-              font-weight: 700;
-            }
-            .list-date-day {
-              font-size: 1rem;
-              color: ${colors.text};
-            }
-            .list-date-full {
-              font-size: 0.9rem;
-              color: ${colors.textMuted};
-            }
-            .list-events {
-              background: ${colors.cardBg};
-            }
-            .list-event-card {
-              display: flex;
-              align-items: center;
-              gap: 1rem;
-              padding: 0.9rem 1.25rem;
-              text-decoration: none;
-              color: inherit;
-              border-bottom: 1px solid ${colors.border};
-              transition: background 0.15s;
-            }
-            .list-event-card:last-child {
-              border-bottom: none;
-            }
-            .list-event-card:hover {
-              background: ${colors.cream};
-            }
-            .list-event-time {
-              font-size: 0.85rem;
-              font-weight: 600;
-              color: ${colors.textMuted};
-              min-width: 110px;
-              flex-shrink: 0;
-            }
-            .list-event-indicator {
-              width: 10px;
-              height: 10px;
-              border-radius: 50%;
-              flex-shrink: 0;
-            }
-            .list-event-details {
-              flex: 1;
-              min-width: 0;
-            }
-            .list-event-title {
-              font-size: 0.95rem;
-              font-weight: 600;
-              color: ${colors.text};
-              margin-bottom: 0.2rem;
-            }
-            .list-event-venue {
-              font-size: 0.8rem;
-              color: ${colors.textMuted};
-            }
-            .list-event-type {
-              font-size: 1.3rem;
-              flex-shrink: 0;
-              opacity: 0.8;
-            }
-            .list-empty {
-              flex: 1;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              justify-content: center;
-              text-align: center;
-              color: ${colors.textMuted};
-              padding: 2rem;
-            }
-            .list-empty span {
-              font-size: 3rem;
-              margin-bottom: 1rem;
-            }
-            .list-empty p {
-              font-size: 1rem;
-              margin-bottom: 1rem;
-            }
-            .list-empty button {
-              background: ${colors.terracotta};
-              color: white;
-              border: none;
-              padding: 0.5rem 1rem;
-              border-radius: 6px;
-              font-size: 0.85rem;
-              font-weight: 600;
-              cursor: pointer;
-            }
-            .list-empty button:hover {
-              transform: scale(1.03);
-            }
-            .list-footer {
-              flex-shrink: 0;
-            }
-            
-            /* FOOTER */
-            .kofi-bar {
-              background: linear-gradient(135deg, ${colors.sage}20, ${colors.sand}30);
-              border-top: 2px solid ${colors.border};
-              padding: 0.55rem 1rem;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              gap: 0.7rem;
-              flex-shrink: 0;
-            }
-            .kofi-text { font-size: 0.85rem; font-weight: 600; color: ${colors.text}; }
-            .kofi-btn {
-              display: inline-flex;
-              align-items: center;
-              gap: 0.35rem;
-              background: #FF5E5B;
-              color: white;
-              padding: 0.4rem 0.8rem;
-              border-radius: 6px;
-              font-size: 0.8rem;
-              font-weight: 700;
-              text-decoration: none;
-            }
-            .kofi-btn:hover { transform: scale(1.05); }
-            .footer {
-              background: ${colors.cream};
-              border-top: 2px solid ${colors.border};
-              padding: 0.75rem 1rem;
-              text-align: center;
-              font-size: 0.9rem;
-              flex-shrink: 0;
-            }
-            .footer-text { color: ${colors.text}; font-weight: 600; }
-            .footer.credit { padding-top: 0; }
-            .footer.credit .footer-text { font-weight: 400; font-size: 0.8rem; color: ${colors.textMuted}; }
-            .footer.credit a, .footer-left .credit-link { padding: 0; background: none; border: none; font-size: inherit; font-weight: 600; color: inherit; text-decoration: underline; }
-            .footer a { 
-              color: ${colors.terracotta}; 
-              font-weight: 700; 
-              text-decoration: none;
-              padding: 0.3rem 0.6rem;
-              background: ${colors.terracotta}15;
-              border-radius: 4px;
-              margin-left: 0.3rem;
-            }
-            .footer a:hover { background: ${colors.terracotta}25; }
-            .footer-updated { color: ${colors.textMuted}; margin-left: 0.5rem; font-size: 0.8rem; }
-            
-            /* Desktop footer - single row */
-            .desktop-footer {
-              background: linear-gradient(135deg, ${colors.sage}15, ${colors.sand}20);
-              border-top: 2px solid ${colors.border};
-              padding: 0.5rem 1rem;
-              flex-shrink: 0;
-            }
-            .footer-row {
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-              gap: 1rem;
-              max-width: 1200px;
-              margin: 0 auto;
-            }
-            .footer-left {
-              display: flex;
-              align-items: center;
-              gap: 0.4rem;
-              flex-wrap: wrap;
-            }
-            .footer-left .footer-text { font-size: 0.85rem; }
-            .footer-left a { 
-              color: ${colors.terracotta}; 
-              font-weight: 700; 
-              text-decoration: none;
-              padding: 0.25rem 0.5rem;
-              background: ${colors.terracotta}15;
-              border-radius: 4px;
-              font-size: 0.8rem;
-            }
-            .footer-left a:hover { background: ${colors.terracotta}25; }
-            .footer-left .footer-updated { font-size: 0.75rem; }
-            .footer-right {
-              display: flex;
-              align-items: center;
-              gap: 0.5rem;
-              flex-shrink: 0;
-            }
-            .footer-right .kofi-text { font-size: 0.8rem; }
-            .footer-right .kofi-btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
-            
+      // Kept from the old stylesheet: loading, modals, settings, roadmap
+      const legacyCss = `
             /* LOADING */
             .loading {
               flex: 1;
@@ -1959,15 +898,15 @@
               box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             }
             .modal-header {
-              background: ${darkMode ? '#1A1C28' : colors.navy};
-              color: ${darkMode ? '#E8E8E8' : colors.cream};
+              background: ${darkMode ? '#070D22' : colors.navy};
+              color: ${darkMode ? '#F4F1EA' : colors.cream};
               padding: 1rem 1.25rem;
               display: flex;
               justify-content: space-between;
               align-items: center;
             }
             .modal-header h2 { font-size: 1.2rem; margin: 0; }
-            .modal-close { background: none; border: none; color: ${darkMode ? '#E8E8E8' : colors.cream}; font-size: 1.2rem; cursor: pointer; opacity: 0.7; }
+            .modal-close { background: none; border: none; color: ${darkMode ? '#F4F1EA' : colors.cream}; font-size: 1.2rem; cursor: pointer; opacity: 0.7; }
             .modal-close:hover { opacity: 1; }
             .modal-body { padding: 1.25rem; overflow-y: auto; flex: 1; }
             .roadmap-intro { font-size: 0.9rem; color: ${colors.textMuted}; margin-bottom: 1.25rem; line-height: 1.5; }
@@ -2006,7 +945,7 @@
             .toggle-btn {
               width: 52px;
               height: 28px;
-              background: ${darkMode ? '#4A4D5E' : colors.navy + '30'};
+              background: ${darkMode ? '#2A3560' : colors.navy + '30'};
               border: none;
               border-radius: 14px;
               cursor: pointer;
@@ -2142,415 +1081,896 @@
               color: ${colors.textMuted};
             }
             
-            /* ============================================
-               SMALLER HEIGHT SCREENS (e.g. 1080p at 125% scale)
-               ============================================ */
-            @media (max-height: 800px) and (min-width: 769px) {
-              .header { padding: 0.4rem 0.8rem; }
-              .header h1 { font-size: 1.2rem; }
-              .controls { padding: 0.4rem 0.6rem; }
-              .color-key { padding: 0.3rem 0.6rem; }
-              .key-text { font-size: 0.75rem; }
-              .cal-grid { gap: 3px; padding: 0.35rem; }
-              .day-hdr { padding: 0.25rem 0; font-size: 0.7rem; }
-              .cal-day { padding: 0.25rem; }
-              .date-num { font-size: 0.8rem; margin-bottom: 0.15rem; }
-              .desktop-event { padding: 0.15rem 0.25rem; margin-bottom: 2px; }
-              .chip-shape { width: 10px; height: 10px; }
-              .chip-title { font-size: 0.65rem; }
-              .detail { width: 300px; }
-              .detail-inner { padding: 0.75rem; }
-              .detail-hdr { font-size: 1rem; margin-bottom: 0.5rem; padding-bottom: 0.35rem; }
-              .event-card { padding: 0.7rem; margin-bottom: 0.5rem; }
-              .event-icon { font-size: 1.3rem; }
-              .event-title { font-size: 0.85rem; }
-              .event-meta { font-size: 0.8rem; }
-              .event-cta { font-size: 0.75rem; margin-top: 0.35rem; }
-              .desktop-footer { padding: 0.35rem 0.8rem; }
-              .footer-left .footer-text { font-size: 0.75rem; }
-              .footer-left a { font-size: 0.7rem; padding: 0.2rem 0.4rem; }
-              .footer-right .kofi-text { font-size: 0.7rem; }
-              .footer-right .kofi-btn { font-size: 0.65rem; padding: 0.25rem 0.5rem; }
-            }
-            
-            /* Extra tight height (very scaled displays) */
-            @media (max-height: 700px) and (min-width: 769px) {
-              .header { padding: 0.3rem 0.6rem; }
-              .header h1 { font-size: 1.1rem; }
-              .controls { padding: 0.35rem 0.5rem; }
-              .search-input { padding: 0.35rem 0.5rem 0.35rem 1.8rem; font-size: 0.8rem; }
-              .filter-select { padding: 0.35rem 1.5rem 0.35rem 0.5rem; font-size: 0.8rem; }
-              .color-key { padding: 0.25rem 0.5rem; gap: 0.6rem; }
-              .key-label { font-size: 0.65rem; }
-              .key-text { font-size: 0.7rem; }
-              .cal-grid { gap: 2px; padding: 0.25rem; }
-              .day-hdr { padding: 0.2rem 0; font-size: 0.65rem; }
-              .cal-day { padding: 0.2rem; border-radius: 4px; }
-              .date-num { font-size: 0.75rem; margin-bottom: 0.1rem; }
-              .desktop-event { padding: 0.1rem 0.2rem; margin-bottom: 1px; border-radius: 3px; }
-              .chip-shape { width: 8px; height: 8px; }
-              .chip-title { font-size: 0.6rem; }
-              .more { font-size: 0.55rem; }
-              .detail { width: 280px; }
-              .detail-inner { padding: 0.6rem; }
-              .detail-hdr { font-size: 0.95rem; margin-bottom: 0.4rem; padding-bottom: 0.3rem; }
-              .event-card { padding: 0.6rem; margin-bottom: 0.4rem; border-radius: 8px; }
-              .event-icon { font-size: 1.2rem; }
-              .event-title { font-size: 0.8rem; }
-              .event-meta { font-size: 0.75rem; }
-              .event-cta { font-size: 0.7rem; margin-top: 0.3rem; }
-              .no-select { font-size: 0.85rem; padding: 0.75rem; }
-            }
-            
-            /* ============================================
-               MOBILE STYLES
-               ============================================ */
+      `;
+
+      // ============================================
+      // LAYOUT (Nov 2026): Tilt look, list first on phones,
+      // event pop-up, month view that fits one screen
+      // ============================================
+      const [selectedEvent, setSelectedEvent] = useState(null);
+      const [selectedDay, setSelectedDay] = useState(null);
+      const [showFilters, setShowFilters] = useState(false);
+      const [showSubscribe, setShowSubscribe] = useState(false);
+      const [whenFilter, setWhenFilter] = useState('any');
+      const [typeSet, setTypeSet] = useState([]); // empty means everything
+      const [calOpen, setCalOpen] = useState(false);
+      const [copied, setCopied] = useState('');
+      const [isPhone, setIsPhone] = useState(() =>
+        typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+
+      useEffect(() => {
+        if (!window.matchMedia) return;
+        const mq = window.matchMedia('(max-width: 768px)');
+        const onChange = () => setIsPhone(mq.matches);
+        if (mq.addEventListener) mq.addEventListener('change', onChange); else mq.addListener(onChange);
+        return () => { if (mq.removeEventListener) mq.removeEventListener('change', onChange); else mq.removeListener(onChange); };
+      }, []);
+
+      // Changing month clears the picked day
+      useEffect(() => { setSelectedDay(null); }, [viewYear, viewMonth]);
+
+      const pad = (n) => String(n).padStart(2, '0');
+      const keyOf = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+      const parseKey = (s) => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+      const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+      const todayKey = keyOf(new Date());
+      const tomorrowKey = keyOf(addDays(new Date(), 1));
+      const startTime = (t) => (t || '').split(/[\u2013\u2014-]/)[0].trim();
+      const niceTime = (t) => (t || '').replace(/\s*[\u2013\u2014-]\s*/, ' to ');
+      // No long dashes in what we show: organisers' titles get a colon instead
+      const cleanTitle = (s) => (s || '').replace(/\s+[\u2013\u2014]\s+/g, ': ').replace(/[\u2013\u2014]/g, '-');
+      const typeOf = (e) => normalizeEventType(e.type);
+      const slug = (s) => (s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
+      const idOf = (e) => `${e.date}-${slug(e.title)}`;
+
+      const TYPE_ORDER = ['show', 'workshop', 'jam', 'dropin'];
+      const TYPE_LABEL = { show: 'Show', workshop: 'Class', jam: 'Jam', dropin: 'Drop-in' };
+      const TYPE_PLURAL = { show: 'Shows', workshop: 'Classes', jam: 'Jams', dropin: 'Drop-ins' };
+      const WHEN = [
+        ['any', 'Any day'], ['today', 'Today'], ['tomorrow', 'Tomorrow'],
+        ['weekend', 'This weekend'], ['next2', 'Next 2 weeks'],
+      ];
+      const whenLabel = (WHEN.find(w => w[0] === whenFilter) || WHEN[0])[1];
+
+      const shape = (type, size = 10) => (
+        <span
+          className={`shape shape-${type}`}
+          style={{ width: size, height: size, background: (eventTypeStyles[type] || eventTypeStyles.show).color }}
+          aria-hidden="true"
+        ></span>
+      );
+
+      const whenRange = useMemo(() => {
+        const t0 = new Date(); t0.setHours(0, 0, 0, 0);
+        if (whenFilter === 'today') return [keyOf(t0), keyOf(t0)];
+        if (whenFilter === 'tomorrow') return [keyOf(addDays(t0, 1)), keyOf(addDays(t0, 1))];
+        if (whenFilter === 'weekend') {
+          const dow = t0.getDay(); // 0 is Sunday
+          const fri = dow === 0 ? addDays(t0, -2) : dow === 6 ? addDays(t0, -1) : addDays(t0, 5 - dow);
+          return [keyOf(fri < t0 ? t0 : fri), keyOf(addDays(fri, 2))];
+        }
+        if (whenFilter === 'next2') return [keyOf(t0), keyOf(addDays(t0, 13))];
+        return null;
+      }, [whenFilter]);
+
+      const filtered = useMemo(() => events.filter(e => {
+        if (venueFilter !== 'all' && getVenueGroup(e.venue) !== venueFilter) return false;
+        if (typeSet.length && !typeSet.includes(typeOf(e))) return false;
+        if (whenRange && (e.date < whenRange[0] || e.date > whenRange[1])) return false;
+        return true;
+      }).sort((a, b) => (a.date + startTime(a.time)).localeCompare(b.date + startTime(b.time))),
+      [events, venueFilter, typeSet, whenRange]);
+
+      const upcoming = useMemo(() => filtered.filter(e => e.date >= todayKey), [filtered, todayKey]);
+
+      const byDate = useMemo(() => {
+        const m = {};
+        filtered.forEach(e => { (m[e.date] = m[e.date] || []).push(e); });
+        return m;
+      }, [filtered]);
+
+      const filtersActive = whenFilter !== 'any' || typeSet.length > 0 || venueFilter !== 'all';
+      const clearFilters = () => { setWhenFilter('any'); setTypeSet([]); setVenueFilter('all'); };
+      const toggleType = (t) => setTypeSet(typeSet.includes(t) ? typeSet.filter(x => x !== t) : [...typeSet, t]);
+      const typeButtonLabel = typeSet.length === 0 ? 'All types' : typeSet.length === 1 ? TYPE_PLURAL[typeSet[0]] : `${typeSet.length} types`;
+      const venueButtonLabel = venueFilter === 'all' ? 'All venues' : (venueGroups.find(v => v.key === venueFilter) || {}).label || venueFilter;
+
+      // Day labels: "Today", "Tomorrow", "Friday", then "Sat 5 Dec"
+      const dayLabel = (k) => {
+        if (k === todayKey) return 'Today';
+        if (k === tomorrowKey) return 'Tomorrow';
+        const d = parseKey(k);
+        const diff = Math.round((d - parseKey(todayKey)) / 86400000);
+        if (diff > 1 && diff < 7) return d.toLocaleDateString('en-GB', { weekday: 'long' });
+        return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+      };
+      const shortDate = (k) => parseKey(k).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+      const longDate = (k) => parseKey(k).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+      const dayNumMonth = (k) => parseKey(k).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+
+      const updatedText = (() => {
+        if (!lastUpdated) return '';
+        const d = new Date(lastUpdated);
+        if (keyOf(d) === todayKey) return 'Updated today';
+        if (keyOf(addDays(d, 1)) === todayKey) return 'Updated yesterday';
+        return `Updated ${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}`;
+      })();
+
+      // ---------- Event pop-up, deep links, calendar and sharing ----------
+      const openEvent = (e) => {
+        setSelectedEvent(e); setCalOpen(false); setCopied(''); setShowSearchResults(false); setSearchQuery('');
+        try { history.replaceState(null, '', '#event=' + idOf(e)); } catch {}
+      };
+      const closeEvent = () => {
+        setSelectedEvent(null);
+        try { history.replaceState(null, '', location.pathname + location.search); } catch {}
+      };
+      useEscapeToClose(!!selectedEvent, closeEvent);
+      useEscapeToClose(showFilters, () => setShowFilters(false));
+      useEscapeToClose(showSubscribe, () => setShowSubscribe(false));
+
+      useEffect(() => {
+        if (!events.length) return;
+        const m = location.hash.match(/^#event=(.+)$/);
+        if (!m) return;
+        const e = events.find(x => idOf(x) === decodeURIComponent(m[1]));
+        if (e) setSelectedEvent(e);
+      }, [events]);
+
+      const eventTimes = (e) => {
+        const [s, en] = (e.time || '').split(/[\u2013\u2014-]/).map(x => x && x.trim());
+        const day = e.date.replace(/-/g, '');
+        const hm = (x) => (x && /^\d{1,2}:\d{2}$/.test(x) ? x.replace(':', '').padStart(4, '0') + '00' : null);
+        const st = hm(s) || '190000';
+        let et = hm(en);
+        if (!et || et <= st) et = pad(Math.min(23, parseInt(st.slice(0, 2), 10) + 2)) + st.slice(2);
+        return { start: `${day}T${st}`, end: `${day}T${et}` };
+      };
+
+      const googleUrl = (e) => {
+        const t = eventTimes(e);
+        const p = new URLSearchParams({
+          action: 'TEMPLATE', text: cleanTitle(e.title), dates: `${t.start}/${t.end}`,
+          ctz: 'Europe/London', location: e.venue, details: e.url || '',
+        });
+        return 'https://calendar.google.com/calendar/render?' + p.toString();
+      };
+
+      const icsEsc = (s) => String(s || '').replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
+      const downloadIcs = (e) => {
+        const t = eventTimes(e);
+        const lines = [
+          'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Bristol Improv Calendar//EN', 'CALSCALE:GREGORIAN',
+          'BEGIN:VTIMEZONE', 'TZID:Europe/London',
+          'BEGIN:DAYLIGHT', 'TZOFFSETFROM:+0000', 'TZOFFSETTO:+0100', 'TZNAME:BST', 'DTSTART:19700329T010000', 'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU', 'END:DAYLIGHT',
+          'BEGIN:STANDARD', 'TZOFFSETFROM:+0100', 'TZOFFSETTO:+0000', 'TZNAME:GMT', 'DTSTART:19701025T020000', 'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU', 'END:STANDARD',
+          'END:VTIMEZONE',
+          'BEGIN:VEVENT',
+          `UID:${idOf(e)}@bristol-improv-calendar`,
+          'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, ''),
+          `DTSTART;TZID=Europe/London:${t.start}`,
+          `DTEND;TZID=Europe/London:${t.end}`,
+          'SUMMARY:' + icsEsc(cleanTitle(e.title)),
+          'LOCATION:' + icsEsc(e.venue),
+          ...(e.url ? ['URL:' + e.url, 'DESCRIPTION:' + icsEsc('Tickets and details: ' + e.url)] : []),
+          'END:VEVENT', 'END:VCALENDAR',
+        ];
+        const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = idOf(e) + '.ics';
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+      };
+
+      const pageBase = typeof location !== 'undefined' ? location.origin + location.pathname : '';
+      const feedUrl = pageBase.replace(/[^/]*$/, '') + 'events.ics';
+      const webcalUrl = feedUrl.replace(/^https?:/, 'webcal:');
+      const googleSubscribeUrl = 'https://calendar.google.com/calendar/render?cid=' + encodeURIComponent(webcalUrl);
+
+      const copyText = async (text, what) => {
+        try { await navigator.clipboard.writeText(text); setCopied(what); } catch { setCopied('fail'); }
+      };
+      const shareEvent = async (e) => {
+        const url = pageBase + '#event=' + idOf(e);
+        const text = `${cleanTitle(e.title)}, ${longDate(e.date)}, ${startTime(e.time)} at ${e.venue}`;
+        if (navigator.share) {
+          try { await navigator.share({ title: cleanTitle(e.title), text, url }); } catch {}
+          return;
+        }
+        copyText(url, 'event');
+      };
+
+      // ---------- Search (upcoming only; picking a result opens it) ----------
+      const searchHits = useMemo(() => {
+        const q = searchQuery.trim().toLowerCase();
+        if (!q) return [];
+        return events.filter(e => e.date >= todayKey && (
+          e.title.toLowerCase().includes(q) || e.venue.toLowerCase().includes(q) ||
+          (e.description || '').toLowerCase().includes(q)
+        )).sort((a, b) => a.date.localeCompare(b.date)).slice(0, 8);
+      }, [searchQuery, events, todayKey]);
+
+      // ---------- Icons ----------
+      const svg = (children, size = 18) => (
+        <svg aria-hidden="true" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{children}</svg>
+      );
+      const iconCal = svg(<><rect x="3" y="4" width="18" height="17" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="16" y1="2" x2="16" y2="6"></line></>, 20);
+      const iconCalPlus = svg(<><rect x="3" y="4" width="18" height="17" rx="2"></rect><line x1="12" y1="11" x2="12" y2="17"></line><line x1="9" y1="14" x2="15" y2="14"></line></>);
+      const iconList = svg(<><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><circle cx="4" cy="6" r="1"></circle><circle cx="4" cy="12" r="1"></circle><circle cx="4" cy="18" r="1"></circle></>, 20);
+      const iconMenu = svg(<><line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="17" x2="20" y2="17"></line></>, 20);
+      const iconSearch = svg(<><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></>, 16);
+      const iconDown = svg(<polyline points="6 9 12 15 18 9"></polyline>, 14);
+      const iconLeft = svg(<polyline points="15 6 9 12 15 18"></polyline>);
+      const iconRight = svg(<polyline points="9 6 15 12 9 18"></polyline>);
+      const iconX = svg(<><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></>);
+      const iconPin = svg(<><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></>, 20);
+      const iconShare = svg(<><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"></line></>);
+      const iconExt = svg(<><path d="M7 17L17 7"></path><polyline points="8 7 17 7 17 16"></polyline></>, 16);
+
+      // ---------- Pieces ----------
+      const searchBox = (
+        <div className="search" ref={controlsRef}>
+          <label className="search-field">
+            {iconSearch}
+            <span className="vh">Search shows, groups or venues</span>
+            <input
+              type="search"
+              placeholder={isPhone ? 'Search shows, groups, venues' : 'Search'}
+              value={searchQuery}
+              onChange={e => { setSearchQuery(e.target.value); setShowSearchResults(true); }}
+              onFocus={() => setShowSearchResults(true)}
+            />
+          </label>
+          {showSearchResults && searchQuery.trim() && (
+            <div className="search-results">
+              {searchHits.length === 0 ? (
+                <div className="search-none">Nothing coming up matches that.</div>
+              ) : searchHits.map((e, i) => (
+                <button key={i} className="search-item" onClick={() => openEvent(e)}>
+                  <span className="search-title">{cleanTitle(e.title)}</span>
+                  <span className="search-meta">{shortDate(e.date)}, {startTime(e.time)} · {e.venue}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+
+      const monthNav = (
+        <div className="monthnav">
+          <button className="ghost-btn" onClick={goToToday} disabled={isCurrentMonth}>Today</button>
+          <button className="icon-btn plain" onClick={goToPrevMonth} disabled={!canGoBack} aria-label="Previous month">{iconLeft}</button>
+          <button className="icon-btn plain" onClick={goToNextMonth} disabled={!canGoForward} aria-label="Next month">{iconRight}</button>
+          <span className="month-title">{monthNames[viewMonth]} {viewYear}</span>
+        </div>
+      );
+
+      const bitLine = !bitNoticeHidden && (
+        <div className="bit-line">
+          <span>
+            The Bristol Improv Theatre closed in October.{' '}
+            <a href="https://buttondown.com/Kaluuja" target="_blank" rel="noopener noreferrer" data-goatcounter-click="bit-notice-roundup">Read the roundup</a>
+            {' · '}
+            <a href="https://improvtheatre.co.uk/" target="_blank" rel="noopener noreferrer" data-goatcounter-click="bit-notice-statement">BIT statement</a>
+          </span>
+          <button className="bit-x" onClick={hideBitNotice} aria-label="Dismiss notice">{iconX}</button>
+        </div>
+      );
+
+      const tiltMark = <span className="tilt-mark" aria-hidden="true">tilt</span>;
+      const footerLinks = (
+        <>
+          Missing a show? Got a correction?{' '}
+          <a href={FEEDBACK_FORM_URL} target="_blank" rel="noopener noreferrer">Let us know</a>
+          {' · '}
+          <a href={KOFI_URL} target="_blank" rel="noopener noreferrer">Buy Ste a brew</a>
+          {' · '}
+          <a href="https://www.technicallyimprov.com/" target="_blank" rel="noopener noreferrer">Technically Improv</a>
+        </>
+      );
+      const tiltCredit = (
+        <span>A <a href="https://tiltimprov.co.uk/bristol/" target="_blank" rel="noopener noreferrer">Tilt Improv</a> project, for all of Bristol improv.</span>
+      );
+      const siteFooter = (
+        <footer className="site-foot">
+          <div className="foot-tilt">{tiltMark}{tiltCredit}</div>
+          <div>{footerLinks}</div>
+        </footer>
+      );
+
+      // One event as a row (side panel) or a card (list view)
+      const eventRow = (e, i, showDay) => {
+        const t = typeOf(e);
+        return (
+          <button key={i} className="row" onClick={() => openEvent(e)}>
+            <span className="row-when">
+              {showDay && <span className="row-day">{dayLabel(e.date) === 'Today' || dayLabel(e.date) === 'Tomorrow' ? dayLabel(e.date) : shortDate(e.date).replace(/ \w+$/, '')}</span>}
+              <span className="row-time">{startTime(e.time)}</span>
+            </span>
+            <span className="row-main">
+              <span className="row-title">{cleanTitle(e.title)}</span>
+              <span className="row-meta">{shape(t, 9)}{TYPE_LABEL[t]} · {e.venue}</span>
+            </span>
+          </button>
+        );
+      };
+      const eventCard = (e, i) => {
+        const t = typeOf(e);
+        return (
+          <button key={i} className="card" onClick={() => openEvent(e)}>
+            <span className="card-when">
+              <span className="card-time">{startTime(e.time)}</span>
+              <span className="card-type">{shape(t, 10)}{TYPE_LABEL[t]}</span>
+            </span>
+            <span className="card-main">
+              <span className="card-title">{cleanTitle(e.title)}</span>
+              <span className="card-venue">{e.venue}</span>
+            </span>
+            <span className="chev">{iconRight}</span>
+          </button>
+        );
+      };
+
+      const subscribeButton = (
+        <button className="btn-outline wide" onClick={() => { setCopied(''); setShowSubscribe(true); }} data-goatcounter-click="subscribe-open">
+          {iconCalPlus} Put all of this in your calendar
+        </button>
+      );
+
+      // ---------- Views ----------
+      const renderList = () => {
+        const groups = [];
+        upcoming.forEach(e => {
+          const last = groups[groups.length - 1];
+          if (last && last.key === e.date) last.items.push(e); else groups.push({ key: e.date, items: [e] });
+        });
+        return (
+          <main className="list">
+            {groups.length === 0 ? (
+              <div className="empty">
+                <p>Nothing coming up matches those filters.</p>
+                {filtersActive && <button className="btn-outline" onClick={clearFilters}>Clear filters</button>}
+              </div>
+            ) : (
+              <>
+                {whenFilter === 'any' && groups[0].key !== todayKey && (
+                  <p className="list-note">Nothing on today. Next up {dayLabel(groups[0].key).toLowerCase() === 'tomorrow' ? 'tomorrow' : dayLabel(groups[0].key)}.</p>
+                )}
+                {groups.map(g => {
+                  const label = dayLabel(g.key);
+                  const showSub = label === 'Today' || label === 'Tomorrow' || !/\d/.test(label);
+                  return (
+                    <section key={g.key} className="day-group">
+                      <h2>{label}{showSub && <small>{label === 'Today' || label === 'Tomorrow' ? shortDate(g.key) : dayNumMonth(g.key)}</small>}</h2>
+                      {g.items.map(eventCard)}
+                    </section>
+                  );
+                })}
+              </>
+            )}
+            {subscribeButton}
+          </main>
+        );
+      };
+
+      const sidePanel = () => {
+        let title, items, showDay = true;
+        if (selectedDay) {
+          title = longDate(selectedDay);
+          items = byDate[selectedDay] || [];
+          showDay = false;
+        } else if (whenFilter !== 'any') {
+          title = whenLabel;
+          items = upcoming.slice(0, 30);
+        } else {
+          const weekEnd = keyOf(addDays(new Date(), 6));
+          items = upcoming.filter(e => e.date <= weekEnd);
+          title = 'Coming up this week';
+          if (items.length < 3) { items = upcoming.slice(0, 8); title = 'Coming up'; }
+        }
+        return (
+          <aside className="side">
+            <h2>{title}</h2>
+            {selectedDay && <button className="linkish" onClick={() => setSelectedDay(null)}>Back to what's coming up</button>}
+            <div className="side-list">
+              {items.length === 0
+                ? <p className="side-empty">{selectedDay ? 'Nothing listed that day.' : 'Nothing listed yet.'}</p>
+                : items.map((e, i) => eventRow(e, i, showDay))}
+            </div>
+            {!isPhone && (
+              <div className="side-foot">
+                <button className="btn-light block" onClick={() => { setCopied(''); setShowSubscribe(true); }} data-goatcounter-click="subscribe-open">{iconCalPlus} Add to your calendar</button>
+                <div className="foot-tilt small">{tiltMark}{tiltCredit}</div>
+                <div>{footerLinks}</div>
+              </div>
+            )}
+          </aside>
+        );
+      };
+
+      const renderCalendar = () => {
+        const first = new Date(viewYear, viewMonth, 1);
+        const lead = (first.getDay() + 6) % 7;
+        const start = addDays(first, -lead);
+        const total = Math.ceil((lead + daysInMonth) / 7) * 7;
+        const weeks = total / 7;
+        const MAX = 3;
+        const cells = [];
+        for (let i = 0; i < total; i++) {
+          const d = addDays(start, i);
+          const k = keyOf(d);
+          const list = byDate[k] || [];
+          const other = d.getMonth() !== viewMonth;
+          const isToday = k === todayKey;
+          const past = k < todayKey;
+          const shown = list.length > MAX ? list.slice(0, MAX - 1) : list;
+          const typesHere = TYPE_ORDER.filter(t => list.some(e => typeOf(e) === t));
+          cells.push(
+            <div
+              key={k}
+              className={`cell${other ? ' other' : ''}${isToday ? ' today' : ''}${past ? ' past' : ''}${selectedDay === k ? ' picked' : ''}`}
+              onClick={() => setSelectedDay(selectedDay === k ? null : k)}
+            >
+              <button
+                className="num"
+                aria-label={`${longDate(k)}${list.length ? `, ${list.length} listed` : ''}`}
+                onClick={(ev) => { ev.stopPropagation(); setSelectedDay(selectedDay === k ? null : k); }}
+              >
+                {other && d.getDate() === 1 ? `1 ${monthShort[d.getMonth()]}` : d.getDate()}
+              </button>
+              {shown.map((e, j) => (
+                <button key={j} className="evchip" onClick={(ev) => { ev.stopPropagation(); openEvent(e); }}>
+                  {shape(typeOf(e), 9)}
+                  <span className="txt"><strong>{startTime(e.time)}</strong> {cleanTitle(e.title)}</span>
+                </button>
+              ))}
+              {list.length > shown.length && <span className="more">+{list.length - shown.length} more</span>}
+              {list.length > 0 && (
+                <span className="cell-shapes" aria-hidden="true">
+                  {typesHere.map(t => <span key={t} className="cell-shape">{shape(t, 9)}</span>)}
+                  {list.length > 1 && <span className="cell-count">{list.length}</span>}
+                </span>
+              )}
+            </div>
+          );
+        }
+        return (
+          <div className="cal-main">
+            <section className="cal-wrap" aria-label={`${monthNames[viewMonth]} ${viewYear}`}>
+              {isPhone && <div className="phone-monthnav">{monthNav}</div>}
+              <div className="dow-row">{dayNames.map(d => <div key={d} className="dow">{d}</div>)}</div>
+              <div
+                className="grid"
+                style={{ gridTemplateRows: `repeat(${weeks}, minmax(0, 1fr))` }}
+                ref={calendarRef}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+              >
+                {cells}
+              </div>
+            </section>
+            {sidePanel()}
+          </div>
+        );
+      };
+
+      // ---------- Overlays ----------
+      const eventSheet = () => {
+        const e = selectedEvent;
+        if (!e) return null;
+        const t = typeOf(e);
+        const key = cleanTitle(e.title).trim().toLowerCase();
+        const also = events.filter(x => x !== e && x.date >= todayKey && cleanTitle(x.title).trim().toLowerCase() === key).slice(0, 3);
+        const mapUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(e.venue + (/bath/i.test(e.venue) ? '' : ', Bristol'));
+        return (
+          <div className="sheet-overlay" onClick={closeEvent}>
+            <div className="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" onClick={ev => ev.stopPropagation()}>
+              <div className={`sheet-hero${e.image ? ' has-img' : ''}`} style={e.image ? { backgroundImage: `url("${e.image}")` } : undefined}>
+                <span className="sheet-handle" aria-hidden="true"></span>
+                <button className="sheet-close" aria-label="Close" onClick={closeEvent}>{iconX}</button>
+              </div>
+              <div className="sheet-body">
+                <span className="type-pill">{shape(t, 11)}{TYPE_LABEL[t]}</span>
+                <h2 id="sheet-title">{cleanTitle(e.title)}</h2>
+                <ul className="facts">
+                  <li>{iconCal}<span><strong>{longDate(e.date)}</strong>{e.time ? `, ${niceTime(e.time)}` : ''}</span></li>
+                  <li>{iconPin}<span>{e.venue} <a href={mapUrl} target="_blank" rel="noopener noreferrer">Map</a></span></li>
+                </ul>
+                {e.description && <p className="sheet-desc">{cleanTitle(e.description).slice(0, 320)}{e.description.length > 320 ? '…' : ''}</p>}
+                {e.url && (
+                  <a className="btn-primary" href={e.url} target="_blank" rel="noopener noreferrer" data-goatcounter-click="ticket-link">
+                    Tickets and details {iconExt}
+                  </a>
+                )}
+                <div className="sheet-actions">
+                  <button className="btn-outline" onClick={() => setCalOpen(!calOpen)} aria-expanded={calOpen} data-goatcounter-click="event-add-to-calendar">
+                    {iconCalPlus} Add to calendar
+                  </button>
+                  <button className="btn-outline" onClick={() => shareEvent(e)} data-goatcounter-click="event-share">
+                    {iconShare} {copied === 'event' ? 'Link copied' : 'Send to a friend'}
+                  </button>
+                </div>
+                {calOpen && (
+                  <div className="cal-choices">
+                    <a className="btn-outline" href={googleUrl(e)} target="_blank" rel="noopener noreferrer">Google Calendar</a>
+                    <button className="btn-outline" onClick={() => downloadIcs(e)}>Apple, Outlook or other</button>
+                  </div>
+                )}
+                {also.length > 0 && (
+                  <div className="also">
+                    <span className="also-label">Also on</span>
+                    {also.map((x, i) => (
+                      <button key={i} onClick={() => openEvent(x)}>{shortDate(x.date)}, {startTime(x.time)}, {x.venue}</button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      const filterSheet = () => {
+        if (!showFilters) return null;
+        return (
+          <div className="sheet-overlay" onClick={() => setShowFilters(false)}>
+            <div className="sheet" role="dialog" aria-modal="true" aria-labelledby="filter-title" onClick={ev => ev.stopPropagation()}>
+              <div className="fsheet">
+                <span className="sheet-handle static" aria-hidden="true"></span>
+                <div className="fsheet-top">
+                  <h2 id="filter-title">Filter</h2>
+                  <button className="linkish" onClick={clearFilters}>Clear all</button>
+                </div>
+                <fieldset>
+                  <legend>When</legend>
+                  <div className="wrap-chips">
+                    {WHEN.map(([k, label]) => (
+                      <button key={k} className="chip" aria-pressed={whenFilter === k} onClick={() => setWhenFilter(k)}>{label}</button>
+                    ))}
+                  </div>
+                </fieldset>
+                <fieldset>
+                  <legend>What</legend>
+                  <div className="type-grid">
+                    {TYPE_ORDER.map(t => (
+                      <label key={t} className="type-check">
+                        <input type="checkbox" checked={typeSet.length === 0 || typeSet.includes(t)} onChange={() => {
+                          if (typeSet.length === 0) setTypeSet(TYPE_ORDER.filter(x => x !== t));
+                          else {
+                            const next = typeSet.includes(t) ? typeSet.filter(x => x !== t) : [...typeSet, t];
+                            setTypeSet(next.length === TYPE_ORDER.length ? [] : next);
+                          }
+                        }} />
+                        {shape(t, 11)}{TYPE_PLURAL[t]}
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+                <label className="where">
+                  Where
+                  <select value={venueFilter} onChange={ev => setVenueFilter(ev.target.value)}>
+                    <option value="all">All venues</option>
+                    {venueGroups.map(({ key, label }) => (
+                      <option key={key} value={key} disabled={!activeVenueGroups.has(key)}>{label}</option>
+                    ))}
+                  </select>
+                </label>
+                <button className="btn-primary" onClick={() => setShowFilters(false)}>
+                  {upcoming.length === 1 ? 'Show 1 event' : `Show ${upcoming.length} events`}
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      const subscribeSheet = () => {
+        if (!showSubscribe) return null;
+        return (
+          <div className="sheet-overlay" onClick={() => setShowSubscribe(false)}>
+            <div className="sheet" role="dialog" aria-modal="true" aria-labelledby="sub-title" onClick={ev => ev.stopPropagation()}>
+              <div className="fsheet">
+                <span className="sheet-handle static" aria-hidden="true"></span>
+                <div className="fsheet-top">
+                  <h2 id="sub-title">Add to your calendar</h2>
+                  <button className="icon-btn plain dark" aria-label="Close" onClick={() => setShowSubscribe(false)}>{iconX}</button>
+                </div>
+                <p className="sub-text">Every listing here, in your own calendar app. It keeps itself up to date, though some apps only check for new listings once a day or so.</p>
+                <a className="btn-primary" href={googleSubscribeUrl} target="_blank" rel="noopener noreferrer" data-goatcounter-click="subscribe-google">Google Calendar</a>
+                <a className="btn-outline wide" href={webcalUrl} data-goatcounter-click="subscribe-webcal">Apple Calendar or Outlook</a>
+                <button className="btn-outline wide" onClick={() => copyText(feedUrl, 'feed')} data-goatcounter-click="subscribe-copy">
+                  {copied === 'feed' ? 'Link copied' : 'Copy the link for another app'}
+                </button>
+                {copied === 'fail' && <p className="sub-text">Couldn't copy. Here's the link: {feedUrl}</p>}
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      const phoneHeader = isPhone;
+      const fixedHeight = !isPhone && viewMode === 'calendar';
+      const toggleView = () => setViewMode(viewMode === 'list' ? 'calendar' : 'list');
+
+      const cssVars = darkMode ? {
+        '--bg': '#0E1734', '--card': '#18234A', '--other': '#121C3D', '--text': '#F4F1EA', '--muted': '#AEB6CC',
+        '--line': '#2A3560', '--chip-line': '#3A4566', '--hover': '#22305E', '--hdr': '#070D22',
+        '--primary-bg': '#F4F1EA', '--primary-fg': '#0E1734', '--today-bg': '#F2B705', '--today-fg': '#0E1734',
+      } : {
+        '--bg': '#FAF8F3', '--card': '#FFFFFF', '--other': '#F1F2F6', '--text': '#0E1734', '--muted': '#4A5470',
+        '--line': '#E1E4EC', '--chip-line': '#C5CAD8', '--hover': '#EEF0F5', '--hdr': '#0E1734',
+        '--primary-bg': '#0E1734', '--primary-fg': '#FFFFFF', '--today-bg': '#0E1734', '--today-fg': '#FFFFFF',
+      };
+
+      return (
+        <div className={`app${fixedHeight ? ' fixed' : ''}`} style={cssVars}>
+          <style>{`
+            .app { min-height: 100%; display: flex; flex-direction: column; background: var(--bg); color: var(--text); font-family: 'Open Sans', sans-serif; }
+            .app.fixed { height: 100vh; min-height: 0; overflow: hidden; }
+            .app a { color: inherit; }
+            .app button { font-family: inherit; }
+            h1, h2, h3, .month-title, .row-time, .card-time, .num { font-family: 'Bricolage Grotesque', sans-serif; }
+            .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+            /* HEADER */
+            .hdr { background: var(--hdr); color: #FFFFFF; padding: 10px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 24px; flex-shrink: 0; }
+            .brand { display: flex; align-items: baseline; gap: 12px; flex: 1 1 auto; min-width: 0; }
+            .brand h1 { font-size: 22px; font-weight: 800; line-height: 1.1; white-space: nowrap; }
+            .updated { font-size: 12px; color: #C9D0E3; white-space: nowrap; }
+            .monthnav { display: flex; align-items: center; gap: 6px; }
+            .month-title { font-weight: 700; font-size: 19px; min-width: 150px; color: inherit; }
+            .hdr-actions { display: flex; align-items: center; gap: 8px; }
+            .icon-btn { width: 40px; height: 40px; border-radius: 10px; border: 1.5px solid #3A4566; background: transparent; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; flex: none; }
+            .icon-btn.plain { border-color: transparent; width: 36px; height: 36px; }
+            .icon-btn.dark { color: var(--text); }
+            .icon-btn:disabled, .ghost-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+            .icon-btn:hover:not(:disabled) { background: #FFFFFF15; }
+            .ghost-btn { height: 36px; padding: 0 12px; border-radius: 10px; border: 1.5px solid #3A4566; background: transparent; color: #FFFFFF; font-weight: 600; font-size: 13px; cursor: pointer; }
+            .btn-light { height: 36px; padding: 0 14px; border-radius: 10px; border: 0; background: #F4F1EA; color: #0E1734; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; cursor: pointer; }
+            .btn-light.block { width: 100%; height: 40px; background: var(--primary-bg); color: var(--primary-fg); }
+
+            /* SEARCH */
+            .search { position: relative; }
+            .search-field { display: flex; align-items: center; gap: 8px; background: #1B2647; border-radius: 10px; padding: 0 12px; height: 36px; width: 220px; color: #C9D0E3; }
+            .search-field input { flex: 1; min-width: 0; border: 0; background: transparent; color: #FFFFFF; font-family: inherit; font-size: 14px; outline: none; }
+            .search-field input::placeholder { color: #AEB6CC; }
+            .search-field:focus-within { box-shadow: 0 0 0 2px #F2B705; }
+            .search-results { position: absolute; top: calc(100% + 6px); right: 0; width: 340px; max-width: calc(100vw - 32px); background: var(--card); color: var(--text); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 32px rgba(0,0,0,0.35); z-index: 60; overflow: hidden; }
+            .search-item { display: block; width: 100%; text-align: left; padding: 10px 14px; border: 0; border-top: 1px solid var(--line); background: transparent; color: var(--text); cursor: pointer; }
+            .search-item:first-child { border-top: 0; }
+            .search-item:hover, .search-item:focus { background: var(--hover); outline: none; }
+            .search-title { display: block; font-weight: 700; font-size: 14px; }
+            .search-meta { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
+            .search-none { padding: 12px 14px; font-size: 14px; color: var(--muted); }
+
+            /* FILTER BAR (desktop) */
+            .filterbar { flex-shrink: 0; padding: 10px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; border-bottom: 1px solid var(--line); }
+            .chips, .wrap-chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+            .chip { height: 32px; padding: 0 13px; border-radius: 999px; border: 1.5px solid var(--chip-line); background: var(--card); color: var(--text); font-weight: 600; font-size: 13px; display: inline-flex; align-items: center; gap: 7px; cursor: pointer; }
+            .chip[aria-pressed="true"] { background: var(--primary-bg); color: var(--primary-fg); border-color: var(--primary-bg); font-weight: 700; }
+            select.chip { padding: 0 10px; }
+            .chip-gap { width: 6px; }
+            .bit-line { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 2px; }
+            .bit-line a { color: var(--text); font-weight: 600; }
+            .bit-x { width: 32px; height: 32px; border: 0; background: transparent; color: var(--muted); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+
+            /* SHAPES */
+            .shape { display: inline-block; flex: none; }
+            .shape-show { border-radius: 50%; }
+            .shape-workshop { border-radius: 2px; }
+            .shape-jam { transform: rotate(45deg) scale(0.78); border-radius: 1px; }
+            .shape-dropin { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+
+            /* MONTH VIEW */
+            .cal-main { flex: 1; min-height: 0; display: flex; gap: 16px; padding: 12px 24px 14px; }
+            .cal-wrap { flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; }
+            .dow-row, .grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+            .dow { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); padding: 0 6px 4px; }
+            .grid { flex: 1; min-height: 0; }
+            .cell { min-height: 0; overflow: hidden; border-radius: 8px; padding: 4px 4px 2px; display: flex; flex-direction: column; gap: 1px; background: var(--card); border: 1px solid var(--line); cursor: pointer; }
+            .cell.other { background: var(--other); }
+            .cell.past { opacity: 0.55; }
+            .cell.today { border: 2px solid var(--text); }
+            .cell.picked { box-shadow: inset 0 0 0 2px #F2B705; }
+            .num { align-self: flex-start; border: 0; background: transparent; color: var(--text); font-weight: 700; font-size: 13px; line-height: 22px; padding: 0 7px; border-radius: 999px; cursor: pointer; }
+            .cell.other .num { color: var(--muted); }
+            .cell.today .num { background: var(--today-bg); color: var(--today-fg); }
+            .evchip { display: flex; align-items: center; gap: 5px; width: 100%; border: 0; background: transparent; color: var(--text); font-size: 12px; line-height: 18px; border-radius: 4px; padding: 0 3px; cursor: pointer; text-align: left; min-width: 0; }
+            .evchip:hover, .evchip:focus { background: var(--hover); outline: none; }
+            .evchip .txt { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+            .more { font-size: 12px; font-weight: 700; padding: 0 3px; }
+            .cell-shapes { display: none; }
+            .phone-monthnav { display: none; }
+
+            /* SIDE PANEL */
+            .side { width: 320px; flex: none; min-height: 0; box-sizing: border-box; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; }
+            .side h2 { font-size: 20px; font-weight: 800; }
+            .side-list { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; }
+            .side-empty { font-size: 14px; color: var(--muted); padding: 8px 0; }
+            .side-foot { border-top: 1px solid var(--line); padding-top: 12px; font-size: 12px; color: var(--muted); line-height: 1.5; display: flex; flex-direction: column; gap: 10px; }
+            .side-foot a { color: var(--text); }
+            .linkish { border: 0; background: none; color: var(--text); text-decoration: underline; font-weight: 600; font-size: 13px; cursor: pointer; padding: 0; align-self: flex-start; }
+            .row { display: flex; gap: 12px; width: 100%; text-align: left; background: transparent; border: 0; border-top: 1px solid var(--line); padding: 10px 2px; cursor: pointer; color: var(--text); }
+            .row:first-child { border-top: 0; }
+            .row:hover .row-title { text-decoration: underline; }
+            .row-when { flex: none; width: 74px; display: flex; flex-direction: column; gap: 2px; }
+            .row-day { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+            .row-time { font-weight: 800; font-size: 16px; }
+            .row-main { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+            .row-title { font-weight: 700; font-size: 14px; line-height: 1.3; overflow-wrap: anywhere; }
+            .row-meta { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+
+            /* LIST VIEW */
+            .list { flex: 1; width: 100%; max-width: 760px; margin: 0 auto; padding: 8px 20px 28px; box-sizing: border-box; }
+            .list-note { padding: 14px 0 0; font-size: 14px; color: var(--muted); }
+            .day-group { padding-top: 18px; display: flex; flex-direction: column; gap: 8px; }
+            .day-group h2 { font-size: 18px; font-weight: 800; }
+            .day-group h2 small { font-family: 'Open Sans', sans-serif; font-weight: 600; font-size: 14px; color: var(--muted); margin-left: 8px; }
+            .card { display: flex; gap: 14px; align-items: flex-start; width: 100%; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; cursor: pointer; color: var(--text); }
+            .card:hover { border-color: var(--chip-line); }
+            .card-when { flex: none; width: 64px; display: flex; flex-direction: column; gap: 6px; }
+            .card-time { font-weight: 800; font-size: 17px; line-height: 1; }
+            .card-type { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; }
+            .card-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+            .card-title { font-weight: 700; font-size: 15px; line-height: 1.35; overflow-wrap: anywhere; }
+            .card-venue { font-size: 13px; color: var(--muted); }
+            .chev { flex: none; color: var(--muted); margin-top: 1px; }
+            .empty { padding: 40px 0 8px; text-align: center; color: var(--muted); display: flex; flex-direction: column; gap: 14px; align-items: center; }
+
+            /* BUTTONS */
+            .btn-outline { min-height: 46px; border-radius: 12px; border: 1.5px solid var(--text); background: transparent; color: var(--text); font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; padding: 0 14px; text-decoration: none; text-align: center; }
+            .btn-outline.wide { width: 100%; margin-top: 20px; }
+            .app .btn-primary { min-height: 52px; border-radius: 14px; border: 0; background: var(--primary-bg); color: var(--primary-fg); text-decoration: none; font-weight: 700; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; width: 100%; }
+
+            /* FOOTER */
+            .site-foot { background: var(--hdr); color: #C9D0E3; padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 10px; font-size: 13px; line-height: 1.6; }
+            .site-foot a { color: #FFFFFF; }
+            .foot-tilt { display: flex; align-items: center; gap: 10px; color: #FFFFFF; }
+            .foot-tilt.small { color: var(--muted); }
+            .tilt-mark { flex: none; width: 36px; height: 36px; border-radius: 50%; background: #F2542D; color: #0E1734; display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 14px; }
+            .foot-tilt.small .tilt-mark { width: 30px; height: 30px; font-size: 12px; }
+
+            /* PHONE CONTROLS */
+            .phone-controls { background: var(--hdr); padding: 0 16px 14px; display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+            .phone-controls .search-field { width: auto; height: 44px; border-radius: 12px; }
+            .phone-controls .search-field input { font-size: 16px; }
+            .phone-controls .search-results { left: 0; right: 0; width: auto; max-width: none; }
+            .fbtns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+            .fbtn { height: 44px; border-radius: 12px; border: 0; background: #F4F1EA; color: #0E1734; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 4px; min-width: 0; padding: 0 8px; cursor: pointer; }
+            .fbtn.on { background: #F2B705; }
+            .fbtn span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+            .fbtn svg { flex: none; }
+            .bit-bar { padding: 10px 16px; background: var(--other); border-bottom: 1px solid var(--line); }
+            .bit-bar .bit-line { justify-content: space-between; line-height: 1.45; }
+
+            /* SHEETS (event, filters, subscribe) */
+            .sheet-overlay { position: fixed; inset: 0; background: rgba(5,9,25,0.6); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 24px; }
+            .sheet { width: 100%; max-width: 460px; max-height: 90vh; overflow-y: auto; background: var(--bg); color: var(--text); border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.45); position: relative; }
+            .sheet-hero { position: relative; height: 96px; background: repeating-linear-gradient(135deg, #24315A 0 14px, #1B2647 14px 28px); background-size: cover; background-position: center; }
+            .sheet-hero.has-img { height: 200px; }
+            .sheet-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0) 25%, var(--bg) 100%); }
+            .sheet-close { position: absolute; top: 12px; right: 12px; z-index: 1; width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(14,23,52,0.75); color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+            .sheet-handle { display: none; position: absolute; top: 8px; left: 50%; margin-left: -22px; width: 44px; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.8); z-index: 1; }
+            .sheet-handle.static { position: static; margin: 0 auto 4px; background: var(--chip-line); }
+            .sheet-body { padding: 0 22px 24px; margin-top: -30px; position: relative; display: flex; flex-direction: column; gap: 16px; }
+            .type-pill { align-self: flex-start; display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; }
+            .sheet-body h2 { font-size: 26px; font-weight: 800; line-height: 1.12; }
+            .facts { list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 15px; }
+            .facts li { display: flex; gap: 12px; align-items: center; }
+            .facts a { font-size: 13px; margin-left: 4px; }
+            .sheet-desc { font-size: 14px; line-height: 1.55; color: var(--muted); }
+            .sheet-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+            .cal-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+            .also { border-top: 1px solid var(--line); padding-top: 14px; display: flex; flex-direction: column; gap: 4px; }
+            .also-label { font-size: 13px; font-weight: 700; color: var(--muted); }
+            .also button { text-align: left; border: 0; background: none; color: var(--text); text-decoration: underline; font-size: 14px; padding: 6px 0; cursor: pointer; }
+            .fsheet { padding: 12px 22px 24px; display: flex; flex-direction: column; gap: 18px; }
+            .fsheet-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+            .fsheet-top h2 { font-size: 24px; font-weight: 800; }
+            .fsheet fieldset { border: 0; padding: 0; margin: 0; }
+            .fsheet legend { font-weight: 700; font-size: 15px; margin-bottom: 10px; padding: 0; }
+            .fsheet .chip { height: 40px; font-size: 14px; padding: 0 14px; }
+            .type-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+            .type-check { min-height: 48px; border-radius: 12px; border: 1.5px solid var(--chip-line); background: var(--card); display: flex; align-items: center; gap: 10px; padding: 0 12px; font-weight: 600; font-size: 14px; cursor: pointer; }
+            .type-check input { width: 18px; height: 18px; margin: 0; accent-color: #F2B705; }
+            .where { display: flex; flex-direction: column; gap: 10px; font-weight: 700; font-size: 15px; }
+            .where select { height: 48px; border-radius: 12px; border: 1.5px solid var(--chip-line); background: var(--card); color: var(--text); font-family: inherit; font-size: 15px; padding: 0 12px; }
+            .sub-text { font-size: 14px; line-height: 1.55; color: var(--muted); overflow-wrap: anywhere; }
+            .fsheet .btn-outline.wide { margin-top: 0; }
+
+            ${legacyCss}
+
+            /* PHONE */
             @media (max-width: 768px) {
-              /* Beta ribbon - smaller on mobile */
-              .beta-ribbon {
-                width: 70px;
-                height: 70px;
-              }
-              .beta-ribbon span {
-                width: 100px;
-                padding: 3px 0;
-                font-size: 0.5rem;
-                left: -28px;
-                top: 18px;
-              }
-              
-              /* Hide inline beta badge on mobile */
-              .beta { display: none; }
-              
-              /* Vertical stack layout */
-              .main { flex-direction: column; }
-              
-              /* Calendar - height based on weeks needed */
-              .calendar {
-                flex: none;
-                height: 48vh;
-                min-height: 240px;
-              }
-              
-              /* 6-week months need more height */
-              .calendar.six-weeks {
-                height: 55vh;
-                min-height: 290px;
-              }
-              
-              /* Bottom panel - when NO selection, auto height (compact) */
-              .detail.no-selection {
-                flex: none;
-                height: auto;
-                overflow: visible;
-              }
-              
-              /* Bottom panel - when HAS selection, fill remaining and scroll */
-              .detail.has-selection {
-                flex: 1;
-                min-height: 0;
-                overflow-y: auto;
-              }
-              
-              .detail {
-                width: 100%;
-                border-left: none;
-                border-top: 3px solid ${colors.border};
-              }
-              
-              /* Compact no-select message */
-              .no-select {
-                padding: 0.4rem;
-                font-size: 0.75rem;
-              }
-              
-              /* Mobile footer styling */
-              .mobile-footer .kofi-bar {
-                padding: 0.4rem 0.6rem;
-                gap: 0.4rem;
-                flex-wrap: wrap;
-              }
-              .mobile-footer .kofi-text { font-size: 0.7rem; }
-              .mobile-footer .kofi-btn { font-size: 0.65rem; padding: 0.3rem 0.55rem; }
-              .mobile-footer .footer { font-size: 0.8rem; padding: 0.6rem 0.5rem; }
-              .mobile-footer .footer a { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
-              
-              /* Hide desktop footer on mobile */
-              .desktop-footer { display: none; }
-              
-              /* List view mobile styles */
-              .list-view {
-                padding: 0;
-              }
-              .list-container {
-                padding: 0;
-              }
-              .list-date-header {
-                padding: 0.6rem 0.9rem;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.15rem;
-              }
-              .list-date-day {
-                font-size: 0.9rem;
-              }
-              .list-date-full {
-                font-size: 0.75rem;
-              }
-              .list-event-card {
-                padding: 0.75rem 0.9rem;
-                gap: 0.75rem;
-              }
-              .list-event-time {
-                font-size: 0.75rem;
-                min-width: 85px;
-              }
-              .list-event-indicator {
-                width: 8px;
-                height: 8px;
-              }
-              .list-event-title {
-                font-size: 0.85rem;
-              }
-              .list-event-venue {
-                font-size: 0.7rem;
-              }
-              .list-event-type {
-                font-size: 1.1rem;
-              }
-              .list-footer .kofi-bar {
-                padding: 0.4rem 0.6rem;
-                gap: 0.4rem;
-                flex-wrap: wrap;
-              }
-              .list-footer .kofi-text { font-size: 0.7rem; }
-              .list-footer .kofi-btn { font-size: 0.65rem; padding: 0.3rem 0.55rem; }
-              .list-footer .footer { font-size: 0.8rem; padding: 0.6rem 0.5rem; }
-              .list-footer .footer a { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
-              
-              /* Header adjustments */
-              .header {
-                padding: 0.5rem 0.6rem;
-                padding-left: 2.5rem;
-                gap: 0.4rem;
-              }
-              .header h1 {
-                font-size: 1rem;
-                white-space: normal;
-                line-height: 1.15;
-              }
-              .header-left { gap: 0.35rem; }
-              .month-full { display: none; }
-              .month-short { display: inline; }
-              .month-label { min-width: 75px; font-size: 0.75rem; }
-              .nav-btn { width: 28px; height: 28px; font-size: 0.9rem; }
-              .today-btn { font-size: 0.55rem; padding: 0.3rem 0.45rem; }
-              .settings-btn { padding: 0.3rem 0.45rem; font-size: 0.65rem; }
-              .settings-btn span { display: none; }
-              
-              .header-right { gap: 0.5rem; }
-              .hub-link { display: none; }
-              .hub-link-text-desktop { display: none; }
-              .hub-link-text-mobile { display: inline; }
-              
-              /* Controls */
-              .controls { padding: 0.45rem 0.5rem; }
-              .controls-inner { gap: 0.4rem; flex-wrap: nowrap; }
-              .search-box { width: auto; flex: 1; min-width: 70px; }
-              .search-input { padding: 0.35rem 0.45rem 0.35rem 1.6rem; font-size: 0.75rem; }
-              .search-icon { font-size: 0.7rem; left: 0.55rem; }
-              .filter-select { font-size: 0.75rem; padding: 0.35rem 1.4rem 0.35rem 0.45rem; flex: 1; }
-              
-              /* Color key - mobile */
-              .color-key {
-                padding: 0.3rem 0.5rem;
-                gap: 0.5rem;
-                flex-wrap: wrap;
-              }
-              .key-label { font-size: 0.65rem; }
-              .key-shape { width: 10px; height: 10px; }
-              .shape-diamond-wrap { width: 10px; height: 10px; }
-              .shape-diamond { width: 8px; height: 8px; }
-              .shape-triangle-wrap { width: 10px; height: 10px; }
-              .shape-triangle,
-              .shape-triangle:before,
-              .shape-triangle:after { width: 6px; height: 6px; }
-              .key-text { font-size: 0.7rem; }
-              
-              /* Calendar grid */
-              .cal-grid { 
-                padding: 0.35rem; 
-                gap: 3px;
-                grid-template-rows: auto repeat(${weeksNeeded}, minmax(48px, 1fr));
-              }
-              .day-hdr { font-size: 0.7rem; padding: 0.3rem 0; }
-              .cal-day { padding: 0.25rem; border-radius: 5px; min-height: 48px; }
-              .date-num { font-size: 0.75rem; margin-bottom: 0.1rem; }
-              
-              /* 6-week months - allow calendar to scroll */
-              .cal-grid.weeks-6 { 
-                grid-template-rows: auto repeat(6, minmax(44px, 1fr));
-              }
-              .cal-grid.weeks-6 .cal-day { min-height: 44px; }
-              .cal-grid.weeks-6 .mobile-time-zone { min-height: 11px; }
-              
-              /* Show mobile shapes, hide desktop events */
-              .desktop-events { display: none; }
-              .mobile-events { display: flex; }
-              
-              /* Two-zone layout adjustments for mobile */
-              .mobile-time-zone { min-height: 14px; }
-              
-              /* Detail panel content */
-              .detail-hdr { font-size: 1rem; margin-bottom: 0.5rem; padding-bottom: 0.4rem; }
-              .detail-inner { padding: 0.75rem; }
-              .event-card { padding: 0.75rem; margin-bottom: 0.5rem; }
-              .event-icon { font-size: 1.3rem; }
-              .event-title { font-size: 0.9rem; }
-              .event-meta { font-size: 0.8rem; }
-              .event-cta { font-size: 0.75rem; }
-              .clash { font-size: 0.8rem; padding: 0.45rem 0.55rem; margin-bottom: 0.5rem; }
-            }
-            
-            @media (max-width: 380px) {
-              .header h1 { font-size: 0.9rem; }
-              .filter-select { font-size: 0.7rem; padding: 0.3rem 1.3rem 0.3rem 0.4rem; }
-              .mobile-shape-wrap { width: 10px; height: 10px; }
-              .mobile-circle { width: 10px; height: 10px; }
-              .mobile-square { width: 10px; height: 10px; border-radius: 2px; }
-              .mobile-diamond { width: 8px; height: 8px; }
-              .mobile-triangle-wrap { width: 10px; height: 10px; }
-              .mobile-triangle,
-              .mobile-triangle:before,
-              .mobile-triangle:after { width: 6px; height: 6px; }
-              .mobile-triangle-num { font-size: 0.4rem; }
-              .shape-count { font-size: 0.4rem; }
-              .color-key { gap: 0.4rem; }
-              .key-item { gap: 0.25rem; }
-              .key-shape { width: 8px; height: 8px; }
-              .shape-diamond-wrap { width: 8px; height: 8px; }
-              .shape-diamond { width: 6px; height: 6px; }
-              .shape-triangle-wrap { width: 8px; height: 8px; }
-              .shape-triangle,
-              .shape-triangle:before,
-              .shape-triangle:after { width: 5px; height: 5px; }
-              .key-text { font-size: 0.6rem; }
-            }
-            
-            /* Desktop: show desktop footer, hide mobile footer, hide ribbon */
-            @media (min-width: 769px) {
-              .mobile-footer { display: none; }
-              .beta-ribbon { display: none; }
+              .hdr { padding: 14px 16px 12px; gap: 10px; flex-wrap: nowrap; }
+              .brand { flex-direction: column; align-items: flex-start; gap: 2px; }
+              .brand h1 { font-size: 24px; }
+              .updated { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+              .icon-btn { width: 44px; height: 44px; border-radius: 12px; }
+              .icon-btn.plain { width: 40px; height: 40px; }
+              .list { padding: 4px 16px 24px; }
+              .cal-main { flex-direction: column; padding: 4px 10px 20px; gap: 12px; }
+              .phone-monthnav { display: block; padding: 8px 0 8px; }
+              .phone-monthnav .monthnav { justify-content: space-between; }
+              .phone-monthnav .ghost-btn, .phone-monthnav .icon-btn { color: var(--text); border-color: var(--chip-line); }
+              .phone-monthnav .icon-btn.plain { border-color: transparent; }
+              .phone-monthnav .month-title { order: -1; flex: 1; min-width: 0; font-size: 20px; }
+              .grid { gap: 3px; grid-template-rows: none !important; grid-auto-rows: minmax(58px, auto); }
+              .dow-row { gap: 3px; }
+              .dow { padding: 0 0 4px; text-align: center; letter-spacing: 0.04em; }
+              .cell { padding: 3px; align-items: center; }
+              .num { align-self: center; font-size: 13px; padding: 0 6px; }
+              .evchip, .more { display: none; }
+              .cell-shapes { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 3px; margin-top: auto; padding-bottom: 3px; }
+              .cell-count { font-size: 10px; font-weight: 700; color: var(--muted); }
+              .side { width: auto; }
+              .side-list { overflow: visible; }
+              .sheet-overlay { align-items: flex-end; padding: 0; }
+              .sheet { max-width: none; border-radius: 24px 24px 0 0; max-height: 92vh; }
+              .sheet-handle { display: block; }
+              .sheet-body h2 { font-size: 26px; }
             }
           `}</style>
 
-          <header className="header">
-            <div className="header-left">
-              <h1>Bristol Improv Calendar</h1>
+          <header className="hdr">
+            <div className="brand">
+              <h1>{phoneHeader ? 'Bristol Improv' : 'Bristol Improv Calendar'}</h1>
+              <span className="updated">{phoneHeader ? `Calendar${updatedText ? ' · ' + updatedText.toLowerCase() : ''}` : updatedText}</span>
             </div>
-            {viewMode === 'calendar' ? (
-              <div className="header-center">
-                <button className="nav-btn" onClick={goToPrevMonth} disabled={!canGoBack}>←</button>
-                <span className="month-label">
-                  <span className="month-full">{monthNames[viewMonth]} {viewYear}</span>
-                  <span className="month-short">{monthShort[viewMonth]} {viewYear}</span>
-                </span>
-                <button className="nav-btn" onClick={goToNextMonth} disabled={!canGoForward}>→</button>
-                <button className="today-btn" onClick={goToToday} disabled={isCurrentMonth}>Today</button>
-              </div>
-            ) : (
-              <div className="header-center">
-                <span className="month-label" style={{ minWidth: 'auto' }}>
-                  <span className="month-full">Upcoming Events</span>
-                  <span className="month-short">Upcoming</span>
-                </span>
-              </div>
-            )}
-            <div className="header-right">
-              <a href="https://www.technicallyimprov.com/" target="_blank" rel="noopener noreferrer" className="hub-link">
-                <span className="hub-link-text-desktop">Technically Improv</span>
-                <span className="hub-link-text-mobile">Hub</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-              <button className="settings-btn" onClick={() => setShowSettings(true)}>
-                ⚙️ <span>Settings</span>
+            {!isPhone && viewMode === 'calendar' && monthNav}
+            <div className="hdr-actions">
+              {!isPhone && searchBox}
+              {!isPhone && viewMode === 'list' && (
+                <button className="btn-light" onClick={() => { setCopied(''); setShowSubscribe(true); }} data-goatcounter-click="subscribe-open">{iconCalPlus} Add to your calendar</button>
+              )}
+              <button
+                className="icon-btn"
+                onClick={toggleView}
+                aria-label={viewMode === 'list' ? 'Show the month view' : 'Show the list view'}
+                title={viewMode === 'list' ? 'Month view' : 'List view'}
+                data-goatcounter-click={viewMode === 'list' ? 'view-toggle-calendar' : 'view-toggle-list'}
+              >
+                {viewMode === 'list' ? iconCal : iconList}
               </button>
+              <button className="icon-btn" onClick={() => setShowSettings(true)} aria-label="Settings" title="Settings">{iconMenu}</button>
             </div>
           </header>
 
-          {!bitNoticeHidden && (
-            <aside
-              aria-label="Bristol Improv Theatre closure"
-              style={{
-                flexShrink: 0,
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: '0.75rem',
-                padding: '0.85rem 1rem 0.9rem',
-                background: darkMode ? '#3A2E33' : '#FBE6DF',
-                borderLeft: `6px solid ${colors.terracotta}`,
-                borderBottom: `2px solid ${colors.terracotta}`,
-                color: colors.text,
-                fontSize: '0.95rem',
-                lineHeight: 1.5,
-              }}
-            >
-              <div style={{ flex: 1, maxWidth: '62rem' }}>
-                <p style={{ margin: 0 }}>
-                  <strong style={{ fontSize: '1.05rem' }}>The Bristol Improv Theatre closed on 9 October</strong>, and its
-                  shows, classes and courses have been cancelled. It’s a real loss, and a lot of people put years of work and
-                  heart into it. But Bristol improv has always been its people, and there’s plenty on below, with more
-                  appearing as acts and teachers find new homes.
-                </p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.5rem 0.75rem', marginTop: '0.6rem' }}>
-                  <a
-                    href="https://buttondown.com/Kaluuja"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-goatcounter-click="bit-notice-roundup"
-                    style={{
-                      display: 'inline-block',
-                      background: colors.terracotta,
-                      color: '#1A1C28',
-                      fontWeight: 700,
-                      textDecoration: 'none',
-                      padding: '0.45rem 0.95rem',
-                      borderRadius: '999px',
-                    }}
-                  >
-                    Get the roundup
-                  </a>
-                  <span aria-hidden="true">·</span>
-                  <a
-                    href="https://improvtheatre.co.uk/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-goatcounter-click="bit-notice-statement"
-                    style={{ color: 'inherit', fontWeight: 600 }}
-                  >
-                    BIT statement
-                  </a>
+          {isPhone ? (
+            <>
+              <div className="phone-controls">
+                {searchBox}
+                <div className="fbtns">
+                  <button className={`fbtn${whenFilter !== 'any' ? ' on' : ''}`} onClick={() => setShowFilters(true)}><span>{whenLabel}</span>{iconDown}</button>
+                  <button className={`fbtn${typeSet.length ? ' on' : ''}`} onClick={() => setShowFilters(true)}><span>{typeButtonLabel}</span>{iconDown}</button>
+                  <button className={`fbtn${venueFilter !== 'all' ? ' on' : ''}`} onClick={() => setShowFilters(true)}><span>{venueButtonLabel}</span>{iconDown}</button>
                 </div>
               </div>
-              <button
-                onClick={hideBitNotice}
-                aria-label="Dismiss notice"
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: colors.text,
-                  fontSize: '1.25rem',
-                  lineHeight: 1,
-                  cursor: 'pointer',
-                  padding: '0.1rem 0.3rem',
-                  minWidth: '44px',
-                  minHeight: '44px',
-                  margin: '-0.6rem -0.75rem -0.6rem auto',
-                }}
-              >
-                ×
-              </button>
-            </aside>
+              {bitLine && <div className="bit-bar">{bitLine}</div>}
+            </>
+          ) : (
+            <div className="filterbar">
+              <nav className="chips" aria-label="Filters">
+                <button className="chip" aria-pressed={!filtersActive} onClick={clearFilters}>Everything</button>
+                <button className="chip" aria-pressed={whenFilter === 'today'} onClick={() => setWhenFilter(whenFilter === 'today' ? 'any' : 'today')}>Today</button>
+                <button className="chip" aria-pressed={whenFilter === 'weekend'} onClick={() => setWhenFilter(whenFilter === 'weekend' ? 'any' : 'weekend')}>This weekend</button>
+                <span className="chip-gap" aria-hidden="true"></span>
+                {TYPE_ORDER.filter(t => activeTypes.has(t) || t !== 'dropin').map(t => (
+                  <button key={t} className="chip" aria-pressed={typeSet.includes(t)} onClick={() => toggleType(t)}>{shape(t, 10)}{TYPE_PLURAL[t]}</button>
+                ))}
+                <label>
+                  <span className="vh">Venue</span>
+                  <select className="chip" value={venueFilter} onChange={ev => setVenueFilter(ev.target.value)}>
+                    <option value="all">All venues</option>
+                    {venueGroups.map(({ key, label }) => (
+                      <option key={key} value={key} disabled={!activeVenueGroups.has(key)}>{label}</option>
+                    ))}
+                  </select>
+                </label>
+              </nav>
+              {bitLine}
+            </div>
           )}
 
           {loading ? (
@@ -2560,184 +1980,19 @@
             </div>
           ) : error ? (
             <div className="loading">
-              <div style={{ fontSize: '2.5rem' }}>🎭</div>
               <div style={{ fontWeight: 700 }}>{error}</div>
-              <div style={{ fontSize: '0.85rem', color: colors.textMuted, maxWidth: '320px', textAlign: 'center', lineHeight: 1.4 }}>
-                It's probably temporary — give it another go, or check back in a bit.
+              <div style={{ fontSize: '0.9rem', maxWidth: '320px', textAlign: 'center', lineHeight: 1.5 }}>
+                It's probably temporary. Give it another go, or check back in a bit.
               </div>
-              <button
-                onClick={fetchEvents}
-                style={{
-                  marginTop: '0.5rem',
-                  padding: '0.55rem 1.2rem',
-                  background: colors.terracotta,
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  fontFamily: 'inherit',
-                  fontSize: '0.9rem',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
-              >
-                Try again
-              </button>
+              <button className="btn-outline" onClick={fetchEvents}>Try again</button>
             </div>
-          ) : (
-            <>
-              <div className="controls" ref={controlsRef}>
-                <div className="controls-inner">
-                  <div className="search-box">
-                    <span className="search-icon">🔍</span>
-                    <input
-                      type="text"
-                      className="search-input"
-                      placeholder="Search..."
-                      value={searchQuery}
-                      onChange={e => { setSearchQuery(e.target.value); setShowSearchResults(true); }}
-                      onFocus={() => setShowSearchResults(true)}
-                    />
-                  </div>
-                  <select
-                    className={`filter-select ${typeFilter !== 'all' ? 'active' : ''}`}
-                    value={typeFilter}
-                    onChange={e => setTypeFilter(e.target.value)}
-                  >
-                    <option value="all">All Events</option>
-                    <option value="show" disabled={!activeTypes.has('show')}>● Shows</option>
-                    <option value="workshop" disabled={!activeTypes.has('workshop')}>■ Workshops</option>
-                    <option value="jam" disabled={!activeTypes.has('jam')}>◆ Jams</option>
-                    <option value="dropin" disabled={!activeTypes.has('dropin')}>▲ Drop-ins</option>
-                    <option disabled>──────────</option>
-                    <option value="daytime" disabled={!hasDaytimeEvents}>☀️ Daytime</option>
-                    <option value="evening" disabled={!hasEveningEvents}>🌙 Evening</option>
-                  </select>
-                  <select
-                    className={`filter-select ${venueFilter !== 'all' ? 'active' : ''}`}
-                    value={venueFilter}
-                    onChange={e => setVenueFilter(e.target.value)}
-                  >
-                    <option value="all">All Venues</option>
-                    {venueGroups.map(({ key, label }) => (
-                      <option key={key} value={key} disabled={!activeVenueGroups.has(key)}>{label}</option>
-                    ))}
-                  </select>
-                  {showSearchResults && searchResults.length > 0 && (
-                    <div className="search-results">
-                      {searchResults.map((e, i) => (
-                        <div key={i} className="search-item" onClick={() => handleSearchSelect(e)}>
-                          <div className="search-title">{e.title}</div>
-                          <div className="search-meta">{formatEventDate(e.date)} • {e.venue}</div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
+          ) : viewMode === 'list' ? renderList() : renderCalendar()}
 
-              {viewMode === 'calendar' && <ColorKey />}
+          {(isPhone || viewMode === 'list') && siteFooter}
 
-              {viewMode === 'calendar' ? (
-                <div className="main">
-                  <div
-                    className={`calendar ${weeksNeeded >= 6 ? 'six-weeks' : ''}`}
-                    ref={calendarRef}
-                    onTouchStart={handleTouchStart}
-                    onTouchEnd={handleTouchEnd}
-                  >
-                    <div className={`cal-grid weeks-${weeksNeeded}`}>
-                      {dayNames.map(d => <div key={d} className="day-hdr">{d}</div>)}
-                      {renderDays()}
-                    </div>
-                  </div>
-
-                  <div className={`detail ${selectedDate ? 'has-selection' : 'no-selection'}`}>
-                    {selectedDate ? (
-                      <>
-                        <div className="detail-inner">
-                          <h3 className="detail-hdr">{getDayName(selectedDate)} {selectedDate} {monthShort[viewMonth]}</h3>
-                          {selectedEvents.length > 1 && hasOverlappingEvents(selectedEvents) && (
-                            <div className="clash">🎭 {selectedEvents.length} events — choose your favourite!</div>
-                          )}
-                          {selectedEvents.map((e, i) => {
-                            const venueInfo = getVenueInfo(e.venue);
-                            const normalizedType = normalizeEventType(e.type);
-                            const typeStyle = eventTypeStyles[normalizedType] || eventTypeStyles.show;
-                            return (
-                              <a key={i} href={e.url} target="_blank" rel="noopener noreferrer" className="event-card" style={{ borderColor: typeStyle.color }} data-goatcounter-click="ticket-link">
-                                <div className="event-row">
-                                  <span className="event-icon">{typeStyle.icon}</span>
-                                  <div className="event-info">
-                                    <div className="event-title">{e.title}</div>
-                                    <div className="event-meta">
-                                      <span>📍 {e.venue}</span>
-                                      <span>🕖 {e.time}</span>
-                                    </div>
-                                    <div className="event-cta">View details / Book tickets →</div>
-                                  </div>
-                                </div>
-                              </a>
-                            );
-                          })}
-                        </div>
-                        <div className="mobile-footer">
-                          <div className="kofi-bar">
-                            <span className="kofi-text">☕ Find this useful? Buy Ste a brew! (...or a pint...)</span>
-                            <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
-                          </div>
-                          <div className="footer">
-                            <span className="footer-text">Missing a show? Got corrections?</span> <a href={FEEDBACK_FORM_URL} target="_blank" rel="noopener noreferrer">Let us know</a>
-                          </div>
-                          <div className="footer credit">
-                            <span className="footer-text">Run by Ste Brown of <a href="https://tiltimprov.co.uk/" target="_blank" rel="noopener noreferrer">Tilt Improv</a></span>
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="no-select">
-                          👈 Click a date to see event details
-                        </div>
-                        <div className="mobile-footer">
-                          <div className="kofi-bar">
-                            <span className="kofi-text">☕ Find this useful? Buy Ste a brew! (...or a pint...)</span>
-                            <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Support on Ko-fi</a>
-                          </div>
-                          <div className="footer">
-                            <span className="footer-text">Missing a show? Got corrections?</span> <a href={FEEDBACK_FORM_URL} target="_blank" rel="noopener noreferrer">Let us know</a>
-                          </div>
-                          <div className="footer credit">
-                            <span className="footer-text">Run by Ste Brown of <a href="https://tiltimprov.co.uk/" target="_blank" rel="noopener noreferrer">Tilt Improv</a></span>
-                          </div>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <ListView />
-              )}
-            </>
-          )}
-
-          {/* Desktop footer - only shown in calendar view */}
-          {viewMode === 'calendar' && (
-            <div className="desktop-footer">
-              <div className="footer-row">
-                <div className="footer-left">
-                  <span className="footer-text">Missing a show? Got corrections?</span>
-                  <a href={FEEDBACK_FORM_URL} target="_blank" rel="noopener noreferrer">Let us know</a>
-                  {lastUpdated && <span className="footer-updated">• Updated {formatLastUpdated(lastUpdated)}</span>}
-                  <span className="footer-updated">• Run by Ste Brown of <a className="credit-link" href="https://tiltimprov.co.uk/" target="_blank" rel="noopener noreferrer">Tilt Improv</a></span>
-                </div>
-                <div className="footer-right">
-                  <span className="kofi-text">☕ Buy Ste a brew!</span>
-                  <a href={KOFI_URL} target="_blank" rel="noopener noreferrer" className="kofi-btn">❤️ Ko-fi</a>
-                </div>
-              </div>
-            </div>
-          )}
-
+          {eventSheet()}
+          {filterSheet()}
+          {subscribeSheet()}
           <RoadmapModal isOpen={showRoadmap} onClose={() => setShowRoadmap(false)} colors={colors} />
           <SettingsModal
             isOpen={showSettings}
