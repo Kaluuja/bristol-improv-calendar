@@ -44,7 +44,17 @@
 </head>
 
 <body>
-  <div id="root"></div>
+  <div id="root">
+    <!-- Shown until the app loads (and to search engines and AI tools that
+         don't run JavaScript). React replaces everything inside #root. -->
+    <main style="font-family: Nunito, sans-serif; max-width: 40rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.5;">
+      <h1>Bristol Improv Calendar</h1>
+      <p>What's on in Bristol improv: shows, workshops, classes and jams across the city, from every group and venue we can find. Updated daily.</p>
+      <p>The listings need JavaScript. You can also get them as <a href="events.json">a data file</a> or <a href="events.ics">a calendar feed</a>.</p>
+      <p>Missing a show? Got corrections? Let us know through the feedback link on the calendar.</p>
+      <p>Run by Ste Brown of <a href="https://tiltimprov.co.uk/">Tilt Improv</a>.</p>
+    </main>
+  </div>
 
   <!-- App source lives in src/app.jsx; run `npm run build` after editing it -->
   <script src="assets/vendor/react.production.min.js"></script>

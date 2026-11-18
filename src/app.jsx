@@ -1067,6 +1067,9 @@
               <div className="footer">
                 <span className="footer-text">Missing a show? Got corrections?</span> <a href={FEEDBACK_FORM_URL} target="_blank" rel="noopener noreferrer">Let us know</a>
               </div>
+              <div className="footer credit">
+                <span className="footer-text">Run by Ste Brown of <a href="https://tiltimprov.co.uk/" target="_blank" rel="noopener noreferrer">Tilt Improv</a></span>
+              </div>
             </div>
           </div>
         );
@@ -1856,6 +1859,8 @@
               flex-shrink: 0;
             }
             .footer-text { color: ${colors.text}; font-weight: 600; }
+            .footer.credit { padding-top: 0; }
+            .footer.credit .footer-text { font-weight: 400; font-size: 0.8rem; color: ${colors.textMuted}; }
             .footer a { 
               color: ${colors.terracotta}; 
               font-weight: 700; 
