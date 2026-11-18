@@ -1861,6 +1861,7 @@
             .footer-text { color: ${colors.text}; font-weight: 600; }
             .footer.credit { padding-top: 0; }
             .footer.credit .footer-text { font-weight: 400; font-size: 0.8rem; color: ${colors.textMuted}; }
+            .footer.credit a, .footer-left .credit-link { padding: 0; background: none; border: none; font-size: inherit; font-weight: 600; color: inherit; text-decoration: underline; }
             .footer a { 
               color: ${colors.terracotta}; 
               font-weight: 700; 
@@ -2687,6 +2688,9 @@
                           <div className="footer">
                             <span className="footer-text">Missing a show? Got corrections?</span> <a href={FEEDBACK_FORM_URL} target="_blank" rel="noopener noreferrer">Let us know</a>
                           </div>
+                          <div className="footer credit">
+                            <span className="footer-text">Run by Ste Brown of <a href="https://tiltimprov.co.uk/" target="_blank" rel="noopener noreferrer">Tilt Improv</a></span>
+                          </div>
                         </div>
                       </>
                     ) : (
@@ -2701,6 +2705,9 @@
                           </div>
                           <div className="footer">
                             <span className="footer-text">Missing a show? Got corrections?</span> <a href={FEEDBACK_FORM_URL} target="_blank" rel="noopener noreferrer">Let us know</a>
+                          </div>
+                          <div className="footer credit">
+                            <span className="footer-text">Run by Ste Brown of <a href="https://tiltimprov.co.uk/" target="_blank" rel="noopener noreferrer">Tilt Improv</a></span>
                           </div>
                         </div>
                       </>
@@ -2721,6 +2728,7 @@
                   <span className="footer-text">Missing a show? Got corrections?</span>
                   <a href={FEEDBACK_FORM_URL} target="_blank" rel="noopener noreferrer">Let us know</a>
                   {lastUpdated && <span className="footer-updated">• Updated {formatLastUpdated(lastUpdated)}</span>}
+                  <span className="footer-updated">• Run by Ste Brown of <a className="credit-link" href="https://tiltimprov.co.uk/" target="_blank" rel="noopener noreferrer">Tilt Improv</a></span>
                 </div>
                 <div className="footer-right">
                   <span className="kofi-text">☕ Buy Ste a brew!</span>
