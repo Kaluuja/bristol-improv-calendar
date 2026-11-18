@@ -1,5 +1,6 @@
 import Airtable, { FieldSet } from 'airtable';
 import type { Event } from '../types.js';
+import { looseFingerprint } from '../dedupe.js';
 
 /**
  * Fields that should never be overwritten on update
@@ -17,6 +18,26 @@ const MANUAL_SOURCE = 'manual';
  * Source value for auto-synced records
  */
 const SYNC_SOURCE = 'Sync';
+
+/** Rank for picking between records that share a loose key: approved first, rejected last */
+const STATUS_RANK: Record<string, number> = { Approved: 3, Pending: 2, 'Needs review': 1, Rejected: 0 };
+
+/**
+ * Existing records keyed by looseFingerprint(). Where several share a key
+ * (an approved original and a rejected relisting), the approved one wins.
+ */
+export function buildLooseIndex<R extends { get(field: string): unknown }>(
+  existing: Map<string, R>
+): Map<string, R> {
+  const index = new Map<string, R>();
+  const rank = (r: R) => STATUS_RANK[r.get('Status') as string] ?? 2;
+  for (const [fingerprint, record] of existing) {
+    const key = looseFingerprint(fingerprint);
+    const current = index.get(key);
+    if (!current || rank(record) > rank(current)) index.set(key, record);
+  }
+  return index;
+}
 
 interface SyncStats {
   created: number;
@@ -130,7 +151,7 @@ export class AirtableAdapter {
 
     await this.table
       .select({
-        fields: ['Fingerprint', 'Source Event ID', 'Title', 'Start', 'Source'],
+        fields: ['Fingerprint', 'Source Event ID', 'Title', 'Start', 'Source', 'Status'],
       })
       .eachPage((pageRecords, fetchNextPage) => {
         for (const record of pageRecords) {
@@ -156,13 +177,24 @@ export class AirtableAdapter {
 
     // Fetch existing records
     const existing = await this.fetchExisting();
+    const loose = buildLooseIndex(existing);
 
     // Batch operations
     const toCreate: AirtableFields[] = [];
     const toUpdate: { id: string; fields: AirtableFields }[] = [];
+    const matchedIds = new Set<string>();
 
     for (const event of events) {
-      const existingRecord = existing.get(event.fingerprint);
+      // Exact fingerprint first, then the loose key (see looseFingerprint)
+      const existingRecord =
+        existing.get(event.fingerprint) ?? loose.get(looseFingerprint(event.fingerprint));
+
+      // Two listings of the same event in one run: update the record once
+      if (existingRecord && matchedIds.has(existingRecord.id)) {
+        stats.unchanged++;
+        continue;
+      }
+      if (existingRecord) matchedIds.add(existingRecord.id);
 
       if (existingRecord) {
         // Skip manual entries - never overwrite them

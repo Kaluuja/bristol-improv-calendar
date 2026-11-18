@@ -2,7 +2,11 @@ name: Export Approved Events
 
 on:
   schedule:
-    - cron: '0 6 * * *'
+    # Off the hour: GitHub delays on-the-hour schedules when busy (the 06:00
+    # run was landing at 12:00-15:30 in Nov 2026). Three a day so approvals
+    # made after the morning brief go live the same day; a run with nothing
+    # new commits nothing.
+    - cron: '17 6,12,18 * * *'
   workflow_dispatch:
 
 concurrency:

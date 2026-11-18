@@ -152,6 +152,18 @@ export function generateFingerprint(event: Pick<Event, 'title' | 'start' | 'venu
 }
 
 /**
+ * A looser key for matching against Airtable when the exact fingerprint
+ * misses: no spaces or punctuation, so a venue relisting "Smith-Bynoe" as
+ * "SMITH BYNOE" still finds the record it already has (Nov 2026: the Old
+ * Vic did exactly this, and the approved originals were retired as unseen).
+ * Not used for fingerprints themselves: changing those would orphan every
+ * stored record.
+ */
+export function looseFingerprint(fingerprint: string): string {
+  return fingerprint.toLowerCase().replace(/[^a-z0-9|-]/g, '');
+}
+
+/**
  * Source priority for deduplication (lower = higher priority)
  * Headfirst preferred, then venue-specific, then Eventbrite
  */
