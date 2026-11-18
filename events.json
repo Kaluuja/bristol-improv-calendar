@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-12T14:32:47.217Z",
+  "lastUpdated": "2026-11-18T14:32:21.470Z",
   "events": [
     {
       "date": "2026-10-01",
@@ -97,7 +97,7 @@
       "venue": "Hen & Chicken",
       "time": "19:00–22:30",
       "type": "show",
-      "url": "https://www.headfirstbristol.co.uk/whats-on/hen-and-chicken/wed-14-oct-wednesday-night-improv-october-show-160350",
+      "url": "https://tiltimprov.co.uk/shows/",
       "description": ""
     },
     {
@@ -205,7 +205,7 @@
       "venue": "Hen & Chicken",
       "time": "19:30–21:30",
       "type": "show",
-      "url": "https://www.headfirstbristol.co.uk/whats-on/hen-and-chicken/wed-11-nov-wednesday-night-improv-november-show-162526",
+      "url": "https://tiltimprov.co.uk/shows/",
       "description": ""
     },
     {
@@ -237,7 +237,7 @@
     },
     {
       "date": "2026-11-19",
-      "title": "Kiell Smith-Bynoe & Friends: Kool Story Bro",
+      "title": "KIELL SMITH BYNOE & FRIENDS: KOOL STORY BRO",
       "venue": "Bristol Old Vic",
       "time": "19:30",
       "type": "show",
@@ -255,7 +255,7 @@
     },
     {
       "date": "2026-11-20",
-      "title": "Kiell Smith-Bynoe & Friends: Kool Story Bro",
+      "title": "KIELL SMITH BYNOE & FRIENDS: KOOL STORY BRO",
       "venue": "Bristol Old Vic",
       "time": "19:30",
       "type": "show",
@@ -268,7 +268,7 @@
       "venue": "Hen & Chicken",
       "time": "20:00",
       "type": "show",
-      "url": "https://www.headfirstbristol.co.uk/whats-on/hen-and-chicken/fri-20-nov-this-is-your-musical-the-improvised-musical-165463",
+      "url": "https://tiltimprov.co.uk/shows/this-is-your-musical-20-november-2026/",
       "description": ""
     },
     {
@@ -287,6 +287,15 @@
       "time": "18:30–20:30",
       "type": "show",
       "url": "https://prsc.org.uk/event/internal-journeys-fooling-theatrical-ifs/",
+      "description": ""
+    },
+    {
+      "date": "2026-11-25",
+      "title": "Improv workshop with Will Gawned",
+      "venue": "St Georges Hall",
+      "time": "18:30",
+      "type": "workshop",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/st-georges-hall/wed-25-nov-improv-workshop-with-will-gawned-166232",
       "description": ""
     },
     {
@@ -362,12 +371,21 @@
       "description": ""
     },
     {
+      "date": "2026-12-08",
+      "title": "A BIT of comedy - an improv triple bill",
+      "venue": "Alma Tavern & Theatre",
+      "time": "19:30–22:00",
+      "type": "show",
+      "url": "https://www.tickettailor.com/events/almatheatrecompany/2534161",
+      "description": ""
+    },
+    {
       "date": "2026-12-09",
       "title": "Wednesday Night Improv: December Show Christmas Special",
       "venue": "Hen & Chicken",
       "time": "19:30",
       "type": "show",
-      "url": "https://www.headfirstbristol.co.uk/whats-on/hen-and-chicken/wed-9-dec-wednesday-night-improv-december-show-christmas-special--165201",
+      "url": "https://tiltimprov.co.uk/shows/wednesday-night-improv-9-december-2026/",
       "description": ""
     },
     {
@@ -413,6 +431,15 @@
       "time": "11:00",
       "type": "show",
       "url": "https://thewardrobetheatre.com/shows/santa-sven/",
+      "description": ""
+    },
+    {
+      "date": "2026-12-14",
+      "title": "Improv Workshop - Getting Unstuck",
+      "venue": "Hen & Chicken",
+      "time": "18:00",
+      "type": "workshop",
+      "url": "https://tiltimprov.co.uk/school/workshops/getting-unstuck/",
       "description": ""
     },
     {
@@ -470,12 +497,30 @@
       "description": ""
     },
     {
+      "date": "2027-01-04",
+      "title": "Improv Taster Workshop",
+      "venue": "Hen & Chicken",
+      "time": "18:00",
+      "type": "workshop",
+      "url": "https://tiltimprov.co.uk/school/workshops/improv-taster/",
+      "description": ""
+    },
+    {
       "date": "2027-01-09",
       "title": "Deathmatch Improv",
       "venue": "People S Republic Of Stokes Croft",
       "time": "20:00",
       "type": "show",
       "url": "https://www.headfirstbristol.co.uk/whats-on/people-s-republic-of-stokes-croft/sat-9-jan-deathmatch-improv-165551",
+      "description": ""
+    },
+    {
+      "date": "2027-01-10",
+      "title": "New Year, New Improviser - Improv Workshop",
+      "venue": "Hen & Chicken",
+      "time": "11:00",
+      "type": "workshop",
+      "url": "https://tiltimprov.co.uk/school/workshops/new-year-new-improviser/",
       "description": ""
     },
     {
