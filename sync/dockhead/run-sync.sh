@@ -26,6 +26,7 @@ main() {
   docker run --rm --user "$(id -u):$(id -g)" \
     -e HOME=/tmp -e TZ=Europe/London -e NPM_CONFIG_UPDATE_NOTIFIER=false \
     -e HEALTH_FILE=/state/sync-health.json \
+    -e REJECTED_FILE=/state/sync-rejected.json \
     --env-file "$ENV_FILE" \
     -v "$REPO/sync:/app" -v "$STATE_DIR:/state" -w /app \
     node:24-slim \

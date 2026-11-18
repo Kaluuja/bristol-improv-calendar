@@ -34,3 +34,36 @@ test('acts on the watchlist are kept whatever the title says', async () => {
   }
   assert.equal(isImprovRelated({ title: 'After Dusk Techno Rave', venue: 'Loco Klub', source: 'x' } as any).isImprov, false);
 });
+
+test('Tilt events are kept wherever Tilt is mentioned, links included', async () => {
+  const { isImprovRelated } = await import('./classifier.js');
+  const at = (fields: object) => isImprovRelated({ title: 'Mystery Night', venue: 'Somewhere', source: 'x', ...fields } as any);
+  assert.equal(at({}).isImprov, false);
+  assert.equal(at({ description: 'Presented by Tilt Improv' }).isImprov, true);
+  assert.equal(at({ ticketsUrl: 'https://tiltimprov.co.uk/shows/x/' }).isImprov, true);
+  assert.equal(at({ title: 'Wednesday Night Improv: January Show' }).isImprov, true);
+  assert.equal(at({ title: 'This Is Your Panto!' }).isImprov, true); // despite "panto" being excluded
+});
+
+test('acts with everyday names need a hint of comedy or improv', async () => {
+  const { isImprovRelated } = await import('./classifier.js');
+  const ev = (title: string, description?: string) =>
+    isImprovRelated({ title, description, venue: 'Somewhere', source: 'x' } as any).isImprov;
+  assert.equal(ev('Birdwatchers'), false);
+  assert.equal(ev('Birdwatchers', 'Award-winning comedy double act'), true);
+  assert.equal(ev("Festive Double Bill: What's Your Star Sign?", 'Two comedy shows'), true);
+  assert.equal(ev('Whats Your Star Sign', 'An improvised show'), true);
+  assert.equal(ev('Sometimes We Wear Shirts present: Knock Knock'), true);
+});
+
+test('the rejected log keeps first-seen dates and drops old events', async () => {
+  const { updateRejectedLog } = await import('./rejected-log.js');
+  const now = new Date('2026-11-18T06:00:00Z');
+  const event = { title: 'Buffoon Comedy', venue: 'Loco Klub', start: new Date('2026-11-25T20:00:00Z'), eventUrl: 'https://x/1', canonicalUrl: 'https://x/1', source: 'headfirst', fingerprint: 'a' } as any;
+  const old = { title: 'Old', venue: '', date: '2026-08-01', url: '', source: 'x', reason: '', firstSeen: '2026-07-01', lastSeen: '2026-08-01' };
+  const log = updateRejectedLog({ 'https://x/1': { ...old, date: '2026-11-25', firstSeen: '2026-11-10' }, old: old }, [event], now);
+  assert.deepEqual(Object.keys(log), ['https://x/1']);
+  assert.equal(log['https://x/1'].firstSeen, '2026-11-10');
+  assert.equal(log['https://x/1'].lastSeen, '2026-11-18');
+  assert.equal(log['https://x/1'].reason, 'no improv signals');
+});

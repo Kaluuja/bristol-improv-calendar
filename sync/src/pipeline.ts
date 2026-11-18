@@ -3,6 +3,7 @@ import { dedupeEvents, fuzzyDedupeByPrefix, getDateOnly, getVenueDisplayName } f
 import { filterAndClassifyEvents } from './classifier.js';
 import { pausedVenueOf } from './paused-venues.js';
 import { startsAtMidnight } from './health.js';
+import { writeRejectedLog } from './rejected-log.js';
 import { AirtableAdapter } from './adapters/airtable.js';
 
 /**
@@ -99,6 +100,7 @@ export async function runPipeline(
   console.log('\n🎭 Filtering improv events and classifying types...');
   const classifiedEvents = filterAndClassifyEvents(dedupedEvents, { minDate, verbose });
   console.log(`  ${dedupedEvents.length} → ${classifiedEvents.length} improv events (from ${minDate.toISOString().split('T')[0]})`);
+  writeRejectedLog(dedupedEvents, classifiedEvents);
 
   // Step 3.5: Normalize venue display names
   for (const event of classifiedEvents) {

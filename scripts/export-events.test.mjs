@@ -164,3 +164,43 @@ test('a record with no start does not break the merge', () => {
   // and it is still skipped when the feed is built
   assert.equal((buildICS(merged, NOW).match(/BEGIN:VEVENT/g) || []).length, 2);
 });
+
+// --- Tilt links ---
+import { tiltUrlFor, parseTiltPath, headfirstId } from './tilt-links.mjs';
+
+const TILT_PAGES = [
+  '/shows/wednesday-night-improv-9-december-2026/',
+  '/shows/this-is-your-musical-20-november-2026/',
+  '/school/workshops/getting-unstuck/',
+  '/school/workshops/mischief/',
+].map((path) => ({ url: `https://tiltimprov.co.uk${path}`, ...parseTiltPath(path), ids: new Set(path.includes('mischief') ? ['170000'] : []) }));
+
+test('reads a Tilt show slug into words and a date', () => {
+  assert.deepEqual(parseTiltPath('/shows/wednesday-night-improv-9-december-2026/'), {
+    words: ['wednesday', 'night', 'improv'], date: '2026-12-09',
+  });
+  assert.equal(headfirstId('https://hdfst.uk/e165166'), '165166');
+  assert.equal(headfirstId('https://www.headfirstbristol.co.uk/whats-on/loco-klub/mon-23-nov-real-positive-poles-165166'), '165166');
+});
+
+test('Tilt shows and workshops link to their Tilt page', () => {
+  const hc = 'Hen & Chicken';
+  const link = (title, date, venue = hc, url = 'https://hdfst.uk/e1') => tiltUrlFor({ title, date, venue, url }, TILT_PAGES);
+  assert.equal(link('Wednesday Night Improv: December Show Christmas Special', '2026-12-09'),
+    'https://tiltimprov.co.uk/shows/wednesday-night-improv-9-december-2026/');
+  assert.equal(link('Improv Workshop - Getting Unstuck', '2026-12-14'),
+    'https://tiltimprov.co.uk/school/workshops/getting-unstuck/');
+  // No page for this date yet: the shows index
+  assert.equal(link('Wednesday Night Improv: February Show', '2027-02-10'), 'https://tiltimprov.co.uk/shows/');
+  // Someone else's show
+  assert.equal(link('Getting Unstuck: A Talk', '2026-12-14', 'Bristol Beacon'), null);
+  assert.equal(link('Mischief Theatre', '2026-12-14'), null);
+  assert.equal(link('Mischief', '2026-12-14', hc, 'https://hdfst.uk/e170000'), 'https://tiltimprov.co.uk/school/workshops/mischief/');
+});
+
+test('the feed and the site both use the Tilt link', () => {
+  const r = record({ Start: '2026-12-09T19:30:00', Title: 'Wednesday Night Improv: December Show', Venue: 'Hen & Chicken', 'Tickets URL': 'https://hdfst.uk/e165201' });
+  assert.equal(transformEvent(r, TILT_PAGES).url, 'https://tiltimprov.co.uk/shows/wednesday-night-improv-9-december-2026/');
+  assert.match(buildICS([r], NOW, TILT_PAGES), /URL:https:\/\/tiltimprov\.co\.uk\/shows\/wednesday-night-improv-9-december-2026\//);
+  assert.equal(transformEvent(record({ Start: '2026-12-09T19:30:00', Title: 'Other', 'Tickets URL': 'https://x.test' }), TILT_PAGES).url, 'https://x.test');
+});

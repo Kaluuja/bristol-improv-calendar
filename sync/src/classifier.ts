@@ -1,5 +1,8 @@
 import type { Event, EventType } from './types.js';
-import { IMPROV_ACT_PATTERNS } from './improv-acts.js';
+import { IMPROV_ACT_PATTERNS, CONTEXT_ACT_PATTERNS, ACT_CONTEXT } from './improv-acts.js';
+
+/** Tilt Improv, Ste's company: anywhere in the listing, links included */
+const TILT = /\btilt\s*improv\b|tiltimprov\.co\.uk/i;
 
 /**
  * Venues that are always improv-related
@@ -151,6 +154,14 @@ export function isImprovRelated(event: Event): { isImprov: boolean; confidence: 
   // 2. Always-include list (specific shows/brands)
   if (matchesAny(title, ALWAYS_INCLUDE)) {
     return { isImprov: true, confidence: 'high', reason: 'known improv show' };
+  }
+
+  // 2a. Tilt, or a watched act with an everyday name plus some sign it's comedy
+  if (TILT.test(text)) {
+    return { isImprov: true, confidence: 'high', reason: 'Tilt Improv' };
+  }
+  if (matchesAny(title, CONTEXT_ACT_PATTERNS) && ACT_CONTEXT.test(text)) {
+    return { isImprov: true, confidence: 'high', reason: 'known improv act' };
   }
 
   // 2b. The venue itself tags it as improv (adapter-set, e.g. the Wardrobe's

@@ -5,6 +5,7 @@
 
 import fs from 'fs';
 import { pathToFileURL } from 'url';
+import { fetchTiltPages, tiltUrlFor } from './tilt-links.mjs';
 
 const TABLE_NAME = 'Events';
 
@@ -152,7 +153,17 @@ export function isAtClosedVenue(record) {
   return Boolean(closedOn && record.fields.Start && formatDate(record.fields.Start) >= closedOn);
 }
 
-export function transformEvent(record) {
+/** Tickets/event link, or the Tilt page for Tilt's own events (see tilt-links.mjs) */
+function linkFor(fields, tiltPages) {
+  const url = fields['Tickets URL'] || fields['Event URL'] || '';
+  const tilt = tiltUrlFor(
+    { title: fields.Title, venue: fields.Venue, date: fields.Start ? formatDate(fields.Start) : '', url },
+    tiltPages
+  );
+  return tilt || url;
+}
+
+export function transformEvent(record, tiltPages = []) {
   const fields = record.fields;
   return {
     date: formatDate(fields.Start),
@@ -160,7 +171,7 @@ export function transformEvent(record) {
     venue: fields.Venue || '',
     time: formatTime(fields.Start, fields.End),
     type: (fields.Type || 'show').toLowerCase(),
-    url: fields['Tickets URL'] || fields['Event URL'] || '',
+    url: linkFor(fields, tiltPages),
     description: '',
   };
 }
@@ -236,7 +247,7 @@ function foldLine(line) {
   return parts.join('\r\n');
 }
 
-export function buildICS(records, now = new Date()) {
+export function buildICS(records, now = new Date(), tiltPages = []) {
   const dtstamp = formatICSDateUTC(now.toISOString());
   const lines = [
     'BEGIN:VCALENDAR',
@@ -255,7 +266,7 @@ export function buildICS(records, now = new Date()) {
 
     // No end time in Airtable: assume 2 hours, same as the site does
     const end = f.End || addHoursToDateTime(f.Start, 2);
-    const url = f['Tickets URL'] || f['Event URL'] || '';
+    const url = linkFor(f, tiltPages);
 
     lines.push(
       'BEGIN:VEVENT',
@@ -349,7 +360,9 @@ async function main() {
     process.exit(1);
   }
 
-  const newEvents = keptRecords.map(transformEvent);
+  const tiltPages = await fetchTiltPages();
+  console.log(`Read ${tiltPages.length} Tilt show/workshop page(s)`);
+  const newEvents = keptRecords.map((r) => transformEvent(r, tiltPages));
 
   // Skip the write (and downstream commit) when only the timestamp would change -
   // avoids a no-op commit + Netlify rebuild every single day.
@@ -367,7 +380,7 @@ async function main() {
   // Checked separately from events.json: a change to the ICS format alone (rather
   // than to the events) must still ship. DTSTAMP moves every run, so compare
   // without it or the file would rewrite daily and undo the no-op-commit guard.
-  const nextICS = buildICS(keptRecords, now);
+  const nextICS = buildICS(keptRecords, now, tiltPages);
   let previousICS = null;
   try {
     previousICS = fs.readFileSync('events.ics', 'utf8');

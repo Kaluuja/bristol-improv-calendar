@@ -33,7 +33,7 @@ test('WordPress entities in titles are decoded', () => {
 
 test('a venue-tagged improv show survives the exclusion list', () => {
   const event = {
-    title: 'This Is Your Musical',
+    title: 'A Christmas Musical',
     start: new Date('2026-12-01T19:30:00Z'),
     venue: 'Wardrobe Theatre',
     fingerprint: '',
