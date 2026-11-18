@@ -36,12 +36,40 @@
       }, [isOpen, onClose]);
     };
 
+    // Keyboard focus for pop-ups (WCAG 2.4.3): move focus in when one opens,
+    // keep Tab inside it, and hand focus back to whatever opened it on close.
+    const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea, [tabindex]:not([tabindex="-1"])';
+    const useDialogFocus = (isOpen, ref) => {
+      useEffect(() => {
+        const node = ref.current;
+        if (!isOpen || !node) return;
+        const opener = document.activeElement;
+        const focusables = () => [...node.querySelectorAll(FOCUSABLE)].filter(el => el.getClientRects().length);
+        (focusables()[0] || node).focus();
+        const onKey = (e) => {
+          if (e.key !== 'Tab') return;
+          const f = focusables();
+          if (!f.length) { e.preventDefault(); return; }
+          const first = f[0], last = f[f.length - 1];
+          if (e.shiftKey && (document.activeElement === first || document.activeElement === node)) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        };
+        node.addEventListener('keydown', onKey);
+        return () => {
+          node.removeEventListener('keydown', onKey);
+          if (opener && opener.focus && document.contains(opener)) opener.focus();
+        };
+      }, [isOpen]);
+    };
+
     // ============================================
     // ROADMAP MODAL
     // ============================================
 
     const RoadmapModal = ({ isOpen, onClose, colors }) => {
       useEscapeToClose(isOpen, onClose);
+      const dialogRef = useRef(null);
+      useDialogFocus(isOpen, dialogRef);
       if (!isOpen) return null;
 
       const RoadmapItem = ({ done, children }) => (
@@ -80,10 +108,10 @@
 
       return (
         <div className="modal-overlay" onClick={onClose}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
+          <div className="modal-content" ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="roadmap-title" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>🗺️ Roadmap</h2>
-              <button className="modal-close" onClick={onClose}>✕</button>
+              <h2 id="roadmap-title">🗺️ Roadmap</h2>
+              <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
             </div>
             <div className="modal-body">
               <p className="roadmap-intro">
@@ -142,14 +170,16 @@
 
     const SettingsModal = ({ isOpen, onClose, colors, darkMode, setDarkMode, viewMode, setViewMode, onOpenRoadmap, lastUpdated, formatLastUpdated }) => {
       useEscapeToClose(isOpen, onClose);
+      const dialogRef = useRef(null);
+      useDialogFocus(isOpen, dialogRef);
       if (!isOpen) return null;
 
       return (
         <div className="modal-overlay" onClick={onClose}>
-          <div className="modal-content settings-modal" onClick={e => e.stopPropagation()}>
+          <div className="modal-content settings-modal" ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="settings-title" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>⚙️ Settings</h2>
-              <button className="modal-close" onClick={onClose}>✕</button>
+              <h2 id="settings-title">⚙️ Settings</h2>
+              <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
             </div>
             <div className="modal-body">
 
@@ -235,7 +265,23 @@
                 </button>
               </div>
 
-              {/* Bristol Improv Hub Link */}
+              {/* Tilt Improv, who run the calendar */}
+              <div className="settings-section">
+                <a
+                  href="https://tiltimprov.co.uk/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="settings-link-btn"
+                  style={{ textDecoration: 'none' }}
+                  data-goatcounter-click="settings-tilt"
+                >
+                  <span className="settings-icon">🟠</span>
+                  <span>Tilt Improv</span>
+                  <span className="settings-arrow">→</span>
+                </a>
+              </div>
+
+              {/* Technically Improv (Bristol improv hub) */}
               <div className="settings-section">
                 <a
                   href="https://www.technicallyimprov.com/"
@@ -245,7 +291,7 @@
                   style={{ textDecoration: 'none' }}
                 >
                   <span className="settings-icon">🎭</span>
-                  <span>Bristol Improv Hub</span>
+                  <span>Technically Improv</span>
                   <span className="settings-arrow">→</span>
                 </a>
               </div>
@@ -268,7 +314,7 @@
               {/* Last Updated */}
               {lastUpdated && (
                 <div className="settings-footer">
-                  <span className="settings-updated">Calendar last updated: {formatLastUpdated(lastUpdated)}</span>
+                  <span className="settings-updated">Listings last changed: {formatLastUpdated(lastUpdated)}</span>
                 </div>
               )}
 
@@ -321,6 +367,7 @@
         try { localStorage.setItem(BIT_NOTICE_KEY, 'true'); } catch {}
       };
       const [lastUpdated, setLastUpdated] = useState(null);
+      const [lastChecked, setLastChecked] = useState(null);
       const [viewYear, setViewYear] = useState(new Date().getFullYear());
       const [viewMonth, setViewMonth] = useState(new Date().getMonth());
 
@@ -385,7 +432,6 @@
       };
 
       const venueStyles = {
-        'Bristol Improv Theatre': { color: colors.terracotta, bg: `${colors.terracotta}18`, group: 'Bristol Improv Theatre', order: 1 },
         'Hen & Chicken': { color: colors.sand, bg: `${colors.sand}25`, group: 'Hen & Chicken', order: 2 },
         'Hen & Chicken (Chicken Shed)': { color: colors.sand, bg: `${colors.sand}25`, group: 'Hen & Chicken', order: 2 },
         'Hen & Chicken (Studio)': { color: colors.sand, bg: `${colors.sand}25`, group: 'Hen & Chicken', order: 2 },
@@ -401,7 +447,6 @@
 
       // Venue groups for filter dropdown (in display order)
       const venueGroups = [
-        { key: 'Bristol Improv Theatre', label: 'Bristol Improv Theatre' },
         { key: 'Hen & Chicken', label: 'Hen & Chicken' },
         { key: 'PRSC', label: 'PRSC' },
         { key: 'Wardrobe Theatre', label: 'Wardrobe Theatre' },
@@ -409,69 +454,6 @@
         { key: 'Other', label: 'Other' },
         { key: 'Further afield', label: 'Further afield' },
       ];
-
-      const isEveningEvent = (timeStr) => {
-        if (!timeStr) return true;
-        const match = timeStr.match(/^(\d{1,2}):?(\d{2})?/);
-        if (match) {
-          const hour = parseInt(match[1], 10);
-          return hour >= 17;
-        }
-        return true;
-      };
-
-      // Parse time string to get start and end times in minutes from midnight
-      const parseEventTimes = (timeStr) => {
-        if (!timeStr) return null;
-        // Handle formats like "19:00-21:00" (with an en dash or a hyphen), "7pm - 9pm", "19:00"
-        const timeRange = timeStr.replace(/\s/g, '').split(/[\u2013\u2014-]/);
-
-        const parseTime = (t) => {
-          if (!t) return null;
-          // Handle "7pm", "19:00", "7:30pm" formats
-          const pmMatch = t.toLowerCase().includes('pm');
-          const amMatch = t.toLowerCase().includes('am');
-          const cleaned = t.replace(/[apm]/gi, '');
-          const parts = cleaned.split(':');
-          let hour = parseInt(parts[0], 10);
-          const mins = parts[1] ? parseInt(parts[1], 10) : 0;
-
-          if (pmMatch && hour < 12) hour += 12;
-          if (amMatch && hour === 12) hour = 0;
-
-          return hour * 60 + mins;
-        };
-
-        const start = parseTime(timeRange[0]);
-        const end = timeRange[1] ? parseTime(timeRange[1]) : (start ? start + 120 : null); // Default 2 hour duration
-
-        return start !== null ? { start, end } : null;
-      };
-
-      // Check if two events overlap in time
-      const eventsOverlap = (event1, event2) => {
-        const times1 = parseEventTimes(event1.time);
-        const times2 = parseEventTimes(event2.time);
-
-        if (!times1 || !times2) return false; // Can't determine, assume no overlap
-
-        // Events overlap if one starts before the other ends
-        return times1.start < times2.end && times2.start < times1.end;
-      };
-
-      // Check if any events in a list have overlapping times
-      const hasOverlappingEvents = (eventsList) => {
-        if (eventsList.length < 2) return false;
-
-        for (let i = 0; i < eventsList.length; i++) {
-          for (let j = i + 1; j < eventsList.length; j++) {
-            if (eventsOverlap(eventsList[i], eventsList[j])) {
-              return true;
-            }
-          }
-        }
-        return false;
-      };
 
       const fetchEvents = async () => {
         if (USE_SAMPLE_DATA) {
@@ -487,6 +469,7 @@
           let eventsData = data.events || data.record?.events || data;
           setEvents(Array.isArray(eventsData) ? eventsData : []);
           setLastUpdated(data.lastUpdated || data.record?.lastUpdated);
+          setLastChecked(/^\d{4}-\d{2}-\d{2}$/.test(data.lastChecked || '') ? data.lastChecked : null);
         } catch (err) {
           setEvents([]);
           setError("Couldn't load the events just now.");
@@ -512,7 +495,6 @@
       const today = new Date();
       const todayYear = today.getFullYear();
       const todayMonth = today.getMonth();
-      const todayDate = today.getDate();
 
       const maxEventDate = useMemo(() => {
         if (events.length === 0) return { year: todayYear, month: todayMonth };
@@ -535,8 +517,6 @@
       const isCurrentMonth = viewYear === todayYear && viewMonth === todayMonth;
 
       const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
-      const firstDay = new Date(viewYear, viewMonth, 1).getDay();
-      const startDay = firstDay === 0 ? 6 : firstDay - 1;
 
       const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
       const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -604,131 +584,6 @@
         return 'Other';
       };
 
-      const getVenueInfo = (venue) => venueStyles[venue] ||
-        { color: colors.navy, bg: `${colors.navy}15`, group: 'Other' };
-
-      const getEventsForDate = (date) => {
-        return events.filter(e => {
-          const d = new Date(e.date);
-          if (d.getMonth() !== viewMonth || d.getFullYear() !== viewYear || d.getDate() !== date) return false;
-          const group = getVenueGroup(e.venue);
-          const matchVenue = venueFilter === 'all' || group === venueFilter;
-
-          const normalizedType = normalizeEventType(e.type);
-
-          let matchType = true;
-          if (typeFilter === 'daytime') {
-            matchType = !isEveningEvent(e.time);
-          } else if (typeFilter === 'evening') {
-            matchType = isEveningEvent(e.time);
-          } else if (typeFilter !== 'all') {
-            matchType = normalizedType === typeFilter;
-          }
-
-          return matchVenue && matchType;
-        });
-      };
-
-      // Get event type counts for a date (for dot display)
-      const getEventTypeCounts = (date) => {
-        const dateEvents = getEventsForDate(date);
-        const counts = {};
-        dateEvents.forEach(e => {
-          const type = normalizeEventType(e.type);
-          counts[type] = (counts[type] || 0) + 1;
-        });
-        return counts;
-      };
-
-      const searchResults = useMemo(() => {
-        if (!searchQuery.trim()) return [];
-        const q = searchQuery.toLowerCase();
-        return events.filter(e =>
-          e.title.toLowerCase().includes(q) ||
-          e.venue.toLowerCase().includes(q) ||
-          (e.description?.toLowerCase().includes(q))
-        ).slice(0, 8);
-      }, [searchQuery, events]);
-
-      // Get all events with filters applied (for list view)
-      const getAllFilteredEvents = useMemo(() => {
-        const now = new Date();
-        now.setHours(0, 0, 0, 0);
-
-        return events.filter(e => {
-          const eventDate = new Date(e.date);
-          eventDate.setHours(0, 0, 0, 0);
-
-          // Only show future events (from today onwards)
-          if (eventDate < now) return false;
-
-          const group = getVenueGroup(e.venue);
-          const matchVenue = venueFilter === 'all' || group === venueFilter;
-
-          const normalizedType = normalizeEventType(e.type);
-
-          let matchType = true;
-          if (typeFilter === 'daytime') {
-            matchType = !isEveningEvent(e.time);
-          } else if (typeFilter === 'evening') {
-            matchType = isEveningEvent(e.time);
-          } else if (typeFilter !== 'all') {
-            matchType = normalizedType === typeFilter;
-          }
-
-          return matchVenue && matchType;
-        }).sort((a, b) => new Date(a.date) - new Date(b.date));
-      }, [events, venueFilter, typeFilter]);
-
-      // Group filtered events by date for list view
-      const groupedEvents = useMemo(() => {
-        const groups = {};
-        getAllFilteredEvents.forEach(e => {
-          const dateKey = e.date;
-          if (!groups[dateKey]) {
-            groups[dateKey] = [];
-          }
-          groups[dateKey].push(e);
-        });
-        return groups;
-      }, [getAllFilteredEvents]);
-
-      const handleSearchSelect = (event) => {
-        const d = new Date(event.date);
-
-        // Check if selected event matches current filters
-        const normalizedType = normalizeEventType(event.type);
-        const venueGroup = getVenueGroup(event.venue);
-        const isEvening = isEveningEvent(event.time);
-
-        // Check if event matches type filter
-        let matchesTypeFilter = typeFilter === 'all';
-        if (typeFilter === 'daytime') {
-          matchesTypeFilter = !isEvening;
-        } else if (typeFilter === 'evening') {
-          matchesTypeFilter = isEvening;
-        } else if (typeFilter !== 'all') {
-          matchesTypeFilter = normalizedType === typeFilter;
-        }
-
-        // Check if event matches venue filter
-        const matchesVenueFilter = venueFilter === 'all' || venueGroup === venueFilter;
-
-        // Reset filters if event doesn't match
-        if (!matchesTypeFilter) {
-          setTypeFilter('all');
-        }
-        if (!matchesVenueFilter) {
-          setVenueFilter('all');
-        }
-
-        setViewYear(d.getFullYear());
-        setViewMonth(d.getMonth());
-        setSelectedDate(d.getDate());
-        setSearchQuery('');
-        setShowSearchResults(false);
-      };
-
       // Get active types using normalized types
       const activeVenueGroups = useMemo(() => {
         const s = new Set();
@@ -745,9 +600,6 @@
         return s;
       }, [events]);
 
-      const hasDaytimeEvents = useMemo(() => events.some(e => !isEveningEvent(e.time)), [events]);
-      const hasEveningEvents = useMemo(() => events.some(e => isEveningEvent(e.time)), [events]);
-
       const formatLastUpdated = (str) => {
         if (!str) return null;
         const d = new Date(str);
@@ -756,101 +608,6 @@
         const hrs = Math.floor(mins / 60);
         if (hrs < 24) return `${hrs}h ago`;
         return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-      };
-
-      const formatEventDate = (str) => {
-        const d = new Date(str);
-        return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-      };
-
-      const getDayName = (date) => ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][new Date(viewYear, viewMonth, date).getDay()];
-
-      const getShortTitle = (title, maxLen = 16) => {
-        const short = title.replace(/^The\s+/i, '').replace(/[:|].*$/, '').trim();
-        return short.length > maxLen ? short.substring(0, maxLen - 1) + '…' : short;
-      };
-
-      const weeksNeeded = Math.ceil((startDay + daysInMonth) / 7);
-
-      // Get event type counts for a specific time period (daytime or evening)
-      const getEventTypeCountsByTime = (dateEvents, isEvening) => {
-        const counts = {};
-        dateEvents.forEach(e => {
-          const eventIsEvening = isEveningEvent(e.time);
-          if (eventIsEvening === isEvening) {
-            const type = normalizeEventType(e.type);
-            counts[type] = (counts[type] || 0) + 1;
-          }
-        });
-        return counts;
-      };
-
-      // Render event type shapes from counts
-      const renderEventShapes = (typeCounts) => {
-        const typeOrder = ['show', 'workshop', 'jam', 'dropin'];
-        const shapes = [];
-
-        typeOrder.forEach(type => {
-          if (typeCounts[type]) {
-            const count = typeCounts[type];
-            const style = eventTypeStyles[type] || { color: colors.navy };
-            shapes.push({
-              type,
-              count,
-              color: style.color
-            });
-          }
-        });
-
-        // Max 4 shapes
-        return shapes.slice(0, 4);
-      };
-
-      // Render a single shape for mobile
-      const renderMobileShape = (shape, index) => {
-        const { type, count, color } = shape;
-
-        switch (type) {
-          case 'show':
-            return (
-              <div key={index} className="mobile-shape-wrap">
-                <div className="mobile-circle" style={{ background: color }}>
-                  {count > 1 && <span className="shape-count">{count}</span>}
-                </div>
-              </div>
-            );
-          case 'workshop':
-            return (
-              <div key={index} className="mobile-shape-wrap">
-                <div className="mobile-square" style={{ background: color }}>
-                  {count > 1 && <span className="shape-count">{count}</span>}
-                </div>
-              </div>
-            );
-          case 'jam':
-            return (
-              <div key={index} className="mobile-shape-wrap">
-                <div className="mobile-diamond" style={{ background: color }}>
-                  <span>{count > 1 ? <span className="shape-count">{count}</span> : ''}</span>
-                </div>
-              </div>
-            );
-          case 'dropin':
-            return (
-              <div key={index} className="mobile-triangle-wrap">
-                <div className="mobile-triangle" style={{ background: color }}></div>
-                {count > 1 && <span className="mobile-triangle-num">{count}</span>}
-              </div>
-            );
-          default:
-            return (
-              <div key={index} className="mobile-shape-wrap">
-                <div className="mobile-circle" style={{ background: color }}>
-                  {count > 1 && <span className="shape-count">{count}</span>}
-                </div>
-              </div>
-            );
-        }
       };
 
       // Kept from the old stylesheet: loading, modals, settings, roadmap
@@ -1188,12 +945,15 @@
       const longDate = (k) => parseKey(k).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
       const dayNumMonth = (k) => parseKey(k).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 
+      // "Checked": the day the venues were last scraped (lastChecked, a London date).
+      // Falls back to when the listings last changed for older events.json files.
       const updatedText = (() => {
-        if (!lastUpdated) return '';
-        const d = new Date(lastUpdated);
-        if (keyOf(d) === todayKey) return 'Updated today';
-        if (keyOf(addDays(d, 1)) === todayKey) return 'Updated yesterday';
-        return `Updated ${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}`;
+        const checked = lastChecked ? parseKey(lastChecked) : lastUpdated ? new Date(lastUpdated) : null;
+        if (!checked) return '';
+        const word = lastChecked ? 'Checked' : 'Updated';
+        if (keyOf(checked) === todayKey) return `${word} today`;
+        if (keyOf(addDays(checked, 1)) === todayKey) return `${word} yesterday`;
+        return `${word} ${checked.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}`;
       })();
 
       // ---------- Event pop-up, deep links, calendar and sharing ----------
@@ -1208,6 +968,10 @@
       useEscapeToClose(!!selectedEvent, closeEvent);
       useEscapeToClose(showFilters, () => setShowFilters(false));
       useEscapeToClose(showSubscribe, () => setShowSubscribe(false));
+      const eventSheetRef = useRef(null), filterSheetRef = useRef(null), subscribeSheetRef = useRef(null);
+      useDialogFocus(!!selectedEvent, eventSheetRef);
+      useDialogFocus(showFilters, filterSheetRef);
+      useDialogFocus(showSubscribe, subscribeSheetRef);
 
       useEffect(() => {
         if (!events.length) return;
@@ -1366,11 +1130,11 @@
           {' · '}
           <a href={KOFI_URL} target="_blank" rel="noopener noreferrer">Buy Ste a brew</a>
           {' · '}
-          <a href="https://www.technicallyimprov.com/" target="_blank" rel="noopener noreferrer">Technically Improv</a>
+          <a href="https://tiltimprov.co.uk/" target="_blank" rel="noopener noreferrer">Tilt Improv</a>
         </>
       );
       const tiltCredit = (
-        <span>A <a href="https://tiltimprov.co.uk/bristol/" target="_blank" rel="noopener noreferrer">Tilt Improv</a> project, for all of Bristol improv.</span>
+        <span>Run by Ste Brown of <a href="https://tiltimprov.co.uk/bristol/" target="_blank" rel="noopener noreferrer">Tilt Improv</a>, for all of Bristol improv.</span>
       );
       const siteFooter = (
         <footer className="site-foot">
@@ -1565,7 +1329,7 @@
         const mapUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(e.venue + (/bath/i.test(e.venue) ? '' : ', Bristol'));
         return (
           <div className="sheet-overlay" onClick={closeEvent}>
-            <div className="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" onClick={ev => ev.stopPropagation()}>
+            <div className="sheet" ref={eventSheetRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="sheet-title" onClick={ev => ev.stopPropagation()}>
               <div className={`sheet-hero${e.image ? ' has-img' : ''}`} style={e.image ? { backgroundImage: `url("${e.image}")` } : undefined}>
                 <span className="sheet-handle" aria-hidden="true"></span>
                 <button className="sheet-close" aria-label="Close" onClick={closeEvent}>{iconX}</button>
@@ -1615,7 +1379,7 @@
         if (!showFilters) return null;
         return (
           <div className="sheet-overlay" onClick={() => setShowFilters(false)}>
-            <div className="sheet" role="dialog" aria-modal="true" aria-labelledby="filter-title" onClick={ev => ev.stopPropagation()}>
+            <div className="sheet" ref={filterSheetRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="filter-title" onClick={ev => ev.stopPropagation()}>
               <div className="fsheet">
                 <span className="sheet-handle static" aria-hidden="true"></span>
                 <div className="fsheet-top">
@@ -1669,7 +1433,7 @@
         if (!showSubscribe) return null;
         return (
           <div className="sheet-overlay" onClick={() => setShowSubscribe(false)}>
-            <div className="sheet" role="dialog" aria-modal="true" aria-labelledby="sub-title" onClick={ev => ev.stopPropagation()}>
+            <div className="sheet" ref={subscribeSheetRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="sub-title" onClick={ev => ev.stopPropagation()}>
               <div className="fsheet">
                 <span className="sheet-handle static" aria-hidden="true"></span>
                 <div className="fsheet-top">
@@ -1754,6 +1518,11 @@
             .bit-line { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 2px; }
             .bit-line a { color: var(--text); font-weight: 600; }
             .bit-x { width: 32px; height: 32px; border: 0; background: transparent; color: var(--muted); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+
+            /* FOCUS: pop-ups take focus themselves only as a fallback; keyboard users always see a ring */
+            .sheet:focus, .modal-content:focus { outline: none; }
+            .app :focus-visible { outline: 2px solid #F2B705; outline-offset: 2px; }
+            .app .evchip:focus-visible, .app .search-item:focus-visible { outline: 2px solid #F2B705; outline-offset: -2px; }
 
             /* SHAPES */
             .shape { display: inline-block; flex: none; }

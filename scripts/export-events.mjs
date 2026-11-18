@@ -300,6 +300,32 @@ export function syncAgeDays(records, now = new Date()) {
   return (now.getTime() - Math.max(...seen)) / 86_400_000;
 }
 
+/** London date (YYYY-MM-DD) of the newest sync sighting, or null if there's none */
+export function lastSyncDate(records) {
+  const seen = records
+    .filter((r) => r.fields.Source === 'Sync' && r.fields['Last Seen'])
+    .map((r) => Date.parse(r.fields['Last Seen']));
+  if (seen.length === 0) return null;
+  return new Date(Math.max(...seen)).toLocaleDateString('en-CA', { timeZone: 'Europe/London' });
+}
+
+/**
+ * The events.json to write, or null to leave it alone.
+ * - lastUpdated: when the listings last changed
+ * - lastChecked: the day the sources were last scraped (the site shows "Checked today")
+ * Rewritten only when the events change or the checked day moves on, so at
+ * most one no-change commit (and Netlify rebuild) a day.
+ */
+export function nextEventsFile(previous, events, now, lastChecked) {
+  const same = Boolean(previous && JSON.stringify(previous.events) === JSON.stringify(events));
+  if (same && (previous.lastChecked || null) === lastChecked) return null;
+  return {
+    lastUpdated: same && previous.lastUpdated ? previous.lastUpdated : now.toISOString(),
+    lastChecked,
+    events,
+  };
+}
+
 // Flags a stale sync to the workflow (which fails a later step, so GitHub
 // emails) without stopping this export from publishing.
 function reportSyncFreshness(records, now) {
@@ -345,12 +371,13 @@ async function main() {
 
   // Guard: a renamed Airtable view or changed token scope returns few/no events;
   // refuse to publish a >50% shrink rather than silently wiping the calendar.
-  let previousEvents = null;
+  let previousFile = null;
   try {
-    previousEvents = JSON.parse(fs.readFileSync('events.json', 'utf8')).events;
+    previousFile = JSON.parse(fs.readFileSync('events.json', 'utf8'));
   } catch {
     // no previous events.json - nothing to compare against
   }
+  const previousEvents = previousFile ? previousFile.events : null;
   const previousCount = previousEvents ? previousEvents.length : 0;
   if (previousCount >= 20 && keptRecords.length < previousCount / 2 && process.env.ALLOW_SHRINK !== '1') {
     console.error(
@@ -364,17 +391,14 @@ async function main() {
   console.log(`Read ${tiltPages.length} Tilt show/workshop page(s)`);
   const newEvents = keptRecords.map((r) => transformEvent(r, tiltPages));
 
-  // Skip the write (and downstream commit) when only the timestamp would change -
-  // avoids a no-op commit + Netlify rebuild every single day.
-  if (previousEvents && JSON.stringify(previousEvents) === JSON.stringify(newEvents)) {
-    console.log('No change in events since last run - skipping events.json write');
+  // Skip the write (and downstream commit) unless the events changed or the
+  // sources were checked on a new day - see nextEventsFile.
+  const output = nextEventsFile(previousFile, newEvents, now, lastSyncDate(airtableRecords));
+  if (!output) {
+    console.log('No change in events or checked date since last run - skipping events.json write');
   } else {
-    const output = {
-      lastUpdated: now.toISOString(),
-      events: newEvents,
-    };
     fs.writeFileSync('events.json', JSON.stringify(output, null, 2));
-    console.log('Written to events.json');
+    console.log(`Written to events.json (checked ${output.lastChecked})`);
   }
 
   // Checked separately from events.json: a change to the ICS format alone (rather

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { buildICS, transformEvent, mergeManualEvents, syncAgeDays, isAtClosedVenue } from './export-events.mjs';
+import { buildICS, transformEvent, mergeManualEvents, syncAgeDays, isAtClosedVenue, nextEventsFile, lastSyncDate } from './export-events.mjs';
 
 test('events at the Bristol Improv Theatre are dropped from its closing date', () => {
   const at = (Venue, Start) => ({ id: 'x', fields: { Start, Title: 'Show', Venue } });
@@ -203,4 +203,26 @@ test('the feed and the site both use the Tilt link', () => {
   assert.equal(transformEvent(r, TILT_PAGES).url, 'https://tiltimprov.co.uk/shows/wednesday-night-improv-9-december-2026/');
   assert.match(buildICS([r], NOW, TILT_PAGES), /URL:https:\/\/tiltimprov\.co\.uk\/shows\/wednesday-night-improv-9-december-2026\//);
   assert.equal(transformEvent(record({ Start: '2026-12-09T19:30:00', Title: 'Other', 'Tickets URL': 'https://x.test' }), TILT_PAGES).url, 'https://x.test');
+});
+
+// --- "Checked today" ---
+test('events.json is rewritten when the events change or the checked day moves on, not otherwise', () => {
+  const events = [{ date: '2026-11-19', title: 'Show' }];
+  const now = new Date('2026-11-18T12:17:00Z');
+  const prev = { lastUpdated: '2026-11-12T14:32:00.000Z', lastChecked: '2026-11-18', events };
+  assert.equal(nextEventsFile(prev, events, now, '2026-11-18'), null);
+  // New day, same events: lastUpdated (when listings changed) stays put
+  assert.deepEqual(nextEventsFile(prev, events, now, '2026-11-19'), { ...prev, lastChecked: '2026-11-19' });
+  // Changed events: both move
+  const changed = nextEventsFile(prev, [...events, { date: '2026-11-20', title: 'New' }], now, '2026-11-18');
+  assert.equal(changed.lastUpdated, now.toISOString());
+  // Old file without lastChecked gets one
+  assert.equal(nextEventsFile({ lastUpdated: prev.lastUpdated, events }, events, now, '2026-11-18').lastChecked, '2026-11-18');
+});
+
+test('the checked date is the London day of the newest sync sighting', () => {
+  const r = (seen, Source = 'Sync') => ({ id: 'x', fields: { Source, 'Last Seen': seen } });
+  assert.equal(lastSyncDate([r('2026-11-17T05:31:00Z'), r('2026-11-18T05:31:00Z'), r('2026-11-19T09:00:00Z', 'manual')]), '2026-11-18');
+  assert.equal(lastSyncDate([r('2026-06-30T23:30:00Z')]), '2026-07-01'); // BST: already the 1st in London
+  assert.equal(lastSyncDate([]), null);
 });
