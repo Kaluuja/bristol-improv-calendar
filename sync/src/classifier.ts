@@ -37,6 +37,9 @@ const ALWAYS_INCLUDE = [
   /\bblame\s*of\s*thrones\b/i,
   /\bwasteland\b/i, // Tales From The Wasteland
   /\bjust\s*for\s*a\s*moment\b/i, // Recurring improv show at Folk House
+  /\breal\s*positive\s*poles\b/i, // Ste, Nov 2026: always watch for them
+  /\bthe\s*y\s*files\b/i, // Real Positive Poles show
+  /\bafter\s*dusk\b.*\b(improv|twilight|y\s*files|positive\s*poles)\b/i, // "After Dusk" alone is too generic
 ];
 
 /**
@@ -47,6 +50,8 @@ const IMPROV_SIGNALS = [
   /\bimprovised\b/i,
   /\bimprovisation\b/i,
   /\bimprovising\b/i,
+  /\bimprovis(?:er|ers|ors?)\b/i,
+  /\bimpro\b/i,
   /\bunscripted\b/i,
   /\bmade\s+up\s+on\s+the\s+spot\b/i,
   /\btheatresports\b/i,
