@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-11-18T14:32:21.470Z",
-  "lastChecked": "2026-11-18",
+  "lastUpdated": "2026-11-19T15:51:21.750Z",
+  "lastChecked": "2026-11-19",
   "events": [
     {
       "date": "2026-10-01",
@@ -246,6 +246,15 @@
       "description": ""
     },
     {
+      "date": "2026-11-19",
+      "title": "All Made Up",
+      "venue": "The All Inn Fishponds Bristol",
+      "time": "19:30",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/the-all-inn-fishponds-bristol/thu-19-nov-all-made-up-164898",
+      "description": ""
+    },
+    {
       "date": "2026-11-20",
       "title": "Playing With Yourself: Solo Improv Workshop with David Elms",
       "venue": "Bristol Old Vic",
@@ -279,6 +288,15 @@
       "time": "19:30",
       "type": "show",
       "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2026-11-23",
+      "title": "Real Positive Poles 10th Anniversary Show: After Dusk & The Y Files",
+      "venue": "Loco Klub",
+      "time": "20:00",
+      "type": "show",
+      "url": "https://www.headfirstbristol.co.uk/whats-on/loco-klub/mon-23-nov-real-positive-poles-10th-anniversary-show-after-dusk-the-y-files-165166",
       "description": ""
     },
     {
@@ -382,9 +400,9 @@
     },
     {
       "date": "2026-12-09",
-      "title": "Wednesday Night Improv: December Show Christmas Special",
+      "title": "Wednesday Night Improv: December Show Christmas Special!",
       "venue": "Hen & Chicken",
-      "time": "19:30",
+      "time": "19:30–22:00",
       "type": "show",
       "url": "https://tiltimprov.co.uk/shows/wednesday-night-improv-9-december-2026/",
       "description": ""
@@ -648,6 +666,15 @@
       "time": "13:30",
       "type": "show",
       "url": "https://bristololdvic.org.uk/whats-on/austentatious",
+      "description": ""
+    },
+    {
+      "date": "2027-02-06",
+      "title": "Instant Wit! The Best in Improvised Comedy",
+      "venue": "Alma Tavern & Theatre",
+      "time": "20:00–22:00",
+      "type": "show",
+      "url": "https://www.tickettailor.com/events/almatheatrecompany/2540140",
       "description": ""
     },
     {
