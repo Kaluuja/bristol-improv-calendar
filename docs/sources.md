@@ -37,8 +37,10 @@ Or add the record straight into Airtable with `Source = manual`. The sync never 
 
 [sync/src/classifier.ts](../sync/src/classifier.ts) filters every fetched event. An event is kept if one of these applies:
 
-- it's at an always-improv venue (Bristol Improv Theatre), or
-- it matches `ALWAYS_INCLUDE`, a list of known shows (Showstopper, Austentatious, Closer Each Day, Just For A Moment…), or
+- it's at an always-improv venue (`IMPROV_VENUES`; was the Bristol Improv Theatre, now paused), or
+- it mentions Tilt Improv or tiltimprov.co.uk anywhere, or
+- its title names a known act from [sync/src/improv-acts.ts](../sync/src/improv-acts.ts) (Real Positive Poles, Wednesday Night Improv, Showstopper, Austentatious…). Acts with everyday names (Birdwatchers, Lifegame…) are in `IMPROV_ACTS_NEEDING_CONTEXT` and also need "improv", "comedy", "sketch" or similar somewhere in the listing. **To watch a new act, add its name to that file.** Or
+- it matches the rest of `ALWAYS_INCLUDE` (one-off show patterns), or
 - an adapter vouches for it (`improvReason`, e.g. the Wardrobe's own Improv genre tag), or
 - it has an improv signal (`improv`, `improvised`, `unscripted`, `made up on the spot`, `theatresports`, `long form`…).
 
@@ -49,6 +51,12 @@ Or add the record straight into Airtable with `Source = manual`. The sync never 
 It also assigns `Type` (Show / Workshop / Jam / Drop-in / Other). Events before the first day of the previous month are dropped.
 
 Run `npm run sync:dry` to see what gets filtered and why (each rejection prints a reason).
+
+**Headfirst descriptions:** for future Headfirst events whose title doesn't look like improv, the adapter fetches the event page and reads its description, so a show called "After Dusk" at Loco Klub is caught by its blurb.
+
+**Rejected log:** on Dockhead, every future event the classifier turns down is kept in `/home/ste/.local/state/improv-alerts/sync-rejected.json` (first and last seen, reason, description), until 60 days after the event. It exists to count misses before deciding on an AI classifier (review due early December 2026).
+
+**Tilt links:** the export sends Tilt-run events (Wednesday Night Improv, This Is Your Musical, Tilt workshops) to the matching page on tiltimprov.co.uk instead of Headfirst. See [scripts/tilt-links.mjs](../scripts/tilt-links.mjs).
 
 ## Adding a source
 

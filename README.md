@@ -22,7 +22,7 @@ This repo holds the whole pipeline: the scrapers that find events, and the site 
      Echo's morning brief lists what's Pending (06:45) → you approve in Airtable
                          │
                          ▼  Status = Approved
-        scripts/export-events.mjs  (GitHub Action, daily 06:00 UTC)
+        scripts/export-events.mjs  (GitHub Action, 06:17 / 12:17 / 18:17 UTC)
           + data/manual-events.json (hand-added events)
                          │
                          ▼
@@ -48,7 +48,7 @@ This repo holds the whole pipeline: the scrapers that find events, and the site 
 | `sync/alma-scraper/` | Separate Playwright scraper for the Alma Tavern, deployed on Dockhead. See its [README](sync/alma-scraper/README.md). |
 | `docs/` | Reference docs (below). |
 | `sync/dockhead/` | How the sync runs on Dockhead: cron wrapper, failure alerts, runbook. See its [README](sync/dockhead/README.md). |
-| `.github/workflows/` | `export-events.yml` (publish, daily; also checks that the Dockhead sync is still running), `build-app.yml` (rebuild the app bundle on push), `sync.yml` (manual fallback sync only). |
+| `.github/workflows/` | `export-events.yml` (publish, three times a day; also checks that the Dockhead sync is still running), `build-app.yml` (rebuild the app bundle on push), `sync.yml` (manual fallback sync only). |
 
 ## Docs
 
@@ -101,10 +101,13 @@ The export refuses to publish if the event count drops by more than half (a guar
 
 ## Calendar feed
 
-`events.ics` (`https://bristol-improv-calendar.netlify.app/events.ics`) is a subscribable iCalendar feed of the same events. It isn't linked from the UI yet.
+`events.ics` (`https://bristol-improv-calendar.netlify.app/events.ics`) is a subscribable iCalendar feed of the same events. The site's "Add to calendar" sheet links it (Google, plus `webcal:` for Apple and Outlook).
+
+`events.json` carries two dates. `lastUpdated` changes only when the listings change. `lastChecked` is the London date of the latest Dockhead sync, written at most once a day, and drives the "Checked today" line in the header. If the sync stops, that line goes stale on its own.
 
 ## History
 
+- **Nov 2026: Wild West coverage, redesign, Tilt.** With the BIT gone, improv is spreading to pubs and clubs, so the Headfirst scraper now reads the description of anything its title doesn't mark as improv, and the classifier knows a watchlist of acts (`sync/src/improv-acts.ts`) plus anything mentioning Tilt Improv. Events the classifier rejects are logged on Dockhead (`sync-rejected.json`) to measure what it misses before deciding whether an AI model should judge them. Tilt-run events link to tiltimprov.co.uk rather than Headfirst (`scripts/tilt-links.mjs`). The sync now matches a relisted event on a looser key (spaces and punctuation ignored), so a venue retyping a title no longer retires the approved record. The export runs three times a day, off the hour. The site was redesigned in the Tilt look: dark by default, a list view on phones, an event pop-up with add to calendar, keyboard-friendly pop-ups, and the BIT dropped from the venue filter.
 - **Oct 2026: the Bristol Improv Theatre closed** (9 Oct, all events cancelled), taking over half the listings with it. Its Spektrix box office kept listing the dates, so the BIT source is switched off in `sync/src/cli.ts`, the sync ignores BIT events from any other source (`PAUSED_VENUES` in `sync/src/paused-venues.ts`; the leftover Approved records were set to Rejected on 16 Oct), and the export drops anything there from 9 Oct onwards (`CLOSED_VENUES` in `scripts/export-events.mjs`). A dismissible closure notice on the site links to the newsletter signup (`BIT_NOTICE_KEY` in `src/app.jsx`; take it down around mid-November).
 - **Sept 2026: consolidation.** The separate `improv-calendar-sync` repo was merged in as `sync/` (the old repo is archived on GitHub with its history). The sync moved from GitHub Actions to Dockhead, because some venues block GitHub. The n8n Telegram approve/reject bot was retired; approvals now happen in Airtable, prompted by Echo's morning brief, which also reports problems. Fixed: Bristol Improv Theatre ticket links, BST times an hour out, phantom next-year events, and silent source failures.
 - **July 2026:** product review ([docs/product-review-2026-07.md](docs/product-review-2026-07.md)), restructure to `src/app.jsx` + esbuild, `.ics` feed, analytics, newsletter signup.

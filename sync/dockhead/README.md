@@ -10,13 +10,13 @@ The sync runs on Dockhead, not GitHub Actions. Bristol Old Vic, Hen & Chicken an
 | Secrets for the sync, the Alma scraper and the brief: `AIRTABLE_API_KEY`, `AIRTABLE_BASE_ID` (mode 600). Optional `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` for instant alerts; currently blank. | `/home/ste/improv-calendar.env` |
 | Sync log (self-trims at 5MB) | `/home/ste/improv-calendar-sync.log` |
 | Alma scraper log | `/home/ste/improv-alma/scrape.log` |
-| Status files: `sync-health.json`, `*.alert`, failure counters | `/home/ste/.local/state/improv-alerts/` |
+| Status files: `sync-health.json`, `sync-rejected.json` (events the classifier turned down), `*.alert`, failure counters | `/home/ste/.local/state/improv-alerts/` |
 | What Echo reads | `/home/hermes/vault/context/improv-pending.md` |
 
 `crontab -l` as `ste`:
 
 ```
-# 05:30 daily sync (before the 06:00 UTC export and the 06:45 brief)
+# 05:30 daily sync (before the 06:17 UTC export and the 06:45 brief)
 30 5 * * * /home/ste/improv-calendar/sync/dockhead/alert-on-failure.sh "Improv calendar sync" 1 /home/ste/improv-calendar/sync/dockhead/run-sync.sh >> /home/ste/improv-calendar-sync.log 2>&1 # improv-calendar sync
 
 # 06:45 daily: approvals + problems into Echo's 07:00 morning brief

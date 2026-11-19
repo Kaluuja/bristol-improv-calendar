@@ -30,7 +30,7 @@ Checked against the live base on 25 Sept 2026. (The retired `Telegram Notified` 
 3. **Decided** by you in Airtable: set `Status` to `Approved` or `Rejected`.
 4. **Refreshed** on every later sync that still finds it. Everything except `Type` and `Status` gets overwritten with the source's latest data, and `Last Seen` is bumped.
 5. **Retired** if it's a future event that no source has listed for **14 days**. The sync flips `Approved`/`Pending` to `Needs review`, so it drops off the site but isn't deleted. This catches cancelled or delisted shows, records left behind when a venue changes website, and phantom next-year dates. The run log lists every record it retires. To restore one, set it back to `Approved`. It's skipped if more than half the sources failed that run, so an outage can't empty the calendar.
-6. **Published**: the daily export ([scripts/export-events.mjs](../scripts/export-events.mjs)) takes every `Status = Approved` record and writes `events.json` / `events.ics`.
+6. **Published**: the export (06:17, 12:17 and 18:17 UTC) ([scripts/export-events.mjs](../scripts/export-events.mjs)) takes every `Status = Approved` record and writes `events.json` / `events.ics`.
 7. **Deleted**: each sync run removes non-manual records whose `Start` is before the first day of the previous month.
 
 ## Deduplication
@@ -40,10 +40,12 @@ All of it lives in [sync/src/dedupe.ts](../sync/src/dedupe.ts).
 **Fingerprint** = `normalisedTitle | YYYY-MM-DD | normalisedVenue`
 
 - Title: lowercased, punctuation stripped, the **subtitle after the last colon removed**, plus known aliases (`TITLE_ALIASES`).
-- Date only, **no time**, because sources disagree by a few minutes. The date is taken in UTC (`toISOString`).
+- Date only, **no time**, because sources disagree by a few minutes. The date is the London calendar date, so a 00:30 BST start counts as that day.
 - Venue: lowercased, `&` → `and`, leading "the" dropped, then mapped through `VENUE_ALIASES`.
 
 The sync upserts to Airtable by fingerprint. A matching fingerprint updates the record; no match creates one.
+
+**Loose match (Nov 2026):** if the exact fingerprint misses, the sync tries a looser key with all spaces and punctuation removed (`looseFingerprint`), so "Smith-Bynoe" and "SMITH BYNOE" find the same record. Where several records share a loose key, the Approved one wins. The update rewrites the stored fingerprint, so the record heals itself. Each record is updated at most once per run.
 
 **Within a single run**, before writing:
 
