@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-11-24T17:53:30.955Z",
-  "lastChecked": "2026-11-25",
+  "lastUpdated": "2026-11-26T17:00:21.133Z",
+  "lastChecked": "2026-11-26",
   "events": [
     {
       "date": "2026-10-01",
@@ -783,6 +783,15 @@
       "time": "19:30",
       "type": "show",
       "url": "https://thewardrobetheatre.com/shows/closer-each-day/",
+      "description": ""
+    },
+    {
+      "date": "2027-04-10",
+      "title": "Instant Wit! The Best in Improvised Comedy",
+      "venue": "Alma Tavern & Theatre",
+      "time": "20:00–22:00",
+      "type": "show",
+      "url": "https://www.tickettailor.com/events/almatheatrecompany/2553459",
       "description": ""
     },
     {
