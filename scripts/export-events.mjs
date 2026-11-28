@@ -141,6 +141,54 @@ function readManualEvents() {
   return parsed.events || [];
 }
 
+// Ticketing sites, listed last when the same show appears twice. Ste, Nov 2026:
+// Headfirst beats Eventbrite and Tickettailor; a venue's own page beats both.
+const TICKETING_HOSTS = /(eventbrite|tickettailor|ticketsource|skiddle|fatsoma|dice\.fm|seetickets|ticketweb|universe\.com)/i;
+
+function linkRank(fields) {
+  const url = fields['Tickets URL'] || fields['Event URL'] || '';
+  if (/tiltimprov\.co\.uk/i.test(url)) return 0;
+  if (TICKETING_HOSTS.test(url)) return 3;
+  if (/headfirstbristol\.co\.uk/i.test(url)) return 2;
+  return 1; // the venue's own site
+}
+
+const titleKey = (title) => title.toLowerCase().replace(/[^a-z0-9]/g, '');
+const startMinutes = (start) => {
+  const { year, month, day, hour, minute } = parseWallClock(start);
+  return Date.UTC(+year, +month - 1, +day, +hour, +minute) / 60_000;
+};
+
+/**
+ * One listing per show. Two sources can list the same show under different
+ * venue names (Headfirst's "Alma Tavern Theatre", Tickettailor's "Alma Tavern
+ * & Theatre"), and both records can end up Approved. Same title and date,
+ * starts within an hour: keep the best link (see linkRank). The sync dedupes
+ * too, but this also covers records already in Airtable.
+ */
+export function dropDuplicateListings(records) {
+  const best = new Map(); // titleKey@date -> records kept so far
+  const dropped = new Set();
+  const ranked = records
+    .filter((r) => r.fields.Start && r.fields.Title)
+    .map((r, i) => ({ r, i, rank: linkRank(r.fields) }))
+    .sort((a, b) => a.rank - b.rank || a.i - b.i);
+
+  for (const { r } of ranked) {
+    const key = `${titleKey(r.fields.Title)}@${formatDate(r.fields.Start)}`;
+    const kept = best.get(key) || [];
+    const twin = kept.find((k) => Math.abs(startMinutes(k.fields.Start) - startMinutes(r.fields.Start)) <= 60);
+    if (twin) {
+      dropped.add(r);
+      console.log(`Duplicate listing dropped: ${r.fields.Title} on ${formatDate(r.fields.Start)} (${r.fields['Tickets URL'] || r.fields['Event URL'] || 'no link'})`);
+    } else {
+      kept.push(r);
+      best.set(key, kept);
+    }
+  }
+  return records.filter((r) => !dropped.has(r));
+}
+
 // Venues that have shut, with the date they closed. Their box offices can keep
 // listing dates for weeks afterwards, so anything there on or after the closing
 // date is dropped even if it's still Approved in Airtable.
@@ -364,9 +412,9 @@ async function main() {
     .toLocaleDateString('en-CA', { timeZone: 'Europe/London' });
   const closedVenueCount = records.filter(isAtClosedVenue).length;
   if (closedVenueCount) console.log(`Dropped ${closedVenueCount} event(s) at closed venues`);
-  const keptRecords = records.filter(
+  const keptRecords = dropDuplicateListings(records.filter(
     (r) => r.fields.Start && formatDate(r.fields.Start) >= prevMonthStart && !isAtClosedVenue(r)
-  );
+  ));
   console.log(`${keptRecords.length} events from ${prevMonthStart} onwards (including past events this month and last month)`);
 
   // Guard: a renamed Airtable view or changed token scope returns few/no events;

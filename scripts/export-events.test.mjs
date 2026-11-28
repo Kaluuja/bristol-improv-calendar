@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { buildICS, transformEvent, mergeManualEvents, syncAgeDays, isAtClosedVenue, nextEventsFile, lastSyncDate } from './export-events.mjs';
+import { buildICS, transformEvent, mergeManualEvents, syncAgeDays, isAtClosedVenue, nextEventsFile, lastSyncDate, dropDuplicateListings } from './export-events.mjs';
 
 test('events at the Bristol Improv Theatre are dropped from its closing date', () => {
   const at = (Venue, Start) => ({ id: 'x', fields: { Start, Title: 'Show', Venue } });
@@ -225,4 +225,25 @@ test('the checked date is the London day of the newest sync sighting', () => {
   assert.equal(lastSyncDate([r('2026-11-17T05:31:00Z'), r('2026-11-18T05:31:00Z'), r('2026-11-19T09:00:00Z', 'manual')]), '2026-11-18');
   assert.equal(lastSyncDate([r('2026-06-30T23:30:00Z')]), '2026-07-01'); // BST: already the 1st in London
   assert.equal(lastSyncDate([]), null);
+});
+
+test('a show on Headfirst and Tickettailor is listed once, with the Headfirst link', () => {
+  const tt = { id: 'tt', fields: { Title: "Festive Improv Double Bill: Cult of the Unwritten & What's Your Star Sign?", Venue: 'Alma Tavern & Theatre', Start: '2026-12-02T20:00:00.000Z', 'Tickets URL': 'https://www.tickettailor.com/events/almatheatrecompany/2509814' } };
+  const hf = { id: 'hf', fields: { Title: "Festive Improv Double Bill: Cult of the Unwritten & What's Your Star Sign?", Venue: 'Alma Tavern Theatre', Start: '2026-12-02T20:00:00.000Z', 'Tickets URL': 'https://www.headfirstbristol.co.uk/whats-on/alma-tavern-theatre/wed-2-dec-festive-166153' } };
+  assert.deepEqual(dropDuplicateListings([tt, hf]).map((r) => r.id), ['hf']);
+});
+
+test('a venue page beats Headfirst, and Headfirst beats Eventbrite', () => {
+  const rec = (id, url) => ({ id, fields: { Title: 'The Improv Spotlight', Venue: 'PRSC', Start: '2027-01-16T20:00:00', 'Tickets URL': url } });
+  const kept = dropDuplicateListings([
+    rec('eb', 'https://www.eventbrite.co.uk/e/123'),
+    rec('hf', 'https://www.headfirstbristol.co.uk/whats-on/prsc/x'),
+    rec('venue', 'https://prsc.org.uk/event/the-improv-spotlight/'),
+  ]);
+  assert.deepEqual(kept.map((r) => r.id), ['venue']);
+});
+
+test('two performances of the same show on one day both stay', () => {
+  const rec = (id, start) => ({ id, fields: { Title: 'Austentatious', Venue: 'Bristol Old Vic', Start: start, 'Tickets URL': 'https://bristololdvic.org.uk/whats-on/austentatious' } });
+  assert.equal(dropDuplicateListings([rec('mat', '2027-01-31T13:30:00'), rec('eve', '2027-01-31T19:30:00')]).length, 2);
 });

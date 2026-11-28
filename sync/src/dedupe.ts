@@ -165,7 +165,8 @@ export function looseFingerprint(fingerprint: string): string {
 
 /**
  * Source priority for deduplication (lower = higher priority)
- * Headfirst preferred, then venue-specific, then Eventbrite
+ * A venue's own site first, then Headfirst, then ticketing sites
+ * (Eventbrite, Tickettailor). Ste, Nov 2026: Headfirst beats the ticketing sites.
  */
 const SOURCE_PRIORITY: Record<string, number> = {
   // Venue-specific sources (highest priority - most accurate titles and links)
@@ -178,12 +179,12 @@ const SOURCE_PRIORITY: Record<string, number> = {
   'bristol-old-vic': 1,
   'redgrave-theatre': 1,
   'st-georges-bristol': 1,
-  'alma-tavern': 1,
   'bristol-folk-house': 1,
   // Headfirst (second priority)
   'headfirst': 2,
-  // Eventbrite (lowest priority)
+  // Ticketing sites (lowest priority). The Alma scraper reads Tickettailor.
   'eventbrite': 3,
+  'alma-tickettailor': 3,
 };
 
 /**
@@ -323,5 +324,45 @@ export function fuzzyDedupeByPrefix(events: Event[]): Event[] {
     }
   }
 
+  return events.filter((e) => !absorbed.has(e));
+}
+
+/**
+ * Final pass: the same show listed by two sources under different venue names
+ * (Nov 2026: Headfirst's "Alma Tavern Theatre" vs Tickettailor's "Alma Tavern
+ * & Theatre"). Same date, same title (subtitle aside) and starts within 60
+ * minutes means one event, whatever the venue is called. The higher-priority
+ * source wins, so Headfirst beats Eventbrite and Tickettailor.
+ */
+export function dedupeAcrossVenues(events: Event[]): Event[] {
+  const groups = new Map<string, Event[]>();
+  for (const event of events) {
+    const title = normalizeTitle(event.title);
+    if (title.split(' ').length < 2) continue; // too short to be sure
+    const key = `${getDateOnly(event.start)}|${title}`;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key)!.push(event);
+  }
+
+  const absorbed = new Set<Event>();
+  for (const group of groups.values()) {
+    if (group.length < 2) continue;
+    // Best source first, so each later listing is checked against a winner
+    group.sort((a, b) => getSourcePriority(a.source) - getSourcePriority(b.source));
+    const winners: Event[] = [];
+    for (const event of group) {
+      const winner = winners.find(
+        (w) => Math.abs(w.start.getTime() - event.start.getTime()) <= 60 * 60_000
+      );
+      if (!winner) {
+        winners.push(event);
+        continue;
+      }
+      winner.sourceIds = [
+        ...new Set([...(winner.sourceIds ?? [winner.sourceId]), ...(event.sourceIds ?? [event.sourceId])]),
+      ];
+      absorbed.add(event);
+    }
+  }
   return events.filter((e) => !absorbed.has(e));
 }

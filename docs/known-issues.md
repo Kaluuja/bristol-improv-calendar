@@ -20,7 +20,7 @@ An event needs an improv keyword (now including "unscripted" and "made up on the
 
 ## Venue name variants make duplicates
 
-See [airtable.md](airtable.md#deduplication). Fix by adding to `VENUE_ALIASES`.
+Mostly handled since Nov 2026: the sync's cross-venue pass and the export's `dropDuplicateListings` match on title + date + time whatever the venue is called. A duplicate with a different venue name *and* a differently worded title still gets through. See [airtable.md](airtable.md#deduplication); fix by adding to `VENUE_ALIASES` or `TITLE_ALIASES`.
 
 ## Alma scraper needs a manual rebuild
 

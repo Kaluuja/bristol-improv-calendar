@@ -38,6 +38,8 @@ export class BristolBeaconAdapter implements SourceAdapter {
       const href = link.getAttribute('href');
       if (!href || seenUrls.has(href)) continue;
       if (href.includes('/whats-on-all')) continue;
+      // Booking sub-pages (/whats-on/<show>/book...) are buttons, not shows
+      if (/\/whats-on\/[^/]+\/[^/?#]+/.test(href)) continue;
       seenUrls.add(href);
 
       const title = link.text?.trim();
@@ -72,7 +74,7 @@ export class BristolBeaconAdapter implements SourceAdapter {
 
   private isNavigationLink(text: string): boolean {
     const navTexts = [
-      'book now', 'more info', 'view all', 'see all',
+      'book now', 'book tickets', 'more info', 'view all', 'see all',
       'what\'s on', 'whats on', 'back', 'next', 'previous',
     ];
     return navTexts.some((nav) => text.toLowerCase().includes(nav));

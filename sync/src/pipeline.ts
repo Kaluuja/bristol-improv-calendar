@@ -1,5 +1,5 @@
 import type { Event, SourceAdapter, SyncResult } from './types.js';
-import { dedupeEvents, fuzzyDedupeByPrefix, getDateOnly, getVenueDisplayName } from './dedupe.js';
+import { dedupeAcrossVenues, dedupeEvents, fuzzyDedupeByPrefix, getDateOnly, getVenueDisplayName } from './dedupe.js';
 import { filterAndClassifyEvents } from './classifier.js';
 import { pausedVenueOf } from './paused-venues.js';
 import { startsAtMidnight } from './health.js';
@@ -93,7 +93,7 @@ export async function runPipeline(
 
   // Step 2: Deduplicate
   console.log('\n🔍 Deduplicating events...');
-  const dedupedEvents = fuzzyDedupeByPrefix(dedupeEvents(openEvents));
+  const dedupedEvents = dedupeAcrossVenues(fuzzyDedupeByPrefix(dedupeEvents(openEvents)));
   console.log(`  ${openEvents.length} → ${dedupedEvents.length} unique events`);
 
   // Step 3: Filter and classify

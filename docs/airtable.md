@@ -49,15 +49,18 @@ The sync upserts to Airtable by fingerprint. A matching fingerprint updates the 
 
 **Within a single run**, before writing:
 
-1. **Exact pass**: same fingerprint → keep the highest-priority source (venue sites 1, Headfirst 2, Eventbrite 3, anything else 10) and merge the source IDs.
+1. **Exact pass**: same fingerprint → keep the highest-priority source (venue sites 1, Headfirst 2, ticketing sites 3 — Eventbrite and the Alma's Tickettailor — anything else 10; Ste wants Headfirst over the ticketing sites) and merge the source IDs.
 2. **Fuzzy pass**: same venue and same date, and any one of:
    - the titles share a leading run of ≥ 2 words that is ≥ 40% of both titles
    - ≥ 3 shared words covering ≥ 70% of the shorter title, with start times within 60 minutes
    - an identical tickets URL (with a path)
+3. **Cross-venue pass**: same date, same title (subtitle after the colon ignored, ≥ 2 words), starts within 60 minutes → one event whatever the venue is called. Added Nov 2026 for the Alma, which Headfirst calls "Alma Tavern Theatre" and Tickettailor "Alma Tavern & Theatre".
 
-**What gets past it:** a venue name variant nobody has added to `VENUE_ALIASES` gives a different fingerprint, so you get a duplicate (e.g. "Deathmatch Improv" / "Death Match Improv" at PRSC). Fix those by adding an alias.
+**What gets past it:** a venue name variant *and* a different title (the cross-venue pass needs the title to match) gives a duplicate (e.g. "Deathmatch Improv" / "Death Match Improv" at PRSC). Fix those by adding an alias.
 
-The export does one more dedupe of its own: manual events are dropped if an Airtable event has the same title and date.
+The export dedupes too (`scripts/export-events.mjs`):
+- manual events are dropped if an Airtable event has the same title and date;
+- `dropDuplicateListings`: Approved records with the same title and date, starting within an hour, are published once. The link kept is Tilt, then the venue's own site, then Headfirst, then ticketing sites (Eventbrite, Tickettailor, TicketSource and so on). This catches duplicates already sitting in Airtable, so they never reach the site even if both get approved.
 
 ## Approvals
 
